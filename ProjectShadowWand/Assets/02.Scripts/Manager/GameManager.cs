@@ -47,8 +47,6 @@ public class GameManager : MonoBehaviour
     IEnumerator ProcessStartGame()
     {
 
-
-
         yield return StartCoroutine(fileManager.IsExist("Settings.dat"));
 
         if (fileManager.IsExist_Result)

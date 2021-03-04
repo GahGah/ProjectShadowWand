@@ -18,6 +18,7 @@ public class SettingsManager : MonoBehaviour
     {
         ApplySettings(data);
         //확정은 아는데 저장은 안함ㅋㅋ
+        //그 이유는 게임매니저에 있다.
     }
 
 

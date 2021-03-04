@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
-using UnityEngine.UI;
+
 
 public class InputManager : MonoBehaviour
 {
@@ -35,38 +35,13 @@ public class InputManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public bool keyboardReady;
-    public Text keyboardCheckText;
-    private void CheckKeyboard()
-    {
-        if (Keyboard.current == null)
-        {
-            keyboardReady = false;
-            keyboardCheckText.text = "키보드 안 꽂힘";
-        }
-        else
-        {
-            keyboardReady = true;
-            keyboardCheckText.text = "키보드 꽂힘";
-        }
-    }
+
     private void Start()
     {
-        CheckKeyboard();
-        if (keyboardReady == true)
-        {
-            SetButtonsDefaultKey();
-        }
+        SetButtonsDefaultKey();
     }
 
 
-    private void Update()
-    {
-
-        CheckKeyboard();
-
-
-    }
     public void OnEnable()
     {
         Keyboard.current.onTextInput += OnTextInput;
