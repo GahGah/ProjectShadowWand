@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
+using UnityEngine.UI;
 
 public class InputManager : MonoBehaviour
 {
-
-    public static InputManager instance = null;
-
-
     public ButtonControl buttonUp;// = Keyboard.current.wKey;
     public ButtonControl buttonDown;// = Keyboard.current.sKey;
     public ButtonControl buttonLeft; //= Keyboard.current.aKey;
@@ -22,11 +19,14 @@ public class InputManager : MonoBehaviour
     public ButtonControl buttonMouseLeft;// = Mouse.current.leftButton;
     public Vector2Control buttonScroll;// = Mouse.current.scroll;
 
+    public static InputManager Instance;
+
+
     private void Awake()
     {
-        if (instance == null)
+        if (Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
         else
         {
@@ -34,15 +34,39 @@ public class InputManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
     }
+
+    public bool keyboardReady;
+    public Text keyboardCheckText;
+    private void CheckKeyboard()
+    {
+        if (Keyboard.current == null)
+        {
+            keyboardReady = false;
+            keyboardCheckText.text = "키보드 안 꽂힘";
+        }
+        else
+        {
+            keyboardReady = true;
+            keyboardCheckText.text = "키보드 꽂힘";
+        }
+    }
     private void Start()
     {
-        SetButtonsDefaultKey();
+        CheckKeyboard();
+        if (keyboardReady == true)
+        {
+            SetButtonsDefaultKey();
+        }
     }
 
-    //private void Update()
-    //{
 
-    //}
+    private void Update()
+    {
+
+        CheckKeyboard();
+
+
+    }
     public void OnEnable()
     {
         Keyboard.current.onTextInput += OnTextInput;
