@@ -24,8 +24,8 @@ public class MonsterManager : MonoBehaviour
 
     private void Start()
     {
-        monsterList.AddRange(FindObjectsOfType<Monster>());
-        Debug.Log("몬스터를 찾았어! : " + monsterList.Count);
+        //monsterList.AddRange(FindObjectsOfType<Monster>());
+        //Debug.Log("몬스터를 찾았어! : " + monsterList.Count);
     }
 
     /// <summary>

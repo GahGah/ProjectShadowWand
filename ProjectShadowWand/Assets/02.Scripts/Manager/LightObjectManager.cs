@@ -24,8 +24,8 @@ public class LightObjectManager : MonoBehaviour
     }
     private void Start()
     {
-        lightObjectList.AddRange(FindObjectsOfType<LightObject>());
-        Debug.Log("LightObject를 찾았어! : " + lightObjectList.Count);
+        //lightObjectList.AddRange(FindObjectsOfType<LightObject>());
+        //Debug.Log("LightObject를 찾았어! : " + lightObjectList.Count);
     }
 
     private void Update()
@@ -55,7 +55,7 @@ public class LightObjectManager : MonoBehaviour
 
         for (int i = 0; i < lightCount; i++) //각 라이트 오브젝트의 드로우 업데이트
         {
-            lightObjectList[i].AllMonsterDrawTest();
+            lightObjectList[i].UpdateShadowJudgement();
         }
 
         for (int i = 0; i < shadowJudgement.Length; i++) //i = 몬스터 마리수

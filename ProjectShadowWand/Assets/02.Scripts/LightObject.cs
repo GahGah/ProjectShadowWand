@@ -9,10 +9,10 @@ using UnityEngine;
 public class LightObject : MonoBehaviour
 {
 
-    [Tooltip("거리에 상관없이 몬스터에게 영향을 줍니다.")]
-    public bool globalMode;
+    [Tooltip("true일 경우 거리에 따라 몬스터에게 영향을 줍니다.")]
+    public bool distanceMode;
 
-    [Tooltip("globalMode가 false인 경우 설정한 거리만큼만 판정합니다.")]
+    [Tooltip("distanceMode가 true인 경우 설정한 거리만큼만 판정합니다.")]
     public float limitDistance;
 
     public int monsterCount;
@@ -22,7 +22,7 @@ public class LightObject : MonoBehaviour
 
     private Mesh mesh;
 
-
+    public int layerMask;
 
     void Start()
     {
@@ -37,17 +37,28 @@ public class LightObject : MonoBehaviour
         {
             LightObjectManager.Instance.AddLightObjectToList(this); //넣는다.
         }
+
+        Debug.LogWarning("거리 모드 : " + distanceMode);
+
+        if (distanceMode)
+        {
+            layerMask = (-1) - (1 << LayerMask.NameToLayer("Player"));
+
+        }
+        else
+        {
+            //  특정 2개이상 layer raycast 제외하기
+            //layerMask = ((1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Ground")));
+            //layerMask = ~layerMask;
+            layerMask = (-1) - (1 << LayerMask.NameToLayer("Player"));
+
+        }
     }
     void Update()
     {
         // AllMonsterDrawTest();
     }
 
-
-    public void AllMonsterDrawTest() //몬스터 매니저의 몬스터리스트를 바탕으로 몬스터를 향해 레이를 쏜다!
-    {
-
-    }
 
     Mesh SpriteToMesh(Sprite sprite)
     {
@@ -61,7 +72,9 @@ public class LightObject : MonoBehaviour
 
     public void UpdateShadowJudgement()
     {
-        if (globalMode)
+        //거리 모드가 아니라면 hit가 트루여야 그림자인것인데,
+        //거리모드일 때에는 hit가 펄스여야 그림자 안인 것이다...미래의 나야! 잘 이해 해보시길~
+        if (distanceMode == false)
         {
             if (shadowJudgment.Length != MonsterManager.Instance.monsterList.Count) //갯수가 다르면 
             {
@@ -98,7 +111,7 @@ public class LightObject : MonoBehaviour
                 for (int j = 0; j < 4; j++) //라이트에서 몬스터를 향해 레이캐스트
                 {
                     Debug.DrawRay(transform.position, nowMonster.directions[j], nowMonster.colors[j], 0.5f);
-                    nowMonster.hits[j] = Physics2D.Raycast(transform.position, nowMonster.directions[j], nowMonster.directions[j].magnitude, nowMonster.layerMask);
+                    nowMonster.hits[j] = Physics2D.Raycast(transform.position, nowMonster.directions[j], nowMonster.directions[j].magnitude, layerMask);
                 }
 
                 //순서 :
@@ -111,7 +124,7 @@ public class LightObject : MonoBehaviour
                 shadowJudgment[i] = nowMonster.isAllHitsTrue();
             }
         }
-        else
+        else // 거리모드
         {
             if (shadowJudgment.Length != MonsterManager.Instance.monsterList.Count) //갯수가 다르면 
             {
@@ -124,28 +137,24 @@ public class LightObject : MonoBehaviour
             {
                 Monster nowMonster = MonsterManager.Instance.monsterList[i];
 
-                nowMonster.directions = new Vector2[] //거꾸로 하면 빛에서부터 몬스터로의 방향을 구하지 않을까? 싶어서...
-                {
-                   nowMonster.path[0] - transform.position,
-                   nowMonster.path[1] - transform.position,
-                   nowMonster.path[2] - transform.position,
-                   nowMonster.path[3] - transform.position,
-                };
 
-                for (int j = 0; j < 4; j++) //라이트에서 몬스터를 향해 레이캐스트
+                Vector2 dir = nowMonster.rb.position - new Vector2(transform.position.x, transform.position.y);
+
+                Debug.DrawRay(transform.position, dir.normalized * limitDistance, Color.cyan, 0.5f);
+                nowMonster.hit = Physics2D.Raycast(transform.position, dir.normalized, limitDistance);
+
+                bool tempHits = false;
+                if (nowMonster.hit.collider != null)
                 {
-                    Debug.DrawRay(transform.position, nowMonster.directions[j], nowMonster.colors[j], 0.5f);
-                    nowMonster.hits[j] = Physics2D.Raycast(transform.position, nowMonster.directions[j], nowMonster.directions[j].magnitude, nowMonster.layerMask);
+                    if (nowMonster.hit.collider.CompareTag("Monster"))
+                    {
+                        tempHits = true;
+                    }
+
                 }
-
-                //순서 :
-                // 3 2
-                // 0 1
-
-
                 nowMonster.UpdateHitsLog();
 
-                shadowJudgment[i] = nowMonster.isAllHitsTrue();
+                shadowJudgment[i] = !tempHits;
             }
         }
     }

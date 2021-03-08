@@ -15,6 +15,7 @@ public class Monster : MonoBehaviour
     public Bounds bounds; // 몬스터의 사각형 영역
 
     public RaycastHit2D[] hits; //레이캐스트 히트. LightObject에서 조종한다.
+    public RaycastHit2D hit; //레이캐스트 히트 하나. LightObject에서 DistanceMode일때 사용한다.
     public bool[] hitsLog; //사각형 영역의 레이캐스트가 hit했는지 인스펙터에 알려줌
 
     public Color[] colors;
@@ -61,10 +62,7 @@ public class Monster : MonoBehaviour
         }
 
         ColorSetting();
-        if (MonsterManager.Instance.monsterList.Contains(this) == false) //자기 자신이 안들어가있다면
-        {
-            MonsterManager.Instance.AddMonsterToList(this); //넣는다.
-        }
+
         relOffset = rb.position;
 
         offset = collider.offset;
@@ -77,6 +75,10 @@ public class Monster : MonoBehaviour
                 relOffset + new Vector2(-bounds.extents.x+offset.x, bounds.extents.y+offset.y)
         };
 
+        if (MonsterManager.Instance.monsterList.Contains(this) == false) //자기 자신이 안들어가있다면
+        {
+            MonsterManager.Instance.AddMonsterToList(this); //넣는다.
+        }
     }
 
     void Start()
