@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class MonsterManager : MonoBehaviour
 {
-    public List<Monster> monsterList;
+
 
     public static MonsterManager Instance;
+
+    public List<Monster> monsterList;
+    public bool[] shadowJudgement;
 
     private void Awake()
     {
@@ -26,6 +29,7 @@ public class MonsterManager : MonoBehaviour
     {
         //monsterList.AddRange(FindObjectsOfType<Monster>());
         //Debug.Log("몬스터를 찾았어! : " + monsterList.Count);
+
     }
 
     /// <summary>
@@ -36,6 +40,15 @@ public class MonsterManager : MonoBehaviour
         monsterList.Add(monster);
 
         Debug.LogWarning("AddMonsterToList");
+    }
+
+    /// <summary>
+    /// 몬스터들의 그림자 판정 정보를 업데이트합니다.
+    /// </summary>
+    public void UpdateShadowJudgement(bool[] arr)
+    {
+        shadowJudgement = arr;
+
     }
 
 }

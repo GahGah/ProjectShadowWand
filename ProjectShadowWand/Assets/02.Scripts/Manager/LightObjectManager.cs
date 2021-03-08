@@ -8,8 +8,10 @@ public class LightObjectManager : MonoBehaviour
 
     public List<LightObject> lightObjectList;
     private int lightCount;
-    public bool[] shadowJudgement;
     private int monsterCount;
+
+    [HideInInspector]
+    public bool[] shadowJudgement;
     private void Awake()
     {
         if (Instance == null)
@@ -71,10 +73,12 @@ public class LightObjectManager : MonoBehaviour
             }
         }
 
+        MonsterManager.Instance.UpdateShadowJudgement(shadowJudgement);
+
         for (int i = 0; i < monsterCount; i++) // 몬스터 리스트의 몬스터들의 판정 정보를 업데이트
         {
             MonsterManager.Instance.monsterList[i].inShadow = shadowJudgement[i];
         }
-
+        
     }
 }

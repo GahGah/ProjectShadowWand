@@ -8,22 +8,23 @@ using UnityEngine;
 /// </summary>
 public class LightObject : MonoBehaviour
 {
-
     [Tooltip("true일 경우 거리에 따라 몬스터에게 영향을 줍니다.")]
     public bool distanceMode;
 
     [Tooltip("distanceMode가 true인 경우 설정한 거리만큼만 판정합니다.")]
     public float limitDistance;
 
+    [Tooltip("씬 내 몬스터가 몇마리~?")]
     public int monsterCount;
 
+    [HideInInspector]
     [Tooltip("해당 몬스터가 그림자에 들어가있는 상태라면 true를, 아니라면 false를 갖습니다. 인덱스는 몬스터 리스트와 동일합니다. ")]
     public bool[] shadowJudgment;
 
-    private Mesh mesh;
-
+    [HideInInspector]
     public int layerMask;
 
+    private Mesh mesh;
     void Start()
     {
         StartSetting();
