@@ -39,7 +39,7 @@ public class LightObjectManager : MonoBehaviour
     {
         lightObjectList.Add(lightObj);
 
-        Debug.LogWarning("AddMonsterToList");
+        Debug.LogWarning("AddLightToList");
     }
     /// <summary>
     /// 라이트오브젝트 리스트의 그림자판정을 통해 진짜 그림자 판정을 합니다.
@@ -52,15 +52,7 @@ public class LightObjectManager : MonoBehaviour
 
         shadowJudgement = new bool[monsterCount];
 
-        //for (int i = 0; i < lightCount; i++) //라이트 오브젝트의 갯수만큼 루프
-        //{
-        //    shadowJudgement[i] = true; //우선 트루로 한 다음에
 
-        //    for (int j = 0; j < monsterCount; i++)
-        //    {
-        //        lightObjectList[i].
-        //    }
-        //}
         for (int i = 0; i < lightCount; i++) //각 라이트 오브젝트의 드로우 업데이트
         {
             lightObjectList[i].AllMonsterDrawTest();
@@ -79,7 +71,7 @@ public class LightObjectManager : MonoBehaviour
             }
         }
 
-        for (int i = 0; i < monsterCount; i++)
+        for (int i = 0; i < monsterCount; i++) // 몬스터 리스트의 몬스터들의 판정 정보를 업데이트
         {
             MonsterManager.Instance.monsterList[i].inShadow = shadowJudgement[i];
         }

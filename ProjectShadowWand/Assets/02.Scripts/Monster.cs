@@ -24,6 +24,8 @@ public class Monster : MonoBehaviour
     public Vector2[] directions; // 원래는 빛을 향하는 방향이었음. 하지만 LightObject의 경우에는 반대가 되야겠지?
     public Vector3[] path; // 바운드의 꼭짓점 4개 위치.
 
+
+    public Vector2 offset;
     [Tooltip("몬스터가 그림자에 들어가있는 상태면 true, 아니면 false를 갖습니다.")]
     public bool inShadow;
 
@@ -37,45 +39,64 @@ public class Monster : MonoBehaviour
         layerMask = (1 << LayerMask.NameToLayer("Monster")); //hit가 자기 자신에게는 부딪히지 않기 위해 
         layerMask = ~layerMask;
 
-        Renderer renderer = GetComponent<Renderer>();
-        if (renderer != null)
+        Collider2D collider = GetComponent<Collider2D>();
+        if (collider != null)
         {
-            bounds = renderer.bounds;
+            bounds = collider.bounds;
 
-            Debug.Log("렌더러 기준으로 바운딩");
-
+            Debug.Log("콜라이더 기준으로 바운딩");
         }
         else
         {
+            Renderer renderer = GetComponent<Renderer>();
 
-            Collider2D collider = GetComponent<Collider2D>();
-            if (collider != null)
+            if (renderer != null)
             {
-                bounds = collider.bounds;
+                bounds = renderer.bounds;
 
-                Debug.Log("콜라이더 기준으로 바운딩");
+                Debug.Log("렌더러 기준으로 바운딩");
 
             }
-        }
 
+        }
 
         ColorSetting();
         if (MonsterManager.Instance.monsterList.Contains(this) == false) //자기 자신이 안들어가있다면
         {
             MonsterManager.Instance.AddMonsterToList(this); //넣는다.
         }
+        relOffset = rb.position;
+
+        offset = collider.offset;
+
+        path = new Vector3[] //꼭짓점 4개의 위치를 구함.
+        {
+                relOffset + new Vector2(-bounds.extents.x+offset.x, -bounds.extents.y+offset.y),
+                relOffset + new Vector2(bounds.extents.x+offset.x, -bounds.extents.y+offset.y),
+                relOffset + new Vector2(bounds.extents.x+offset.x, bounds.extents.y+offset.y),
+                relOffset + new Vector2(-bounds.extents.x+offset.x, bounds.extents.y+offset.y)
+        };
+
     }
 
     void Start()
     {
         StartSetting();
-
     }
 
-    //void Update()
-    //{
+    void Update()
+    {
+        relOffset = rb.position;
 
-    //}
+        path = new Vector3[] //꼭짓점 4개의 위치를 구함.
+        {
+                relOffset + new Vector2(-bounds.extents.x+offset.x, -bounds.extents.y+offset.y),
+                relOffset + new Vector2(bounds.extents.x+offset.x, -bounds.extents.y+offset.y),
+                relOffset + new Vector2(bounds.extents.x+offset.x, bounds.extents.y+offset.y),
+                relOffset + new Vector2(-bounds.extents.x+offset.x, bounds.extents.y+offset.y)
+        };
+
+    }
 
     protected void ColorSetting()
     {
@@ -98,6 +119,17 @@ public class Monster : MonoBehaviour
         hitsLog[1] = hits[1];
         hitsLog[2] = hits[2];
         hitsLog[3] = hits[3];
+    }
+    public void UpdatePath()
+    {
+
+        path = new Vector3[] //꼭짓점 4개의 위치를 구함.
+        {
+                relOffset + new Vector2(-bounds.extents.x, -bounds.extents.y),
+                relOffset + new Vector2(bounds.extents.x, -bounds.extents.y),
+                relOffset + new Vector2(bounds.extents.x, bounds.extents.y),
+                relOffset + new Vector2(-bounds.extents.x, bounds.extents.y)
+        };
     }
 
     /// <summary>

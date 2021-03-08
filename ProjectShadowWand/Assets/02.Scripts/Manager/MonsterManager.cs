@@ -7,6 +7,7 @@ public class MonsterManager : MonoBehaviour
     public List<Monster> monsterList;
 
     public static MonsterManager Instance;
+
     private void Awake()
     {
         if (Instance == null)
