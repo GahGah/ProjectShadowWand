@@ -158,4 +158,14 @@ public class LightObject : MonoBehaviour
             }
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        if (distanceMode)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, limitDistance);
+        }
+
+    }
 }
