@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Experimental.Rendering.Universal; // Light2D를 가져오기 위해...
 /// <summary>
 /// 빛을 내뿜는다고 가정하는 오브젝트입니다.
 /// </summary>
@@ -25,6 +25,9 @@ public class LightObject : MonoBehaviour
     public int layerMask;
 
     private Mesh mesh;
+
+    [SerializeField]
+    private Light2D light2D;
     void Start()
     {
         StartSetting();
@@ -43,16 +46,25 @@ public class LightObject : MonoBehaviour
 
         if (distanceMode)
         {
-            layerMask = (-1) - (1 << LayerMask.NameToLayer("Player"));
+            layerMask = ((1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Monster")));
+            layerMask = ~layerMask;
+            //  layerMask = (-1) - (1 << LayerMask.NameToLayer("Player"));
 
         }
         else
         {
             //  특정 2개이상 layer raycast 제외하기
-            //layerMask = ((1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Ground")));
-            //layerMask = ~layerMask;
-            layerMask = (-1) - (1 << LayerMask.NameToLayer("Player"));
+            layerMask = ((1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Monster")));
+            layerMask = ~layerMask;
+            //한개만 제외
+            //layerMask = (-1) - (1 << LayerMask.NameToLayer("Player"));
 
+        }
+
+        light2D = GetComponent<Light2D>();
+        if (light2D != null && light2D.lightType == Light2D.LightType.Parametric)
+        {
+            limitDistance = light2D.shapeLightParametricRadius;
         }
     }
     void Update()
