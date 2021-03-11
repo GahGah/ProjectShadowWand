@@ -13,9 +13,9 @@ public class PlayerController : MonoBehaviour
     readonly Vector3 flippedScale = new Vector3(-1, 1, 1);
     readonly Quaternion flippedRotation = new Quaternion(0, 0, 1, 0);
 
-    //[Header("Character")]
-    //[SerializeField] Animator animator = null;
-    //[SerializeField] Transform puppet = null;
+    [Header("캐릭터 관련")]
+    [SerializeField] Animator animator = null;
+    [SerializeField] Transform puppet = null;
     //[SerializeField] CharacterAudio audioPlayer = null;
 
     //[Header("Tail")]
@@ -26,7 +26,10 @@ public class PlayerController : MonoBehaviour
     //[SerializeField] Transform handAnchor = null;
     //[SerializeField] SpriteLibrary spriteLibrary = null;
 
-    [Header("Movement")]
+    [Header("이동 관련")]
+
+    [Tooltip("걷기 애니메이션을 바로바로 변경합니다.")]
+    public bool isImmediate;
     [SerializeField] float acceleration = 0.0f;
     [SerializeField] float maxSpeed = 0.0f;
     [SerializeField] float jumpForce = 0.0f;
@@ -136,7 +139,7 @@ public class PlayerController : MonoBehaviour
             groundType = GroundType.None;
 
         //// Update animator
-        //animator.SetBool(animatorGroundedBool, groundType != GroundType.None);
+        animator.SetBool(animatorGroundedBool, groundType != GroundType.None);
     }
 
     private void UpdateVelocity()
@@ -147,8 +150,12 @@ public class PlayerController : MonoBehaviour
         // prior to assigning back to the body.
         velocity += movementInput * acceleration * Time.fixedDeltaTime;
 
+        var saveMoveInputX = movementInput.x;
+
         // We've consumed the movement, reset it.
         movementInput = Vector2.zero;
+
+
 
         // Clamp horizontal speed.
         velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
@@ -157,8 +164,21 @@ public class PlayerController : MonoBehaviour
         controllerRigidbody.velocity = velocity;
 
         // Update animator running speed
-        var horizontalSpeedNormalized = Mathf.Abs(velocity.x) / maxSpeed;
-        //animator.SetFloat(animatorRunningSpeed, horizontalSpeedNormalized);
+
+        //real
+
+        if (isImmediate)
+        {
+            animator.SetFloat(animatorRunningSpeed, Mathf.Abs(saveMoveInputX));
+        }
+        else
+        {
+            var horizontalSpeedNormalized = Mathf.Abs(velocity.x) / maxSpeed;
+            animator.SetFloat(animatorRunningSpeed, horizontalSpeedNormalized);
+        }
+
+
+
 
         // Play audio
         //audioPlayer.PlaySteps(groundType, horizontalSpeedNormalized);
@@ -177,7 +197,7 @@ public class PlayerController : MonoBehaviour
             controllerRigidbody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
 
             // Set animator
-            //animator.SetTrigger(animatorJumpTrigger);
+            animator.SetTrigger(animatorJumpTrigger);
 
             // We've consumed the jump, reset it.
             jumpInput = false;
@@ -214,12 +234,12 @@ public class PlayerController : MonoBehaviour
         if (controllerRigidbody.velocity.x > minFlipSpeed && isFlipped)
         {
             isFlipped = false;
-            //puppet.localScale = Vector3.one;
+            puppet.localScale = Vector3.one;
         }
         else if (controllerRigidbody.velocity.x < -minFlipSpeed && !isFlipped)
         {
             isFlipped = true;
-            //puppet.localScale = flippedScale;
+            puppet.localScale = flippedScale;
         }
     }
 
