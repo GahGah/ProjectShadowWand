@@ -2,53 +2,45 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-public enum GroundType
-{
-    None,
-    Soft,
-    Hard
-}
-public class PlayerController : MonoBehaviour
+
+public class PlayerController : Character
 {
     readonly Vector3 flippedScale = new Vector3(-1, 1, 1);
     readonly Quaternion flippedRotation = new Quaternion(0, 0, 1, 0);
 
-    [Header("캐릭터 관련")]
-    [SerializeField] Animator animator = null;
-    [SerializeField] Transform puppet = null;
     //[SerializeField] CharacterAudio audioPlayer = null;
-
-    //[Header("Tail")]
-    //[SerializeField] Transform tailAnchor = null;
-    //[SerializeField] Rigidbody2D tailRigidbody = null;
-
-    //[Header("Equipment")]
-    //[SerializeField] Transform handAnchor = null;
-    //[SerializeField] SpriteLibrary spriteLibrary = null;
 
     [Header("이동 관련")]
 
-    [Tooltip("걷기 애니메이션을 바로바로 변경합니다.")]
-    public bool isImmediate;
-    [SerializeField] float acceleration = 0.0f;
-    [SerializeField] float maxSpeed = 0.0f;
+    [SerializeField, Tooltip("플레이어의 이동속도")]
+    float movementSpeed = 0.0f;
+
+    [SerializeField, Tooltip("플레이어의 최대 이동속도. \n가속도를 더하는 형식이라 필요한 것 뿐입니다.")]
+    float maxMovementSpeed = 0.0f;
+
     [SerializeField] float jumpForce = 0.0f;
-    [SerializeField] float minFlipSpeed = 0.1f;
+    [SerializeField,Tooltip("속도가 어느정도 되어야 캐릭터를 뒤집을 것인지 정합니다.")]
+    float minFlipSpeed = 0.1f;
     [SerializeField] float jumpGravityScale = 1.0f;
     [SerializeField] float fallGravityScale = 1.0f;
     [SerializeField] float groundedGravityScale = 1.0f;
     [SerializeField] bool resetSpeedOnLand = false;
 
-    private Rigidbody2D controllerRigidbody;
-    private Collider2D controllerCollider;
-    private LayerMask softGroundMask;
-    private LayerMask hardGroundMask;
+    private Rigidbody2D playerRigidbody;
+    private Collider2D playerCollider;
+    private EdgeCollider2D playerSideCollider;
 
+    private BlockType blockType;
+    private LayerMask groundMask;
+    private LayerMask wallMask;
+    private LayerMask movingGroundMask;
+
+    [SerializeField]
     private Vector2 movementInput;
-    private bool jumpInput;
-
     private Vector2 prevVelocity;
-    private GroundType groundType;
+    [SerializeField] private Vector2 updatingVelocity;
+
+    private bool jumpInput;
     private bool isFlipped;
     private bool isJumping;
     private bool isFalling;
@@ -61,37 +53,38 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-#if UNITY_EDITOR
-        if (Keyboard.current == null)
-        {
-            var playerSettings = new UnityEditor.SerializedObject(Resources.FindObjectsOfTypeAll<UnityEditor.PlayerSettings>()[0]);
-            var newInputSystemProperty = playerSettings.FindProperty("enableNativePlatformBackendsForNewInputSystem");
-            bool newInputSystemEnabled = newInputSystemProperty != null ? newInputSystemProperty.boolValue : false;
 
-            if (newInputSystemEnabled)
-            {
-                var msg = "New Input System backend is enabled but it requires you to restart Unity, otherwise the player controls won't work. Do you want to restart now?";
-                if (UnityEditor.EditorUtility.DisplayDialog("Warning", msg, "Yes", "No"))
-                {
-                    UnityEditor.EditorApplication.ExitPlaymode();
-                    var dataPath = Application.dataPath;
-                    var projectPath = dataPath.Substring(0, dataPath.Length - 7);
-                    UnityEditor.EditorApplication.OpenProject(projectPath);
-                }
-            }
-        }
-#endif
+        playerRigidbody = GetComponent<Rigidbody2D>();
+        playerCollider = GetComponent<Collider2D>();
 
-        controllerRigidbody = GetComponent<Rigidbody2D>();
-        controllerCollider = GetComponent<Collider2D>();
-        softGroundMask = LayerMask.GetMask("Ground Soft");
-        hardGroundMask = LayerMask.GetMask("Ground Hard");
+        updatingVelocity = playerRigidbody.velocity;
+        groundMask = LayerMask.GetMask("Ground");
+        wallMask = LayerMask.GetMask("Wall");
+        movingGroundMask = LayerMask.GetMask("MovingGround");
 
         animatorGroundedBool = Animator.StringToHash("Grounded");
         animatorRunningSpeed = Animator.StringToHash("RunningSpeed");
         animatorJumpTrigger = Animator.StringToHash("Jump");
 
         CanMove = true;
+        EdgeColliderTest();
+    }
+
+    void EdgeColliderTest()
+    {
+        var offset = playerCollider.offset;
+        var addPaddingX = 0.02f;
+        var addRadius = 0.02f;
+        playerSideCollider = gameObject.AddComponent<EdgeCollider2D>();
+        Vector2[] tempPoints =
+        {
+            new Vector2(playerCollider.bounds.extents.x+offset.x+addPaddingX-addRadius, playerCollider.bounds.extents.y+offset.y-addRadius),
+            new Vector2(playerCollider.bounds.extents.x+offset.x+addPaddingX-addRadius, -playerCollider.bounds.extents.y+offset.y+addRadius),
+            new Vector2(-playerCollider.bounds.extents.x-offset.x-addPaddingX+addRadius, playerCollider.bounds.extents.y+offset.y-addRadius),
+            new Vector2(-playerCollider.bounds.extents.x-offset.x-addPaddingX+addRadius, -playerCollider.bounds.extents.y+offset.y+addRadius)
+        };
+        playerSideCollider.edgeRadius = 0.02f;
+        playerSideCollider.points = tempPoints;
     }
 
     void Update()
@@ -103,13 +96,17 @@ public class PlayerController : MonoBehaviour
 
         // Horizontal movement
         float moveHorizontal = 0.0f;
+        float moveVertical = 0.0f;
 
         if (keyboard.leftArrowKey.isPressed || keyboard.aKey.isPressed)
             moveHorizontal = -1.0f;
         else if (keyboard.rightArrowKey.isPressed || keyboard.dKey.isPressed)
             moveHorizontal = 1.0f;
 
-        movementInput = new Vector2(moveHorizontal, 0);
+        else if (keyboard.downArrowKey.isPressed || keyboard.sKey.isPressed)
+            moveVertical = -10.0f;
+
+        movementInput = new Vector2(moveHorizontal, moveVertical);
 
         // Jumping input
         if (!isJumping && keyboard.spaceKey.wasPressedThisFrame)
@@ -118,83 +115,72 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        UpdateGrounding();
+        UpdateGroundCheck();
         UpdateVelocity();
         UpdateDirection();
         UpdateJump();
-        UpdateTailPose();
         UpdateGravityScale();
 
-        prevVelocity = controllerRigidbody.velocity;
+        prevVelocity = playerRigidbody.velocity;
     }
 
-    private void UpdateGrounding()
+    private void UpdateGroundCheck()
     {
-        // Use character collider to check if touching ground layers
-        if (controllerCollider.IsTouchingLayers(softGroundMask))
-            groundType = GroundType.Soft;
-        else if (controllerCollider.IsTouchingLayers(hardGroundMask))
-            groundType = GroundType.Hard;
+        // 터칭 레이어로 체크
+        if (playerCollider.IsTouchingLayers(groundMask))
+            blockType = BlockType.GROUND;
+        else if (playerCollider.IsTouchingLayers(wallMask))
+            blockType = BlockType.WALL;
+        else if (playerCollider.IsTouchingLayers())
+            blockType = BlockType.MOVING_GROUND;
         else
-            groundType = GroundType.None;
+            blockType = BlockType.NONE;
 
         //// Update animator
-        animator.SetBool(animatorGroundedBool, groundType != GroundType.None);
+        animator.SetBool(animatorGroundedBool, blockType != BlockType.NONE);
     }
 
     private void UpdateVelocity()
     {
-        Vector2 velocity = controllerRigidbody.velocity;
+        updatingVelocity = playerRigidbody.velocity;
 
-        // Apply acceleration directly as we'll want to clamp
-        // prior to assigning back to the body.
-        velocity += movementInput * acceleration * Time.fixedDeltaTime;
+        updatingVelocity += movementInput * movementSpeed * Time.fixedDeltaTime;
 
         var saveMoveInputX = movementInput.x;
+
+        // Clamp horizontal speed.
+        if (movementInput.x != 0.0f)
+        {
+            updatingVelocity.x = Mathf.Clamp(updatingVelocity.x, -maxMovementSpeed, maxMovementSpeed);
+        }
+
 
         // We've consumed the movement, reset it.
         movementInput = Vector2.zero;
 
 
-
-        // Clamp horizontal speed.
-        velocity.x = Mathf.Clamp(velocity.x, -maxSpeed, maxSpeed);
-
         // Assign back to the body.
-        controllerRigidbody.velocity = velocity;
+        playerRigidbody.velocity = updatingVelocity;
 
         // Update animator running speed
 
-        //real
-
-        if (isImmediate)
-        {
-            animator.SetFloat(animatorRunningSpeed, Mathf.Abs(saveMoveInputX));
-        }
-        else
-        {
-            var horizontalSpeedNormalized = Mathf.Abs(velocity.x) / maxSpeed;
-            animator.SetFloat(animatorRunningSpeed, horizontalSpeedNormalized);
-        }
-
-
-
+        animator.SetFloat(animatorRunningSpeed, Mathf.Abs(saveMoveInputX));
 
         // Play audio
-        //audioPlayer.PlaySteps(groundType, horizontalSpeedNormalized);
+        //audioPlayer.PlaySteps(blockType, horizontalSpeedNormalized);
     }
 
     private void UpdateJump()
     {
         // Set falling flag
-        if (isJumping && controllerRigidbody.velocity.y < 0)
+        if (isJumping && playerRigidbody.velocity.y < 0)
             isFalling = true;
 
         // Jump
-        if (jumpInput && groundType != GroundType.None)
+        if (jumpInput && blockType != BlockType.NONE)
         {
             // Jump using impulse force
-            controllerRigidbody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            playerRigidbody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
 
             // Set animator
             animator.SetTrigger(animatorJumpTrigger);
@@ -210,13 +196,13 @@ public class PlayerController : MonoBehaviour
         }
 
         // Landed
-        else if (isJumping && isFalling && groundType != GroundType.None)
+        else if (isJumping && isFalling && blockType != BlockType.NONE)
         {
-            // Since collision with ground stops rigidbody, reset velocity
+            // 땅과 충돌했을 때 리지드바디가 멈추기 때문에, 벨로시티를 재설정
             if (resetSpeedOnLand)
             {
-                prevVelocity.y = controllerRigidbody.velocity.y;
-                controllerRigidbody.velocity = prevVelocity;
+                prevVelocity.y = playerRigidbody.velocity.y;
+                playerRigidbody.velocity = prevVelocity;
             }
 
             // Reset jumping flags
@@ -224,62 +210,36 @@ public class PlayerController : MonoBehaviour
             isFalling = false;
 
             // Play audio
-            //audioPlayer.PlayLanding(groundType);
+            //audioPlayer.PlayLanding(blockType);
         }
     }
 
     private void UpdateDirection()
     {
-        // Use scale to flip character depending on direction
-        if (controllerRigidbody.velocity.x > minFlipSpeed && isFlipped)
+        //스케일 변경으로 flip
+        if (playerRigidbody.velocity.x > minFlipSpeed && isFlipped)
         {
             isFlipped = false;
             puppet.localScale = Vector3.one;
         }
-        else if (controllerRigidbody.velocity.x < -minFlipSpeed && !isFlipped)
+        else if (playerRigidbody.velocity.x < -minFlipSpeed && !isFlipped)
         {
             isFlipped = true;
             puppet.localScale = flippedScale;
         }
     }
 
-    private void UpdateTailPose()
-    {
-        // Calculate the extrapolated target position of the tail anchor.
-        //Vector2 targetPosition = tailAnchor.position;
-        //targetPosition += controllerRigidbody.velocity * Time.fixedDeltaTime;
-
-        //tailRigidbody.MovePosition(targetPosition);
-        //if (isFlipped)
-        //    tailRigidbody.SetRotation(tailAnchor.rotation * flippedRotation);
-        //else
-        //    tailRigidbody.SetRotation(tailAnchor.rotation);
-    }
-
     private void UpdateGravityScale()
     {
-        // Use grounded gravity scale by default.
+        // 정해놓은 그라비티 스케일로 설정
         var gravityScale = groundedGravityScale;
 
-        if (groundType == GroundType.None)
+        if (blockType == BlockType.NONE)
         {
-            // If not grounded then set the gravity scale according to upwards (jump) or downwards (falling) motion.
-            gravityScale = controllerRigidbody.velocity.y > 0.0f ? jumpGravityScale : fallGravityScale;
+            //만약 땅에 닿아있는 상태가 아닐때 : 점프중이라면 점프 그라비티 스케일로, 아니라면 추락 그라비티 스케일로 변경
+            gravityScale = playerRigidbody.velocity.y > 0.0f ? jumpGravityScale : fallGravityScale;
         }
 
-        controllerRigidbody.gravityScale = gravityScale;
+        playerRigidbody.gravityScale = gravityScale;
     }
-
-    public void GrabItem(Transform item)
-    {
-        // Attach item to hand
-        //item.SetParent(handAnchor, false);
-        //item.localPosition = Vector3.zero;
-        //item.localRotation = Quaternion.identity;
-    }
-
-    //public void SwapSprites(SpriteLibraryAsset spriteLibraryAsset)
-    //{
-    //    spriteLibrary.spriteLibraryAsset = spriteLibraryAsset;
-    //}
 }

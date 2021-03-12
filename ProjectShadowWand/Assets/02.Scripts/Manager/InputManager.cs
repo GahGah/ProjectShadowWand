@@ -38,6 +38,26 @@ public class InputManager : MonoBehaviour
 
     private void Start()
     {
+#if UNITY_EDITOR
+        if (Keyboard.current == null)
+        {
+            var playerSettings = new UnityEditor.SerializedObject(Resources.FindObjectsOfTypeAll<UnityEditor.PlayerSettings>()[0]);
+            var newInputSystemProperty = playerSettings.FindProperty("enableNativePlatformBackendsForNewInputSystem");
+            bool newInputSystemEnabled = newInputSystemProperty != null ? newInputSystemProperty.boolValue : false;
+
+            if (newInputSystemEnabled)
+            {
+                var msg = "New Input System backend is enabled but it requires you to restart Unity, otherwise the player controls won't work. Do you want to restart now?";
+                if (UnityEditor.EditorUtility.DisplayDialog("Warning", msg, "Yes", "No"))
+                {
+                    UnityEditor.EditorApplication.ExitPlaymode();
+                    var dataPath = Application.dataPath;
+                    var projectPath = dataPath.Substring(0, dataPath.Length - 7);
+                    UnityEditor.EditorApplication.OpenProject(projectPath);
+                }
+            }
+        }
+#endif
         SetButtonsDefaultKey();
     }
 
