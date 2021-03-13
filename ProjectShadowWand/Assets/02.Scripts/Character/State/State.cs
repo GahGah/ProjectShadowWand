@@ -5,6 +5,7 @@ using UnityEngine;
 //State의 기본이 되는 녀석~
 public class State
 {
+    public bool isDebugMod;
     public virtual void Enter()
     {
         Debug.Log("State Enter");
@@ -26,6 +27,10 @@ public class State
 
     public void Log(object obj)
     {
-        Debug.Log(obj);
+        if (isDebugMod)
+        {
+            Debug.Log(obj);
+        }
+
     }
 }

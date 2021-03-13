@@ -5,17 +5,6 @@ using UnityEngine;
 public class PlayerState : State
 {
     public PlayerController player;
-    public override void Enter() { }
-    public override void Execute()
-    { }
-
-    /// <summary>
-    /// 혹시 물리용 업데이트를 할까봐...
-    /// </summary>
-    public override void PhysicsExecute() { }
-    public override void Exit() { base.Exit(); }
-
-    public override void HandleInput() { }
 }
 
 public class PlayerState_Default : PlayerState
@@ -57,7 +46,7 @@ public class PlayerState_Jump : PlayerState
     }
     public override void Enter()
     {
-        isJumped = false; ;
+        isJumped = false;
 
     }
     public override void Execute()
@@ -107,7 +96,7 @@ public class PlayerState_Air : PlayerState
     }
     public override void Enter()
     {
-        Debug.Log("Enter Air");
+        Log("Enter Air");
     }
     public override void Execute()
     {
@@ -121,7 +110,6 @@ public class PlayerState_Air : PlayerState
     public override void Exit()
     {
         Log("Exit Air");
-
         // Play audio
         //audioPlayer.PlayLanding(blockType);
     }

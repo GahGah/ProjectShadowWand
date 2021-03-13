@@ -21,7 +21,7 @@ public class InputManager : MonoBehaviour
 
     public static InputManager Instance;
 
-
+    public bool isDebugMode;
     private void Awake()
     {
         if (Instance == null)
@@ -73,7 +73,11 @@ public class InputManager : MonoBehaviour
     }
     public void OnTextInput(char c)
     {
-        Debug.LogWarning(this.name + " : 입력된 키 [ " + c + " ]");
+        if (isDebugMode)
+        {
+            Debug.LogWarning(this.name + " : 입력된 키 [ " + c + " ]");
+        }
+
     }
 
     /// <summary>

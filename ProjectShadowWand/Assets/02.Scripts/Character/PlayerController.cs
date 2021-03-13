@@ -26,8 +26,7 @@ public class PlayerController : Character
     [SerializeField] float groundedGravityScale = 1.0f;
     public bool resetSpeedOnLand = false;
 
-    [HideInInspector]
-    public Rigidbody2D playerRigidbody;
+    [HideInInspector] public Rigidbody2D playerRigidbody;
     private Collider2D playerCollider;
     private EdgeCollider2D playerSideCollider;
 
@@ -50,9 +49,10 @@ public class PlayerController : Character
     public int animatorGroundedBool;
     public int animatorRunningSpeed;
     public int animatorJumpTrigger;
+    //public int animatorFallingBool;
 
     public PlayerStateMachine playerStateMachine;
-
+    public InputManager inputManager; 
 
     public float saveMoveInputX;
     public bool CanMove { get; set; }
@@ -71,6 +71,8 @@ public class PlayerController : Character
         animatorGroundedBool = Animator.StringToHash("Grounded");
         animatorRunningSpeed = Animator.StringToHash("RunningSpeed");
         animatorJumpTrigger = Animator.StringToHash("Jump");
+
+        inputManager = InputManager.Instance;
 
         CanMove = true;
 
@@ -99,30 +101,33 @@ public class PlayerController : Character
 
     void Update()
     {
-        var keyboard = Keyboard.current;
+        playerStateMachine.Update();
 
-        if (!CanMove || keyboard == null)
+        if (!CanMove)
             return;
 
-        // Horizontal movement
         float moveHorizontal = 0.0f;
         float moveVertical = 0.0f;
 
-        if (keyboard.leftArrowKey.isPressed || keyboard.aKey.isPressed)
+        if (inputManager.buttonLeft.isPressed)
+        {
             moveHorizontal = -1.0f;
-        else if (keyboard.rightArrowKey.isPressed || keyboard.dKey.isPressed)
+        }
+        else if (inputManager.buttonRight.isPressed)
+        {
             moveHorizontal = 1.0f;
-
-        else if (keyboard.downArrowKey.isPressed || keyboard.sKey.isPressed)
+        }
+        else if (inputManager.buttonDown.isPressed)
+        {
             moveVertical = -10.0f;
-
+        }
         movementInput = new Vector2(moveHorizontal, moveVertical);
 
         // Jumping input
-        if (!isJumping && keyboard.spaceKey.wasPressedThisFrame)
+        if (!isJumping && inputManager.buttonJump.wasPressedThisFrame)
             jumpInput = true;
 
-        playerStateMachine.Update();
+
     }
 
     void FixedUpdate()
