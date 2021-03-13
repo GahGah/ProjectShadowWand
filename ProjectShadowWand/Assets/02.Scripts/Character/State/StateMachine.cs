@@ -29,7 +29,7 @@ public class StateMachine
     public virtual void ChangeState(eSTATE _state) // 상태를 바꿉니다.
     {
 
-        if (!stateDict.ContainsKey(_state))//만약 딕셔너리에 state가 안들어있다면 
+        if (!stateDict.ContainsKey(_state)) //만약 딕셔너리에 state가 안들어있다면 
         {
             State tempState;
 

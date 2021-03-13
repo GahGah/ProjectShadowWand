@@ -74,6 +74,7 @@ public class PlayerState_Jump : PlayerState
             player.jumpInput = false;
             //점프상태 true
             player.isJumping = true;
+
             isJumped = true;
             // Play audio
             //audioPlayer.PlayJump();
