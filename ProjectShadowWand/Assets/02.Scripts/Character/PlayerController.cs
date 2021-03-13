@@ -197,7 +197,11 @@ public class PlayerController : Character
             playerStateMachine.ChangeState(eSTATE.PLAYER_JUMP);
 
         }
-        // 착지와 공중상태의 구별
+        else if (!isGrounded && playerStateMachine.GetStateName() != "PlayerState_Air")
+        {
+            playerStateMachine.ChangeState(eSTATE.PLAYER_AIR);
+        }
+        // 착지와 점프 후 공중상태의 구별
         else if (isJumping && isFalling)
         {
             //착지
