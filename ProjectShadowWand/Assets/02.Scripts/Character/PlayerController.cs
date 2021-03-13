@@ -18,37 +18,43 @@ public class PlayerController : Character
     [SerializeField, Tooltip("플레이어의 최대 이동속도. \n가속도를 더하는 형식이라 필요한 것 뿐입니다.")]
     float maxMovementSpeed = 0.0f;
 
-    [SerializeField] float jumpForce = 0.0f;
-    [SerializeField,Tooltip("속도가 어느정도 되어야 캐릭터를 뒤집을 것인지 정합니다.")]
+    public float jumpForce = 0.0f;
+    [SerializeField, Tooltip("속도가 어느정도 되어야 캐릭터를 뒤집을 것인지 정합니다.")]
     float minFlipSpeed = 0.1f;
     [SerializeField] float jumpGravityScale = 1.0f;
     [SerializeField] float fallGravityScale = 1.0f;
     [SerializeField] float groundedGravityScale = 1.0f;
-    [SerializeField] bool resetSpeedOnLand = false;
+    public bool resetSpeedOnLand = false;
 
-    private Rigidbody2D playerRigidbody;
+    [HideInInspector]
+    public Rigidbody2D playerRigidbody;
     private Collider2D playerCollider;
     private EdgeCollider2D playerSideCollider;
 
-    private BlockType blockType;
+    public BlockType blockType;
     private LayerMask groundMask;
     private LayerMask wallMask;
     private LayerMask movingGroundMask;
 
     [SerializeField]
     private Vector2 movementInput;
-    private Vector2 prevVelocity;
+    public Vector2 prevVelocity;
     [SerializeField] private Vector2 updatingVelocity;
 
-    private bool jumpInput;
+    public bool jumpInput;
     private bool isFlipped;
-    private bool isJumping;
-    private bool isFalling;
+    public bool isJumping;
+    public bool isGrounded;
+    public bool isFalling;
 
-    private int animatorGroundedBool;
-    private int animatorRunningSpeed;
-    private int animatorJumpTrigger;
+    public int animatorGroundedBool;
+    public int animatorRunningSpeed;
+    public int animatorJumpTrigger;
 
+    public PlayerStateMachine playerStateMachine;
+
+
+    public float saveMoveInputX;
     public bool CanMove { get; set; }
 
     void Start()
@@ -67,7 +73,11 @@ public class PlayerController : Character
         animatorJumpTrigger = Animator.StringToHash("Jump");
 
         CanMove = true;
+
         EdgeColliderTest();
+        playerStateMachine = new PlayerStateMachine(this);
+        playerStateMachine.ChangeState(eSTATE.PLAYER_DEFAULT);
+        playerStateMachine.Start();
     }
 
     void EdgeColliderTest()
@@ -111,6 +121,8 @@ public class PlayerController : Character
         // Jumping input
         if (!isJumping && keyboard.spaceKey.wasPressedThisFrame)
             jumpInput = true;
+
+        playerStateMachine.Update();
     }
 
     void FixedUpdate()
@@ -121,6 +133,7 @@ public class PlayerController : Character
         UpdateJump();
         UpdateGravityScale();
 
+        playerStateMachine.FixedUpdate();
         prevVelocity = playerRigidbody.velocity;
     }
 
@@ -136,8 +149,15 @@ public class PlayerController : Character
         else
             blockType = BlockType.NONE;
 
-        //// Update animator
-        animator.SetBool(animatorGroundedBool, blockType != BlockType.NONE);
+        if (blockType != BlockType.NONE)
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
+        }
+        animator.SetBool(animatorGroundedBool, isGrounded);
     }
 
     private void UpdateVelocity()
@@ -146,25 +166,20 @@ public class PlayerController : Character
 
         updatingVelocity += movementInput * movementSpeed * Time.fixedDeltaTime;
 
-        var saveMoveInputX = movementInput.x;
+        saveMoveInputX = movementInput.x;
 
-        // Clamp horizontal speed.
         if (movementInput.x != 0.0f)
         {
             updatingVelocity.x = Mathf.Clamp(updatingVelocity.x, -maxMovementSpeed, maxMovementSpeed);
         }
-
-
-        // We've consumed the movement, reset it.
         movementInput = Vector2.zero;
 
-
-        // Assign back to the body.
         playerRigidbody.velocity = updatingVelocity;
 
-        // Update animator running speed
-
-        animator.SetFloat(animatorRunningSpeed, Mathf.Abs(saveMoveInputX));
+        if (playerStateMachine.GetStateName() != "PlayerState_Default" && !isJumping && !isFalling)
+        {
+            playerStateMachine.ChangeState(eSTATE.PLAYER_DEFAULT);
+        }
 
         // Play audio
         //audioPlayer.PlaySteps(blockType, horizontalSpeedNormalized);
@@ -179,38 +194,38 @@ public class PlayerController : Character
         // Jump
         if (jumpInput && blockType != BlockType.NONE)
         {
-            // Jump using impulse force
-            playerRigidbody.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+            playerStateMachine.ChangeState(eSTATE.PLAYER_JUMP);
 
-            // Set animator
-            animator.SetTrigger(animatorJumpTrigger);
-
-            // We've consumed the jump, reset it.
-            jumpInput = false;
-
-            // Set jumping flag
-            isJumping = true;
-
-            // Play audio
-            //audioPlayer.PlayJump();
         }
-
-        // Landed
-        else if (isJumping && isFalling && blockType != BlockType.NONE)
+        // 착지와 공중상태의 구별
+        else if (isJumping && isFalling)
         {
-            // 땅과 충돌했을 때 리지드바디가 멈추기 때문에, 벨로시티를 재설정
-            if (resetSpeedOnLand)
+            //착지
+            if (playerStateMachine.GetStateName() == "PlayerState_Air" && blockType != BlockType.NONE)
             {
-                prevVelocity.y = playerRigidbody.velocity.y;
-                playerRigidbody.velocity = prevVelocity;
+                if (isGrounded)
+                {
+                    // 땅과 충돌했을 때 리지드바디가 멈추기 때문에, 벨로시티를 재설정
+                    if (resetSpeedOnLand)
+                    {
+                        prevVelocity.y = playerRigidbody.velocity.y;
+                        playerRigidbody.velocity = prevVelocity;
+                    }
+
+                    //착지판정
+                    isJumping = false;
+                    isFalling = false;
+
+                }
+
+            }
+            //공중
+            else if (playerStateMachine.GetStateName() != "PlayerState_Air")
+            {
+
+                playerStateMachine.ChangeState(eSTATE.PLAYER_AIR);
             }
 
-            // Reset jumping flags
-            isJumping = false;
-            isFalling = false;
-
-            // Play audio
-            //audioPlayer.PlayLanding(blockType);
         }
     }
 

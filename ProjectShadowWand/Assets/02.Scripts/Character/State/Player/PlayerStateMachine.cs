@@ -1,31 +1,37 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class PlayerStateMachine : StateMachine
 {
-    public PlayerStateMachine(State _state)
+    PlayerController player;
+    public PlayerStateMachine(PlayerController _player)
     {
-        currentState = _state; // 생성할때 state를 넣으면 그게 기본으로....
+        player = _player;
     }
-
+    public void Start()
+    {
+        Debug.Log("스테이트 머신 기동 확인");
+        Debug.Log("현재 스테이트 : " + currentState);
+    }
+    public override void ChangeState(eSTATE _state)
+    {
+        base.ChangeState(_state);
+    }
     public override State GetState(eSTATE _state)
     {
-        State tempState = new State();
+        PlayerState tempState = new PlayerState();
 
         switch (_state)
         {
             case eSTATE.PLAYER_DEFAULT:
-                //tempState = new AnyPlayerState1();
-                Debug.Log("Player_DeFault");
+                tempState = new PlayerState_Default(player);
                 break;
 
             case eSTATE.PLAYER_JUMP:
-                Debug.Log("Player_Jump");
+                tempState = new PlayerState_Jump(player);
                 break;
-
             case eSTATE.PLAYER_AIR:
-                Debug.Log("Player_Air");
+                tempState = new PlayerState_Air(player);
                 break;
 
             case eSTATE.PLAYER_DIE:

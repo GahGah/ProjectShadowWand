@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class MonsterManager : MonoBehaviour
 {
-
-
     public static MonsterManager Instance;
 
     public List<Monster> monsterList;

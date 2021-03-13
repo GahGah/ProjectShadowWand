@@ -28,10 +28,6 @@ public class StateMachine
     protected Dictionary<eSTATE, State> stateDict = new Dictionary<eSTATE, State>();
     public virtual void ChangeState(eSTATE _state) // 상태를 바꿉니다.
     {
-        if (currentState != null) // 먼저 끝내고 
-        {
-            currentState.Exit();
-        }
 
         if (!stateDict.ContainsKey(_state))//만약 딕셔너리에 state가 안들어있다면 
         {
@@ -49,7 +45,14 @@ public class StateMachine
             if (currentState == stateDict[_state]) //만약 현재 상태와 또 똑같은 상태로 바꾸려고 했다면?
             {
                 Debug.LogError("같은 상태로 바뀐다면 좀 이상하지 않을까?");
+                return;
             }
+        }
+
+        //Exit--
+        if (currentState != null) // 먼저 끝내고 
+        {
+            currentState.Exit();
         }
 
         //Enter---
@@ -65,8 +68,9 @@ public class StateMachine
         }
     }
 
-    //모노비헤이비어가 아니기 때문에 Update 사용 가능
-    public virtual void Update()
+    //모노비헤이비어가 아니기 때문에 
+
+    public void Update()
     {
         if (currentState != null) // 널이 아닐 경우에만
         {
@@ -74,7 +78,7 @@ public class StateMachine
         }
     }
 
-    public virtual void FixedUpdate()
+    public void FixedUpdate()
     {
         if (currentState != null)
         {
@@ -96,6 +100,8 @@ public class StateMachine
         Debug.LogError("StateMachine GetState를 사용해버림");
         return returnState;
     }
+
+
     //public virtual void HandleSelect()
     //{
     //	currentState.HandleInput(State.InputType.Select, false);
