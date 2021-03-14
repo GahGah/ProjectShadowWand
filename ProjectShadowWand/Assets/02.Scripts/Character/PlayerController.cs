@@ -57,7 +57,7 @@ public class PlayerController : Character
     public float saveMoveInputX;
 
 
-    public bool CanMove { get; set; }
+    public bool CanMove = true;
 
     void Start()
     {
@@ -76,8 +76,6 @@ public class PlayerController : Character
         animatorJumpTrigger = Animator.StringToHash("Jump");
 
         inputManager = InputManager.Instance;
-
-        CanMove = true;
 
         EdgeColliderTest();
         playerStateMachine = new PlayerStateMachine(this);
@@ -104,15 +102,11 @@ public class PlayerController : Character
 
     void Update()
     {
-        playerStateMachine.Update();
+
 
         if (!CanMove)
             return;
-
-        // Jumping input
-        if (!isJumping && inputManager.buttonJump.wasPressedThisFrame)
-            jumpInput = true;
-
+        playerStateMachine.Update();
     }
 
     void FixedUpdate()
@@ -125,7 +119,6 @@ public class PlayerController : Character
         UpdateJump();
         UpdateGravityScale();
 
-
         prevVelocity = playerRigidbody.velocity;
     }
 
@@ -135,7 +128,6 @@ public class PlayerController : Character
         if (playerCollider.IsTouchingLayers(groundMask))
         {
             blockType = BlockType.GROUND;
-
 
         }
         else if (playerCollider.IsTouchingLayers(wallMask))

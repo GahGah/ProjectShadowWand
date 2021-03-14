@@ -48,7 +48,10 @@ public class PlayerState_Default : PlayerState
             moveVertical = 0.0f;
         }
         player.movementInput = new Vector2(moveHorizontal, moveVertical);
-
+        
+        // Jumping input
+        if (!player.isJumping && player.inputManager.buttonJump.wasPressedThisFrame)
+            player.jumpInput = true;
     }
 
     /// <summary>
