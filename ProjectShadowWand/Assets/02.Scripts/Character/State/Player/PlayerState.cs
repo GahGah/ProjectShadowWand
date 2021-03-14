@@ -85,29 +85,6 @@ public class PlayerState_Jump : PlayerState
     {
         Log("Enter Jump");
         isJumped = false;
-        if (!isJumped)
-        {
-            Log("PE Jump");
-            isJumped = true;
-
-            player.animator.SetTrigger(player.animatorJumpTrigger);
-
-            //점프
-            player.playerRigidbody.AddForce(new Vector2(0, player.jumpForce), ForceMode2D.Impulse);
-            //점프 트리거 온
-
-
-
-            //점프 입력을 false로(점프를 한번만 하기 위해서)
-            player.jumpInput = false;
-            //점프상태 true
-            player.isJumping = true;
-
-            // Play audio
-            //audioPlayer.PlayJump();
-
-        }
-
 
     }
     public override void Execute()
@@ -142,9 +119,26 @@ public class PlayerState_Jump : PlayerState
     /// </summary>
     public override void PhysicsExecute()
     {
-        if (player.isGrounded)
+        if (!isJumped)
         {
-            player.isJumping = false;
+            Log("PE Jump");
+            isJumped = true;
+
+            //점프 트리거 온
+            player.animator.SetTrigger(player.animatorJumpTrigger);
+
+            //점프
+            player.playerRigidbody.AddForce(new Vector2(0, player.jumpForce), ForceMode2D.Impulse);
+ 
+
+            //점프 입력을 false로(점프를 한번만 하기 위해서)
+            player.jumpInput = false;
+            //점프상태 true
+            player.isJumping = true;
+
+            // Play audio
+            //audioPlayer.PlayJump();
+
         }
 
     }
@@ -198,11 +192,7 @@ public class PlayerState_Air : PlayerState
     /// </summary>
     public override void PhysicsExecute()
     {
-        if (player.isGrounded)
-        {
-            player.isFalling = false;
-            player.isJumping = false;
-        }
+
     
     }
     public override void Exit()

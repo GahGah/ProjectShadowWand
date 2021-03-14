@@ -117,60 +117,26 @@ public class PlayerController : Character
 
     void FixedUpdate()
     {
+
         UpdateGroundCheck();
+        playerStateMachine.FixedUpdate();
         UpdateVelocity();
         UpdateDirection();
         UpdateJump();
         UpdateGravityScale();
 
-        playerStateMachine.FixedUpdate();
+
         prevVelocity = playerRigidbody.velocity;
     }
 
     private void UpdateGroundCheck()
     {
-        //var offset = playerCollider.offset;
-        //var finalY = -playerCollider.bounds.extents.y + playerRigidbody.position.y + offset.y;
-        //var rayVect = new Vector2(playerRigidbody.position.x, finalY);
-
-        // 터칭 레이어로 체크
-        //if (playerCollider.IsTouchingLayers(groundMask))
-        //{
-        //    blockType = BlockType.GROUND;
-
-        //}
-
-
-        //if (blockType != BlockType.NONE)
-        //{
-
-
-        //}
-        //else
-        //{
-        //    isGrounded = false;
-        //}
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 10f, noPlayerMask);
-
-        var currentPos = hit.collider.transform.position;
-        var currentUp = hit.collider.transform.up;
-        var playerPos = transform.position;
 
         if (playerCollider.IsTouchingLayers(groundMask))
         {
             blockType = BlockType.GROUND;
 
-            //if (playerCollider.IsTouching(hit.collider))
-            //{
-            //    var test = playerCollider.ClosestPoint(hit.collider.transform.position);
-            //    if (Vector3.Dot(hit.collider.transform.up, transform.position-currentPos) >= 0)
-            //    {
-            //        Debug.DrawLine(currentPos, currentPos + currentUp, Color.red);
-            //        Debug.DrawLine(currentPos, currentPos + (playerPos - currentPos), Color.blue);
 
-
-            //    }
-            //}
         }
         else if (playerCollider.IsTouchingLayers(wallMask))
         {
@@ -237,16 +203,11 @@ public class PlayerController : Character
             playerStateMachine.ChangeState(eSTATE.PLAYER_JUMP);
 
         }
-        else if (!isGrounded && playerStateMachine.GetStateName() != "PlayerState_Air")
-        {
-            playerStateMachine.ChangeState(eSTATE.PLAYER_AIR);
-        }
-        // 착지와 점프 후 공중상태의 구별
         else if (isJumping && isFalling)
         {
-            //착지
-            if (playerStateMachine.GetStateName() == "PlayerState_Air" && blockType != BlockType.NONE)
-            {
+            ////착지
+            //if (blockType != BlockType.NONE)
+            //{
                 if (isGrounded)
                 {
                     // 땅과 충돌했을 때 리지드바디가 멈추기 때문에, 벨로시티를 재설정
@@ -260,14 +221,8 @@ public class PlayerController : Character
                     isJumping = false;
                     isFalling = false;
 
-                }
+                //}
 
-            }
-            //공중
-            else if (playerStateMachine.GetStateName() != "PlayerState_Air")
-            {
-
-                playerStateMachine.ChangeState(eSTATE.PLAYER_AIR);
             }
 
         }
@@ -300,5 +255,24 @@ public class PlayerController : Character
         }
 
         playerRigidbody.gravityScale = gravityScale;
+    }
+    private void TestTopCheck()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 10f, noPlayerMask);
+
+        var currentPos = hit.collider.transform.position;
+        var currentUp = hit.collider.transform.up;
+        var playerPos = transform.position;
+        if (playerCollider.IsTouching(hit.collider))
+        {
+            var test = playerCollider.ClosestPoint(hit.collider.transform.position);
+            if (Vector3.Dot(hit.collider.transform.up, transform.position - currentPos) >= 0)
+            {
+                Debug.DrawLine(currentPos, currentPos + currentUp, Color.red);
+                Debug.DrawLine(currentPos, currentPos + (playerPos - currentPos), Color.blue);
+
+
+            }
+        }
     }
 }
