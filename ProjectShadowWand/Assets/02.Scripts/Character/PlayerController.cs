@@ -31,12 +31,12 @@ public class PlayerController : Character
     private EdgeCollider2D playerSideCollider;
 
     public BlockType blockType;
+    private int noPlayerMask;
     private LayerMask groundMask;
     private LayerMask wallMask;
     private LayerMask movingGroundMask;
 
-    [SerializeField]
-    private Vector2 movementInput;
+    public Vector2 movementInput;
     public Vector2 prevVelocity;
     [SerializeField] private Vector2 updatingVelocity;
 
@@ -47,14 +47,16 @@ public class PlayerController : Character
     public bool isFalling;
 
     public int animatorGroundedBool;
-    public int animatorRunningSpeed;
+    public int animatorWalkingBool;
     public int animatorJumpTrigger;
     //public int animatorFallingBool;
 
     public PlayerStateMachine playerStateMachine;
-    public InputManager inputManager; 
+    public InputManager inputManager;
 
     public float saveMoveInputX;
+
+
     public bool CanMove { get; set; }
 
     void Start()
@@ -67,9 +69,10 @@ public class PlayerController : Character
         groundMask = LayerMask.GetMask("Ground");
         wallMask = LayerMask.GetMask("Wall");
         movingGroundMask = LayerMask.GetMask("MovingGround");
+        noPlayerMask = (-1) - (1 << LayerMask.NameToLayer("Player"));
 
         animatorGroundedBool = Animator.StringToHash("Grounded");
-        animatorRunningSpeed = Animator.StringToHash("RunningSpeed");
+        animatorWalkingBool = Animator.StringToHash("Walking");
         animatorJumpTrigger = Animator.StringToHash("Jump");
 
         inputManager = InputManager.Instance;
@@ -106,27 +109,9 @@ public class PlayerController : Character
         if (!CanMove)
             return;
 
-        float moveHorizontal = 0.0f;
-        float moveVertical = 0.0f;
-
-        if (inputManager.buttonLeft.isPressed)
-        {
-            moveHorizontal = -1.0f;
-        }
-        else if (inputManager.buttonRight.isPressed)
-        {
-            moveHorizontal = 1.0f;
-        }
-        else if (inputManager.buttonDown.isPressed)
-        {
-            moveVertical = -10.0f;
-        }
-        movementInput = new Vector2(moveHorizontal, moveVertical);
-
         // Jumping input
         if (!isJumping && inputManager.buttonJump.wasPressedThisFrame)
             jumpInput = true;
-
 
     }
 
@@ -144,15 +129,62 @@ public class PlayerController : Character
 
     private void UpdateGroundCheck()
     {
+        //var offset = playerCollider.offset;
+        //var finalY = -playerCollider.bounds.extents.y + playerRigidbody.position.y + offset.y;
+        //var rayVect = new Vector2(playerRigidbody.position.x, finalY);
+
         // 터칭 레이어로 체크
+        //if (playerCollider.IsTouchingLayers(groundMask))
+        //{
+        //    blockType = BlockType.GROUND;
+
+        //}
+
+
+        //if (blockType != BlockType.NONE)
+        //{
+
+
+        //}
+        //else
+        //{
+        //    isGrounded = false;
+        //}
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 10f, noPlayerMask);
+
+        var currentPos = hit.collider.transform.position;
+        var currentUp = hit.collider.transform.up;
+        var playerPos = transform.position;
+
         if (playerCollider.IsTouchingLayers(groundMask))
+        {
             blockType = BlockType.GROUND;
+
+            //if (playerCollider.IsTouching(hit.collider))
+            //{
+            //    var test = playerCollider.ClosestPoint(hit.collider.transform.position);
+            //    if (Vector3.Dot(hit.collider.transform.up, transform.position-currentPos) >= 0)
+            //    {
+            //        Debug.DrawLine(currentPos, currentPos + currentUp, Color.red);
+            //        Debug.DrawLine(currentPos, currentPos + (playerPos - currentPos), Color.blue);
+
+
+            //    }
+            //}
+        }
         else if (playerCollider.IsTouchingLayers(wallMask))
+        {
             blockType = BlockType.WALL;
+        }
         else if (playerCollider.IsTouchingLayers())
+        {
             blockType = BlockType.MOVING_GROUND;
+        }
         else
+        {
             blockType = BlockType.NONE;
+
+        }
 
         if (blockType != BlockType.NONE)
         {
@@ -162,6 +194,8 @@ public class PlayerController : Character
         {
             isGrounded = false;
         }
+
+
         animator.SetBool(animatorGroundedBool, isGrounded);
     }
 
@@ -173,10 +207,9 @@ public class PlayerController : Character
 
         saveMoveInputX = movementInput.x;
 
-        if (movementInput.x != 0.0f)
-        {
-            updatingVelocity.x = Mathf.Clamp(updatingVelocity.x, -maxMovementSpeed, maxMovementSpeed);
-        }
+
+        updatingVelocity.x = Mathf.Clamp(updatingVelocity.x, -maxMovementSpeed, maxMovementSpeed);
+
         movementInput = Vector2.zero;
 
         playerRigidbody.velocity = updatingVelocity;
@@ -185,6 +218,8 @@ public class PlayerController : Character
         {
             playerStateMachine.ChangeState(eSTATE.PLAYER_DEFAULT);
         }
+
+
 
         // Play audio
         //audioPlayer.PlaySteps(blockType, horizontalSpeedNormalized);

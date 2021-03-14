@@ -16,10 +16,39 @@ public class PlayerState_Default : PlayerState
     public override void Enter()
     {
         Log("Enter Default");
-        player.animator.SetFloat(player.animatorRunningSpeed, Mathf.Abs(player.saveMoveInputX));
+        if (Mathf.Abs(player.playerRigidbody.velocity.x) > 1f)
+        {
+            player.animator.SetBool(player.animatorWalkingBool, true);
+        }
+        else
+        {
+            player.animator.SetBool(player.animatorWalkingBool, false);
+        }
     }
     public override void Execute()
     {
+        float moveHorizontal = 0.0f;
+        float moveVertical = 0.0f;
+
+        if (player.inputManager.buttonLeft.isPressed)
+        {
+           moveHorizontal = -1.0f;
+        }
+        else if (player.inputManager.buttonRight.isPressed)
+        {
+            moveHorizontal = 1.0f;
+        }
+        else if (player.inputManager.buttonDown.isPressed)
+        {
+            moveVertical = -10.0f;
+        }
+        else
+        {
+            moveHorizontal = 0.0f;
+            moveVertical = 0.0f;
+        }
+        player.movementInput = new Vector2(moveHorizontal, moveVertical);
+
     }
 
     /// <summary>
@@ -27,7 +56,15 @@ public class PlayerState_Default : PlayerState
     /// </summary>
     public override void PhysicsExecute()
     {
-        player.animator.SetFloat(player.animatorRunningSpeed, Mathf.Abs(player.saveMoveInputX));
+        if (Mathf.Abs(player.playerRigidbody.velocity.x)>1f)
+        {
+            player.animator.SetBool(player.animatorWalkingBool, true);
+        }
+        else
+        {
+            player.animator.SetBool(player.animatorWalkingBool, false);
+        }
+
     }
     public override void Exit()
     {
@@ -46,11 +83,56 @@ public class PlayerState_Jump : PlayerState
     }
     public override void Enter()
     {
+        Log("Enter Jump");
         isJumped = false;
+        if (!isJumped)
+        {
+            Log("PE Jump");
+            isJumped = true;
+
+            player.animator.SetTrigger(player.animatorJumpTrigger);
+
+            //점프
+            player.playerRigidbody.AddForce(new Vector2(0, player.jumpForce), ForceMode2D.Impulse);
+            //점프 트리거 온
+
+
+
+            //점프 입력을 false로(점프를 한번만 하기 위해서)
+            player.jumpInput = false;
+            //점프상태 true
+            player.isJumping = true;
+
+            // Play audio
+            //audioPlayer.PlayJump();
+
+        }
+
 
     }
     public override void Execute()
     {
+        float moveHorizontal = 0.0f;
+        float moveVertical = 0.0f;
+
+        if (player.inputManager.buttonLeft.isPressed)
+        {
+            moveHorizontal = -1.0f;
+        }
+        else if (player.inputManager.buttonRight.isPressed)
+        {
+            moveHorizontal = 1.0f;
+        }
+        else if (player.inputManager.buttonDown.isPressed)
+        {
+            moveVertical = -10.0f;
+        }
+        else
+        {
+            moveHorizontal = 0.0f;
+            moveVertical = 0.0f;
+        }
+        player.movementInput = new Vector2(moveHorizontal, moveVertical);
 
 
     }
@@ -60,26 +142,11 @@ public class PlayerState_Jump : PlayerState
     /// </summary>
     public override void PhysicsExecute()
     {
-        if (!isJumped)
+        if (player.isGrounded)
         {
-            Log("Enter Jump");
-            player.animator.SetTrigger(player.animatorJumpTrigger);
-
-            //점프
-            player.playerRigidbody.AddForce(new Vector2(0, player.jumpForce), ForceMode2D.Impulse);
-            //점프 트리거 온
-
-
-            //점프 입력을 false로(점프를 한번만 하기 위해서)
-            player.jumpInput = false;
-            //점프상태 true
-            player.isJumping = true;
-
-            isJumped = true;
-            // Play audio
-            //audioPlayer.PlayJump();
-
+            player.isJumping = false;
         }
+
     }
     public override void Exit()
     {
@@ -101,13 +168,43 @@ public class PlayerState_Air : PlayerState
     }
     public override void Execute()
     {
+        float moveHorizontal = 0.0f;
+        float moveVertical = 0.0f;
+
+        if (player.inputManager.buttonLeft.isPressed)
+        {
+            moveHorizontal = -1.0f;
+        }
+        else if (player.inputManager.buttonRight.isPressed)
+        {
+            moveHorizontal = 1.0f;
+        }
+        else if (player.inputManager.buttonDown.isPressed)
+        {
+            moveVertical = -10.0f;
+        }
+        else
+        {
+            moveHorizontal = 0.0f;
+            moveVertical = 0.0f;
+        }
+        player.movementInput = new Vector2(moveHorizontal, moveVertical);
+
 
     }
 
     /// <summary>
     /// 혹시 물리용 업데이트를 할까봐...
     /// </summary>
-    public override void PhysicsExecute() { }
+    public override void PhysicsExecute()
+    {
+        if (player.isGrounded)
+        {
+            player.isFalling = false;
+            player.isJumping = false;
+        }
+    
+    }
     public override void Exit()
     {
         Log("Exit Air");
