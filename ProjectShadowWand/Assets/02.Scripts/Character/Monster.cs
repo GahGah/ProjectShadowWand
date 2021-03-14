@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster : MonoBehaviour
+public class Monster : Character
 {
 
     public GameObject targetObject;
@@ -33,6 +33,7 @@ public class Monster : MonoBehaviour
     protected void StartSetting()
     {
         rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         hits = new RaycastHit2D[4];
 
         hitsLog = new bool[4];
@@ -88,6 +89,14 @@ public class Monster : MonoBehaviour
 
     void Update()
     {
+        //if (inShadow)
+        //{
+        //    spriteRenderer.enabled = true;
+        //}
+        //else
+        //{
+        //    spriteRenderer.enabled = false;
+        //}
         relOffset = rb.position;
 
         path = new Vector3[] //꼭짓점 4개의 위치를 구함.

@@ -14,5 +14,6 @@ public class Character : MonoBehaviour
     [Header("캐릭터 관련")]
     public Animator animator = null;
     public Transform puppet = null;
+    public SpriteRenderer spriteRenderer= null;
 
 }
