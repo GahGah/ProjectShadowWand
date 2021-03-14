@@ -27,7 +27,7 @@ public class State
 
     public void Log(object obj)
     {
-        if (!isDebugMod)
+        if (isDebugMod)
         {
             Debug.Log(obj);
         }

@@ -158,4 +158,12 @@ public class Monster : Character
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer==LayerMask.NameToLayer("LightBoom"))
+        {
+            Debug.Log("DIE!");
+        }
+      
+    }
 }

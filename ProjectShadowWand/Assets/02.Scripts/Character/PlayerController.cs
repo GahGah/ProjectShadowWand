@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -59,6 +60,8 @@ public class PlayerController : Character
 
     public bool CanMove = true;
 
+    public float angle;
+
     void Start()
     {
 
@@ -77,7 +80,7 @@ public class PlayerController : Character
 
         inputManager = InputManager.Instance;
 
-        EdgeColliderTest();
+        //  EdgeColliderTest();
         playerStateMachine = new PlayerStateMachine(this);
         playerStateMachine.ChangeState(eSTATE.PLAYER_DEFAULT);
         playerStateMachine.Start();
@@ -125,10 +128,9 @@ public class PlayerController : Character
     private void UpdateGroundCheck()
     {
 
-        if (playerCollider.IsTouchingLayers(groundMask))
+        if (playerCollider.IsTouchingLayers(groundMask)) //&&angle>=0.2f)
         {
             blockType = BlockType.GROUND;
-
         }
         else if (playerCollider.IsTouchingLayers(wallMask))
         {
@@ -152,11 +154,45 @@ public class PlayerController : Character
         {
             isGrounded = false;
         }
-
-
         animator.SetBool(animatorGroundedBool, isGrounded);
     }
 
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+
+            //ContactPoint2D test = collision.GetContact(0);
+            //TestObject.transform.position = test.point;
+            //평지의 경우
+            Vector2 cOffset = collision.gameObject.transform.position;
+            Vector2 topPos = new Vector2(collision.collider.bounds.center.x, collision.collider.bounds.max.y);
+
+            Vector2 topPosUp = topPos * Vector2.up;
+
+            Vector2 pOffset = playerRigidbody.position;
+            Vector2 playerBottomPos = new Vector2(pOffset.x, playerCollider.bounds.min.y);
+            Vector2 finalPlyBtPos = playerBottomPos - topPos;
+
+            Debug.DrawRay(topPos, Vector2.up, Color.red);
+            angle = Vector2.Dot(finalPlyBtPos, topPosUp);
+
+            if (angle <= 0.2f)
+            {
+                Debug.DrawRay(topPos, finalPlyBtPos, Color.blue);
+            }
+
+            //Vector2 playerBottomPos = new Vector2(playerRigidbody.position.x, playerCollider.bounds.min.y);
+            //RaycastHit2D hit = Physics2D.Raycast(playerBottomPos, Vector2.down, 30f, noPlayerMask);
+
+            //angle = Vector2.Angle(hit.normal, Vector2.up);
+            ////Debug.DrawRay(playerBottomPos, Vector2.down * 30f, Color.magenta);
+
+            //Debug.DrawRay(hit.point, hit.normal*30f, Color.blue);
+
+        }
+    }
     private void UpdateVelocity()
     {
         updatingVelocity = playerRigidbody.velocity;
@@ -170,7 +206,9 @@ public class PlayerController : Character
 
         movementInput = Vector2.zero;
 
+
         playerRigidbody.velocity = updatingVelocity;
+
 
         if (playerStateMachine.GetStateName() != "PlayerState_Default" && !isJumping && !isFalling)
         {
@@ -200,18 +238,18 @@ public class PlayerController : Character
             ////착지
             //if (blockType != BlockType.NONE)
             //{
-                if (isGrounded)
+            if (isGrounded)
+            {
+                // 땅과 충돌했을 때 리지드바디가 멈추기 때문에, 벨로시티를 재설정
+                if (resetSpeedOnLand)
                 {
-                    // 땅과 충돌했을 때 리지드바디가 멈추기 때문에, 벨로시티를 재설정
-                    if (resetSpeedOnLand)
-                    {
-                        prevVelocity.y = playerRigidbody.velocity.y;
-                        playerRigidbody.velocity = prevVelocity;
-                    }
+                    prevVelocity.y = playerRigidbody.velocity.y;
+                    playerRigidbody.velocity = prevVelocity;
+                }
 
-                    //착지판정
-                    isJumping = false;
-                    isFalling = false;
+                //착지판정
+                isJumping = false;
+                isFalling = false;
 
                 //}
 
@@ -257,7 +295,6 @@ public class PlayerController : Character
         var playerPos = transform.position;
         if (playerCollider.IsTouching(hit.collider))
         {
-            var test = playerCollider.ClosestPoint(hit.collider.transform.position);
             if (Vector3.Dot(hit.collider.transform.up, transform.position - currentPos) >= 0)
             {
                 Debug.DrawLine(currentPos, currentPos + currentUp, Color.red);

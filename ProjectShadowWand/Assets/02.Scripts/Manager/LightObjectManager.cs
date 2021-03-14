@@ -37,12 +37,18 @@ public class LightObjectManager : MonoBehaviour
     /// <summary>
     /// 라이트 오브젝트 리스트에 라이트 오브젝트를 추가~
     /// </summary>
-    public void AddLightObjectToList(LightObject lightObj)
+    public void AddLightObjectToList(LightObject _lightObj)
     {
-        lightObjectList.Add(lightObj);
+        lightObjectList.Add(_lightObj);
 
         Debug.LogWarning("AddLightToList");
     }
+
+    public void RemoveLightObjectToList(LightObject _lightObj)
+    {
+        lightObjectList.Remove(_lightObj);
+    }
+
     /// <summary>
     /// 라이트오브젝트 리스트의 그림자판정을 통해 진짜 그림자 판정을 합니다.
     /// </summary>
