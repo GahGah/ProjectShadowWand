@@ -12,6 +12,7 @@ public class PlayerController : Character
     //[SerializeField] CharacterAudio audioPlayer = null;
 
     [Header("그 외")]
+
     public Transform[] childPostion;
 
 
@@ -53,6 +54,8 @@ public class PlayerController : Character
 
     public float angle;
     private float limitAngle = 0.1f; //기준치
+
+    public GameObject lightExplosionObject;
 
     void Start()
     {
@@ -100,12 +103,16 @@ public class PlayerController : Character
 
         if (!CanMove)
             return;
+
+        if (InputManager.Instance.keyboard.tKey.wasPressedThisFrame)
+        {
+            lightExplosionObject.SetActive(true);
+        }
         playerStateMachine.Update();
     }
 
     void FixedUpdate()
     {
-
         UpdateGroundCheck();
         playerStateMachine.FixedUpdate();
         UpdateVelocity();
