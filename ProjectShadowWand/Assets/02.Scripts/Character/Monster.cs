@@ -8,6 +8,7 @@ public class Monster : Character
     public GameObject targetObject;
     public Rigidbody2D rb;
 
+    public BoxCollider2D monsterCollider;
     public float speed;
 
     public int layerMask; //레이어 마스크
@@ -41,10 +42,10 @@ public class Monster : Character
         layerMask = (1 << LayerMask.NameToLayer("Monster")); //hit가 자기 자신에게는 부딪히지 않기 위해 
         layerMask = ~layerMask;
 
-        Collider2D collider = GetComponent<Collider2D>();
-        if (collider != null)
+        monsterCollider = GetComponent<BoxCollider2D>();
+        if (monsterCollider != null)
         {
-            bounds = collider.bounds;
+            bounds = monsterCollider.bounds;
 
             Debug.Log("콜라이더 기준으로 바운딩");
         }
@@ -66,14 +67,23 @@ public class Monster : Character
 
         relOffset = rb.position;
 
-        offset = collider.offset;
+        offset = monsterCollider.offset;
 
-        path = new Vector3[] //꼭짓점 4개의 위치를 구함.
+
+        //path = new Vector3[] //꼭짓점 4개의 위치를 구함.
+        //{
+        //        relOffset + offset + new Vector2(-bounds.extents.x, -bounds.extents.y),
+        //        relOffset + offset + new Vector2(bounds.extents.x, -bounds.extents.y),
+        //        relOffset + offset + new Vector2(bounds.extents.x, bounds.extents.y),
+        //        relOffset + offset + new Vector2(-bounds.extents.x, bounds.extents.y)
+        //};
+
+        path = new Vector3[]
         {
-                relOffset + new Vector2(-bounds.extents.x+offset.x, -bounds.extents.y+offset.y),
-                relOffset + new Vector2(bounds.extents.x+offset.x, -bounds.extents.y+offset.y),
-                relOffset + new Vector2(bounds.extents.x+offset.x, bounds.extents.y+offset.y),
-                relOffset + new Vector2(-bounds.extents.x+offset.x, bounds.extents.y+offset.y)
+            transform.TransformPoint(offset + new Vector2(-monsterCollider.size.x, -monsterCollider.size.y) * 0.5f),
+            transform.TransformPoint(offset + new Vector2(monsterCollider.size.x, -monsterCollider.size.y) * 0.5f),
+            transform.TransformPoint(offset + new Vector2(monsterCollider.size.x, monsterCollider.size.y) * 0.5f),
+            transform.TransformPoint(offset + new Vector2(-monsterCollider.size.x, monsterCollider.size.y) * 0.5f)
         };
 
         if (MonsterManager.Instance.monsterList.Contains(this) == false) //자기 자신이 안들어가있다면
@@ -98,13 +108,16 @@ public class Monster : Character
         //    spriteRenderer.enabled = false;
         //}
         relOffset = rb.position;
+        offset = monsterCollider.offset;
 
-        path = new Vector3[] //꼭짓점 4개의 위치를 구함.
+        //var pc = GetComponent<PolygonCollider2D>();
+        //pc.
+        path = new Vector3[]
         {
-                relOffset + new Vector2(-bounds.extents.x+offset.x, -bounds.extents.y+offset.y),
-                relOffset + new Vector2(bounds.extents.x+offset.x, -bounds.extents.y+offset.y),
-                relOffset + new Vector2(bounds.extents.x+offset.x, bounds.extents.y+offset.y),
-                relOffset + new Vector2(-bounds.extents.x+offset.x, bounds.extents.y+offset.y)
+            transform.TransformPoint(offset + new Vector2(-monsterCollider.size.x, -monsterCollider.size.y) * 0.5f),
+            transform.TransformPoint(offset + new Vector2(monsterCollider.size.x, -monsterCollider.size.y) * 0.5f),
+            transform.TransformPoint(offset + new Vector2(monsterCollider.size.x, monsterCollider.size.y) * 0.5f),
+            transform.TransformPoint(offset + new Vector2(-monsterCollider.size.x, monsterCollider.size.y) * 0.5f)
         };
 
     }
@@ -158,12 +171,21 @@ public class Monster : Character
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    /// <summary>
+    /// 몬스터를 아예 말려 죽입니다. 꾸에엑!!
+    /// </summary>
+    public void KillMonster()
     {
-        if (collision.gameObject.layer==LayerMask.NameToLayer("LightBoom"))
-        {
-            Debug.Log("DIE!");
-        }
-      
+        MonsterManager.Instance.RemoveMonsterToList(this);
+        Destroy(this.gameObject);
+        Debug.Log("Die...");
     }
+
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.layer == LayerMask.NameToLayer("LightBoom"))
+    //    {
+    //        Debug.Log("DIE!");
+    //    }
+    //}
 }

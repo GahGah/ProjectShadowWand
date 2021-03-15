@@ -61,7 +61,7 @@ public class PlayerController : Character
     public bool CanMove = true;
 
     public float angle;
-
+    private float limitAngle = 0.1f; //기준치
     void Start()
     {
 
@@ -127,10 +127,11 @@ public class PlayerController : Character
 
     private void UpdateGroundCheck()
     {
-
-        if (playerCollider.IsTouchingLayers(groundMask)) //&&angle>=0.2f)
+        if (playerCollider.IsTouchingLayers(groundMask) && angle >= limitAngle)
         {
             blockType = BlockType.GROUND;
+
+
         }
         else if (playerCollider.IsTouchingLayers(wallMask))
         {
@@ -162,14 +163,15 @@ public class PlayerController : Character
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-
             //ContactPoint2D test = collision.GetContact(0);
             //TestObject.transform.position = test.point;
             //평지의 경우
             Vector2 cOffset = collision.gameObject.transform.position;
-            Vector2 topPos = new Vector2(collision.collider.bounds.center.x, collision.collider.bounds.max.y);
+            //Vector2 topPos = new Vector2(collision.collider.bounds.center.x, collision.collider.bounds.max.y);
+            //Vector2 topPosUp = topPos * Vector2.up;
 
-            Vector2 topPosUp = topPos * Vector2.up;
+            Vector2 topPos = collision.transform.position;
+            Vector2 topPosUp = collision.transform.up;
 
             Vector2 pOffset = playerRigidbody.position;
             Vector2 playerBottomPos = new Vector2(pOffset.x, playerCollider.bounds.min.y);
@@ -178,11 +180,12 @@ public class PlayerController : Character
             Debug.DrawRay(topPos, Vector2.up, Color.red);
             angle = Vector2.Dot(finalPlyBtPos, topPosUp);
 
-            if (angle <= 0.2f)
+
+            if (angle >=limitAngle)
             {
                 Debug.DrawRay(topPos, finalPlyBtPos, Color.blue);
-            }
 
+            }
             //Vector2 playerBottomPos = new Vector2(playerRigidbody.position.x, playerCollider.bounds.min.y);
             //RaycastHit2D hit = Physics2D.Raycast(playerBottomPos, Vector2.down, 30f, noPlayerMask);
 
@@ -192,6 +195,8 @@ public class PlayerController : Character
             //Debug.DrawRay(hit.point, hit.normal*30f, Color.blue);
 
         }
+
+
     }
     private void UpdateVelocity()
     {

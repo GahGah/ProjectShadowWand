@@ -40,6 +40,15 @@ public class MonsterManager : MonoBehaviour
         Debug.LogWarning("AddMonsterToList");
     }
 
+
+    public void RemoveMonsterToList(Monster monster) //몬스터 리스트에 몬스터를 추가합니다.
+    {
+        monsterList.Remove(monster);
+
+        Debug.LogWarning("RemoveMonsterToList...");
+    }
+
+
     /// <summary>
     /// 몬스터들의 그림자 판정 정보를 업데이트합니다.
     /// </summary>
