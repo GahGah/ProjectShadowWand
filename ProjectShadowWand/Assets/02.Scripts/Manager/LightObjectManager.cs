@@ -84,6 +84,7 @@ public class LightObjectManager : MonoBehaviour
         for (int i = 0; i < monsterCount; i++) // 몬스터 리스트의 몬스터들의 판정 정보를 업데이트
         {
             MonsterManager.Instance.monsterList[i].inShadow = shadowJudgement[i];
+            MonsterManager.Instance.monsterList[i].gameObject.SetActive(shadowJudgement[i]);
         }
 
         for (int i = 0; i < lightCount; i++) //각 라이트 오브젝트의 드로우 업데이트

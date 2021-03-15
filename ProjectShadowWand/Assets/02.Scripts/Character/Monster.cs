@@ -156,7 +156,6 @@ public class Monster : Character
 
         #endregion
 
-
         monsterStateMachine = new MonsterStateMachine(this);
         monsterStateMachine.ChangeState(eSTATE.MONSTER_DEFAULT);
         monsterStateMachine.Start();

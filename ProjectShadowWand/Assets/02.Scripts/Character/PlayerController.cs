@@ -100,7 +100,6 @@ public class PlayerController : Character
 
     void Update()
     {
-
         if (!CanMove)
             return;
 
