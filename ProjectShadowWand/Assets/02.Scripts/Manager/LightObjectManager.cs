@@ -85,6 +85,10 @@ public class LightObjectManager : MonoBehaviour
         {
             MonsterManager.Instance.monsterList[i].inShadow = shadowJudgement[i];
         }
-        
+
+        for (int i = 0; i < lightCount; i++) //각 라이트 오브젝트의 드로우 업데이트
+        {
+            lightObjectList[i].LateUpdateLightObject();
+        }
     }
 }

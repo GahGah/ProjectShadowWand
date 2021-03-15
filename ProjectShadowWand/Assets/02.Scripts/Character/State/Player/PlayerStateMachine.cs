@@ -10,8 +10,8 @@ public class PlayerStateMachine : StateMachine
     }
     public void Start()
     {
-        Debug.Log("스테이트 머신 기동 확인");
-        Debug.Log("현재 스테이트 : " + currentState);
+        //Debug.Log("스테이트 머신 기동 확인");
+        //Debug.Log("현재 스테이트 : " + currentState);
     }
     public override void ChangeState(eSTATE _state)
     {

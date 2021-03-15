@@ -2,9 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum eMonsterType
+{
+    A, B, C
+}
 public class Monster : Character
 {
+    public MonsterStateMachine monsterStateMachine;
 
+    #region 애니메이터 관련
+    public int animatorIdleBool;
+    public int animatorWalkingBool;
+    public int animatorOutShadowBool;
+    public int animatorDieBool;
+    #endregion
+
+    #region 기존의 Monster 요소
+    public eMonsterType monsterType;
     public GameObject targetObject;
     public Rigidbody2D rb;
 
@@ -29,7 +43,8 @@ public class Monster : Character
 
     public Vector2 offset;
     [Tooltip("몬스터가 그림자에 들어가있는 상태면 true, 아니면 false를 갖습니다.")]
-    public bool inShadow;
+    public bool inShadow; 
+    #endregion
 
     protected void StartSetting()
     {
@@ -69,7 +84,6 @@ public class Monster : Character
 
         offset = monsterCollider.offset;
 
-
         //path = new Vector3[] //꼭짓점 4개의 위치를 구함.
         //{
         //        relOffset + offset + new Vector2(-bounds.extents.x, -bounds.extents.y),
@@ -90,6 +104,19 @@ public class Monster : Character
         {
             MonsterManager.Instance.AddMonsterToList(this); //넣는다.
         }
+
+        #region 애니메이터 관련
+
+        if (animator==null)
+        {
+            animator = GetComponent<Animator>();
+        }
+        animatorIdleBool = Animator.StringToHash("Idle");
+        animatorWalkingBool = Animator.StringToHash("Walk");
+        animatorOutShadowBool = Animator.StringToHash("OutShadow");
+        animatorDieBool = Animator.StringToHash("Die");
+
+        #endregion
     }
 
     void Start()
@@ -99,19 +126,24 @@ public class Monster : Character
 
     void Update()
     {
-        //if (inShadow)
-        //{
-        //    spriteRenderer.enabled = true;
-        //}
-        //else
-        //{
-        //    spriteRenderer.enabled = false;
-        //}
+        UpdatePath();
+        monsterStateMachine.Update();
+    }
+
+    private void FixedUpdate()
+    {
+        monsterStateMachine.FixedUpdate();
+    }
+
+    private void UpdateVelocity()
+    {
+
+    }
+    private void UpdatePath()
+    {
         relOffset = rb.position;
         offset = monsterCollider.offset;
 
-        //var pc = GetComponent<PolygonCollider2D>();
-        //pc.
         path = new Vector3[]
         {
             transform.TransformPoint(offset + new Vector2(-monsterCollider.size.x, -monsterCollider.size.y) * 0.5f),
@@ -144,18 +176,6 @@ public class Monster : Character
         hitsLog[2] = hits[2];
         hitsLog[3] = hits[3];
     }
-    public void UpdatePath()
-    {
-
-        path = new Vector3[] //꼭짓점 4개의 위치를 구함.
-        {
-                relOffset + new Vector2(-bounds.extents.x, -bounds.extents.y),
-                relOffset + new Vector2(bounds.extents.x, -bounds.extents.y),
-                relOffset + new Vector2(bounds.extents.x, bounds.extents.y),
-                relOffset + new Vector2(-bounds.extents.x, bounds.extents.y)
-        };
-    }
-
     /// <summary>
     /// 모든 hits가 트루일때 트루를 반환함~
     /// </summary>
@@ -181,11 +201,4 @@ public class Monster : Character
         Debug.Log("Die...");
     }
 
-    //private void OnTriggerEnter2D(Collider2D collision)
-    //{
-    //    if (collision.gameObject.layer == LayerMask.NameToLayer("LightBoom"))
-    //    {
-    //        Debug.Log("DIE!");
-    //    }
-    //}
 }

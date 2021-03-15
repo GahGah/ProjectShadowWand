@@ -13,13 +13,8 @@ public class PlayerController : Character
 
     [Header("이동 관련")]
 
-    [SerializeField, Tooltip("플레이어의 이동속도")]
-    float movementSpeed = 0.0f;
-
     [SerializeField, Tooltip("플레이어의 최대 이동속도. \n가속도를 더하는 형식이라 필요한 것 뿐입니다.")]
     float maxMovementSpeed = 0.0f;
-
-    public float jumpForce = 0.0f;
     [SerializeField, Tooltip("속도가 어느정도 되어야 캐릭터를 뒤집을 것인지 정합니다.")]
     float minFlipSpeed = 0.1f;
     [SerializeField] float jumpGravityScale = 1.0f;
@@ -62,6 +57,7 @@ public class PlayerController : Character
 
     public float angle;
     private float limitAngle = 0.1f; //기준치
+
     void Start()
     {
 
@@ -130,8 +126,6 @@ public class PlayerController : Character
         if (playerCollider.IsTouchingLayers(groundMask) && angle >= limitAngle)
         {
             blockType = BlockType.GROUND;
-
-
         }
         else if (playerCollider.IsTouchingLayers(wallMask))
         {

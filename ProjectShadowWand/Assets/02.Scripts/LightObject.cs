@@ -65,7 +65,19 @@ public class LightObject : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// UpdateShadowJudgement 이후에 업데이트를 합니다.
+    /// </summary>
+    public virtual void LateUpdateLightObject()
+    {
 
+    }
+
+    public void KillLightObject()
+    {
+        LightObjectManager.Instance.RemoveLightObjectToList(this);
+        Destroy(gameObject);
+    }
     Mesh SpriteToMesh(Sprite sprite)
     {
         Mesh mesh = new Mesh();

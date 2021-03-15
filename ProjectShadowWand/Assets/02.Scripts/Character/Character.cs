@@ -16,4 +16,11 @@ public class Character : MonoBehaviour
     public Transform puppet = null;
     public SpriteRenderer spriteRenderer= null;
 
+    [Header("이동 관련")]
+
+    [Tooltip("이동속도")] 
+    public float movementSpeed = 0.0f;
+
+    public float jumpForce = 0.0f;
+
 }

@@ -1,16 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public enum eSTATE // 상태를 정의해놓습니다.
-{
-    PLAYER_DEFAULT,
-    PLAYER_JUMP,
-    PLAYER_AIR,
-    PLAYER_DIE,
-
-    MONSTER_DEFAULT
-
-}
 
 public class StateMachine
 {
@@ -70,6 +60,9 @@ public class StateMachine
 
     //모노비헤이비어가 아니기 때문에 
 
+    /// <summary>
+    /// 익스큐트를 합니다.
+    /// </summary>
     public void Update()
     {
         if (currentState != null) // 널이 아닐 경우에만
@@ -78,6 +71,9 @@ public class StateMachine
         }
     }
 
+    /// <summary>
+    /// 물리 업데이트를 합니다.
+    /// </summary>
     public void FixedUpdate()
     {
         if (currentState != null)
