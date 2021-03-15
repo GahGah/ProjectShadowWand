@@ -115,7 +115,5 @@ public class LightObjectExplosion : LightObject
         {
             killMonsterList[i].KillMonster();
         }
-
-        Debug.LogWarning("빛의 폭발! 남은 몬스터 수 : " + MonsterManager.Instance.monsterList.Count);
     }
 }

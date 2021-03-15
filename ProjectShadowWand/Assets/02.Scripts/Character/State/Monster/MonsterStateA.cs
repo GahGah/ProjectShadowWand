@@ -10,11 +10,10 @@ public class MonsterStateA_Defalut : MonsterState
     }
     public override void Enter()
     {
-       
+        monster.animator.SetBool(monster.animatorIdleBool, true);
     }
     public override void Execute()
     {
-
     }
 
     /// <summary>
@@ -27,6 +26,7 @@ public class MonsterStateA_Defalut : MonsterState
     }
     public override void Exit()
     {
+        monster.animator.SetBool(monster.animatorIdleBool, false);
     }
 
 }
@@ -38,13 +38,27 @@ public class MonsterStateA_Chase : MonsterState
     }
     public override void Enter()
     {
-
+        monster.animator.SetBool(monster.animatorWalkingBool, true);
     }
     public override void Execute()
     {
+        float moveHorizontal = 0.0f;
+        float moveVertical = 0.0f;
 
+
+        if (monster.targetDistance < 1f) //지정거리 안이면
+        {
+            Debug.Log("ATTACK!!!");
+
+            moveHorizontal = 0.0f;
+
+        }
+        else
+        {
+            moveHorizontal = monster.targetDir;
+        }
+        monster.movementInput = new Vector2(moveHorizontal, moveVertical);
     }
-
     /// <summary>
     /// 혹시 물리용 업데이트를 할까봐...
     /// </summary>
@@ -55,6 +69,8 @@ public class MonsterStateA_Chase : MonsterState
     }
     public override void Exit()
     {
+
+        monster.animator.SetBool(monster.animatorWalkingBool, false);
     }
 
 }
@@ -67,10 +83,10 @@ public class MonsterStateA_OutShadow : MonsterState
     public override void Enter()
     {
 
+        monster.animator.SetBool(monster.animatorOutShadowBool, true);
     }
     public override void Execute()
     {
-
     }
 
     /// <summary>
@@ -83,6 +99,7 @@ public class MonsterStateA_OutShadow : MonsterState
     }
     public override void Exit()
     {
+        monster.animator.SetBool(monster.animatorOutShadowBool, false);
     }
 
 }
@@ -96,11 +113,10 @@ public class MonsterStateA_Die : MonsterState
     }
     public override void Enter()
     {
-
+        monster.StartDie();
     }
     public override void Execute()
     {
-
     }
 
     /// <summary>

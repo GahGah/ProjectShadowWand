@@ -37,21 +37,21 @@ public class MonsterStateMachine : StateMachine
             case eSTATE.MONSTER_CHASE:
                 if (monster.monsterType == eMonsterType.A) //A타입 일 경우
                 {
-                    tempState = new MonsterStateA_Defalut(monster);
+                    tempState = new MonsterStateA_Chase(monster);
                 }
                 break;
 
             case eSTATE.MONSTER_OUTSHADOW:
                 if (monster.monsterType == eMonsterType.A) //A타입 일 경우
                 {
-                    tempState = new MonsterStateA_Defalut(monster);
+                    tempState = new MonsterStateA_OutShadow(monster);
                 }
                 break;
 
             case eSTATE.MONSTER_DIE:
                 if (monster.monsterType == eMonsterType.A) //A타입 일 경우
                 {
-                    tempState = new MonsterStateA_Defalut(monster);
+                    tempState = new MonsterStateA_Die(monster);
                 }
                 break;
 

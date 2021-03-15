@@ -6,17 +6,13 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : Character
 {
-    readonly Vector3 flippedScale = new Vector3(-1, 1, 1);
+
     readonly Quaternion flippedRotation = new Quaternion(0, 0, 1, 0);
 
     //[SerializeField] CharacterAudio audioPlayer = null;
 
     [Header("이동 관련")]
 
-    [SerializeField, Tooltip("플레이어의 최대 이동속도. \n가속도를 더하는 형식이라 필요한 것 뿐입니다.")]
-    float maxMovementSpeed = 0.0f;
-    [SerializeField, Tooltip("속도가 어느정도 되어야 캐릭터를 뒤집을 것인지 정합니다.")]
-    float minFlipSpeed = 0.1f;
     [SerializeField] float jumpGravityScale = 1.0f;
     [SerializeField] float fallGravityScale = 1.0f;
     [SerializeField] float groundedGravityScale = 1.0f;
@@ -32,12 +28,10 @@ public class PlayerController : Character
     private LayerMask wallMask;
     private LayerMask movingGroundMask;
 
-    public Vector2 movementInput;
     public Vector2 prevVelocity;
     [SerializeField] private Vector2 updatingVelocity;
 
     public bool jumpInput;
-    private bool isFlipped;
     public bool isJumping;
     public bool isGrounded;
     public bool isFalling;
@@ -101,7 +95,6 @@ public class PlayerController : Character
 
     void Update()
     {
-
 
         if (!CanMove)
             return;
@@ -209,7 +202,7 @@ public class PlayerController : Character
         playerRigidbody.velocity = updatingVelocity;
 
 
-        if (playerStateMachine.GetStateName() != "PlayerState_Default" && !isJumping && !isFalling)
+        if (playerStateMachine.GetCurrentStateName() != "PlayerState_Default" && !isJumping && !isFalling)
         {
             playerStateMachine.ChangeState(eSTATE.PLAYER_DEFAULT);
         }

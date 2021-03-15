@@ -20,7 +20,7 @@ public class LightObjectDistance : LightObject
             Monster nowMonster = MonsterManager.Instance.monsterList[i];
 
 
-            Vector2 dir = nowMonster.rb.position - new Vector2(transform.position.x, transform.position.y);
+            Vector2 dir = nowMonster.monsterRigidbody.position - new Vector2(transform.position.x, transform.position.y);
 
             Debug.DrawRay(transform.position, dir.normalized * limitDistance, Color.cyan, 0.5f);
             nowMonster.hit = Physics2D.Raycast(transform.position, dir.normalized, limitDistance);
