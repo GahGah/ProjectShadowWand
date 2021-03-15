@@ -17,7 +17,7 @@ public class Monster : Character
     [HideInInspector] public int animatorDieBool;
     #endregion
 
-    [HideInInspector] public Vector2 updatingVelocity;
+    public Vector2 updatingVelocity;
     [HideInInspector] public Rigidbody2D monsterRigidbody;
 
     [Tooltip("몬스터의 눈 위치입니다.\n눈이라고는 하지만 그냥 이 위치에서 레이캐스트를 할 뿐입니다.")]
@@ -93,7 +93,7 @@ public class Monster : Character
         hitsLog = new bool[4];
 
         playerMask = LayerMask.NameToLayer("Player");
-        layerMask = (1 << LayerMask.NameToLayer("Monster")); //hit가 자기 자신에게는 부딪히지 않기 위해 
+        layerMask = (1 << LayerMask.NameToLayer("Monster")) | (1 << LayerMask.NameToLayer("Child")) ; //hit가 자기 자신에게는 부딪히지 않기 위해 
         layerMask = ~layerMask;
 
         if (monsterCollider != null)
@@ -172,8 +172,6 @@ public class Monster : Character
         {
             UpdatePath();
 
-            UpdateDetectTarget();
-
             UpdateState();
             monsterStateMachine.Update();
         }
@@ -184,8 +182,9 @@ public class Monster : Character
 
     private void FixedUpdate()
     {
+        UpdateDetectTarget();
         monsterStateMachine.FixedUpdate();
-        UpdateVelocity();
+        //UpdateVelocity();
         UpdateDirection();
     }
 
@@ -216,7 +215,6 @@ public class Monster : Character
             Vector3 monsterPosition = eyePosition.position;
             Vector2 RayPosition = targetObject.transform.position - monsterPosition;
 
-            //Debug.DrawRay(monsterPosition, targetPosition*detectDistance,Color.cyan);
             targetDistance = Vector2.Distance(monsterPosition, targetObject.transform.position);
             if (targetDistance < detectDistance) // 만약 거리 안에 타겟이 들어왔다면
             {
@@ -236,14 +234,13 @@ public class Monster : Character
                     {
                         targetDir = -1f;
                     }
-                    else //0
-                    {
-                        targetDir = 0f;
-                    }
+                    //else //0
+                    //{
+                    //    targetDir = 0f;
+                    //}
                 }
                 else
                 {
-
                     isDetected = false;
                     if (targetHit != false)
                     {

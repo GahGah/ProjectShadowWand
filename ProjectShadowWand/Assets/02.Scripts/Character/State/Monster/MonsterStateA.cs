@@ -46,17 +46,17 @@ public class MonsterStateA_Chase : MonsterState
         float moveVertical = 0.0f;
 
 
-        if (monster.targetDistance < 1f) //지정거리 안이면
-        {
-            Debug.Log("ATTACK!!!");
+        //if (monster.targetDistance < 1f) //지정거리 안이면
+        //{
+        //    Debug.Log("ATTACK!!!");
 
-            moveHorizontal = 0.0f;
+        //    moveHorizontal = 0.0f;
 
-        }
-        else
-        {
+        //}
+        //else
+        //{
             moveHorizontal = monster.targetDir;
-        }
+        //}
         monster.movementInput = new Vector2(moveHorizontal, moveVertical);
     }
     /// <summary>
@@ -64,7 +64,7 @@ public class MonsterStateA_Chase : MonsterState
     /// </summary>
     public override void PhysicsExecute()
     {
-
+        monster.UpdateVelocity();
 
     }
     public override void Exit()
