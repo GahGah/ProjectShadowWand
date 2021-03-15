@@ -156,6 +156,8 @@ public class Monster : Character
 
         #endregion
 
+
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Monster"), LayerMask.NameToLayer("Child"), true);
         monsterStateMachine = new MonsterStateMachine(this);
         monsterStateMachine.ChangeState(eSTATE.MONSTER_DEFAULT);
         monsterStateMachine.Start();
