@@ -5,6 +5,33 @@ using UnityEngine;
 public class LightObjectSun : LightObject
 {
 
+    public float speed = 1f;
+    public Transform target;
+    private void Update()
+    {
+        if (InputManager.Instance.keyboard.zKey.isPressed)
+        {
+            transform.position += new Vector3(-speed, 0, 0);
+        }
+        if (InputManager.Instance.keyboard.cKey.isPressed)
+        {
+            transform.position += new Vector3(speed, 0, 0);
+
+        }
+
+        Vector2 direction = target.position - transform.position;
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion angleAxis = Quaternion.AngleAxis(angle - 90f, Vector3.forward);
+
+        //천천히 움직일때(Slerp)사용
+        //Quaternion rotation = Quaternion.Slerp(transform.rotation, angleAxis, 1f * Time.deltaTime);
+
+        //하지만 난 바로바로 움직이게 하고 싶기 때문에
+        Quaternion rotation = angleAxis;
+        transform.rotation = rotation;
+
+    }
     public override void UpdateShadowJudgement()
     {
         if (shadowJudgment.Length != MonsterManager.Instance.monsterList.Count) //갯수가 다르면 

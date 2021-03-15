@@ -11,7 +11,9 @@ public class PlayerController : Character
 
     //[SerializeField] CharacterAudio audioPlayer = null;
 
-    [Header("이동 관련")]
+    [Header("그 외")]
+    public Transform[] childPostion;
+
 
     [SerializeField] float jumpGravityScale = 1.0f;
     [SerializeField] float fallGravityScale = 1.0f;
@@ -28,21 +30,21 @@ public class PlayerController : Character
     private LayerMask wallMask;
     private LayerMask movingGroundMask;
 
-    public Vector2 prevVelocity;
-    [SerializeField] private Vector2 updatingVelocity;
+    [HideInInspector] public Vector2 prevVelocity;
+    private Vector2 updatingVelocity;
 
     public bool jumpInput;
     public bool isJumping;
     public bool isGrounded;
     public bool isFalling;
 
-    public int animatorGroundedBool;
-    public int animatorWalkingBool;
-    public int animatorJumpTrigger;
+    [HideInInspector] public int animatorGroundedBool;
+    [HideInInspector] public int animatorWalkingBool;
+    [HideInInspector] public int animatorJumpTrigger;
     //public int animatorFallingBool;
 
-    public PlayerStateMachine playerStateMachine;
-    public InputManager inputManager;
+    [HideInInspector] public PlayerStateMachine playerStateMachine;
+    [HideInInspector] public InputManager inputManager;
 
     public float saveMoveInputX;
 
@@ -168,7 +170,7 @@ public class PlayerController : Character
             angle = Vector2.Dot(finalPlyBtPos, topPosUp);
 
 
-            if (angle >=limitAngle)
+            if (angle >= limitAngle)
             {
                 Debug.DrawRay(topPos, finalPlyBtPos, Color.blue);
 

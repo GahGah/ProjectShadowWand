@@ -84,6 +84,9 @@ public class MonsterStateA_OutShadow : MonsterState
     {
 
         monster.animator.SetBool(monster.animatorOutShadowBool, true);
+
+        monster.spriteRenderer.color = new Color(255, 255, 255, 100);
+        monster.monsterRigidbody.velocity = Vector2.zero;
     }
     public override void Execute()
     {
@@ -99,6 +102,7 @@ public class MonsterStateA_OutShadow : MonsterState
     }
     public override void Exit()
     {
+        monster.spriteRenderer.color = new Color(255, 255, 255, 255);
         monster.animator.SetBool(monster.animatorOutShadowBool, false);
     }
 

@@ -21,6 +21,8 @@ public class InputManager : MonoBehaviour
 
     public static InputManager Instance;
 
+
+    public Keyboard keyboard;
     public bool isDebugMode;
     private void Awake()
     {
@@ -58,6 +60,7 @@ public class InputManager : MonoBehaviour
             }
         }
 #endif
+        keyboard = Keyboard.current;
         SetButtonsDefaultKey();
     }
 
