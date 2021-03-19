@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class FileManager : MonoBehaviour
 {
-
     private FileBase fileBase;
 
     private void Awake()
@@ -18,25 +17,33 @@ public class FileManager : MonoBehaviour
         fileBase = new FileBasePS4();
 #endif
     }
-    public IEnumerator WriteText(string dataName, string data)
+    public IEnumerator WriteText(string dataName, string data, string path)
     {
-        yield return StartCoroutine(fileBase.WriteText(dataName, data)); // 이 코루틴이 끝날 때 까지.
+        yield return StartCoroutine(fileBase.WriteText(dataName, data, path)); // 이 코루틴이 끝날 때 까지.
 
     }
 
-    public string ReadText_Result;
-    public IEnumerator ReadText(string dataName)
+    [HideInInspector] public string readText_Result;
+    public IEnumerator ReadText(string dataName, string path)
     {
 
-        ReadText_Result = string.Empty;
-        yield return StartCoroutine(fileBase.ReadText(dataName));
-        ReadText_Result = fileBase.ReadText_Result;
+        readText_Result = string.Empty;
+        yield return StartCoroutine(fileBase.ReadText(dataName, path));
+        readText_Result = fileBase.readText_Result;
     }
 
-    public bool IsExist_Result;
-    public IEnumerator IsExist(string dataName)
+    [HideInInspector] public bool isExist_Result;
+
+
+    /// <summary>
+    /// 해당 파일이 존재하는지 확인합니다. 결과는 isExist_Result에 저장됩니다.
+    /// </summary>
+    /// <param name="dataName">파일의 이름을 적습니다. 예시 : "testFile.png"  </param>
+    /// <param name="dataPath">파일의 이름을 제외한 경로를 적습니다. 예시 : "Assets/data/" </param>
+    /// <returns></returns>
+    public IEnumerator IsExist(string dataName, string dataPath)
     {
-        yield return StartCoroutine(fileBase.IsExist(dataName));
-        IsExist_Result = fileBase.IsExist_Result;
+        yield return StartCoroutine(fileBase.IsExist(dataName, dataPath));
+        isExist_Result = fileBase.isExist_Result;
     }
 }

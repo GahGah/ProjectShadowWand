@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     public SettingsManager settingsManager;
-
+    public SaveLoadManager saveLoadManager;
 
     public FileManager fileManager;
 
@@ -47,21 +47,21 @@ public class GameManager : MonoBehaviour
     IEnumerator ProcessStartGame()
     {
 
-        yield return StartCoroutine(fileManager.IsExist("Settings.dat"));
+        //yield return StartCoroutine(fileManager.IsExist("Settings.dat"));
 
-        if (fileManager.IsExist_Result)
-        {
-            yield return StartCoroutine(settingsManager.LoadSettingsData());
-        }
-        //check if settingsData Exist
-        else
-        {
-            settingsManager.GetDefaultSettingsData();
-            yield return StartCoroutine(settingsManager.SaveSettingsData());
-            //LocalizationManager.Instance.SetLocalizationLanguage(settingsManager.GetCurrentSettingsData().language);
-            //LocalizationManager.Instance.UpdateLocalization();
+        //if (fileManager.isExist_Result)
+        //{
+        //    yield return StartCoroutine(settingsManager.LoadSettingsData());
+        //}
+        ////check if settingsData Exist
+        //else
+        //{
+        //    settingsManager.GetDefaultSettingsData();
+        //    yield return StartCoroutine(settingsManager.SaveSettingsData());
+        //    //LocalizationManager.Instance.SetLocalizationLanguage(settingsManager.GetCurrentSettingsData().language);
+        //    //LocalizationManager.Instance.UpdateLocalization();
 
-        }
+        //}
 
         yield break;
     }

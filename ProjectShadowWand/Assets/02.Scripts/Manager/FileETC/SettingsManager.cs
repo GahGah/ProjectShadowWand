@@ -35,21 +35,22 @@ public class SettingsManager : MonoBehaviour
 
     public IEnumerator SaveSettingsData()
     {
-        string dataString = JsonUtility.ToJson(currentSettingsData, true); //true로 하면 제대로...그...띄어쓰기? 가 됨.
+        //string dataString = JsonUtility.ToJson(currentSettingsData, true); //true로 하면 제대로...그...띄어쓰기? 가 됨.
 
-        yield return StartCoroutine(GameManager.Instance.fileManager.WriteText("Settings.dat", dataString));
+        //yield return StartCoroutine(GameManager.Instance.fileManager.WriteText("Settings.dat", dataString));
 
         yield break;
     }
 
     public IEnumerator LoadSettingsData()
     {
-        yield return StartCoroutine(GameManager.Instance.fileManager.ReadText("Settings.dat"));
-        if (!string.IsNullOrEmpty(GameManager.Instance.fileManager.ReadText_Result))
-        {
-            var loadedSettingsData = JsonUtility.FromJson<SettingsData>(GameManager.Instance.fileManager.ReadText_Result);
-            ApplySettings(loadedSettingsData);
-        }
+        //yield return StartCoroutine(GameManager.Instance.fileManager.ReadText("Settings.dat"));
+        //if (!string.IsNullOrEmpty(GameManager.Instance.fileManager.readText_Result))
+        //{
+        //    var loadedSettingsData = JsonUtility.FromJson<SettingsData>(GameManager.Instance.fileManager.readText_Result);
+        //    ApplySettings(loadedSettingsData);
+        //}
+        yield break;
     }
     public SettingsData GetCurrentSettingsData()
     {
