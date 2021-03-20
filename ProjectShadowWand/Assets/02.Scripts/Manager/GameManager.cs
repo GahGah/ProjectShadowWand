@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     public bool isAllEnemyDestroyed;
     public bool isStageClear;
 
+    public List<Child> childList;
+
     // 싱글톤 패턴
     private void Awake()
     {
