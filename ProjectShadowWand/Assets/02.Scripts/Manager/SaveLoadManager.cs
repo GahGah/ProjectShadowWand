@@ -48,7 +48,6 @@ public class SaveLoadManager : MonoBehaviour
         {
             Debug.Log("이미 instance가 존재합니다." + this);
         }
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()

@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum eMonsterType
-{
-    A, B, C
-}
 public class Monster : Character
 {
     [HideInInspector] public MonsterStateMachine monsterStateMachine;

@@ -9,9 +9,6 @@ using UnityEngine.Experimental.Rendering.Universal; // Light2D를 가져오기 �
 /// 
 public class LightObject : MonoBehaviour
 {
-
-
-
     [Tooltip("씬 내 몬스터가 몇마리~?")]
     public int monsterCount;
 
