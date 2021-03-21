@@ -460,7 +460,10 @@ MonoBehaviour:
     isFriend: 0
     isBye: 0
     name: 
+    age: 
     diaryData: 
+    childType: 0
+  isLoad: 0
   playerFileName: Data_Player.dat
   childFileName: Data_Childs.dat
 --- !u!4 &627693522
@@ -975,6 +978,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiType: 0
+  childName: {fileID: 253301458}
+  childAge: {fileID: 2029677420}
+  childRelationship: {fileID: 1672766742}
 --- !u!1 &1403565507
 GameObject:
   m_ObjectHideFlags: 0

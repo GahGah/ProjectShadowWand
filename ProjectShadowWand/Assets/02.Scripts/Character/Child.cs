@@ -5,11 +5,6 @@ using UnityEngine.UI;
 
 
 
-public enum eChildType
-{
-    TAIN,
-    FRIEND
-}
 
 [RequireComponent(typeof(Rigidbody2D))] //리지드바디 2D 자동추가
 public class Child : Character
@@ -26,7 +21,7 @@ public class Child : Character
     [Header("반딧불~")]
     public Sprite bandit;
 
-    public eChildType childType;
+    public eChildOption childOption;
 
     private BoxCollider2D childCollider;
     private void Start()
@@ -34,7 +29,7 @@ public class Child : Character
         choiceCanvas.SetActive(false);
         isSelectEnd = false;
         isChoice = false;
-        childType = eChildType.TAIN;
+        childOption = eChildOption.TAIN;
 
         spriteRenderer = GetComponent<SpriteRenderer>();
         childCollider = GetComponent<BoxCollider2D>();
@@ -63,11 +58,11 @@ public class Child : Character
         }
         else //선택이 끝난 상태라면
         {
-            if (childType==eChildType.TAIN)
+            if (childOption==eChildOption.TAIN)
             {
 
             }
-            else if (childType==eChildType.FRIEND)
+            else if (childOption==eChildOption.FRIEND)
             {
                 gameObject.transform.position = player.childPostion[childVal].position;
             }
@@ -85,14 +80,14 @@ public class Child : Character
     {
         if (_b == true)//따라와~
         {
-            childType = eChildType.FRIEND;
+            childOption = eChildOption.FRIEND;
             spriteRenderer.sprite = bandit;
             childCollider.enabled = false;
             transform.localScale = new Vector3(2, 2);
         }
         else
         {
-            childType = eChildType.TAIN;
+            childOption = eChildOption.TAIN;
             spriteRenderer.color = Color.red;
         }
 

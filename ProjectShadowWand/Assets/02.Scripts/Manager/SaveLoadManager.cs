@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+
 #if UNITY_EDITOR
 using UnityEditor;
-
 #endif
-
 
 
 public enum eDataType
@@ -27,9 +26,13 @@ public class SaveLoadManager : MonoBehaviour
 
     public Data_Player currentData_Player;
     public Data_Child currentData_Child;
+
     [SerializeField] public Data_ChildList currentData_ChildList;
 
+    public Dictionary<eChildType, Data_Child> currentData_ChildDict;
     public static SaveLoadManager Instance;
+
+    [HideInInspector] public bool isLoad = false;
 
 
     [HideInInspector]
@@ -52,11 +55,11 @@ public class SaveLoadManager : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("DataPath : " + Application.dataPath);
-        string path = Application.dataPath;
-        string[] splitPath = path.Split(new string[] { "Assets" }, System.StringSplitOptions.RemoveEmptyEntries);
-        path = splitPath[0];
-        Debug.Log("Assets를 없앤 데이터 패스 : " + path);
+        //Debug.Log("DataPath : " + Application.dataPath);
+        //string path = Application.dataPath;
+        //string[] splitPath = path.Split(new string[] { "Assets" }, System.StringSplitOptions.RemoveEmptyEntries);
+        //path = splitPath[0];
+        //Debug.Log("Assets를 없앤 데이터 패스 : " + path);
     }
 
     /// <summary>
@@ -147,17 +150,17 @@ public class SaveLoadManager : MonoBehaviour
 
 
     #region Data_Child
-    public void SetCurrentData_ChildList(Data_ChildList _d)
+    public void SetCurrentData_ChildList(List<Data_Child> _d)
     {
 
         //깊은 복사가 되었으면 좋겠다.
-        Data_ChildList tempData = new Data_ChildList();
+        //List<Data_Child> tempData = new List<Data_Child>();
 
 
-        tempData.childDataList = _d.childDataList;
+        //tempData = _d;
 
-        currentData_ChildList = tempData;
-        //currentData_ChildList = _d.childDataList.ConvertAll<>
+        //currentData_ChildList = tempData;
+        ////currentData_ChildDictionary = _d.childDataDictionary.ConvertAll<>
     }
 
     /// <summary>
@@ -204,32 +207,37 @@ public class SaveLoadManager : MonoBehaviour
     public IEnumerator TestSave()
     {
         yield return StartCoroutine(CreatePath(eDataType.CHILD, currentDataSlot));
-
+        isLoad = false;
         currentData_ChildList = new Data_ChildList();
         currentData_ChildList.childDataList = new List<Data_Child>();
+        currentData_ChildList.childDataList.Clear();
+
         currentData_Child = new Data_Child();
+
         currentData_Child.currentStage = 1;
         currentData_Child.currentPosition = new Vector3(0, 0, 0);
         currentData_Child.isDie = false;
         currentData_Child.isFriend = false;
         currentData_Child.isBye = false;
         currentData_Child.name = "코라";
+        currentData_Child.age = "10살";
         currentData_Child.diaryData = "아앙, 테메와 돈독한 친구사이같다...";
+        currentData_Child.childType = eChildType.KORA;
 
         currentData_ChildList.childDataList.Add(currentData_Child);
+
         Data_Child tempData = new Data_Child(currentData_Child);
-        tempData.name = "아앙";
-        tempData.diaryData = "테메, 코라보다 나이가 많은 형. 하지만 나이를 신경쓰지 않는  친구 사이로 지내고 싶은 듯 하다.";
-        currentData_ChildList.childDataList.Add(tempData);
 
-        tempData = new Data_Child(currentData_Child);
         tempData.name = "테메";
-        tempData.diaryData = "코라를 좋아하고 있는 듯 하다.";
-        currentData_ChildList.childDataList.Add(tempData);
+        tempData.diaryData = "코라를 좋아하고 있는 듯 하다...";
+        tempData.age = "9살";
+        tempData.childType = eChildType.TEME;
+
+        currentData_Child = tempData;
+        currentData_ChildList.childDataList.Add(currentData_Child);
         currentData_Child = null;
+
         yield return StartCoroutine(SaveData_ChildList());
-
-
         Debug.Log("Save Finish!");
         yield break;
     }
@@ -237,10 +245,32 @@ public class SaveLoadManager : MonoBehaviour
     public IEnumerator TestLoad()
     {
         yield return StartCoroutine(LoadData_ChildList());
+
+        ListToDictionary();
+
         Debug.Log("Load Finish!");
+
+        isLoad = true;
+
         yield break;
     }
-    //public IEnumerator SaveInGameData()
+
+    /// <summary>
+    /// List로 불러온 애들을 Dictionary로 전환해줍니다.
+    /// </summary>
+    public void ListToDictionary()
+    {
+        currentData_ChildDict = new Dictionary<eChildType, Data_Child>();
+        currentData_ChildDict.Clear();
+        
+
+        foreach (var child in currentData_ChildList.childDataList)
+        {
+            currentData_ChildDict.Add(child.childType, child);
+        }
+
+    }    
+        //public IEnumerator SaveInGameData()
     //{
     //    string dataString = JsonUtility.ToJson(currentInGameData, true);
     //    yield return StartCoroutine(fileManager.WriteText(""));

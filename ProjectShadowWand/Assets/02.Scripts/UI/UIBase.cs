@@ -17,6 +17,14 @@ public class UIBase : MonoBehaviour
         gameObject.SetActive(_isActive);
     }
 
+    /// <summary>
+    /// UI가 켜졌을 때를 말합니다. 근데 이게 쓰이려나
+    /// </summary>
+    public virtual void OnActive()
+    {
+
+    }
+
     public void Toggle()
     {
         gameObject.SetActive(!gameObject.activeInHierarchy);

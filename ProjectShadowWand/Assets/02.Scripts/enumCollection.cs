@@ -43,12 +43,22 @@ public enum eSTATE // 상태를 정의해놓습니다.
     /// </summary>
     MONSTER_DIE
 }
+
+
+public enum eChildOption
+{
+    TAIN,
+    FRIEND
+}
 public enum eUItype
 {
     NONE, DIARY, SAVE, LOAD
 }
 
-
+public enum eChildType
+{
+    KORA, TEME,
+}
 
 
 public class enumCollection : MonoBehaviour

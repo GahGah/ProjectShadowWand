@@ -46,10 +46,13 @@ public class Data_Child : InGameData
     public bool isBye; //플레이어가 떠나보낸 상태냐?
 
     public string name;
+    public string age;
     public string diaryData;
-
+    public eChildType childType;
 }
+
 public class Data_ChildList : InGameData
 {
     public List<Data_Child> childDataList;
 }
+
