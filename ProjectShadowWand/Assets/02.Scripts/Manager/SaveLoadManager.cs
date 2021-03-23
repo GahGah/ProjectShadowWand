@@ -194,6 +194,7 @@ public class SaveLoadManager : MonoBehaviour
     #endregion
 
 
+    #region Test
     public void StartTestSave()
     {
         StartCoroutine(TestSave());
@@ -208,6 +209,8 @@ public class SaveLoadManager : MonoBehaviour
     {
         yield return StartCoroutine(CreatePath(eDataType.CHILD, currentDataSlot));
         isLoad = false;
+
+        //원래라면 딕셔너리로 작업된 녀석들을 DictToList로 변환시켜야합니다.
         currentData_ChildList = new Data_ChildList();
         currentData_ChildList.childDataList = new List<Data_Child>();
         currentData_ChildList.childDataList.Clear();
@@ -238,6 +241,9 @@ public class SaveLoadManager : MonoBehaviour
         currentData_Child = null;
 
         yield return StartCoroutine(SaveData_ChildList());
+
+        ListToDictionary();
+
         Debug.Log("Save Finish!");
         yield break;
     }
@@ -248,54 +254,83 @@ public class SaveLoadManager : MonoBehaviour
 
         ListToDictionary();
 
-        Debug.Log("Load Finish!");
-
         isLoad = true;
+
+
+        foreach (var item in currentData_ChildList.childDataList)
+        {
+            Debug.Log("애들 이름 : " + item.name);
+        }
+        Debug.Log("Load Finish!");
 
         yield break;
     }
 
+    #endregion
+
     /// <summary>
-    /// List로 불러온 애들을 Dictionary로 전환해줍니다.
+    /// List에 있는 애들을 Dictionary로 전환해줍니다. 용도? : 데이터 로드 후 인게임에서 사용할...수도 있는 딕셔너리로 전환시킵니다. 
     /// </summary>
     public void ListToDictionary()
     {
         currentData_ChildDict = new Dictionary<eChildType, Data_Child>();
         currentData_ChildDict.Clear();
-        
+
 
         foreach (var child in currentData_ChildList.childDataList)
         {
             currentData_ChildDict.Add(child.childType, child);
         }
 
-    }    
-        //public IEnumerator SaveInGameData()
-    //{
-    //    string dataString = JsonUtility.ToJson(currentInGameData, true);
-    //    yield return StartCoroutine(fileManager.WriteText(""));
+    }
 
-    //    yield break;
-    //}
+    /// <summary>
+    /// 딕셔너리에 있는 것들을 currentData_ChildList.childDataList로 옮깁니다.
+    /// 기존의 childDataList는 사라집니다.
+    /// </summary>
+    public void DictionaryToList()
+    {
+        currentData_ChildList.childDataList = new List<Data_Child>();
+        currentData_ChildList.childDataList.Clear();
+
+        //딕셔너리의 Values들만 ToList를 이용하여 List로 
+        currentData_ChildList.childDataList = currentData_ChildDict.Values.ToList();
+        
+
+        foreach (var item in currentData_ChildList.childDataList)
+        {
+            Debug.Log("애들 이름 : " + item.name);
+        }
 
 
-    //public IEnumerator SaveSettingsData()
-    //{
-    //    string dataString = JsonUtility.ToJson(currentSettingsData, true); //true로 하면 제대로...그...띄어쓰기? 가 됨.
-
-    //    yield return StartCoroutine(GameManager.Instance.fileManager.WriteText("Settings.dat", dataString));
-
-    //    yield break;
-    //}
-
-    //public IEnumerator LoadSettingsData()
-    //{
-    //    yield return StartCoroutine(GameManager.Instance.fileManager.ReadText("Settings.dat"));
-    //    if (!string.IsNullOrEmpty(GameManager.Instance.fileManager.readText_Result))
-    //    {
-    //        var loadedSettingsData = JsonUtility.FromJson<SettingsData>(GameManager.Instance.fileManager.readText_Result);
-    //        ApplySettings(loadedSettingsData);
-    //    }
-    //}
+    }
 
 }
+//public IEnumerator SaveInGameData()
+//{
+//    string dataString = JsonUtility.ToJson(currentInGameData, true);
+//    yield return StartCoroutine(fileManager.WriteText(""));
+
+//    yield break;
+//}
+
+
+//public IEnumerator SaveSettingsData()
+//{
+//    string dataString = JsonUtility.ToJson(currentSettingsData, true); //true로 하면 제대로...그...띄어쓰기? 가 됨.
+
+//    yield return StartCoroutine(GameManager.Instance.fileManager.WriteText("Settings.dat", dataString));
+
+//    yield break;
+//}
+
+//public IEnumerator LoadSettingsData()
+//{
+//    yield return StartCoroutine(GameManager.Instance.fileManager.ReadText("Settings.dat"));
+//    if (!string.IsNullOrEmpty(GameManager.Instance.fileManager.readText_Result))
+//    {
+//        var loadedSettingsData = JsonUtility.FromJson<SettingsData>(GameManager.Instance.fileManager.readText_Result);
+//        ApplySettings(loadedSettingsData);
+//    }
+//}
+
