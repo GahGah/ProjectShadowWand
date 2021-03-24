@@ -55,6 +55,7 @@ Shader "Hidden/ShadowGroup2D"
             Varyings vert (Attributes v)
             {
                 Varyings o;
+                
                 float3 vertexWS = TransformObjectToWorld(v.vertex);  // This should be in world space
                 float3 lightDir = _LightPos - vertexWS;
                 lightDir.z = 0;
@@ -87,8 +88,7 @@ Shader "Hidden/ShadowGroup2D"
                 position = vertexWS + sharedShadowOffset;
 
                 o.vertex = TransformWorldToHClip(position);
-
-
+                
 
                 // RGB - R is shadow value (to support soft shadows), G is Self Shadow Mask, B is No Shadow Mask
                 o.color = 1; // v.color;
