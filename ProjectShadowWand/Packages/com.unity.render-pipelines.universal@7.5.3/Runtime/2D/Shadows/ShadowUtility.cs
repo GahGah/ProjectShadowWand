@@ -18,6 +18,9 @@ namespace UnityEngine.Experimental.Rendering.Universal
             public Vector4 tangent;
             private bool compareReversed; // This is done so that edge AB can equal edge BA
 
+            public Vector3 vertex0;
+            public Vector3 vertex1;
+
             public void AssignVertexIndices(int vi0, int vi1)
             {
                 vertexIndex0 = vi0;
@@ -48,31 +51,31 @@ namespace UnityEngine.Experimental.Rendering.Universal
             }
         }
 
-        static Edge CreateEdge(int triangleIndexA, int triangleIndexB, List<Vector3> vertices, List<int> triangles)
+        static Edge CreateEdge(int triangleIndexA, int triangleIndexB, List<Vector3> vertices, List<int> triangles, List<Vector2> uv2s, List<Vector2> uv3s)
         {
             Edge retEdge = new Edge();
 
             retEdge.AssignVertexIndices(triangles[triangleIndexA], triangles[triangleIndexB]);
             
-            Vector3 vertex0 = vertices[retEdge.vertexIndex0];
-            vertex0.z = 0;
-            Vector3 vertex1 = vertices[retEdge.vertexIndex1];
-            vertex1.z = 0;
+            retEdge.vertex0 = vertices[retEdge.vertexIndex0];
+            retEdge.vertex0.z = 0;
+            retEdge.vertex1 = vertices[retEdge.vertexIndex1];
+            retEdge.vertex1.z = 0;
 
-            Vector3 edgeDir = Vector3.Normalize(vertex1 - vertex0);
-            //retEdge.tangent = Vector3.Cross(-Vector3.forward, edgeDir);
-            retEdge.tangent = new Vector4(vertex0.x, vertex0.y, vertex1.x, vertex1.y);
+            Vector3 edgeDir = Vector3.Normalize(retEdge.vertex1 - retEdge.vertex0);
+            retEdge.tangent = Vector3.Cross(-Vector3.forward, edgeDir);
 
+            //retEdge.tangent = new Vector4(vertex0.x, vertex0.y, vertex1.x, vertex1.y);
             return retEdge;
         }
 
-        static void PopulateEdgeArray(List<Vector3> vertices, List<int> triangles, List<Edge> edges)
+        static void PopulateEdgeArray(List<Vector3> vertices, List<int> triangles, List<Edge> edges, List<Vector2> uv2s, List<Vector2> uv3s)
         {
             for(int triangleIndex=0;triangleIndex<triangles.Count;triangleIndex+=3)
             {
-                edges.Add(CreateEdge(triangleIndex, triangleIndex + 1, vertices, triangles));
-                edges.Add(CreateEdge(triangleIndex+1, triangleIndex + 2, vertices, triangles));
-                edges.Add(CreateEdge(triangleIndex+2, triangleIndex, vertices, triangles));
+                edges.Add(CreateEdge(triangleIndex, triangleIndex + 1, vertices, triangles, uv2s, uv3s));
+                edges.Add(CreateEdge(triangleIndex+1, triangleIndex + 2, vertices, triangles, uv2s, uv3s));
+                edges.Add(CreateEdge(triangleIndex+2, triangleIndex, vertices, triangles, uv2s, uv3s));
             }
         }
 
@@ -91,29 +94,30 @@ namespace UnityEngine.Experimental.Rendering.Universal
             edgesToProcess.Sort();
         }
 
-        static void CreateShadowTriangles(List<Vector3> vertices, List<Color> colors, List<int> triangles, List<Vector4> tangents, List<Edge> edges, List<Vector2> uvs)
+        static void CreateShadowTriangles(List<Vector3> vertices, List<Color> colors, List<int> triangles, List<Vector4> tangents, List<Edge> edges, List<Vector2> uv2s, List<Vector2> uv3s)
         {
-            for(int edgeIndex=0; edgeIndex<edges.Count; edgeIndex++)
+            for (int edgeIndex = 0; edgeIndex < edges.Count; edgeIndex++)
             {
-                if(IsOutsideEdge(edgeIndex, edges))
+                if (IsOutsideEdge(edgeIndex, edges))
                 {
                     Edge edge = edges[edgeIndex];
-                    tangents[edge.vertexIndex1] = edge.tangent;
+                    tangents[edge.vertexIndex1] = -edge.tangent;
 
                     int newVertexIndex = vertices.Count;
                     vertices.Add(vertices[edge.vertexIndex0]);
                     colors.Add(colors[edge.vertexIndex0]);
 
-                    tangents.Add(edge.tangent);
+                    tangents.Add(-edge.tangent);
 
                     triangles.Add(edge.vertexIndex0);
                     triangles.Add(newVertexIndex);
                     triangles.Add(edge.vertexIndex1);
 
-                    //uvs.Add(new Vector2(0, 0)); 
-                    //uvs.Add(new Vector2(1, 0)); 
-                    //uvs.Add(new Vector2(0, 1)); 
-                    //uvs.Add(new Vector2(1, 1));
+                    uv2s[edge.vertexIndex0] = new Vector2(edge.vertex0.x, edge.vertex0.y);
+                    uv3s[edge.vertexIndex1] = new Vector2(edge.vertex1.x, edge.vertex1.y);
+
+                    uv2s.Add(new Vector2(edge.vertex0.x, edge.vertex0.y));
+                    uv3s.Add(new Vector2(edge.vertex1.x, edge.vertex1.y));
                 }
             }
         }
@@ -189,6 +193,8 @@ namespace UnityEngine.Experimental.Rendering.Universal
             List<Vector4> tangents = new List<Vector4>();
             List<Color> extrusion = new List<Color>();
             List<Vector2> uvs = new List<Vector2>();
+            List<Vector2> uv2s = new List<Vector2>(); //uv2채널을 통해 선분의 시작점을 담음.
+            List<Vector2> uv3s = new List<Vector2>(); //uv3채널을 통해 선분의 끝점을 담음. 
 
 
             // Create interior geometry
@@ -216,19 +222,28 @@ namespace UnityEngine.Experimental.Rendering.Universal
             vertices.AddRange(verticesI);
             triangles.AddRange(indicesI);
             extrusion.AddRange(extrusionI);
-             
+            
+            for(int i =0; i<vertices.Count; ++i)
+            {
+                uvs.Add(Vector2.zero);
+                uv2s.Add(Vector2.zero);
+                uv3s.Add(Vector2.zero);
+            }
+
             InitializeTangents(vertices.Count, tangents);
 
             List<Edge> edges = new List<Edge>();
-            PopulateEdgeArray(vertices, triangles, edges);
+            PopulateEdgeArray(vertices, triangles, edges, uv2s, uv3s);
             SortEdges(edges);
-            CreateShadowTriangles(vertices, extrusion, triangles, tangents, edges, uvs);
+            CreateShadowTriangles(vertices, extrusion, triangles, tangents, edges, uv2s, uv3s);
 
             Color[] finalExtrusion = extrusion.ToArray();
             Vector3[] finalVertices = vertices.ToArray();
             int[] finalTriangles = triangles.ToArray();
             Vector4[] finalTangents = tangents.ToArray();
-            Vector2[] finalUvs = uvs.ToArray();
+
+            Vector2[] finalUv2s = uv2s.ToArray();
+            Vector2[] finalUv3s = uv3s.ToArray();
 
             mesh.Clear();
             mesh.vertices = finalVertices;
@@ -236,6 +251,8 @@ namespace UnityEngine.Experimental.Rendering.Universal
             mesh.tangents = finalTangents;
             mesh.colors = finalExtrusion;
             //mesh.uv = finalUvs;
+            mesh.uv2 = finalUv2s;
+            mesh.uv3 = finalUv3s;
         }
     }
 }
