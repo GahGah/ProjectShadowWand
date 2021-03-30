@@ -1,9 +1,9 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// °Á ¿ø°æÀº ´À¸®°Ô ¿òÁ÷ÀÌ°í ±Ù°æÀº ºü¸£°Ô ¿òÁ÷ÀÌ°í ±×°ÅÀÓ
+/// ê± ì›ê²½ì€ ëŠë¦¬ê²Œ ì›€ì§ì´ê³  ê·¼ê²½ì€ ë¹ ë¥´ê²Œ ì›€ì§ì´ê³  ê·¸ê±°ì„
 /// </summary>
 public class ParallaxMoveObject : MonoBehaviour
 {
