@@ -61,6 +61,25 @@ public enum eChildType
     KORA, TEME,
 }
 
+/// <summary>
+/// // 날씨의 종류입니다. 중첩이 고려될 수도 있기에, 확장성을 위해 BitMask를 사용합니다.
+/// </summary>
+public enum eWheatherType
+{
+    NONE = 0,
+    SUNNY = 1 << 0,
+    RAINY = 1 << 1,
+    WINDY = 1 << 2,
+    Opt4 = 1 << 3,
+    Opt5 = 1 << 4,
+    Opt6 = 1 << 5,
+    Opt7 = 1 << 6
+}
+
+public enum eErrorType
+{
+    MANAGER_INIT_ERROR = -1
+}
 
 /// <summary>
 /// //Enum들을 모아두려고 노력한 공간입니다.
