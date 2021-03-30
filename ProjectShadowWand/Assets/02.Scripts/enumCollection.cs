@@ -6,7 +6,7 @@ public enum eResolutionData
 {
     HD, FHD, QHD
 }
-public enum BlockType
+public enum eBlockType
 {
     NONE,
     GROUND,
