@@ -64,7 +64,7 @@ public enum eChildType
 /// <summary>
 /// // 날씨의 종류입니다. 중첩이 고려될 수도 있기에, 확장성을 위해 BitMask를 사용합니다.
 /// </summary>
-public enum eWheatherType
+public enum eWeatherType
 {
     NONE = 0,
     SUNNY = 1 << 0,

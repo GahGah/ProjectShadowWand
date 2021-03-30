@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class WeatherManager : MonoBehaviour
 {
-    public enum WEATHER
+    struct WeatherColor
     {
-        None = 0,
-    }
+
+    };
 
     public static WeatherManager Instance;
+    
+    private eWeatherType prevWeather = eWeatherType.SUNNY;
+    [SerializeField] private eWeatherType nowWeather = eWeatherType.SUNNY;
+
+
 
     // ΩÃ±€≈Ê ∆–≈œ
     private void Awake()
@@ -23,8 +28,6 @@ public class WeatherManager : MonoBehaviour
 
     public int Init()
     {
-
-
         return 0;
     }
 
@@ -38,4 +41,20 @@ public class WeatherManager : MonoBehaviour
     {
         
     }
+
+    public void WeatherChaneged()
+    {
+        //curWeather
+    }
+
+    public void SetWeather()
+    {
+        
+    }
+
+    public void GetWeather()
+    {
+
+    }
+
 }
