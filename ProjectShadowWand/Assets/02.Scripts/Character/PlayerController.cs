@@ -28,7 +28,7 @@ public class PlayerController : Character
     private Collider2D playerCollider;
     private EdgeCollider2D playerSideCollider;
 
-    public BlockType blockType;
+    public eBlockType blockType;
     private int noPlayerMask;
     private LayerMask groundMask;
     private LayerMask wallMask;
@@ -146,23 +146,23 @@ public class PlayerController : Character
         #region TestGroundCheck
         //if (playerCollider.IsTouchingLayers(groundMask) && angle >= limitAngle)
         //{
-        //    blockType = BlockType.GROUND;
+        //    blockType = eBlockType.GROUND;
         //}
         //else if (playerCollider.IsTouchingLayers(wallMask))
         //{
-        //    blockType = BlockType.WALL;
+        //    blockType = eBlockType.WALL;
         //}
         //else if (playerCollider.IsTouchingLayers())
         //{
-        //    blockType = BlockType.MOVING_GROUND;
+        //    blockType = eBlockType.MOVING_GROUND;
         //}
         //else
         //{
-        //    blockType = BlockType.NONE;
+        //    blockType = eBlockType.NONE;
 
         //}
 
-        //if (blockType != BlockType.NONE)
+        //if (blockType != eBlockType.NONE)
         //{
         //    isGrounded = true;
         //}
@@ -176,12 +176,12 @@ public class PlayerController : Character
         if (playerCollider.IsTouching(contactFilter_Ground))
         {
             isGrounded = true;
-            blockType = BlockType.GROUND;
+            blockType = eBlockType.GROUND;
         }
         else
         {
             isGrounded = false;
-            blockType = BlockType.NONE;
+            blockType = eBlockType.NONE;
         }
         animator.SetBool(animatorGroundedBool, isGrounded);
     }
@@ -219,15 +219,16 @@ public class PlayerController : Character
             isFalling = true;
 
         // Jump
-        if (jumpInput && blockType != BlockType.NONE)
+        if (jumpInput && blockType != eBlockType.NONE)
         {
             playerStateMachine.ChangeState(eState.PLAYER_JUMP);
 
         }
         else if (isJumping && isFalling)
         {
+            return null;
             ////착지
-            //if (blockType != BlockType.NONE)
+            //if (blockType != eBlockType.NONE)
             //{
             if (isGrounded)
             {
@@ -269,7 +270,7 @@ public class PlayerController : Character
         // 정해놓은 그라비티 스케일로 설정
         var gravityScale = groundedGravityScale;
 
-        if (blockType == BlockType.NONE)
+        if (blockType == eBlockType.NONE)
         {
             //만약 땅에 닿아있는 상태가 아닐때 : 점프중이라면 점프 그라비티 스케일로, 아니라면 추락 그라비티 스케일로 변경
             gravityScale = 
