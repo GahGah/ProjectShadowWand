@@ -1,4 +1,4 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 public class TestDragTarget : MonoBehaviour
 {
@@ -17,23 +17,23 @@ public class TestDragTarget : MonoBehaviour
 
 	void Update()
 	{
-		// ¸¶¿ì½º Æ÷Áö¼ÇÀ» °è»ê
+		// ë§ˆìš°ìŠ¤ í¬ì§€ì…˜ì„ ê³„ì‚°...
 		var worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
 		if (Input.GetMouseButtonDown(0))
 		{
-			// Ã¹¹øÂ° Äİ¶óÀÌ´õ¸¦ °¡Á®¿È
-			// ¿©·¯ °³ÀÇ Äİ¶óÀÌ´õ¿¡ ´ëÇØ¼­µµ °¡´ÉÇÏ´Ù´Âµ¥...À½...
+			// ì²«ë²ˆì§¸ ì½œë¼ì´ë”ë¥¼ ê°€ì ¸ì˜´
+			// ì—¬ëŸ¬ ê°œì˜ ì½œë¼ì´ë”ì— ëŒ€í•´ì„œë„ ê°€ëŠ¥í•˜ë‹¤ëŠ”ë°...ìŒ...
 			var collider = Physics2D.OverlapPoint(worldPos, dragLayers);
 			if (!collider)
 				return;
 
-			// ¹Ùµğ = collider¿¡ ¸®Áöµå¹Ùµğ ´Ş¸°°Å °¡Á®¿È
+			// ë°”ë”” = colliderì— ë¦¬ì§€ë“œë°”ë”” ë‹¬ë¦°ê±° ê°€ì ¸ì˜´
 			var body = collider.attachedRigidbody;
 			if (!body)
 				return;
 
-			//¸®Áöµå¹Ùµğ 2D ´Ş¸° ¿ÀºêÁ§Æ®¿¡ Å¸°ÙÁ¶ÀÎÆ®2D Add
+			//ë¦¬ì§€ë“œë°”ë”” 2D ë‹¬ë¦° ì˜¤ë¸Œì íŠ¸ì— íƒ€ê²Ÿì¡°ì¸íŠ¸2D Add
 			targetJoint = body.gameObject.AddComponent<TargetJoint2D>();
 			targetJoint.dampingRatio = damping;
 			targetJoint.frequency = frequency;
@@ -48,12 +48,12 @@ public class TestDragTarget : MonoBehaviour
 			return;
 		}
 
-		// ¾÷µ¥ÀÌÆ® Å¸°Ù
+		// ì—…ë°ì´íŠ¸ íƒ€ê²Ÿ
 		if (targetJoint)
 		{
 			targetJoint.target = worldPos;
 
-			// Å¸°ÙÀÌ¶û Á¶ÀÎÆ® »çÀÌ¿¡ ¼±À» ±×¸²
+			// íƒ€ê²Ÿì´ë‘ ì¡°ì¸íŠ¸ ì‚¬ì´ì— ì„ ì„ ê·¸ë¦¼
 			if (drawDragLine)
 				Debug.DrawLine(targetJoint.transform.TransformPoint(targetJoint.anchor), worldPos, Color);
 		}
