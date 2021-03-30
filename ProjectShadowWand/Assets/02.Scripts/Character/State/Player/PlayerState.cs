@@ -27,31 +27,7 @@ public class PlayerState_Default : PlayerState
     }
     public override void Execute()
     {
-        float moveHorizontal = 0.0f;
-        float moveVertical = 0.0f;
 
-        if (player.inputManager.buttonLeft.isPressed)
-        {
-           moveHorizontal = -1.0f;
-        }
-        else if (player.inputManager.buttonRight.isPressed)
-        {
-            moveHorizontal = 1.0f;
-        }
-        else if (player.inputManager.buttonDown.isPressed)
-        {
-            moveVertical = -10.0f;
-        }
-        else
-        {
-            moveHorizontal = 0.0f;
-            moveVertical = 0.0f;
-        }
-        player.movementInput = new Vector2(moveHorizontal, moveVertical);
-        
-        // Jumping input
-        if (!player.isJumping && player.inputManager.buttonJump.wasPressedThisFrame)
-            player.jumpInput = true;
     }
 
     /// <summary>
@@ -59,7 +35,7 @@ public class PlayerState_Default : PlayerState
     /// </summary>
     public override void PhysicsExecute()
     {
-        if (Mathf.Abs(player.playerRigidbody.velocity.x)>1f)
+        if (Mathf.Abs(player.playerRigidbody.velocity.x) > 1f)
         {
             player.animator.SetBool(player.animatorWalkingBool, true);
         }
@@ -92,28 +68,6 @@ public class PlayerState_Jump : PlayerState
     }
     public override void Execute()
     {
-        float moveHorizontal = 0.0f;
-        float moveVertical = 0.0f;
-
-        if (player.inputManager.buttonLeft.isPressed)
-        {
-            moveHorizontal = -1.0f;
-        }
-        else if (player.inputManager.buttonRight.isPressed)
-        {
-            moveHorizontal = 1.0f;
-        }
-        else if (player.inputManager.buttonDown.isPressed)
-        {
-            moveVertical = -10.0f;
-        }
-        else
-        {
-            moveHorizontal = 0.0f;
-            moveVertical = 0.0f;
-        }
-        player.movementInput = new Vector2(moveHorizontal, moveVertical);
-
 
     }
 
@@ -132,7 +86,7 @@ public class PlayerState_Jump : PlayerState
 
             //점프
             player.playerRigidbody.AddForce(new Vector2(0, player.jumpForce), ForceMode2D.Impulse);
- 
+
 
             //점프 입력을 false로(점프를 한번만 하기 위해서)
             player.jumpInput = false;
@@ -150,7 +104,10 @@ public class PlayerState_Jump : PlayerState
         Log("Exit Jump");
     }
 
-    public override void HandleInput() { }
+    public override void HandleInput()
+    {
+
+    }
 }
 
 public class PlayerState_Air : PlayerState
@@ -165,28 +122,6 @@ public class PlayerState_Air : PlayerState
     }
     public override void Execute()
     {
-        float moveHorizontal = 0.0f;
-        float moveVertical = 0.0f;
-
-        if (player.inputManager.buttonLeft.isPressed)
-        {
-            moveHorizontal = -1.0f;
-        }
-        else if (player.inputManager.buttonRight.isPressed)
-        {
-            moveHorizontal = 1.0f;
-        }
-        else if (player.inputManager.buttonDown.isPressed)
-        {
-            moveVertical = -10.0f;
-        }
-        else
-        {
-            moveHorizontal = 0.0f;
-            moveVertical = 0.0f;
-        }
-        player.movementInput = new Vector2(moveHorizontal, moveVertical);
-
 
     }
 
@@ -196,7 +131,7 @@ public class PlayerState_Air : PlayerState
     public override void PhysicsExecute()
     {
 
-    
+
     }
     public override void Exit()
     {

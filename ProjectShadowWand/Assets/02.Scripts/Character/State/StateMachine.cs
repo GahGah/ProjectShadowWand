@@ -90,6 +90,11 @@ public class StateMachine
         }
     }
 
+
+    /// <summary>
+    /// eSTATE형식을 반환합니다.
+    /// </summary>
+    /// <returns></returns>
     public eSTATE GetCurrentStateE()
     {
         return currentStateE;

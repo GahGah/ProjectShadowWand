@@ -13,6 +13,9 @@ public class PlayerController : Character
 
     [Header("그 외")]
 
+    [Tooltip("GroundCheck에 쓸 컨택트필터입니다.")]
+    public ContactFilter2D contactFilter_Ground;
+
     public Transform[] childPostion;
 
 
@@ -52,8 +55,8 @@ public class PlayerController : Character
 
     public bool CanMove = true;
 
-    public float angle;
-    private float limitAngle = 0.1f; //기준치
+//    public float angle;
+//    private float limitAngle = 0.1f; //기준치
 
     public GameObject lightExplosionObject;
 
@@ -81,32 +84,17 @@ public class PlayerController : Character
         playerStateMachine.Start();
     }
 
-    void EdgeColliderTest()
-    {
-        var offset = playerCollider.offset;
-        var addPaddingX = 0.02f;
-        var addRadius = 0.02f;
-        playerSideCollider = gameObject.AddComponent<EdgeCollider2D>();
-        Vector2[] tempPoints =
-        {
-            new Vector2(playerCollider.bounds.extents.x+offset.x+addPaddingX-addRadius, playerCollider.bounds.extents.y+offset.y-addRadius),
-            new Vector2(playerCollider.bounds.extents.x+offset.x+addPaddingX-addRadius, -playerCollider.bounds.extents.y+offset.y+addRadius),
-            new Vector2(-playerCollider.bounds.extents.x-offset.x-addPaddingX+addRadius, playerCollider.bounds.extents.y+offset.y-addRadius),
-            new Vector2(-playerCollider.bounds.extents.x-offset.x-addPaddingX+addRadius, -playerCollider.bounds.extents.y+offset.y+addRadius)
-        };
-        playerSideCollider.edgeRadius = 0.02f;
-        playerSideCollider.points = tempPoints;
-    }
-
     void Update()
     {
         if (!CanMove)
             return;
 
-        if (InputManager.Instance.keyboard.tKey.wasPressedThisFrame)
+        if (inputManager.keyboard.tKey.wasPressedThisFrame)
         {
             lightExplosionObject.SetActive(true);
         }
+
+        CheckInput();
         playerStateMachine.Update();
     }
 
@@ -122,77 +110,82 @@ public class PlayerController : Character
         prevVelocity = playerRigidbody.velocity;
     }
 
-    private void UpdateGroundCheck()
+    /// <summary>
+    /// 이동키 입력 등을 체크
+    /// </summary>
+    private void CheckInput()
     {
-        if (playerCollider.IsTouchingLayers(groundMask) && angle >= limitAngle)
+        float moveHorizontal = 0.0f;
+        float moveVertical = 0.0f;
+
+        if (inputManager.buttonMoveLeft.isPressed)
         {
-            blockType = BlockType.GROUND;
+            moveHorizontal = -1.0f;
         }
-        else if (playerCollider.IsTouchingLayers(wallMask))
+        else if (inputManager.buttonMoveRight.isPressed)
         {
-            blockType = BlockType.WALL;
+            moveHorizontal = 1.0f;
         }
-        else if (playerCollider.IsTouchingLayers())
+        else if (inputManager.buttonDown.isPressed)
         {
-            blockType = BlockType.MOVING_GROUND;
+            moveVertical = -10.0f;
         }
         else
         {
-            blockType = BlockType.NONE;
-
+            moveHorizontal = 0.0f;
+            moveVertical = 0.0f;
         }
+        movementInput = new Vector2(moveHorizontal, moveVertical);
 
-        if (blockType != BlockType.NONE)
+        // Jumping input
+        if (!isJumping && inputManager.buttonMoveJump.wasPressedThisFrame)
+            jumpInput = true;
+    }
+    private void UpdateGroundCheck()
+    {
+        #region TestGroundCheck
+        //if (playerCollider.IsTouchingLayers(groundMask) && angle >= limitAngle)
+        //{
+        //    blockType = BlockType.GROUND;
+        //}
+        //else if (playerCollider.IsTouchingLayers(wallMask))
+        //{
+        //    blockType = BlockType.WALL;
+        //}
+        //else if (playerCollider.IsTouchingLayers())
+        //{
+        //    blockType = BlockType.MOVING_GROUND;
+        //}
+        //else
+        //{
+        //    blockType = BlockType.NONE;
+
+        //}
+
+        //if (blockType != BlockType.NONE)
+        //{
+        //    isGrounded = true;
+        //}
+        //else
+        //{
+        //    isGrounded = false;
+        //}
+        #endregion
+
+
+        if (playerCollider.IsTouching(contactFilter_Ground))
         {
             isGrounded = true;
+            blockType = BlockType.GROUND;
         }
         else
         {
             isGrounded = false;
+            blockType = BlockType.NONE;
         }
         animator.SetBool(animatorGroundedBool, isGrounded);
     }
 
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
-        {
-            //ContactPoint2D test = collision.GetContact(0);
-            //TestObject.transform.position = test.point;
-            //평지의 경우
-            Vector2 cOffset = collision.gameObject.transform.position;
-            //Vector2 topPos = new Vector2(collision.collider.bounds.center.x, collision.collider.bounds.max.y);
-            //Vector2 topPosUp = topPos * Vector2.up;
-
-            Vector2 topPos = collision.transform.position;
-            Vector2 topPosUp = collision.transform.up;
-
-            Vector2 pOffset = playerRigidbody.position;
-            Vector2 playerBottomPos = new Vector2(pOffset.x, playerCollider.bounds.min.y);
-            Vector2 finalPlyBtPos = playerBottomPos - topPos;
-
-            Debug.DrawRay(topPos, Vector2.up, Color.red);
-            angle = Vector2.Dot(finalPlyBtPos, topPosUp);
-
-
-            if (angle >= limitAngle)
-            {
-                Debug.DrawRay(topPos, finalPlyBtPos, Color.blue);
-
-            }
-            //Vector2 playerBottomPos = new Vector2(playerRigidbody.position.x, playerCollider.bounds.min.y);
-            //RaycastHit2D hit = Physics2D.Raycast(playerBottomPos, Vector2.down, 30f, noPlayerMask);
-
-            //angle = Vector2.Angle(hit.normal, Vector2.up);
-            ////Debug.DrawRay(playerBottomPos, Vector2.down * 30f, Color.magenta);
-
-            //Debug.DrawRay(hit.point, hit.normal*30f, Color.blue);
-
-        }
-
-
-    }
     private void UpdateVelocity()
     {
         updatingVelocity = playerRigidbody.velocity;
@@ -214,8 +207,6 @@ public class PlayerController : Character
         {
             playerStateMachine.ChangeState(eSTATE.PLAYER_DEFAULT);
         }
-
-
 
         // Play audio
         //audioPlayer.PlaySteps(blockType, horizontalSpeedNormalized);
@@ -281,27 +272,94 @@ public class PlayerController : Character
         if (blockType == BlockType.NONE)
         {
             //만약 땅에 닿아있는 상태가 아닐때 : 점프중이라면 점프 그라비티 스케일로, 아니라면 추락 그라비티 스케일로 변경
-            gravityScale = playerRigidbody.velocity.y > 0.0f ? jumpGravityScale : fallGravityScale;
+            gravityScale = 
+                playerRigidbody.velocity.y > 0.0f ? 
+                jumpGravityScale : fallGravityScale;
         }
 
         playerRigidbody.gravityScale = gravityScale;
     }
-    private void TestTopCheck()
-    {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 10f, noPlayerMask);
 
-        var currentPos = hit.collider.transform.position;
-        var currentUp = hit.collider.transform.up;
-        var playerPos = transform.position;
-        if (playerCollider.IsTouching(hit.collider))
-        {
-            if (Vector3.Dot(hit.collider.transform.up, transform.position - currentPos) >= 0)
-            {
-                Debug.DrawLine(currentPos, currentPos + currentUp, Color.red);
-                Debug.DrawLine(currentPos, currentPos + (playerPos - currentPos), Color.blue);
+    #region TestCollisionStay
+    //private void OnCollisionStay2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+    //    {
+    //        //ContactPoint2D test = collision.GetContact(0);
+    //        //TestObject.transform.position = test.point;
+    //        //평지의 경우
+    //        Vector2 cOffset = collision.gameObject.transform.position;
+    //        //Vector2 topPos = new Vector2(collision.collider.bounds.center.x, collision.collider.bounds.max.y);
+    //        //Vector2 topPosUp = topPos * Vector2.up;
+
+    //        Vector2 topPos = collision.transform.position;
+    //        Vector2 topPosUp = collision.transform.up;
+
+    //        Vector2 pOffset = playerRigidbody.position;
+    //        Vector2 playerBottomPos = new Vector2(pOffset.x, playerCollider.bounds.min.y);
+    //        Vector2 finalPlyBtPos = playerBottomPos - topPos;
+
+    //        Debug.DrawRay(topPos, Vector2.up, Color.red);
+    //        angle = Vector2.Dot(finalPlyBtPos, topPosUp);
 
 
-            }
-        }
-    }
+    //        if (angle >= limitAngle)
+    //        {
+    //            Debug.DrawRay(topPos, finalPlyBtPos, Color.blue);
+
+    //        }
+    //        //Vector2 playerBottomPos = new Vector2(playerRigidbody.position.x, playerCollider.bounds.min.y);
+    //        //RaycastHit2D hit = Physics2D.Raycast(playerBottomPos, Vector2.down, 30f, noPlayerMask);
+
+    //        //angle = Vector2.Angle(hit.normal, Vector2.up);
+    //        ////Debug.DrawRay(playerBottomPos, Vector2.down * 30f, Color.magenta);
+
+    //        //Debug.DrawRay(hit.point, hit.normal*30f, Color.blue);
+
+    //    }
+
+
+    //}
+
+    #endregion
+
+    #region TestTopCheck
+    //private void TestTopCheck()
+    //{
+    //    RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 10f, noPlayerMask);
+
+    //    var currentPos = hit.collider.transform.position;
+    //    var currentUp = hit.collider.transform.up;
+    //    var playerPos = transform.position;
+    //    if (playerCollider.IsTouching(hit.collider))
+    //    {
+    //        if (Vector3.Dot(hit.collider.transform.up, transform.position - currentPos) >= 0)
+    //        {
+    //            Debug.DrawLine(currentPos, currentPos + currentUp, Color.red);
+    //            Debug.DrawLine(currentPos, currentPos + (playerPos - currentPos), Color.blue);
+
+
+    //        }
+    //    }
+    //}
+    #endregion
+
+    #region TestCreateEdgeCollider
+    //void EdgeColliderTest()
+    //{
+    //    var offset = playerCollider.offset;
+    //    var addPaddingX = 0.02f;
+    //    var addRadius = 0.02f;
+    //    playerSideCollider = gameObject.AddComponent<EdgeCollider2D>();
+    //    Vector2[] tempPoints =
+    //    {
+    //        new Vector2(playerCollider.bounds.extents.x+offset.x+addPaddingX-addRadius, playerCollider.bounds.extents.y+offset.y-addRadius),
+    //        new Vector2(playerCollider.bounds.extents.x+offset.x+addPaddingX-addRadius, -playerCollider.bounds.extents.y+offset.y+addRadius),
+    //        new Vector2(-playerCollider.bounds.extents.x-offset.x-addPaddingX+addRadius, playerCollider.bounds.extents.y+offset.y-addRadius),
+    //        new Vector2(-playerCollider.bounds.extents.x-offset.x-addPaddingX+addRadius, -playerCollider.bounds.extents.y+offset.y+addRadius)
+    //    };
+    //    playerSideCollider.edgeRadius = 0.02f;
+    //    playerSideCollider.points = tempPoints;
+    //}
+    #endregion
 }

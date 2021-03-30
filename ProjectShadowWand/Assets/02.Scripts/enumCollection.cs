@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public enum eResolutionData
 {
     HD, FHD, QHD
@@ -61,6 +62,9 @@ public enum eChildType
 }
 
 
+/// <summary>
+/// //Enum들을 모아두려고 노력한 공간입니다.
+/// </summary>
 public class enumCollection : MonoBehaviour
 {
 
