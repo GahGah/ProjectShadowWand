@@ -9,9 +9,9 @@ public class InputManager : MonoBehaviour
 {
     public ButtonControl buttonUp;// = Keyboard.current.wKey;
     public ButtonControl buttonDown;// = Keyboard.current.sKey;
-    public ButtonControl buttonLeft; //= Keyboard.current.aKey;
-    public ButtonControl buttonRight; //= Keyboard.current.dKey;
-    public ButtonControl buttonJump;// = Keyboard.current.spaceKey;
+    public ButtonControl buttonMoveLeft; //= Keyboard.current.aKey;
+    public ButtonControl buttonMoveRight; //= Keyboard.current.dKey;
+    public ButtonControl buttonMoveJump;// = Keyboard.current.spaceKey;
     public ButtonControl buttonCtrl;// = Keyboard.current.ctrlKey;
     public ButtonControl buttonPause;// = Keyboard.current.escapeKey;
     public ButtonControl buttonCatch; //= Keyboard.current.leftShiftKey;
@@ -89,10 +89,10 @@ public class InputManager : MonoBehaviour
     public void SetButtonsDefaultKey()
     {
         buttonUp = Keyboard.current.wKey;
-        buttonLeft = Keyboard.current.aKey;
+        buttonMoveLeft = Keyboard.current.aKey;
         buttonDown = Keyboard.current.sKey;
-        buttonRight = Keyboard.current.dKey;
-        buttonJump = Keyboard.current.spaceKey;
+        buttonMoveRight = Keyboard.current.dKey;
+        buttonMoveJump = Keyboard.current.spaceKey;
         buttonMouseLeft = Mouse.current.leftButton;
         buttonCtrl = Keyboard.current.ctrlKey;
         buttonPause = Keyboard.current.escapeKey;

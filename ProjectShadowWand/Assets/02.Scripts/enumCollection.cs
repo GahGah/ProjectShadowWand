@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public enum eResolutionData
 {
     HD, FHD, QHD
@@ -17,7 +18,7 @@ public enum eMonsterType
 {
     A, B, C
 }
-public enum eSTATE // 상태를 정의해놓습니다.
+public enum eState // 상태를 정의해놓습니다.
 {
     PLAYER_DEFAULT,
     PLAYER_JUMP,
@@ -61,6 +62,9 @@ public enum eChildType
 }
 
 
+/// <summary>
+/// //Enum들을 모아두려고 노력한 공간입니다.
+/// </summary>
 public class enumCollection : MonoBehaviour
 {
 

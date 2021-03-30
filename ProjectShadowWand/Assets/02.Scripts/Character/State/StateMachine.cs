@@ -12,12 +12,12 @@ public class StateMachine
 
     //현재 스테이트
     protected State currentState;
-    protected eSTATE currentStateE;
+    protected eState currentStateE;
 
     //스테이트를 담는 딕셔너리
     //계속 new해서 생성하는건 최적화에 좀 안좋을 것 같아서
-    protected Dictionary<eSTATE, State> stateDict = new Dictionary<eSTATE, State>();
-    public virtual void ChangeState(eSTATE _state) // 상태를 바꿉니다.
+    protected Dictionary<eState, State> stateDict = new Dictionary<eState, State>();
+    public virtual void ChangeState(eState _state) // 상태를 바꿉니다.
     {
 
         var goReturn = false;
@@ -90,7 +90,12 @@ public class StateMachine
         }
     }
 
-    public eSTATE GetCurrentStateE()
+
+    /// <summary>
+    /// eState형식을 반환합니다.
+    /// </summary>
+    /// <returns></returns>
+    public eState GetCurrentStateE()
     {
         return currentStateE;
     }
@@ -102,8 +107,8 @@ public class StateMachine
     /// <summary>
     /// 해당하는 eState에 맞는 State를 반환합니다.
     /// </summary>
-    /// <param name="state">enum eSTATE</param>
-    public virtual State GetState(eSTATE _state)
+    /// <param name="state">enum eState</param>
+    public virtual State GetState(eState _state)
     {
         State returnState = new State();
         Debug.LogError("StateMachine GetState를 사용해버림");
