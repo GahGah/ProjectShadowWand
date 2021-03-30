@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public enum eResolutionData
 {
@@ -64,9 +65,10 @@ public enum eChildType
 /// <summary>
 /// // 날씨의 종류입니다. 중첩이 고려될 수도 있기에, 확장성을 위해 BitMask를 사용합니다.
 /// </summary>
+[Flags]
 public enum eWeatherType
 {
-    NONE = 0,
+    None = 0,
     SUNNY = 1 << 0,
     RAINY = 1 << 1,
     WINDY = 1 << 2,
