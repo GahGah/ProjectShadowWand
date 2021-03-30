@@ -88,8 +88,6 @@ Shader "Hidden/ShadowGroup2D"
 
                 o.vertex = TransformWorldToHClip(position);
 
-
-
                 // RGB - R is shadow value (to support soft shadows), G is Self Shadow Mask, B is No Shadow Mask
                 o.color = 1; // v.color;
                 o.color.g = 0.5;
