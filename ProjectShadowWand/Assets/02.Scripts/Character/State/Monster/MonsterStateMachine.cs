@@ -17,38 +17,38 @@ public class MonsterStateMachine : StateMachine
         Debug.Log("현재 스테이트 : " + currentState);
     }
 
-    public override void ChangeState(eSTATE _state)
+    public override void ChangeState(eState _state)
     {
         base.ChangeState(_state);
     }
 
-    public override State GetState(eSTATE _state)
+    public override State GetState(eState _state)
     {
         MonsterState tempState = new MonsterState();
         switch (_state)
         {
-            case eSTATE.MONSTER_DEFAULT:
+            case eState.MONSTER_DEFAULT:
                 if (monster.monsterType==eMonsterType.A) //A타입 일 경우
                 {
                     tempState = new MonsterStateA_Defalut(monster);
                 }
                 break;
 
-            case eSTATE.MONSTER_CHASE:
+            case eState.MONSTER_CHASE:
                 if (monster.monsterType == eMonsterType.A) //A타입 일 경우
                 {
                     tempState = new MonsterStateA_Chase(monster);
                 }
                 break;
 
-            case eSTATE.MONSTER_OUTSHADOW:
+            case eState.MONSTER_OUTSHADOW:
                 if (monster.monsterType == eMonsterType.A) //A타입 일 경우
                 {
                     tempState = new MonsterStateA_OutShadow(monster);
                 }
                 break;
 
-            case eSTATE.MONSTER_DIE:
+            case eState.MONSTER_DIE:
                 if (monster.monsterType == eMonsterType.A) //A타입 일 경우
                 {
                     tempState = new MonsterStateA_Die(monster);

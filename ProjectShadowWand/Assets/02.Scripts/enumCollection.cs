@@ -18,7 +18,7 @@ public enum eMonsterType
 {
     A, B, C
 }
-public enum eSTATE // 상태를 정의해놓습니다.
+public enum eState // 상태를 정의해놓습니다.
 {
     PLAYER_DEFAULT,
     PLAYER_JUMP,

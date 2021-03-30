@@ -80,7 +80,7 @@ public class PlayerController : Character
 
         //  EdgeColliderTest();
         playerStateMachine = new PlayerStateMachine(this);
-        playerStateMachine.ChangeState(eSTATE.PLAYER_DEFAULT);
+        playerStateMachine.ChangeState(eState.PLAYER_DEFAULT);
         playerStateMachine.Start();
     }
 
@@ -205,7 +205,7 @@ public class PlayerController : Character
 
         if (playerStateMachine.GetCurrentStateName() != "PlayerState_Default" && !isJumping && !isFalling)
         {
-            playerStateMachine.ChangeState(eSTATE.PLAYER_DEFAULT);
+            playerStateMachine.ChangeState(eState.PLAYER_DEFAULT);
         }
 
         // Play audio
@@ -221,7 +221,7 @@ public class PlayerController : Character
         // Jump
         if (jumpInput && blockType != BlockType.NONE)
         {
-            playerStateMachine.ChangeState(eSTATE.PLAYER_JUMP);
+            playerStateMachine.ChangeState(eState.PLAYER_JUMP);
 
         }
         else if (isJumping && isFalling)

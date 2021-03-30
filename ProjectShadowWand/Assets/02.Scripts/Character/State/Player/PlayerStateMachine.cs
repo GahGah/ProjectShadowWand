@@ -13,28 +13,28 @@ public class PlayerStateMachine : StateMachine
         //Debug.Log("스테이트 머신 기동 확인");
         //Debug.Log("현재 스테이트 : " + currentState);
     }
-    public override void ChangeState(eSTATE _state)
+    public override void ChangeState(eState _state)
     {
         base.ChangeState(_state);
     }
-    public override State GetState(eSTATE _state)
+    public override State GetState(eState _state)
     {
         PlayerState tempState = new PlayerState();
 
         switch (_state)
         {
-            case eSTATE.PLAYER_DEFAULT:
+            case eState.PLAYER_DEFAULT:
                 tempState = new PlayerState_Default(player);
                 break;
 
-            case eSTATE.PLAYER_JUMP:
+            case eState.PLAYER_JUMP:
                 tempState = new PlayerState_Jump(player);
                 break;
-            case eSTATE.PLAYER_AIR:
+            case eState.PLAYER_AIR:
                 tempState = new PlayerState_Air(player);
                 break;
 
-            case eSTATE.PLAYER_DIE:
+            case eState.PLAYER_DIE:
                 Debug.Log("Player_Die");
                 break;
             default:

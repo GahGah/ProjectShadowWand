@@ -30,7 +30,7 @@ public class Monster : Character
     public float detectDistance;
     public bool isDetected;
 
-    [SerializeField] private eSTATE currentMonsterState;
+    [SerializeField] private eState currentMonsterState;
     [HideInInspector] public float saveMoveInputX;
 
     #region 기존의 Monster 요소
@@ -155,7 +155,7 @@ public class Monster : Character
 
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Monster"), LayerMask.NameToLayer("Child"), true);
         monsterStateMachine = new MonsterStateMachine(this);
-        monsterStateMachine.ChangeState(eSTATE.MONSTER_DEFAULT);
+        monsterStateMachine.ChangeState(eState.MONSTER_DEFAULT);
         monsterStateMachine.Start();
     }
 
@@ -188,17 +188,17 @@ public class Monster : Character
 
     public void UpdateState()
     {
-        if (inShadow == false && monsterStateMachine.GetCurrentStateE() != eSTATE.MONSTER_OUTSHADOW)
+        if (inShadow == false && monsterStateMachine.GetCurrentStateE() != eState.MONSTER_OUTSHADOW)
         {
-            monsterStateMachine.ChangeState(eSTATE.MONSTER_OUTSHADOW);
+            monsterStateMachine.ChangeState(eState.MONSTER_OUTSHADOW);
         }
-        else if (isDetected == false && inShadow && monsterStateMachine.GetCurrentStateE() != eSTATE.MONSTER_DEFAULT) // 당연히 inShadow겠지만 일단 보험으로
+        else if (isDetected == false && inShadow && monsterStateMachine.GetCurrentStateE() != eState.MONSTER_DEFAULT) // 당연히 inShadow겠지만 일단 보험으로
         {
-            monsterStateMachine.ChangeState(eSTATE.MONSTER_DEFAULT);
+            monsterStateMachine.ChangeState(eState.MONSTER_DEFAULT);
         }
-        else if (isDetected == true && inShadow && monsterStateMachine.GetCurrentStateE() != eSTATE.MONSTER_CHASE)
+        else if (isDetected == true && inShadow && monsterStateMachine.GetCurrentStateE() != eState.MONSTER_CHASE)
         {
-            monsterStateMachine.ChangeState(eSTATE.MONSTER_CHASE);
+            monsterStateMachine.ChangeState(eState.MONSTER_CHASE);
         }
         else
         {
@@ -344,7 +344,7 @@ public class Monster : Character
     {
         MonsterManager.Instance.RemoveMonsterToList(this);
         isDie = true;
-        monsterStateMachine.ChangeState(eSTATE.MONSTER_DIE);
+        monsterStateMachine.ChangeState(eState.MONSTER_DIE);
     }
     public void DestroyMonster()
     {

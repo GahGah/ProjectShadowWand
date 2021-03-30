@@ -35,7 +35,7 @@ public class PlayerState_Default : PlayerState
     /// </summary>
     public override void PhysicsExecute()
     {
-        if (Mathf.Abs(player.playerRigidbody.velocity.x) > 1f)
+        if (Mathf.Abs(player.playerRigidbody.velocity.x) > 0f)
         {
             player.animator.SetBool(player.animatorWalkingBool, true);
         }
