@@ -226,7 +226,6 @@ public class PlayerController : Character
         }
         else if (isJumping && isFalling)
         {
-            return null;
             ////착지
             //if (blockType != eBlockType.NONE)
             //{
