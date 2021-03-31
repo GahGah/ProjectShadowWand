@@ -252,6 +252,7 @@ public class WeatherManager : MonoBehaviour
         return nowMainWeather;
     }
 
+
     public eSubWeatherType GetSubWeather()
     {
         return nowSubWeather;
