@@ -62,25 +62,48 @@ public enum eChildType
     KORA, TEME,
 }
 
-/// <summary>
-/// // 날씨의 종류입니다. 중첩이 고려될 수도 있기에, 확장성을 위해 BitMask를 사용합니다.
-/// </summary>
+/// <summary> 메인 날씨의 종류입니다. </summary>
 [Flags]
-public enum eWeatherType
+public enum eMainWeatherType
 {
-    None = 0,
-    SUNNY = 1 << 0,
-    RAINY = 1 << 1,
-    WINDY = 1 << 2,
-    Opt4 = 1 << 3,
-    Opt5 = 1 << 4,
-    Opt6 = 1 << 5,
-    Opt7 = 1 << 6
+    SUNNY = 0,
+    RAINY = 1
 }
 
+/// <summary> 서브 날씨의 종류입니다. 메인 날씨와 중첩되어 사용됩니다. </summary>
+public enum eSubWeatherType
+{
+    NONE = 0,
+    WINDY = 1
+}
+
+/// <summary> 에러 관리를 위한 enum입니다. 특정 함수에서 상황에 맞게 반환됩니다. </summary>
 public enum eErrorType
 {
+    NONE = 0,
     MANAGER_INIT_ERROR = -1
+}
+
+/// <summary> 레이어 관리를 위한 eNum입니다. 레이어 이름이나 순서가 바뀐다면 직접 갱신을 부탁합니다. </summary>
+public enum eLayer
+{
+    Default = 0,
+    TransparentFX = 1,
+    IgnoreRaycast = 2,
+    _LAYER3 = 3,
+    Water = 4,
+    UI = 5,
+    _LAYER6 = 6,
+    _LAYER7 = 7,
+    Monster = 8,
+    Ground = 9,
+    GroundSoft = 10,
+    GroundHard = 11,
+    Player = 12,
+    LightBoom = 13,
+    Child = 14,
+    WeatherLight = 15,
+    SubLight = 16
 }
 
 /// <summary>
