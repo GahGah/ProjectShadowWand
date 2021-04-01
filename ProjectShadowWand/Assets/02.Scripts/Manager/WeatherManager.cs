@@ -5,9 +5,11 @@ using UnityEngine.Experimental.Rendering.Universal;
 using System;
 
 
-// https://forum.unity.com/threads/lerp-from-one-gradient-to-another.342561/
+
 namespace Util
 {
+    // https://forum.unity.com/threads/lerp-from-one-gradient-to-another.342561/
+    // 그라디언트 Lerp. 위 주소에서 복제해 그대로 사용. 이후 문제가 되면 자신의 코드로 재 작성 필요.
     public static class Gradient
     {
         public static UnityEngine.Gradient Lerp(UnityEngine.Gradient a, UnityEngine.Gradient b, float t)
@@ -200,10 +202,6 @@ public class WeatherManager : MonoBehaviour
         
     }
 
-    private void applyWeatherColor()
-    {
-
-    }
 
     IEnumerator applyMainWeather()
     {

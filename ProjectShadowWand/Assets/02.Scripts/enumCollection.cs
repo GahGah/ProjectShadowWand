@@ -63,7 +63,6 @@ public enum eChildType
 }
 
 /// <summary> 메인 날씨의 종류입니다. </summary>
-[Flags]
 public enum eMainWeatherType
 {
     SUNNY = 0,
