@@ -102,7 +102,9 @@ public enum eLayer
     LightBoom = 13,
     Child = 14,
     WeatherLight = 15,
-    SubLight = 16
+    SubLight = 16,
+    WeatherFx_Default = 17,
+    WeatherFx_withOpaqueTex = 18,
 }
 
 /// <summary>
