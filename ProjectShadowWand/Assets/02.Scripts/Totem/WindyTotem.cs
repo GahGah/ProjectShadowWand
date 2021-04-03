@@ -19,10 +19,14 @@ public class WindyTotem : Totem
 
     private void Awake()
     {
+        Init();
+    }
+    protected override void Init()
+    {
+        base.Init();
         originalAngle = areaEffector.forceAngle;
         originalMagnitude = areaEffector.forceMagnitude;
         originalDirection = forceField.directionX.constant;
-        sr = GetComponent<SpriteRenderer>();
     }
     public void Update()
     {

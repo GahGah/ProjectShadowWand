@@ -22,6 +22,14 @@ public class Totem : MonoBehaviour
     public bool isInteractable = true;
     protected eMainWeatherType defaultWeatherType;
 
+    protected virtual void Init()
+    {
+        sr = GetComponent<SpriteRenderer>();
+        canUse = true;
+        isOn = false;
+        isPlayerIn = false;
+        isInteractable = true;
+    }
     protected virtual void CheckingInput()
     {
         if (isInteractable)

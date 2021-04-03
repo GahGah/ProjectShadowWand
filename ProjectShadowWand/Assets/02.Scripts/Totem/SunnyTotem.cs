@@ -11,11 +11,15 @@ public class SunnyTotem : Totem
 
     private void Awake()
     {
-        mainWeatherType = eMainWeatherType.SUNNY;
-    }
-    private void OnEnable()
-    {
+
+        Init();
         SetDefaultWeatherType();
+    }
+
+    protected override void Init()
+    {
+        base.Init();
+        mainWeatherType = eMainWeatherType.SUNNY;
     }
 
     private void Update()
@@ -34,8 +38,8 @@ public class SunnyTotem : Totem
             {
                 //if (rainEffect.activeSelf == true)
                 //{
-                    rainEffect.SetActive(false);
-                    isOn = true;
+                rainEffect.SetActive(false);
+                isOn = true;
                 //}
 
             }
@@ -43,8 +47,8 @@ public class SunnyTotem : Totem
             {
                 //if (rainEffect.activeSelf == false)
                 //{
-                    rainEffect.SetActive(true);
-                    isOn = false;
+                rainEffect.SetActive(true);
+                isOn = false;
                 //}
 
             }

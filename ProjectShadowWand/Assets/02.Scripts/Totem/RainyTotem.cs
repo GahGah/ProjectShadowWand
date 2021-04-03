@@ -8,11 +8,14 @@ public class RainyTotem : Totem
 
     private void Awake()
     {
-        mainWeatherType = eMainWeatherType.RAINY;
-    }
-    private void OnEnable()
-    {
+        Init();
         SetDefaultWeatherType();
+    }
+
+    protected override void Init()
+    {
+        base.Init();
+        mainWeatherType = eMainWeatherType.RAINY;
     }
 
     private void Update()
