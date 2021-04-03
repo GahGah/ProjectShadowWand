@@ -6,9 +6,14 @@ using UnityEngine;
 public class Tornado : WeatherInteractionObject
 {
 
+    private void Awake()
+    {
+        Init();
+    }
     private void Update()
     {
-        Exectue();   
+        ChangeState();
+        Exectue();
     }
     public override void Exectue()
     {

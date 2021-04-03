@@ -12,21 +12,23 @@ public class WeatherInteractionObject : MonoBehaviour
     public delegate void WeatherDelegate();
     WeatherDelegate weatherDelegate;
 
-    private void Awake()
-    {
-        
-    }
-
     public void Init()
     {
         affectedWeather = eMainWeatherType.SUNNY;
         weatherDelegate = ProcessSunny;
     }
 
+    /// <summary>
+    /// 아직은  ChangeState()를 돌리는 것 밖에 안합니다.
+    /// </summary>
     public virtual void Exectue()
     {
-        ChangeState();
+        weatherDelegate();
     }
+
+    /// <summary>
+    /// 현재 날씨에 따라서(웨더매니저.겟메인웨더), 어떤 함수를 호출할 지를 바꿉니다.
+    /// </summary>
     public virtual void ChangeState()
     {
         eMainWeatherType nowMainType = WeatherManager.Instance.GetMainWeather();

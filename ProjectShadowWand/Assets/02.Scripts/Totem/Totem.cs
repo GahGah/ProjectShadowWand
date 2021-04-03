@@ -14,16 +14,80 @@ public class Totem : MonoBehaviour
 
     public SpriteRenderer sr;
 
-    public bool canUse;
-    public bool isOn;
+    public bool canUse = true;
+    public bool isOn = false;
 
     protected bool isPlayerIn = false;
+
+    public bool isInteractable = true;
+    protected eMainWeatherType defaultWeatherType;
+
+    protected virtual void CheckingInput()
+    {
+        if (isInteractable)
+        {
+            if (canUse)
+            {
+
+                if (InputManager.Instance.buttonCatch.wasPressedThisFrame && isPlayerIn == true)
+                {
+                    Debug.Log("is Change");
+
+                    if (WeatherManager.Instance.GetMainWeather() !=mainWeatherType)
+                    {
+                        WeatherManager.Instance.SetMainWeather(mainWeatherType);
+                    }
+                    else
+                    {
+                    }
+                }
+            }
+        }
+
+
+    }
+    /// <summary>
+    /// 이게 그냥 StageWeatherType이라는 게 될 수 있음. 주의하기.
+    /// 그렇다면, 그냥 ChangeCanUse에서 디폴트웨더타입 대신 스테이지 웨더 ㅌ타입을 사용하면 됨.
+    /// </summary>
+    protected void SetDefaultWeatherType()
+    {
+        defaultWeatherType = WeatherManager.Instance.GetMainWeather();
+    }
+    /// <summary>
+    /// 만약 토템이 담당하는 날씨와 현재 날씨가 같다면, 토템을 종료시키고 사용할 수 없는 상태로 만듭니다.
+    /// </summary>
+    public virtual void ChangeCanUse()
+    {
+
+        //메인 웨더 타입이 스테이지 기본 타입과 현재 타입이랑 같아야  사용 불가.
+
+        //하지만 메인 웨더 타입이 현재 타입이랑 같다 : 그냥 활성화된 상태.
+        //하지만 메인 웨더 타입이 기본 타입이랑 같다 : 쓸 수 없는 상태.
+
+        //하지만 여기서 문제가 되는건, 다른 토템에 의해서 현재 타입이 바뀌었을 때.
+        //그렇다면, 메인웨더 타입과 현재 타입이 달라짐. 즉, false를 반환함.
+        if (mainWeatherType==defaultWeatherType
+            &&mainWeatherType==WeatherManager.Instance.GetMainWeather())
+
+        {
+            canUse = false;
+        }
+        else
+        {
+            canUse = true;
+        }
+    }
 
     public void ChangeWeather()
     {
         if (canUse)
         {
-            //뭔가 날씨 바꾸는거
+            ChangeMainWeather();
+        }
+        else
+        {
+
         }
 
     }
@@ -59,15 +123,25 @@ public class Totem : MonoBehaviour
 
     }
 
+
+
     protected void ColorChange()
     {
-        if (isOn)
+        if (canUse == false)
         {
-            sr.color = Color.blue;
+            sr.color = Color.gray;
         }
         else
         {
-            sr.color = Color.red;
+            if (isOn)
+            {
+                sr.color = Color.blue;
+            }
+            else
+            {
+                sr.color = Color.red;
+            }
         }
+
     }
 }

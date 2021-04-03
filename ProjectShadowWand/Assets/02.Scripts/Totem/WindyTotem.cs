@@ -27,7 +27,11 @@ public class WindyTotem : Totem
     public void Update()
     {
         CheckingInput();
+        Execute();
 
+    }
+    public override void Execute()
+    {
         if (isOn)
         {
 
@@ -58,9 +62,11 @@ public class WindyTotem : Totem
                 areaEffector.forceMagnitude = originalMagnitude;
             }
         }
+        ColorChange();
     }
 
-    private void CheckingInput()
+
+    protected override void CheckingInput()
     {
         if (InputManager.Instance.buttonCatch.wasPressedThisFrame
             && isPlayerIn == true)
