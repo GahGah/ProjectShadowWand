@@ -30,9 +30,10 @@ public class WindyTotem : Totem
 
         if (isOn)
         {
-            sr.color = Color.blue;
+
             if (windAngle != areaEffector.forceAngle)
             {
+                sr.color = Color.blue;
                 areaEffector.forceAngle = windAngle;
                 var test = new Vector3(0, Mathf.Sin(Mathf.Deg2Rad * windAngle), Mathf.Cos(Mathf.Deg2Rad * windAngle));
                 forceField.directionX = test.y;
@@ -45,9 +46,10 @@ public class WindyTotem : Totem
         }
         else
         {
-            sr.color = Color.red;
+
             if (originalAngle != areaEffector.forceAngle)
             {
+                sr.color = Color.red;
                 areaEffector.forceAngle = originalAngle;
                 forceField.directionX = originalDirection;
             }

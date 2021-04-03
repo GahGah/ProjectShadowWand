@@ -107,6 +107,14 @@ public class PlayerController : Character
         {
             ProcessDie();
         }
+        else
+        {
+            if (CanMove==false)
+            {
+                ProcessRaise();
+            }
+
+        }
         
     }
 
@@ -114,6 +122,12 @@ public class PlayerController : Character
     {
         playerRigidbody.rotation = 90f;
         CanMove = false;
+    }
+
+    void ProcessRaise()
+    {
+        playerRigidbody.rotation = 0f;
+        CanMove = true;
     }
     void FixedUpdate()
     {
