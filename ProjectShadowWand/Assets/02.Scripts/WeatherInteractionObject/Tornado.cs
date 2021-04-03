@@ -11,7 +11,6 @@ public class Tornado : WeatherInteractionObject
     private void Awake()
     {
     }
-
     public override void Init()
     {
         base.Init();
@@ -38,5 +37,13 @@ public class Tornado : WeatherInteractionObject
     public override void ProcessSunny()
     {
 
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("AreaEffector"))
+        {
+            Debug.Log("아리아 이펙터");
+        }
     }
 }

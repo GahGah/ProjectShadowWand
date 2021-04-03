@@ -106,6 +106,7 @@ public enum eLayer
     WeatherFx_Default = 17,
     WeatherFx_withOpaqueTex = 18,
     Tornado = 19,
+    AreaEffector = 20,
 }
 
 /// <summary>
