@@ -83,50 +83,10 @@ namespace Util
     }
 }
 
-[Serializable]
-public struct MainWeatherColor
-{
-    public Gradient SkyGradient;
-
-    public Color globalLightColor;
-    public float globalLightIntensity;
-
-    public Color mainLightColor;
-    public float mainLightIntensity;
-
-    public float mainLightShadowIntensity;
-    //public Color shadowColor;
-
-    public ParticleSystem[] fxParticles;
-
-    //public Color SubWeatherColor;
-};
-
-[Serializable]
-public struct SubWeatherColor
-{
-    public float lerpIntensity;
-
-    public Gradient SkyGradient;
-
-    public Color globalLightColor;
-    public float globalLightIntensity;
-
-    public Color mainLightColor;
-    public float mainLightIntensity;
-
-    public float mainLightShadowIntensity;
-
-    public ParticleSystem[] fxParticles;
-}
-
 [ExecuteInEditMode]
 public class WeatherManager : MonoBehaviour
 {
     public static WeatherManager Instance;
-
-    [SerializeField] private Light2D _GlobalLight2DObject;
-    [SerializeField] private List<Light2D> weatherLight;
 
     private eMainWeatherType prevMainWeather = eMainWeatherType.SUNNY;
     [SerializeField] private eMainWeatherType nowMainWeather = eMainWeatherType.SUNNY;
@@ -156,24 +116,6 @@ public class WeatherManager : MonoBehaviour
     /// <summary> WeatherManager를 초기화합니다. 정상적으로 초기화를 완료했을 시 eErrorType.NONE을 반환합니다. 어딘가 비정상적일 시, eErrorType.MANAGER_INIT_ERROR를 반환합니다. </summary>
     public eErrorType Init()
     {
-        // Light2D 중, WeatherLight 레이어에 있는 것들을 제외하고 전부 제외.
-        // _GlobalLight 도 제외.
-        weatherLight.AddRange(FindObjectsOfType(typeof(Light2D)) as Light2D[]);
-        var toRemove = new HashSet<Light2D>();
-        for(int i = 0; i<weatherLight.Count; ++i)
-        {
-            if(weatherLight[i].gameObject.layer != (int)eLayer.WeatherLight)
-            {
-                toRemove.Add(weatherLight[i]);
-            }
-        }
-        weatherLight.RemoveAll(toRemove.Contains);
-        weatherLight.Remove(_GlobalLight2DObject);
-
-        // 정상/비정상 반환
-        if (_GlobalLight2DObject == null){ return eErrorType.MANAGER_INIT_ERROR; }
-        if (weatherLight.Count == 0) { return eErrorType.MANAGER_INIT_ERROR; }
-
         return eErrorType.NONE;
     }
 
@@ -230,10 +172,13 @@ public class WeatherManager : MonoBehaviour
         return nowSubWeather;
     }
 
+    /// <summary> 이전의 메인 날씨를 반환합니다. </summary>
     public eMainWeatherType GetPrevMainWeather()
     {
         return prevMainWeather;
     }
+
+    /// <summary> [Legacy] 이전의 서브 날씨를 반환합니다. </summary>
     public eSubWeatherType GetPrevSubWeather()
     {
         return prevSubWeather;
