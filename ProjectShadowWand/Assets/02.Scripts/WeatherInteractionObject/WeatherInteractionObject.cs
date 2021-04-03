@@ -7,12 +7,12 @@ using UnityEngine.Experimental.Rendering.Universal;
 /// </summary>
 public class WeatherInteractionObject : MonoBehaviour
 {
-    [Tooltip("현재 이 오브젝트가 영향을 받고있는 날씨를 뜻합니다.")]
+    [Tooltip("현재 이 오브젝트가 영향을 받고있는 날씨를 뜻합니다."), HideInInspector]
     public eMainWeatherType affectedWeather;
     public delegate void WeatherDelegate();
     WeatherDelegate weatherDelegate;
 
-    public void Init()
+    public virtual void Init()
     {
         affectedWeather = eMainWeatherType.SUNNY;
         weatherDelegate = ProcessSunny;

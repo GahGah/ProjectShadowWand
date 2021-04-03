@@ -5,10 +5,16 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Tornado : WeatherInteractionObject
 {
+    public PlayerController player;
 
+    public bool isPlayerIn;
     private void Awake()
     {
-        Init();
+    }
+
+    public override void Init()
+    {
+        base.Init();
     }
     private void Update()
     {

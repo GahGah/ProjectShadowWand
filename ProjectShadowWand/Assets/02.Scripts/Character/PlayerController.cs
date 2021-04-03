@@ -118,13 +118,13 @@ public class PlayerController : Character
         
     }
 
-    void ProcessDie()
+    public void ProcessDie()
     {
         playerRigidbody.rotation = 90f;
         CanMove = false;
     }
 
-    void ProcessRaise()
+    public void ProcessRaise()
     {
         playerRigidbody.rotation = 0f;
         CanMove = true;
