@@ -19,7 +19,7 @@ public class WeatherInteractionObject : MonoBehaviour
     }
 
     /// <summary>
-    /// 아직은  ChangeState()를 돌리는 것 밖에 안합니다.
+    /// 아직은 weatherDelegate를 돌리는 것 밖에 안합니다.
     /// </summary>
     public virtual void Exectue()
     {

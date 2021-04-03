@@ -7,18 +7,38 @@ public class Tornado : WeatherInteractionObject
 {
     public PlayerController player;
 
-    public bool isPlayerIn;
+    [Header("ÁÂ,¿ì·Î ¿òÁ÷ÀÌ´Â Èû")]
+    public float movePower;
+
+    private bool isPlayerIn;
+
+    private Rigidbody2D rb;
+
+    public LayerMask areaMask;
     private void Awake()
     {
+        Init();
     }
     public override void Init()
     {
         base.Init();
+        rb = GetComponent<Rigidbody2D>();
     }
     private void Update()
     {
         ChangeState();
         Exectue();
+
+        if (rb.IsTouchingLayers(LayerMask.GetMask("AreaEffector")))
+        {
+            //rb.bodyType = RigidbodyType2D.Dynamic;
+        }
+        else
+        {
+           // rb.bodyType = RigidbodyType2D.Kinematic;
+            rb.velocity = new Vector2(movePower, 0f);
+        }
+    
     }
     public override void Exectue()
     {
@@ -36,14 +56,7 @@ public class Tornado : WeatherInteractionObject
     }
     public override void ProcessSunny()
     {
-
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("AreaEffector"))
-        {
-            Debug.Log("¾Æ¸®¾Æ ÀÌÆåÅÍ");
-        }
-    }
+
 }
