@@ -105,6 +105,7 @@ public enum eLayer
     SubLight = 16,
     WeatherFx_Default = 17,
     WeatherFx_withOpaqueTex = 18,
+    Tornado = 19,
 }
 
 /// <summary>
