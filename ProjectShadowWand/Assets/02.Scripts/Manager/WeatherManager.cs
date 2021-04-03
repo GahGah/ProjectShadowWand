@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 using System;
 
-
-
 namespace Util
 {
     // https://forum.unity.com/threads/lerp-from-one-gradient-to-another.342561/
@@ -148,11 +146,6 @@ public class WeatherManager : MonoBehaviour
     [SerializeField] float mainWeatherChangeSmoothTime = 5.0f;
     [SerializeField] float subWeatherChangeSmoothTime = 2.5f;
 
-    
-
-    //아래부터는 SerializeField? 제대로 들어오는지 직접 보기 위해서. 이후 삭제함.
-
-
     // 싱글톤 패턴
     private void Awake()
     {
@@ -228,7 +221,7 @@ public class WeatherManager : MonoBehaviour
         prevMainWeather = nowMainWeather;
         nowMainWeather = mWeatherType;
 
-        StartCoroutine(applyMainWeather());
+        //StartCoroutine(applyMainWeather());
 
         return true;
     }
