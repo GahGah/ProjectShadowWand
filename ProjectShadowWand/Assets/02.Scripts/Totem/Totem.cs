@@ -37,6 +37,11 @@ public class Totem : MonoBehaviour
         return WeatherManager.Instance.SetSubWeather(subWeatherType);
     }
 
+    public virtual void Execute()
+    {
+
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -52,5 +57,17 @@ public class Totem : MonoBehaviour
             isPlayerIn = false;
         }
 
+    }
+
+    protected void ColorChange()
+    {
+        if (isOn)
+        {
+            sr.color = Color.blue;
+        }
+        else
+        {
+            sr.color = Color.red;
+        }
     }
 }

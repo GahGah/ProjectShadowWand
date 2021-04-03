@@ -7,33 +7,34 @@ public class SunnyTotem : Totem
     public GameObject rainEffect;
     private void CheckingInput()
     {
-        if (InputManager.Instance.buttonCatch.wasPressedThisFrame
-            && isPlayerIn == true)
+        if (InputManager.Instance.buttonCatch.wasPressedThisFrame && isPlayerIn == true)
         {
             Debug.Log("is Change");
 
-            isOn = !isOn;
-            if (WeatherManager.Instance.SetMainWeather(eMainWeatherType.SUNNY) == true)
+            if (WeatherManager.Instance.GetMainWeather() != eMainWeatherType.SUNNY)
             {
-                isOn = true;
-
+                WeatherManager.Instance.SetMainWeather(eMainWeatherType.SUNNY);
             }
-
-
 
         }
     }
+
     private void Update()
     {
         CheckingInput();
+        Execute();
 
+    }
 
-        if (isOn)
+    public override void Execute()
+    {
+        if (WeatherManager.Instance.GetMainWeather() == eMainWeatherType.SUNNY)
         {
             if (rainEffect.activeSelf == true)
             {
-                sr.color = Color.blue;
+
                 rainEffect.SetActive(false);
+                isOn = true;
             }
 
         }
@@ -41,14 +42,13 @@ public class SunnyTotem : Totem
         {
             if (rainEffect.activeSelf == false)
             {
-
-                sr.color = Color.red;
                 rainEffect.SetActive(true);
+                isOn = false;
             }
-
 
         }
 
-        
+        ColorChange();
     }
+
 }
