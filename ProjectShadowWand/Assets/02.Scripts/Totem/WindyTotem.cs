@@ -2,18 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WindTotem : Totem
+public class WindyTotem : Totem
 {
     public AreaEffector2D areaEffector;
     public ParticleSystemForceField forceField;
 
-    public SpriteRenderer sr;
-
     private float originalAngle;
     private float originalMagnitude;
     private float originalDirection;
-
-    private bool isPlayerIn = false;
 
     [Tooltip("바람의 각도입니다.")]
     public float windAngle;
@@ -26,6 +22,7 @@ public class WindTotem : Totem
         originalAngle = areaEffector.forceAngle;
         originalMagnitude = areaEffector.forceMagnitude;
         originalDirection = forceField.directionX.constant;
+        sr = GetComponent<SpriteRenderer>();
     }
     public void Update()
     {
@@ -71,30 +68,6 @@ public class WindTotem : Totem
         }
     }
 
-
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            isPlayerIn = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            isPlayerIn = false;
-        }
-
-    }
-
-    private void OnDrawGizmos()
-    {
-        //Gizmos.color = Color.red;
-        //DrawArrow.ForGizmo(gameObject.transform.position, Vector2.right);
-    }
 
 }
 

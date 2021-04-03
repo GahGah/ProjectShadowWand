@@ -103,8 +103,7 @@ public class PlayerController : Character
 
     private void OnParticleCollision(GameObject other)
     {
-
-        if (other.layer==(int)eLayer.WeatherFx_withOpaqueTex)
+        if (other.layer==(int)eLayer.WeatherFx_withOpaqueTex &&CanMove==true)
         {
             ProcessDie();
         }

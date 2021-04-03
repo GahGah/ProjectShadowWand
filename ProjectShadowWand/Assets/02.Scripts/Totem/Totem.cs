@@ -12,13 +12,15 @@ public class Totem : MonoBehaviour
     public eMainWeatherType mainWeatherType;
     public eSubWeatherType subWeatherType;
 
+    public SpriteRenderer sr;
 
     public bool canUse;
     public bool isOn;
 
+    protected bool isPlayerIn = false;
+
     public void ChangeWeather()
     {
-
         if (canUse)
         {
             //¹º°¡ ³¯¾¾ ¹Ù²Ù´Â°Å
@@ -33,5 +35,22 @@ public class Totem : MonoBehaviour
     public bool ChangeSubWeather()
     {
         return WeatherManager.Instance.SetSubWeather(subWeatherType);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            isPlayerIn = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            isPlayerIn = false;
+        }
+
     }
 }
