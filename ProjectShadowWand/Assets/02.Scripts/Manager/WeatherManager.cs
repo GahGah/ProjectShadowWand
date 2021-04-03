@@ -120,7 +120,7 @@ public struct SubWeatherColor
     public ParticleSystem[] fxParticles;
 }
 
-
+[ExecuteInEditMode]
 public class WeatherManager : MonoBehaviour
 {
     public static WeatherManager Instance;
@@ -134,17 +134,13 @@ public class WeatherManager : MonoBehaviour
     private eSubWeatherType prevSubWeather = eSubWeatherType.NONE;
     [SerializeField] private eSubWeatherType nowSubWeather = eSubWeatherType.NONE;
 
-    [SerializeField] private MainWeatherColor[] mainWeatherColorSettings;
-    [SerializeField] private SubWeatherColor[] subWeatherColorSettings;
+    public bool isMainWeatherChanging = false;
+    public bool isSubWeatherChanging = false;
 
-    [SerializeField] private MainWeatherColor curMainWeatherColor = new MainWeatherColor();
-    [SerializeField] private SubWeatherColor curSubWeatherColor = new SubWeatherColor();
+    [SerializeField] private float mainWeatherChangeSmoothTime = 5.0f;
+    [SerializeField] private float subWeatherChangeSmoothTime = 2.5f;
 
-    private bool isMainWeatherChanging = false;
-    private bool isSubWeatherChanging = false;
-
-    [SerializeField] float mainWeatherChangeSmoothTime = 5.0f;
-    [SerializeField] float subWeatherChangeSmoothTime = 2.5f;
+    public float changingMainWeatherRatio = 0;
 
     // 싱글톤 패턴
     private void Awake()
@@ -155,6 +151,7 @@ public class WeatherManager : MonoBehaviour
             WeatherManager.DontDestroyOnLoad(this.gameObject); // 씬 로딩을 할 때(옮겨다닐 때) 지우지마라 
         }
     }
+
 
     /// <summary> WeatherManager를 초기화합니다. 정상적으로 초기화를 완료했을 시 eErrorType.NONE을 반환합니다. 어딘가 비정상적일 시, eErrorType.MANAGER_INIT_ERROR를 반환합니다. </summary>
     public eErrorType Init()
@@ -173,10 +170,6 @@ public class WeatherManager : MonoBehaviour
         weatherLight.RemoveAll(toRemove.Contains);
         weatherLight.Remove(_GlobalLight2DObject);
 
-        // 현재 날씨의 초기값 설정.
-        
-
-
         // 정상/비정상 반환
         if (_GlobalLight2DObject == null){ return eErrorType.MANAGER_INIT_ERROR; }
         if (weatherLight.Count == 0) { return eErrorType.MANAGER_INIT_ERROR; }
@@ -184,19 +177,7 @@ public class WeatherManager : MonoBehaviour
         return eErrorType.NONE;
     }
 
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
-
-
-    IEnumerator applyMainWeather()
+    IEnumerator runMainWeatherTimer()
     {
         float mainWeatherTimer = 0;
         isMainWeatherChanging = true;
@@ -204,11 +185,11 @@ public class WeatherManager : MonoBehaviour
         while (mainWeatherTimer <= mainWeatherChangeSmoothTime)
         {
             mainWeatherTimer += Time.deltaTime;
+            changingMainWeatherRatio = mainWeatherTimer / mainWeatherChangeSmoothTime;
 
             yield return null;
         }
 
-        curMainWeatherColor = mainWeatherColorSettings[(int)nowMainWeather];
         isMainWeatherChanging = false;
     }
 
@@ -221,12 +202,12 @@ public class WeatherManager : MonoBehaviour
         prevMainWeather = nowMainWeather;
         nowMainWeather = mWeatherType;
 
-        //StartCoroutine(applyMainWeather());
+        StartCoroutine(runMainWeatherTimer());
 
         return true;
     }
 
-    /// <summary> 서브 날씨를 변경합니다. 날씨가 바뀌고 있는 도중이라면 false를 반환하며, 날씨가 변경되지 않습니다. 정상적으로 변경했을 시 true를 반환합니다. </summary>
+    /// <summary> [Legacy] 서브 날씨를 변경합니다. 날씨가 바뀌고 있는 도중이라면 false를 반환하며, 날씨가 변경되지 않습니다. 정상적으로 변경했을 시 true를 반환합니다. </summary>
     public bool SetSubWeather(eSubWeatherType sWeatherType)
     {
         if(isSubWeatherChanging == true) { return false; }
@@ -243,9 +224,18 @@ public class WeatherManager : MonoBehaviour
         return nowMainWeather;
     }
 
-
+    /// <summary> [Legacy] 현재의 서브 날씨를 반환합니다. </summary>
     public eSubWeatherType GetSubWeather()
     {
         return nowSubWeather;
+    }
+
+    public eMainWeatherType GetPrevMainWeather()
+    {
+        return prevMainWeather;
+    }
+    public eSubWeatherType GetPrevSubWeather()
+    {
+        return prevSubWeather;
     }
 }
