@@ -35,11 +35,6 @@ public class InputManager : MonoBehaviour
             Debug.Log("이미 instance가 존재합니다." + this);
         }
         DontDestroyOnLoad(gameObject);
-    }
-
-
-    private void Start()
-    {
 #if UNITY_EDITOR
         if (Keyboard.current == null)
         {
@@ -62,6 +57,12 @@ public class InputManager : MonoBehaviour
 #endif
         keyboard = Keyboard.current;
         SetButtonsDefaultKey();
+    }
+
+
+    private void Start()
+    {
+
     }
 
 
@@ -96,7 +97,7 @@ public class InputManager : MonoBehaviour
         buttonMouseLeft = Mouse.current.leftButton;
         buttonCtrl = Keyboard.current.ctrlKey;
         buttonPause = Keyboard.current.escapeKey;
-        buttonCatch = Keyboard.current.leftShiftKey;
+        buttonCatch = Keyboard.current.cKey;
         buttonScroll = Mouse.current.scroll;
     }
 

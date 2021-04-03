@@ -33,7 +33,7 @@ public class PlayerController : Character
     private LayerMask groundMask;
     private LayerMask wallMask;
     private LayerMask movingGroundMask;
-
+    private LayerMask rainMask;
     [HideInInspector] public Vector2 prevVelocity;
     private Vector2 updatingVelocity;
 
@@ -82,22 +82,40 @@ public class PlayerController : Character
         playerStateMachine = new PlayerStateMachine(this);
         playerStateMachine.ChangeState(eState.PLAYER_DEFAULT);
         playerStateMachine.Start();
+        rainMask = LayerMask.GetMask(eLayer.WeatherFx_withOpaqueTex.ToString());
     }
+
 
     void Update()
     {
         if (!CanMove)
             return;
 
-        if (inputManager.keyboard.tKey.wasPressedThisFrame)
-        {
-            lightExplosionObject.SetActive(true);
-        }
+        //if (inputManager.keyboard.tKey.wasPressedThisFrame)
+        //{
+        //    lightExplosionObject.SetActive(true);
+        //}
+
 
         CheckInput();
         playerStateMachine.Update();
     }
 
+    private void OnParticleCollision(GameObject other)
+    {
+
+        if (other.layer==(int)eLayer.WeatherFx_withOpaqueTex)
+        {
+            ProcessDie();
+        }
+        
+    }
+
+    void ProcessDie()
+    {
+        playerRigidbody.rotation = 90f;
+        CanMove = false;
+    }
     void FixedUpdate()
     {
         UpdateGroundCheck();
@@ -252,12 +270,12 @@ public class PlayerController : Character
     private void UpdateDirection()
     {
         //스케일 변경으로 flip
-        if (playerRigidbody.velocity.x > minFlipSpeed && isFlipped)
+        if (InputManager.Instance.buttonMoveRight.isPressed &&playerRigidbody.velocity.x > minFlipSpeed && isFlipped)
         {
             isFlipped = false;
             puppet.localScale = Vector3.one;
         }
-        else if (playerRigidbody.velocity.x < -minFlipSpeed && !isFlipped)
+        else if (InputManager.Instance.buttonMoveLeft.isPressed && playerRigidbody.velocity.x < -minFlipSpeed && !isFlipped)
         {
             isFlipped = true;
             puppet.localScale = flippedScale;

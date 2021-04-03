@@ -16,7 +16,7 @@ public class PlayerState_Default : PlayerState
     public override void Enter()
     {
         Log("Enter Default");
-        if (Mathf.Abs(player.playerRigidbody.velocity.x) > 1f)
+        if ((InputManager.Instance.buttonMoveRight.isPressed || InputManager.Instance.buttonMoveLeft.isPressed) && Mathf.Abs(player.playerRigidbody.velocity.x) > 0f)
         {
             player.animator.SetBool(player.animatorWalkingBool, true);
         }
@@ -35,7 +35,7 @@ public class PlayerState_Default : PlayerState
     /// </summary>
     public override void PhysicsExecute()
     {
-        if (Mathf.Abs(player.playerRigidbody.velocity.x) > 0f)
+        if ((InputManager.Instance.buttonMoveRight.isPressed||InputManager.Instance.buttonMoveLeft.isPressed)&&Mathf.Abs(player.playerRigidbody.velocity.x) > 0f)
         {
             player.animator.SetBool(player.animatorWalkingBool, true);
         }
