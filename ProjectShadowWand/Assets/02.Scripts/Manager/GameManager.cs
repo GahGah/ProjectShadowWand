@@ -27,6 +27,11 @@ public class GameManager : MonoBehaviour
 
     public List<Child> childList;
 
+
+    private int stageTotalCount;
+    private int stageClearCount;
+    public float gameProgress;
+
     // 싱글톤 패턴
     private void Awake()
     {

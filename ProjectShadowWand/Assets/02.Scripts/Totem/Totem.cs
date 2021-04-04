@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 
 /// <summary>
 /// 날씨를 변경하는 특수 오브젝트
@@ -14,22 +15,29 @@ public class Totem : MonoBehaviour
 
     public SpriteRenderer sr;
 
-    public bool canUse = true;
-    public bool isOn = false;
+    public Light2D totemLight;
+
+    [HideInInspector] public bool canUse = true;
+    [HideInInspector] public bool isOn = false;
 
     protected bool isPlayerIn = false;
 
-    public bool isInteractable = true;
+    [HideInInspector] public bool isInteractable = true;
     protected eMainWeatherType defaultWeatherType;
 
     protected virtual void Init()
     {
         sr = GetComponent<SpriteRenderer>();
+        totemLight = GetComponentInChildren<Light2D>();
         canUse = true;
         isOn = false;
         isPlayerIn = false;
         isInteractable = true;
+
+        sr.color = Color.white;
+        totemLight.gameObject.SetActive(false);
     }
+
     protected virtual void CheckingInput()
     {
         if (isInteractable)
@@ -41,7 +49,7 @@ public class Totem : MonoBehaviour
                 {
                     Debug.Log("is Change");
 
-                    if (WeatherManager.Instance.GetMainWeather() !=mainWeatherType)
+                    if (WeatherManager.Instance.GetMainWeather() != mainWeatherType)
                     {
                         WeatherManager.Instance.SetMainWeather(mainWeatherType);
                     }
@@ -75,8 +83,8 @@ public class Totem : MonoBehaviour
 
         //하지만 여기서 문제가 되는건, 다른 토템에 의해서 현재 타입이 바뀌었을 때.
         //그렇다면, 메인웨더 타입과 현재 타입이 달라짐. 즉, false를 반환함.
-        if (mainWeatherType==defaultWeatherType
-            &&mainWeatherType==WeatherManager.Instance.GetMainWeather())
+        if (mainWeatherType == defaultWeatherType
+            && mainWeatherType == WeatherManager.Instance.GetMainWeather())
 
         {
             canUse = false;
@@ -137,17 +145,20 @@ public class Totem : MonoBehaviour
     {
         if (canUse == false)
         {
-            sr.color = Color.gray;
+            sr.color = Color.black;
         }
         else
         {
             if (isOn)
             {
-                sr.color = Color.blue;
+                sr.color = Color.white;
+                totemLight.gameObject.SetActive(true);
             }
             else
             {
-                sr.color = Color.red;
+                sr.color = Color.white;
+                totemLight.gameObject.SetActive(false);
+
             }
         }
 
