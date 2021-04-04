@@ -8,11 +8,17 @@ using UnityEngine;
 public class CustomAreaEffector : MonoBehaviour
 {
 
-    [Header("°¢µµ")]
+    [Header("°¢µµ"), Range(-180, 180)]
     public float angle;
 
     [Header("Èû")]
     public float power;
+
+    int layerMask;
+
+    private void Awake()
+    {
+    }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -20,7 +26,18 @@ public class CustomAreaEffector : MonoBehaviour
         {
             var tempVector = new Vector2(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle));
             collision.attachedRigidbody.AddForce(tempVector * power, ForceMode2D.Force);
+
+
         }
 
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        var tempVector = new Vector2(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle));
+        Gizmos.DrawLine(tempVector, tempVector * power);
+        Gizmos.DrawLine(tempVector * power, Vector2.left * 0.3f);
+        Gizmos.DrawLine(tempVector * power, Vector2.right * 0.3f);
     }
 }

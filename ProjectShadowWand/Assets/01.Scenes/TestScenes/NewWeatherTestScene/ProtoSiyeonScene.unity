@@ -1161,7 +1161,7 @@ MonoBehaviour:
   m_LightType: 4
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_Intensity: 1
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
@@ -7389,7 +7389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 059c86a8102348943a43f3dd26f6a625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nowMainWeather: 1
+  nowMainWeather: 0
   nowSubWeather: 0
   isMainWeatherChanging: 0
   isSubWeatherChanging: 0
@@ -7532,7 +7532,7 @@ MonoBehaviour:
   isInteractable: 1
   areaEffector: {fileID: 782841979}
   forceField: {fileID: 376905760}
-  windAngle: 0
+  windAngle: 45
   windMagnitude: 10
 --- !u!212 &1262299312
 SpriteRenderer:
@@ -7616,7 +7616,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &1369713981
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7655,8 +7655,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f55395ba0e9e70c41b6c92db74fcc093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angle: 45
-  power: 270.14
+  angle: 180
+  power: 153.03
 --- !u!4 &1369713983
 Transform:
   m_ObjectHideFlags: 0
