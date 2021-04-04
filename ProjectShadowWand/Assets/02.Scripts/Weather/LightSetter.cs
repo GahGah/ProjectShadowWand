@@ -14,7 +14,7 @@ public class LightSetter : MonoBehaviour
         L2D = this.GetComponent<Light2D>();
     }
 
-    public void setLightProperty(LightController.LightColorSetting lc)
+    public void setLightProperty(LightController.LightColorData lc)
     {
         L2D.color = lc.color;
         L2D.intensity = lc.lightIntensity;

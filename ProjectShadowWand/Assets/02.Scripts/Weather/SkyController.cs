@@ -10,10 +10,10 @@ public class SkyController : MonoBehaviour
     public struct SkyWeatherColorSetting
     {
         public eMainWeatherType weatherName;
-        [ColorUsageAttribute(true, true)]
-        public Color SkyColor;
-        [ColorUsageAttribute(true, true)]
-        public Color SkyGradientColor;
+        [GradientUsageAttribute(true)]
+        public Gradient SkyColor;
+        [GradientUsageAttribute(true)]
+        public Gradient SkyGradientColor;
     };
     [SerializeField] public SkyWeatherColorSetting[] skySettings;
 
@@ -44,9 +44,13 @@ public class SkyController : MonoBehaviour
         Color curSkyGradientCol = new Color();
 #if UNITY_EDITOR
         WeatherManager wmInstance = FindObjectOfType<WeatherManager>();
+        GameManager gmInstance = FindObjectOfType<GameManager>();
 #else
         WeatherManager wmInstance = WeatherManager.Instance;
+        GameManager gmInstance = GameManager.Instance;
 #endif
+
+        float nowProgress = gmInstance.gameProgress;
 
         if (wmInstance.isMainWeatherChanging == true)
         {
@@ -54,17 +58,15 @@ public class SkyController : MonoBehaviour
             int prevMainWeather = (int)wmInstance.GetPrevMainWeather();
             float changingRatio = wmInstance.changingMainWeatherRatio;
 
-            curSkyCol = Color.Lerp(skySettings[prevMainWeather].SkyColor, skySettings[nowMainWeather].SkyColor, changingRatio);
-            curSkyGradientCol = Color.Lerp(skySettings[prevMainWeather].SkyGradientColor, skySettings[nowMainWeather].SkyGradientColor, changingRatio);
+            curSkyCol = Color.Lerp(skySettings[prevMainWeather].SkyColor.Evaluate(nowProgress), skySettings[nowMainWeather].SkyColor.Evaluate(nowProgress), changingRatio);
+            curSkyGradientCol = Color.Lerp(skySettings[prevMainWeather].SkyGradientColor.Evaluate(nowProgress), skySettings[nowMainWeather].SkyGradientColor.Evaluate(nowProgress), changingRatio);
         }
         else
         {
             int nowMainWeather = (int)wmInstance.GetMainWeather();
-            curSkyCol = skySettings[nowMainWeather].SkyColor;
-            curSkyGradientCol = skySettings[nowMainWeather].SkyGradientColor;
+            curSkyCol = skySettings[nowMainWeather].SkyColor.Evaluate(nowProgress);
+            curSkyGradientCol = skySettings[nowMainWeather].SkyGradientColor.Evaluate(nowProgress);
         }
-
-        
 
         for(int i = 0; i<skyColorSetters.Length; ++i)
         {
