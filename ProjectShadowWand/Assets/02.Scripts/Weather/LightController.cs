@@ -7,18 +7,16 @@ using System;
 public class LightController : MonoBehaviour
 {
     [Serializable]
-    public struct LightColor
+    public struct LightColorSetting
     {
         public eMainWeatherType weatherName;
         public Color color;
         public float lightIntensity;
         public float shadowIntensity;
     };
-    [SerializeField] public LightColor[] lightSettings;
+    [SerializeField] public LightColorSetting[] lightSettings;
 
     private LightSetter[] lightSetters;
-
-    WeatherManager wmInstance;
 
     private void Start()
     {
@@ -39,7 +37,7 @@ public class LightController : MonoBehaviour
 
     private void LightControl()
     {
-        LightColor curLc = new LightColor();
+        LightColorSetting curLc = new LightColorSetting();
 #if UNITY_EDITOR
         WeatherManager wmInstance = FindObjectOfType<WeatherManager>();
 #else
