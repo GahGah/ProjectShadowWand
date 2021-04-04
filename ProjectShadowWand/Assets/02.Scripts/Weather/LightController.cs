@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using System;
-
 
 [ExecuteInEditMode]
 public class LightController : MonoBehaviour
@@ -19,6 +17,8 @@ public class LightController : MonoBehaviour
     [SerializeField] public LightColor[] lightSettings;
 
     private LightSetter[] lightSetters;
+
+    WeatherManager wmInstance;
 
     private void Start()
     {
@@ -40,12 +40,17 @@ public class LightController : MonoBehaviour
     private void LightControl()
     {
         LightColor curLc = new LightColor();
+#if UNITY_EDITOR
+        WeatherManager wmInstance = FindObjectOfType<WeatherManager>();
+#else
+        WeatherManager wmInstance = WeatherManager.Instance;
+#endif
 
-        if (WeatherManager.Instance.isMainWeatherChanging == true)
+        if (wmInstance.isMainWeatherChanging == true)
         {
-            int nowMainWeather = (int)WeatherManager.Instance.GetMainWeather();
-            int prevMainWeather = (int)WeatherManager.Instance.GetPrevMainWeather();
-            float changingRatio = WeatherManager.Instance.changingMainWeatherRatio;
+            int nowMainWeather = (int)wmInstance.GetMainWeather();
+            int prevMainWeather = (int)wmInstance.GetPrevMainWeather();
+            float changingRatio = wmInstance.changingMainWeatherRatio;
 
             curLc.weatherName = lightSettings[nowMainWeather].weatherName;
             curLc.color = Color.Lerp(lightSettings[prevMainWeather].color, lightSettings[nowMainWeather].color, changingRatio);
@@ -54,7 +59,7 @@ public class LightController : MonoBehaviour
         }
         else
         {
-            curLc = lightSettings[(int)WeatherManager.Instance.GetMainWeather()];
+            curLc = lightSettings[(int)wmInstance.GetMainWeather()];
         }
 
         for(int i =0; i<lightSetters.Length; ++i)

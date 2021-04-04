@@ -83,7 +83,7 @@ namespace Util
     }
 }
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class WeatherManager : MonoBehaviour
 {
     public static WeatherManager Instance;
