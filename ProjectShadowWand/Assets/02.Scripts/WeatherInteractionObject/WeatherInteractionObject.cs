@@ -7,11 +7,15 @@ using UnityEngine.Experimental.Rendering.Universal;
 /// </summary>
 public class WeatherInteractionObject : MonoBehaviour
 {
-    [Tooltip("현재 이 오브젝트가 영향을 받고있는 날씨를 뜻합니다."), HideInInspector]
+    [Tooltip("현재 이 오브젝트가 영향을 받고있는 날씨를 뜻합니다.")]
     public eMainWeatherType affectedWeather;
+
     public delegate void WeatherDelegate();
     WeatherDelegate weatherDelegate;
 
+    /// <summary>
+    /// 기본적으로 SUNNY로 초기화합니다.
+    /// </summary>
     public virtual void Init()
     {
         affectedWeather = eMainWeatherType.SUNNY;
@@ -21,7 +25,7 @@ public class WeatherInteractionObject : MonoBehaviour
     /// <summary>
     /// 아직은 weatherDelegate를 돌리는 것 밖에 안합니다.
     /// </summary>
-    public virtual void Exectue()
+    public virtual void Execute()
     {
         weatherDelegate();
     }
@@ -38,10 +42,12 @@ public class WeatherInteractionObject : MonoBehaviour
             switch (WeatherManager.Instance.GetMainWeather())
             {
                 case eMainWeatherType.SUNNY:
+                    EnterSunny();
                     weatherDelegate = ProcessSunny;
                 break;
 
                 case eMainWeatherType.RAINY:
+                    EnterRainy();
                     weatherDelegate = ProcessRainy;
                     break;
 
@@ -59,6 +65,8 @@ public class WeatherInteractionObject : MonoBehaviour
 
     }
 
+    public virtual void EnterRainy() { }
+    public virtual void EnterSunny() { }
     public virtual void ProcessRainy()
     {
 
@@ -66,6 +74,19 @@ public class WeatherInteractionObject : MonoBehaviour
     public virtual void ProcessSunny()
     {
 
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Tornado"))
+        {
+            ProcessDestroy();
+        }
+    }
+
+    public virtual void ProcessDestroy()
+    {
+        Destroy(gameObject);
     }
 }
 

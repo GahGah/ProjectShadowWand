@@ -6,9 +6,6 @@ public class SunnyTotem : Totem
 {
     public GameObject rainEffect;
 
-
-
-
     private void Awake()
     {
 

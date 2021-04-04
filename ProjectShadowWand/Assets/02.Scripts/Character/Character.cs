@@ -9,12 +9,12 @@ public class Character : MonoBehaviour
     [HideInInspector] public Transform puppet = null;
     [HideInInspector] public SpriteRenderer spriteRenderer= null;
 
-    [Header("이동 관련")]
-    public Vector2 movementInput;
 
+    [HideInInspector] public Vector2 movementInput;
+    [Header("이동 관련")]
     [Tooltip("이동속도")] 
     public float movementSpeed = 0.0f;
-    [Tooltip("플레이어의 최대 이동속도. \n가속도를 더하는 형식이라 필요한 것 뿐입니다.")]
+    [Tooltip("플레이어의 최대 이동속도. \n velocity에 관여합니다.")]
     public float maxMovementSpeed = 0.0f;
     public float jumpForce = 0.0f;
 

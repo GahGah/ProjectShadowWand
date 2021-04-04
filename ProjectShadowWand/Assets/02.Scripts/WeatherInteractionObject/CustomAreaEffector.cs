@@ -7,12 +7,19 @@ using UnityEngine;
 /// </summary>
 public class CustomAreaEffector : MonoBehaviour
 {
-    public Vector2 dir;
+
+    [Header("°¢µµ")]
+    public float angle;
+
+    [Header("Èû")]
+    public float power;
+
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.attachedRigidbody != null)
         {
-            collision.attachedRigidbody.AddForce(dir, ForceMode2D.Force);
+            var tempVector = new Vector2(Mathf.Sin(Mathf.Deg2Rad * angle), Mathf.Cos(Mathf.Deg2Rad * angle));
+            collision.attachedRigidbody.AddForce(tempVector * power, ForceMode2D.Force);
         }
 
     }
