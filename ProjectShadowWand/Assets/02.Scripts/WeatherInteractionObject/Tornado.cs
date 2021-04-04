@@ -109,6 +109,10 @@ public class Tornado : WeatherInteractionObject
     public IEnumerator GoSunny()
     {
         Debug.Log("GoSUnny");
+
+        gameObject.tag = "Untagged";
+        gameObject.layer = LayerMask.NameToLayer("Default");
+
         shouldMove = false;
         rb.bodyType = RigidbodyType2D.Dynamic;
         var startScale = rb.transform.localScale;
@@ -129,6 +133,10 @@ public class Tornado : WeatherInteractionObject
     public IEnumerator GoRainy()
     {
         Debug.Log("GoRainy");
+
+        gameObject.tag = "Tornado";
+        gameObject.layer = LayerMask.NameToLayer("Tornado");
+
         shouldMove = false;
         rb.bodyType = RigidbodyType2D.Dynamic;
         var startScale = rb.transform.localScale;
