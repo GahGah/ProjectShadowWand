@@ -10,11 +10,18 @@ public class LightController : MonoBehaviour
     public struct LightColorSetting
     {
         public eMainWeatherType weatherName;
+        public Gradient color;
+        public AnimationCurve lightIntensity;
+        public AnimationCurve shadowIntensity;
+    };
+    [SerializeField] public LightColorSetting[] lightSettings;
+
+    public struct LightColorData
+    {
         public Color color;
         public float lightIntensity;
         public float shadowIntensity;
-    };
-    [SerializeField] public LightColorSetting[] lightSettings;
+    }
 
     private LightSetter[] lightSetters;
 
@@ -37,12 +44,15 @@ public class LightController : MonoBehaviour
 
     private void LightControl()
     {
-        LightColorSetting curLc = new LightColorSetting();
+        LightColorData curLc = new LightColorData();
 #if UNITY_EDITOR
         WeatherManager wmInstance = FindObjectOfType<WeatherManager>();
+        GameManager gmInstance = FindObjectOfType<GameManager>();
 #else
         WeatherManager wmInstance = WeatherManager.Instance;
+        GameManager gmInstance = GameManager.Instance;
 #endif
+        float nowProgress = gmInstance.gameProgress;
 
         if (wmInstance.isMainWeatherChanging == true)
         {
@@ -50,17 +60,20 @@ public class LightController : MonoBehaviour
             int prevMainWeather = (int)wmInstance.GetPrevMainWeather();
             float changingRatio = wmInstance.changingMainWeatherRatio;
 
-            curLc.weatherName = lightSettings[nowMainWeather].weatherName;
-            curLc.color = Color.Lerp(lightSettings[prevMainWeather].color, lightSettings[nowMainWeather].color, changingRatio);
-            curLc.lightIntensity = Mathf.Lerp(lightSettings[prevMainWeather].lightIntensity, lightSettings[nowMainWeather].lightIntensity, changingRatio);
-            curLc.shadowIntensity = Mathf.Lerp(lightSettings[prevMainWeather].shadowIntensity, lightSettings[nowMainWeather].shadowIntensity, changingRatio);
+            curLc.color = Color.Lerp(lightSettings[prevMainWeather].color.Evaluate(nowProgress), lightSettings[nowMainWeather].color.Evaluate(nowProgress), changingRatio);
+            curLc.lightIntensity = Mathf.Lerp(lightSettings[prevMainWeather].lightIntensity.Evaluate(nowProgress), lightSettings[nowMainWeather].lightIntensity.Evaluate(nowProgress), changingRatio);
+            curLc.shadowIntensity = Mathf.Lerp(lightSettings[prevMainWeather].shadowIntensity.Evaluate(nowProgress), lightSettings[nowMainWeather].shadowIntensity.Evaluate(nowProgress), changingRatio);
         }
         else
         {
-            curLc = lightSettings[(int)wmInstance.GetMainWeather()];
+            int nowMainWeather = (int)wmInstance.GetMainWeather();
+
+            curLc.color = lightSettings[nowMainWeather].color.Evaluate(nowProgress);
+            curLc.lightIntensity = lightSettings[nowMainWeather].lightIntensity.Evaluate(nowProgress);
+            curLc.shadowIntensity =lightSettings[nowMainWeather].shadowIntensity.Evaluate(nowProgress);
         }
 
-        for(int i =0; i<lightSetters.Length; ++i)
+        for (int i =0; i<lightSetters.Length; ++i)
         {
             lightSetters[i].setLightProperty(curLc);
         }
