@@ -86,7 +86,18 @@ namespace Util
 //[ExecuteInEditMode]
 public class WeatherManager : MonoBehaviour
 {
-    public static WeatherManager Instance;
+    static WeatherManager instance;
+    public static WeatherManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<WeatherManager>();
+            }
+            return instance;
+        }
+    }
 
     private eMainWeatherType prevMainWeather = eMainWeatherType.SUNNY;
     [SerializeField] private eMainWeatherType nowMainWeather = eMainWeatherType.SUNNY;
@@ -107,7 +118,7 @@ public class WeatherManager : MonoBehaviour
     {
         if (Instance == null)
         {
-            Instance = this;
+            instance = this;
             WeatherManager.DontDestroyOnLoad(this.gameObject); // 씬 로딩을 할 때(옮겨다닐 때) 지우지마라 
         }
     }
