@@ -7,8 +7,13 @@ public class TornadoSecond : MonoBehaviour
     /// <summary>
     /// 플레이어와 기타 오브젝트와 충돌하지 않는 리지드 바디. (중요)
     /// </summary>
-    public Rigidbody2D tornadoRigidBody; 
+    public Rigidbody2D tornadoRigidBody;
+
     public Collider2D tornadoTrigger;
+
+
+    public GameObject tornadoObject_Collider;
+    public GameObject tornadoObject_Trigger;
 
     private void Awake()
     {
@@ -16,6 +21,10 @@ public class TornadoSecond : MonoBehaviour
     }
     private void Init()
     {
+        //플레이어와 토네이도 콜라이더간의 충돌을 막음.
+        LayerMask layer1 = LayerMask.NameToLayer("Tornado_Collider");
+        LayerMask layer2 = LayerMask.NameToLayer("Player");
+        Physics2D.IgnoreLayerCollision(layer1, layer2, true);
 
     }
 }
