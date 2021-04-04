@@ -45,6 +45,7 @@ public class WindyTotem : Totem
                 areaEffector.forceAngle = windAngle;
                 var test = new Vector2(Mathf.Sin(Mathf.Deg2Rad * windAngle), Mathf.Cos(Mathf.Deg2Rad * windAngle));
                 forceField.directionX = test.x;
+                forceField.directionY = test.y;
 
             }
             if (windMagnitude != areaEffector.forceMagnitude)

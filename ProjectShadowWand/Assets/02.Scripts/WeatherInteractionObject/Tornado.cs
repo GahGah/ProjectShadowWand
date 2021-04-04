@@ -37,14 +37,14 @@ public class Tornado : WeatherInteractionObject
 
         if (affectedAreaEffector == null)
         {
-            Debug.LogError("아리아이펙터 증발");
+            Debug.LogError("아리아이펙터가 없어!");
         }
     }
+
     private void Update()
     {
         ChangeState();
         Execute();
-
     }
 
     private void FixedUpdate()
@@ -53,8 +53,6 @@ public class Tornado : WeatherInteractionObject
         {
             rb.velocity = new Vector2(movePower * Time.deltaTime, 0f);
         }
-
-
     }
 
     public override void Execute()
@@ -62,7 +60,7 @@ public class Tornado : WeatherInteractionObject
         base.Execute();
         if (WeatherManager.Instance.GetMainWeather() != eMainWeatherType.SUNNY)
         {
-            if (affectedAreaEffector.forceMagnitude > 0f)
+            if (affectedAreaEffector.forceMagnitude > 0f && rb.IsTouchingLayers(LayerMask.NameToLayer("AreaEffector")))
             {
 
                 shouldMove = false;
@@ -77,6 +75,7 @@ public class Tornado : WeatherInteractionObject
                 shouldMove = true;
                 if (rb.bodyType != RigidbodyType2D.Kinematic)
                 {
+                    rb.velocity = Vector2.zero;
                     rb.bodyType = RigidbodyType2D.Kinematic;
                 }
             }
@@ -127,6 +126,7 @@ public class Tornado : WeatherInteractionObject
         upWindAreaEffector.gameObject.transform.position = transform.position;
         upWindAreaEffector.gameObject.SetActive(true);
         rb.velocity = Vector2.zero;
+
         //rb.bodyType = RigidbodyType2D.Kinematic;
     }
 

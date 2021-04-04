@@ -18,7 +18,7 @@ public class CustomAreaEffector : MonoBehaviour
     {
         if (collision.attachedRigidbody != null)
         {
-            var tempVector = new Vector2(Mathf.Sin(Mathf.Deg2Rad * angle), Mathf.Cos(Mathf.Deg2Rad * angle));
+            var tempVector = new Vector2(Mathf.Cos(Mathf.Deg2Rad * angle), Mathf.Sin(Mathf.Deg2Rad * angle));
             collision.attachedRigidbody.AddForce(tempVector * power, ForceMode2D.Force);
         }
 
