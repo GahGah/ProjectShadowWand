@@ -7,7 +7,6 @@ using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
 
     public SettingsManager settingsManager;
     public SaveLoadManager saveLoadManager;
@@ -33,15 +32,28 @@ public class GameManager : MonoBehaviour
 
     [RangeAttribute(0f, 1f)] public float gameProgress;
 
-    // 싱글톤 패턴
+
+    //싱글톤 패턴
+    static GameManager instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<GameManager>();
+            }
+            return instance;
+        }
+    }
     private void Awake()
     {
         if (Instance == null)
         {
-            Instance = this;
-            GameObject.DontDestroyOnLoad(this.gameObject); // 씬 로딩을 할 때(옮겨다닐 때) 지우지마라 
-        }
+            instance = this;
 
+        }
+       `DontDestroyOnLoad(gameObject); // 씬 로딩을 할 때(옮겨다닐 때) 지우지마라 
         isGameOver = false;
         isGameStarted = false;
     }
