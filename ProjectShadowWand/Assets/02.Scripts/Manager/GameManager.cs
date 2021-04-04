@@ -30,7 +30,8 @@ public class GameManager : MonoBehaviour
 
     private int stageTotalCount;
     private int stageClearCount;
-    public float gameProgress;
+
+    [RangeAttribute(0f, 1f)] public float gameProgress;
 
     // 싱글톤 패턴
     private void Awake()
