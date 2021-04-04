@@ -10,4 +10,12 @@ public class TornadoSecond : MonoBehaviour
     public Rigidbody2D tornadoRigidBody; 
     public Collider2D tornadoTrigger;
 
+    private void Awake()
+    {
+        Init();
+    }
+    private void Init()
+    {
+
+    }
 }

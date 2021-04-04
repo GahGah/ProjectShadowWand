@@ -135,7 +135,7 @@ public class Tornado : WeatherInteractionObject
         Debug.Log("GoRainy");
 
         gameObject.tag = "Tornado";
-        gameObject.layer = LayerMask.NameToLayer("Tornado");
+        gameObject.layer = LayerMask.NameToLayer("Tornado_Collider");
 
         shouldMove = false;
         rb.bodyType = RigidbodyType2D.Dynamic;
@@ -145,7 +145,7 @@ public class Tornado : WeatherInteractionObject
         while (t < 1)
         {
             t += Time.deltaTime / smallTime;
-            rb.transform.localScale = Vector2.Lerp(startScale, new Vector2(4f,3f), t);
+            rb.transform.localScale = Vector2.Lerp(startScale, new Vector2(1.8104f, 1.3578f), t);
             yield return null;
         }
         upWindAreaEffector.gameObject.transform.position = transform.position;
