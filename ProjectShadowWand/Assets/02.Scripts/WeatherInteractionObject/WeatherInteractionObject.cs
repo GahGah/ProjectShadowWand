@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
+
 /// <summary>
 /// 날씨의 영향을 받는 오브젝트들.
 /// </summary>
@@ -78,6 +79,10 @@ public class WeatherInteractionObject : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log("뭔가 닿았음!");
+        Debug.Log(collision.gameObject.name);
+
+
         if (collision.gameObject.CompareTag("Tornado"))
         {
             ProcessDestroy();

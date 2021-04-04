@@ -162,7 +162,4 @@ public class Tornado : WeatherInteractionObject
         upWindAreaEffector.transform.position = transform.position;
     }
 
-
-
-
 }
