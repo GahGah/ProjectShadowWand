@@ -156,17 +156,17 @@ MonoBehaviour:
   - weatherName: 0
     color:
       serializedVersion: 2
-      key0: {r: 0.12217209, g: 0.06274509, b: 0.3764706, a: 1}
+      key0: {r: 0, g: 0, b: 0, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
+      key2: {r: 0, g: 0, b: 0, a: 0.5058824}
       key3: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key4: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key5: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key6: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key7: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime1: 32768
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
@@ -181,37 +181,28 @@ MonoBehaviour:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 2
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     lightIntensity:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: -0.046611786
-        value: 0.89749146
-        inSlope: 0.33138597
-        outSlope: 0.33138597
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.19238454
-        value: 0.9766915
-        inSlope: 0.18012343
-        outSlope: 0.18012343
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        outWeight: 0
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 0.028860908
-        outSlope: 0.028860908
+        inSlope: 0
+        outSlope: 0
         tangentMode: 34
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -220,31 +211,22 @@ MonoBehaviour:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: -0.033332825
-        value: 0.9386749
-        inSlope: 0.24119923
-        outSlope: 0.24119923
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.19472042
-        value: 0.9936812
-        inSlope: 0.12452298
-        outSlope: 0.12452298
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        outWeight: 0
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 0.007846725
-        outSlope: 0.007846725
+        inSlope: 0
+        outSlope: 0
         tangentMode: 34
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -252,17 +234,17 @@ MonoBehaviour:
   - weatherName: 1
     color:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
+      key0: {r: 0, g: 0, b: 0, a: 1}
+      key1: {r: 0.3018868, g: 0.3018868, b: 0.3018868, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0.5058824}
       key3: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key4: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key5: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key6: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key7: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime1: 33924
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
@@ -277,7 +259,7 @@ MonoBehaviour:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 2
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     lightIntensity:
       serializedVersion: 2
@@ -339,7 +321,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1975731070}
-  - {fileID: 1538824913}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -428,7 +409,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: db750325989564987a34393247d883b4, type: 3}
-  m_Color: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 1}
+  m_Color: {r: 0.4528302, g: 0.41578457, b: 0.37379852, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -446,11 +427,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 314711615}
   m_LocalRotation: {x: -0, y: -0, z: 0.3002909, w: 0.95384765}
-  m_LocalPosition: {x: -2.88, y: -0.17, z: 0}
+  m_LocalPosition: {x: -3.16, y: -0.78, z: 0}
   m_LocalScale: {x: 2.3380008, y: 0.66156125, z: 1.2028385}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 34.95}
 --- !u!1 &355217031
 GameObject:
@@ -644,7 +625,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: db750325989564987a34393247d883b4, type: 3}
-  m_Color: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 1}
+  m_Color: {r: 0.4528302, g: 0.41578457, b: 0.37379852, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -661,13 +642,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 432726245}
-  m_LocalRotation: {x: -0, y: -0, z: -0.39516026, w: 0.9186122}
-  m_LocalPosition: {x: 2.76, y: 2.36, z: 0}
-  m_LocalScale: {x: 2.3380008, y: 0.66156125, z: 1.2028385}
+  m_LocalRotation: {x: -0, y: -0, z: -0.41055486, w: 0.9118359}
+  m_LocalPosition: {x: 2.33, y: 0.2, z: 0}
+  m_LocalScale: {x: 4.884551, y: 4.464546, z: 1.2028385}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -46.552}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -48.479}
 --- !u!1 &474253677
 GameObject:
   m_ObjectHideFlags: 0
@@ -5725,15 +5706,15 @@ MonoBehaviour:
   m_LightType: 4
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.9485779
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Intensity: 1
   m_LightVolumeOpacity: 0
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
   m_AlphaBlendOnOverlap: 0
-  m_ShadowIntensity: 0.93914795
+  m_ShadowIntensity: 1
   m_ShadowVolumeIntensity: 0
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
@@ -5840,16 +5821,16 @@ MonoBehaviour:
   - weatherName: 0
     color:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 1, g: 1, b: 1, a: 0.5058824}
+      key0: {r: 0, g: 0, b: 0, a: 1}
+      key1: {r: 0.7122642, g: 0.741402, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0.5058824}
       key3: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key4: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key5: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key6: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key7: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       ctime0: 0
-      ctime1: 6939
+      ctime1: 32768
       ctime2: 65535
       ctime3: 0
       ctime4: 0
@@ -5871,31 +5852,22 @@ MonoBehaviour:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.04166794
-        value: 0.9485779
-        inSlope: 0.16894837
-        outSlope: 0.16894837
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.23810127
-        value: 0.981765
-        inSlope: 0.096441016
-        outSlope: 0.096441016
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        outWeight: 0
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 0.023933662
-        outSlope: 0.023933662
+        inSlope: 0
+        outSlope: 0
         tangentMode: 34
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -5905,21 +5877,21 @@ MonoBehaviour:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.93914795
-        inSlope: 0.06085205
-        outSlope: 0.06085205
+        value: 1
+        inSlope: 0
+        outSlope: 0
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.33333334
+        outWeight: 0
       - serializedVersion: 3
         time: 1
         value: 1
-        inSlope: 0.06085205
-        outSlope: 0.06085205
+        inSlope: 0
+        outSlope: 0
         tangentMode: 34
         weightedMode: 0
-        inWeight: 0.33333334
+        inWeight: 0
         outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
@@ -5927,18 +5899,18 @@ MonoBehaviour:
   - weatherName: 1
     color:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
-      key3: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
+      key0: {r: 0, g: 0, b: 0, a: 1}
+      key1: {r: 0.1747063, g: 0.19473325, b: 0.24528301, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0.5058824}
+      key3: {r: 0.2264151, g: 0.15272339, b: 0.15272339, a: 0.5058824}
       key4: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key5: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key6: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key7: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       ctime0: 0
-      ctime1: 65535
-      ctime2: 0
-      ctime3: 0
+      ctime1: 33153
+      ctime2: 65535
+      ctime3: 65535
       ctime4: 0
       ctime5: 0
       ctime6: 0
@@ -5952,7 +5924,7 @@ MonoBehaviour:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 2
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     lightIntensity:
       serializedVersion: 2
@@ -6102,7 +6074,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: db750325989564987a34393247d883b4, type: 3}
-  m_Color: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 1}
+  m_Color: {r: 0.4528302, g: 0.41578457, b: 0.37379852, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -6124,7 +6096,7 @@ Transform:
   m_LocalScale: {x: 4.705227, y: 0.5029189, z: 1.2028385}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -33.472}
 --- !u!1 &1330772016
 GameObject:
@@ -6155,7 +6127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 059c86a8102348943a43f3dd26f6a625, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nowMainWeather: 0
+  nowMainWeather: 1
   nowSubWeather: 0
   isMainWeatherChanging: 0
   isSubWeatherChanging: 0
@@ -6261,7 +6233,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: db750325989564987a34393247d883b4, type: 3}
-  m_Color: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 1}
+  m_Color: {r: 0.4528302, g: 0.41578457, b: 0.37379852, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -6283,7 +6255,7 @@ Transform:
   m_LocalScale: {x: 18.628588, y: 0.66156125, z: 1.2028385}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1482053588
 GameObject:
@@ -6400,7 +6372,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: db750325989564987a34393247d883b4, type: 3}
-  m_Color: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 1}
+  m_Color: {r: 0.4528302, g: 0.41578457, b: 0.37379852, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -6422,98 +6394,8 @@ Transform:
   m_LocalScale: {x: 6.0335507, y: 0.66156125, z: 1.2028385}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1538824912
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1538824913}
-  - component: {fileID: 1538824915}
-  - component: {fileID: 1538824914}
-  m_Layer: 0
-  m_Name: God Ray (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1538824913
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1538824912}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.14, y: 0.45, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 258860166}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1538824914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1538824912}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e21f9c6cf18837a40a97d5b21e960f73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1538824915
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1538824912}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_LightType: 1
-  m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.73
-  m_Color: {r: 0.12217209, g: 0.06274509, b: 0.3764706, a: 1}
-  m_Intensity: 0.91404486
-  m_LightVolumeOpacity: 0.91
-  m_ApplyToSortingLayers: 00000000
-  m_LightCookieSprite: {fileID: 0}
-  m_UseNormalMap: 0
-  m_LightOrder: 0
-  m_AlphaBlendOnOverlap: 0
-  m_ShadowIntensity: 0.9472001
-  m_ShadowVolumeIntensity: 0
-  m_PointLightInnerAngle: 360
-  m_PointLightOuterAngle: 360
-  m_PointLightInnerRadius: 0
-  m_PointLightOuterRadius: 1
-  m_PointLightDistance: 3
-  m_PointLightQuality: 1
-  m_ShapeLightParametricSides: 5
-  m_ShapeLightParametricAngleOffset: 0
-  m_ShapeLightParametricRadius: 1
-  m_ShapeLightFalloffSize: 0.65
-  m_ShapeLightFalloffOffset: {x: 0, y: 0}
-  m_ShapePath:
-  - {x: -4.0553594, y: -5.1320786, z: 0}
-  - {x: -2.3406591, y: -5.1124353, z: 0}
-  - {x: -2.117443, y: -4.9795833, z: 0}
-  - {x: -3.2983127, y: -2.1963944, z: 0}
-  - {x: -2.0982547, y: 0.76585263, z: 0}
-  - {x: 1.7363403, y: -4.7037144, z: 0}
-  - {x: 3.8247986, y: -4.7355404, z: 0}
-  - {x: -3.93497, y: 6.776341, z: 0}
-  - {x: -13.174352, y: 7.4204893, z: 0}
 --- !u!1 &1546569498
 GameObject:
   m_ObjectHideFlags: 0
@@ -6616,20 +6498,20 @@ MonoBehaviour:
   - weatherName: 0
     SkyColor:
       serializedVersion: 2
-      key0: {r: 0.24783924, g: 0.08401567, b: 0.3018868, a: 1}
-      key1: {r: 0.4339623, g: 0.25178, b: 0.3277976, a: 1}
-      key2: {r: 0.16078429, g: 0.46120182, b: 0.7529412, a: 0.5058824}
+      key0: {r: 0.0048073283, g: 0.0034709838, b: 0.01886791, a: 1}
+      key1: {r: 0.16509432, g: 0.66561824, b: 1, a: 1}
+      key2: {r: 0.009344964, g: 0.010218321, b: 0.05660379, a: 0.5058824}
       key3: {r: 0, g: 0.8893428, b: 1, a: 0.5058824}
       key4: {r: 1, g: 0.5648344, b: 0.24056602, a: 0.5058824}
-      key5: {r: 0.9056604, g: 0.30860767, b: 0.21787111, a: 0.5058824}
+      key5: {r: 0.13750447, g: 0.14125575, b: 0.2830189, a: 0.5058824}
       key6: {r: 0.13750447, g: 0.14125575, b: 0.2830189, a: 0.5058824}
       key7: {r: 1, g: 1, b: 1, a: 0.5058824}
       ctime0: 0
-      ctime1: 7325
-      ctime2: 16191
+      ctime1: 32382
+      ctime2: 65535
       ctime3: 25829
-      ctime4: 43947
-      ctime5: 50886
+      ctime4: 42791
+      ctime5: 65535
       ctime6: 65535
       ctime7: 65535
       atime0: 0
@@ -6641,21 +6523,21 @@ MonoBehaviour:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 7
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     SkyGradientColor:
       serializedVersion: 2
-      key0: {r: 0.119259514, g: 0.21151017, b: 0.3773585, a: 1}
-      key1: {r: 0.36196154, g: 0.9245283, b: 0.9190763, a: 1}
-      key2: {r: 1, g: 0.43755668, b: 0.41037738, a: 0.5058824}
+      key0: {r: 0.027233882, g: 0.036929913, b: 0.11320752, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0.031505868, g: 0.04606993, b: 0.11320752, a: 0.5058824}
       key3: {r: 0.06950873, g: 0.10165633, b: 0.20754719, a: 0.5058824}
       key4: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key5: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key6: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key7: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       ctime0: 0
-      ctime1: 29298
-      ctime2: 52428
+      ctime1: 32768
+      ctime2: 65535
       ctime3: 65535
       ctime4: 0
       ctime5: 0
@@ -6670,23 +6552,23 @@ MonoBehaviour:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 4
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
   - weatherName: 1
     SkyColor:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
-      key3: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
+      key0: {r: 0.019579923, g: 0.024649236, b: 0.0754717, a: 1}
+      key1: {r: 0.40129942, g: 0.41331437, b: 0.509434, a: 1}
+      key2: {r: 0.014684946, g: 0.016041543, b: 0.05660379, a: 0.5058824}
+      key3: {r: 0.10083661, g: 0.11269334, b: 0.20754719, a: 0.5058824}
       key4: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key5: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key6: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key7: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       ctime0: 0
-      ctime1: 65535
-      ctime2: 0
-      ctime3: 0
+      ctime1: 33153
+      ctime2: 65535
+      ctime3: 65535
       ctime4: 0
       ctime5: 0
       ctime6: 0
@@ -6700,21 +6582,21 @@ MonoBehaviour:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 2
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
     SkyGradientColor:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
+      key0: {r: 0.012726939, g: 0.012958734, b: 0.01886791, a: 1}
+      key1: {r: 0.1260235, g: 0.16447131, b: 0.4528302, a: 1}
+      key2: {r: 0.07662871, g: 0.07662871, b: 0.13207549, a: 0.5058824}
       key3: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key4: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key5: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key6: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       key7: {r: 0.5882353, g: 0.79607844, b: 0.078431375, a: 0.5058824}
       ctime0: 0
-      ctime1: 65535
-      ctime2: 0
+      ctime1: 33539
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
@@ -6729,7 +6611,7 @@ MonoBehaviour:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_NumColorKeys: 2
+      m_NumColorKeys: 3
       m_NumAlphaKeys: 2
 --- !u!1 &1667201699
 GameObject:
@@ -11562,7 +11444,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1975731069}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.5, y: -0.39, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 258860166}
@@ -11583,15 +11465,15 @@ MonoBehaviour:
   m_LightType: 1
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.73
-  m_Color: {r: 0.12217209, g: 0.06274509, b: 0.3764706, a: 1}
-  m_Intensity: 0.91404486
-  m_LightVolumeOpacity: 0.91
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Intensity: 1
+  m_LightVolumeOpacity: 0.606
   m_ApplyToSortingLayers: 00000000
   m_LightCookieSprite: {fileID: 0}
   m_UseNormalMap: 0
   m_LightOrder: 0
   m_AlphaBlendOnOverlap: 0
-  m_ShadowIntensity: 0.9472001
+  m_ShadowIntensity: 1
   m_ShadowVolumeIntensity: 0
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
@@ -11605,14 +11487,14 @@ MonoBehaviour:
   m_ShapeLightFalloffSize: 0.65
   m_ShapeLightFalloffOffset: {x: 0, y: 0}
   m_ShapePath:
-  - {x: -5.5881367, y: -1.9707257, z: 0}
-  - {x: -3.2586434, y: -2.0229676, z: 0}
-  - {x: -3.9689026, y: -0.5678183, z: 0}
-  - {x: -2.0982547, y: 0.76585263, z: 0}
-  - {x: 1.7363403, y: -4.7037144, z: 0}
-  - {x: 3.8247986, y: -4.7355404, z: 0}
-  - {x: -3.93497, y: 6.776341, z: 0}
-  - {x: -9.01475, y: 6.573163, z: 0}
+  - {x: -5.5157695, y: -1.3670834, z: 0}
+  - {x: -3.3795483, y: -1.4908086, z: 0}
+  - {x: -3.7747478, y: -0.81051123, z: 0}
+  - {x: -1.9041002, y: 0.57169795, z: 0}
+  - {x: 2.65255, y: -3.9787893, z: 0}
+  - {x: 3.527246, y: -3.948186, z: 0}
+  - {x: -7.7733192, y: 8.744725, z: 0}
+  - {x: -14.721956, y: 8.887404, z: 0}
 --- !u!114 &1975731072
 MonoBehaviour:
   m_ObjectHideFlags: 0
