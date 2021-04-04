@@ -4,18 +4,24 @@ using UnityEngine;
 
 public class WindyTotem : Totem
 {
+    [Header("바람의 각도")]
+    [Tooltip("바람의 각도입니다.")]
+    public float windAngle;
+
+    [Header("바람의 세기")]
+    [Tooltip("바람의 세기입니다.")]
+    public float windMagnitude;
+
+    [Header("담당할 에어리어 이펙터")]
     public AreaEffector2D areaEffector;
+
+    [Header("담당할 포스 필드")]
     public ParticleSystemForceField forceField;
 
     private float originalAngle;
     private float originalMagnitude;
     private float originalDirection;
 
-    [Tooltip("바람의 각도입니다.")]
-    public float windAngle;
-
-    [Tooltip("바람의 세기입니다.")]
-    public float windMagnitude;
 
     private void Awake()
     {

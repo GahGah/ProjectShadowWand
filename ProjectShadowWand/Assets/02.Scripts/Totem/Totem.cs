@@ -8,14 +8,16 @@ using UnityEngine.Experimental.Rendering.Universal;
 /// </summary>
 public class Totem : MonoBehaviour
 {
-    [Header("상호작용 시 해당 날씨로 변경됨 ")]
-    [Tooltip("아...뭐라쓰지?")]
+    [Header("상호작용 시 해당 날씨로 변경됨")]
+    [Tooltip("담당하고 있는 날씨입니다. (바람 제외)")]
     public eMainWeatherType mainWeatherType;
     public eSubWeatherType subWeatherType;
 
+
+    [Header("토템이 내고있는 빛(일단 자동으로 넣어짐)")]
+    public Light2D totemLight;
     public SpriteRenderer sr;
 
-    public Light2D totemLight;
 
     [HideInInspector] public bool canUse = true;
     [HideInInspector] public bool isOn = false;

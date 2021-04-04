@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RainyTotem : Totem
 {
+    [Header("∫Ò ¿Ã∆Â∆Æ ")]
     public GameObject rainEffect;
 
     private void Awake()

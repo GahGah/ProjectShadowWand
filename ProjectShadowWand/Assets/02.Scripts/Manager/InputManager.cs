@@ -32,6 +32,7 @@ public class InputManager : MonoBehaviour
             if (instance == null)
             {
                 instance = FindObjectOfType<InputManager>();
+                Debug.Assert(Instance != null, "인풋매니저가 널이야");
             }
             return instance;
         }
@@ -39,14 +40,13 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
-        //if (Instance == null)
-        //{
-        //    instance = this;
-        //}
-        //else
-        //{
-        //    Debug.Log("이미 instance가 존재합니다." + this);
-        //}
+        if (Instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+        }
         DontDestroyOnLoad(gameObject);
 #if UNITY_EDITOR
         if (Keyboard.current == null)

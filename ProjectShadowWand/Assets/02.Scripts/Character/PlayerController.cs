@@ -75,10 +75,10 @@ public class PlayerController : Character
     }
     private void Awake()
     {
-        //if (Instance == null)
-        //{
-        //    instance = this;
-        //}
+        if (Instance == null)
+        {
+            instance = this;
+        }
 
         Init();
     }
@@ -100,10 +100,10 @@ public class PlayerController : Character
 
         inputManager = InputManager.Instance;
 
+        rainMask = LayerMask.GetMask(eLayer.WeatherFx_withOpaqueTex.ToString());
         //  EdgeColliderTest();
         playerStateMachine = new PlayerStateMachine(this);
 
-        rainMask = LayerMask.GetMask(eLayer.WeatherFx_withOpaqueTex.ToString());
     }
 
     private void Start()
