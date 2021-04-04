@@ -146,6 +146,7 @@ public class Totem : MonoBehaviour
         if (canUse == false)
         {
             sr.color = Color.black;
+            totemLight.gameObject.SetActive(false);
         }
         else
         {
