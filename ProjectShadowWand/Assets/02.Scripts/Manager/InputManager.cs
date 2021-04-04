@@ -19,21 +19,34 @@ public class InputManager : MonoBehaviour
     public ButtonControl buttonMouseLeft;// = Mouse.current.leftButton;
     public Vector2Control buttonScroll;// = Mouse.current.scroll;
 
-    public static InputManager Instance;
 
 
     public Keyboard keyboard;
     public bool isDebugMode;
+
+    static InputManager instance;
+    public static InputManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<InputManager>();
+            }
+            return instance;
+        }
+    }
+
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Debug.Log("이미 instance가 존재합니다." + this);
-        }
+        //if (Instance == null)
+        //{
+        //    instance = this;
+        //}
+        //else
+        //{
+        //    Debug.Log("이미 instance가 존재합니다." + this);
+        //}
         DontDestroyOnLoad(gameObject);
 #if UNITY_EDITOR
         if (Keyboard.current == null)

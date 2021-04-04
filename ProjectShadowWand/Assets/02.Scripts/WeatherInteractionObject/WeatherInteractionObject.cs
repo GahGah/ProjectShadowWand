@@ -19,8 +19,8 @@ public class WeatherInteractionObject : MonoBehaviour
     /// </summary>
     public virtual void Init()
     {
-        affectedWeather = eMainWeatherType.SUNNY;
-        weatherDelegate = ProcessSunny;
+        affectedWeather = WeatherManager.Instance.GetMainWeather();
+        ChangeDelegate(affectedWeather);
     }
 
     /// <summary>
@@ -40,23 +40,7 @@ public class WeatherInteractionObject : MonoBehaviour
         if (nowMainType!=affectedWeather)
         {
             Debug.Log("Weather is Different");
-            switch (WeatherManager.Instance.GetMainWeather())
-            {
-                case eMainWeatherType.SUNNY:
-                    EnterSunny();
-                    weatherDelegate = ProcessSunny;
-                break;
-
-                case eMainWeatherType.RAINY:
-                    EnterRainy();
-                    weatherDelegate = ProcessRainy;
-                    break;
-
-                default:
-                    weatherDelegate = ProcessSunny;
-                    break;
-            }
-            affectedWeather = nowMainType;
+            ChangeDelegate(nowMainType);
         }
         else
         {
@@ -64,6 +48,27 @@ public class WeatherInteractionObject : MonoBehaviour
         }
 
 
+    }
+    private void ChangeDelegate(eMainWeatherType _wt)
+    {
+        Debug.Log("ChangeDelegate");
+        switch (_wt)
+        {
+            case eMainWeatherType.SUNNY:
+                EnterSunny();
+                weatherDelegate = ProcessSunny;
+                break;
+
+            case eMainWeatherType.RAINY:
+                EnterRainy();
+                weatherDelegate = ProcessRainy;
+                break;
+
+            default:
+                weatherDelegate = ProcessSunny;
+                break;
+        }
+        affectedWeather = _wt;
     }
 
     public virtual void EnterRainy() { }
@@ -79,8 +84,7 @@ public class WeatherInteractionObject : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("¹º°¡ ´ê¾ÒÀ½!");
-        Debug.Log(collision.gameObject.name);
+       // Debug.Log(gameObject.name + " : ¹º°¡ ´ê¾ÒÀ½! : " + collision.gameObject.name);
 
 
         if (collision.gameObject.CompareTag("Tornado"))

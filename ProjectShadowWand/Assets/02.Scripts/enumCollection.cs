@@ -108,6 +108,7 @@ public enum eLayer
     Tornado_Collider = 19,
     Tornado_Trigger = 20,
     AreaEffector = 21,
+    Totem = 22,
 }
 
 /// <summary>

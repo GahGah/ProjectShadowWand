@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class TornadoSecond : WeatherInteractionObject
 {
+
+    [Tooltip("움직이는 가속도")]
+    public float moveVelocity;
+
+    [Tooltip("영향받는 AreaEffector")]
+    public AreaEffector2D affectedAreaEffector;
     /// <summary>
     /// 플레이어와 기타 오브젝트와 충돌하지 않는 리지드 바디. (중요)
     /// </summary>
@@ -19,25 +25,57 @@ public class TornadoSecond : WeatherInteractionObject
     [Tooltip("직접 움직이는 상태인지를 뜻합니다.")]
     public bool moveSelf;
 
+    public Vector3 originalScale;
+
+    private LayerMask playerLayer;
+    private LayerMask Tornado_ColliderLayer;
+
     private void Awake()
     {
         Init();
     }
     public override void Init()
     {
-        //플레이어와 토네이도 콜라이더간의 충돌을 막음.
-        LayerMask layer1 = LayerMask.NameToLayer("Tornado_Collider");
-        LayerMask layer2 = LayerMask.NameToLayer("Player");
-        Physics2D.IgnoreLayerCollision(layer1, layer2, true);
 
-        //가끔 수정하다가 로컬포지션이 요상한 경우가 있어서 zero로 초기화
-        tornadoObject_Collider.transform.localPosition = Vector2.zero;
-        tornadoObject_Trigger.transform.localPosition = Vector2.zero;
+        base.Init();
+        //플레이어와 토네이도 콜라이더간의 충돌을 막음.
+        playerLayer = LayerMask.NameToLayer("Player");
+        Tornado_ColliderLayer = LayerMask.NameToLayer("Tornado_Collider");
+
+        Physics2D.IgnoreLayerCollision(Tornado_ColliderLayer, playerLayer, true);
+        //Physics2D.IgnoreLayerCollision(layer1, layer3, true);
+
+        ////가끔 수정하다가 로컬포지션이 요상한 경우가 있어서 zero로 초기화
+        //tornadoObject_Collider.transform.localPosition = Vector2.zero;
+        //tornadoObject_Trigger.transform.localPosition = Vector2.zero;
+        originalScale = transform.localScale;
 
     }
 
+    private void Update()
+    {
+        ChangeState();
+        Execute();
+    }
 
+    private void FixedUpdate()
+    {
+        if (moveSelf)
+        {
+            tornadoRigidBody.velocity = new Vector2(moveVelocity * Time.deltaTime, 0f);
+        }
+    }
 
+    public override void Execute()
+    {
+        base.Execute();
+
+    }
+
+    public override void ChangeState()
+    {
+        base.ChangeState();
+    }
     public override void EnterSunny()
     {
 
@@ -49,6 +87,37 @@ public class TornadoSecond : WeatherInteractionObject
         StartCoroutine(GoRainy());
     }
 
+
+    private void ProcessMoveSelf()
+    {
+        //영향받는 AreaEffector의 forceMagnitude가 0보다 크고...아리아 이펙터에 닿았을때...
+        if (affectedAreaEffector.forceMagnitude > 0f && tornadoRigidBody.IsTouchingLayers(LayerMask.NameToLayer("AreaEffector")))
+        {
+
+            //직접 움직이지 않게
+            moveSelf = false;
+
+            //이미 다이나믹이면 변경하지 않게
+            if (tornadoRigidBody.bodyType != RigidbodyType2D.Dynamic)
+            {
+                tornadoRigidBody.velocity = Vector2.zero;
+                tornadoRigidBody.bodyType = RigidbodyType2D.Dynamic;
+            }
+        }
+        else
+        {
+            //아니라면 직접 움직이는 상태로
+            moveSelf = true;
+
+            //이미 키네마틱이면 변경하지 않게
+            if (tornadoRigidBody.bodyType != RigidbodyType2D.Kinematic)
+            {
+                tornadoRigidBody.velocity = Vector2.zero;
+                tornadoRigidBody.bodyType = RigidbodyType2D.Kinematic;
+            }
+
+        }
+    }
     /// <summary>
     /// EnterSunny때 실행
     /// </summary>
@@ -57,23 +126,32 @@ public class TornadoSecond : WeatherInteractionObject
         Debug.Log("GoSunny");
 
         gameObject.tag = "Untagged";
-
         moveSelf = false;
+
+        //이펙터에 영향을 받아야 하기 때문에 다이나믹으로 변경
         tornadoRigidBody.bodyType = RigidbodyType2D.Dynamic;
-        var startScale = tornadoRigidBody.transform.localScale;
+
+        var startScale = transform.localScale;
+
+        //1초동안 변화
         var smallTime = 1f;
         var t = 0f;
+
         while (t < 1)
         {
             t += Time.deltaTime / smallTime;
-            tornadoRigidBody.transform.localScale = Vector2.Lerp(startScale, Vector2.one / 0.5f, t);
+            tornadoRigidBody.transform.localScale = Vector2.Lerp(startScale, originalScale * 0.5f, t);
             yield return null;
         }
-        upWindAreaEffector.gameObject.transform.position = transform.position;
-        upWindAreaEffector.gameObject.SetActive(true);
-        tornadoRigidBody.velocity = Vector2.zero;
 
-        //rb.bodyType = RigidbodyType2D.Kinematic;
+        //upWindAreaEffector.gameObject.transform.position = transform.position;
+
+
+        //이펙터 켜기
+        upWindAreaEffector.gameObject.SetActive(true);
+
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Default"), Tornado_ColliderLayer, true);
+        tornadoRigidBody.velocity = Vector2.zero;
     }
 
     public IEnumerator GoRainy()
@@ -82,28 +160,48 @@ public class TornadoSecond : WeatherInteractionObject
 
         gameObject.tag = "Tornado";
 
-        shouldMove = false;
-        rb.bodyType = RigidbodyType2D.Dynamic;
-        var startScale = rb.transform.localScale;
-        var smallTime = 1f;
+        //직접 움직여야함
+        moveSelf = true;
+
+        tornadoRigidBody.bodyType = RigidbodyType2D.Kinematic;
+        var startScale = tornadoRigidBody.transform.localScale;
+        var bigTime = 1f;
         var t = 0f;
         while (t < 1)
         {
-            t += Time.deltaTime / smallTime;
-            rb.transform.localScale = Vector2.Lerp(startScale, new Vector2(1.8104f, 1.3578f), t);
+            t += Time.deltaTime / bigTime;
+            transform.localScale = Vector2.Lerp(startScale, originalScale, t);
             yield return null;
         }
-        upWindAreaEffector.gameObject.transform.position = transform.position;
+        //upWindAreaEffector.gameObject.transform.position = transform.position;
         upWindAreaEffector.gameObject.SetActive(false);
-        rb.velocity = Vector2.zero;
+
+
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Default"), Tornado_ColliderLayer, false);
+        tornadoRigidBody.velocity = Vector2.zero;
 
     }
 
 
+    public override void ProcessRainy()
+    {
+        ProcessMoveSelf();
+    }
+
+    public override void ProcessSunny()
+    {
+        base.ProcessSunny();
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (affectedWeather!=eMainWeatherType.SUNNY)
         {
+            if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+            {
+                Debug.LogError("플레이어가 닿았다.");
+                PlayerController.Instance.ProcessDie();
+            }
         }
+
     }
 }

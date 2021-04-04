@@ -16,7 +16,9 @@ public class PlayerState_Default : PlayerState
     public override void Enter()
     {
         Log("Enter Default");
-        if ((InputManager.Instance.buttonMoveRight.isPressed || InputManager.Instance.buttonMoveLeft.isPressed) && Mathf.Abs(player.playerRigidbody.velocity.x) > 0f)
+        //Debug.Assert(InputManager.Instance != null, "인풋 매니저가 없어");
+
+        if ((player.inputManager.buttonMoveRight.isPressed || player.inputManager.buttonMoveLeft.isPressed) && Mathf.Abs(player.playerRigidbody.velocity.x) > 0f)
         {
             player.animator.SetBool(player.animatorWalkingBool, true);
         }
@@ -35,7 +37,7 @@ public class PlayerState_Default : PlayerState
     /// </summary>
     public override void PhysicsExecute()
     {
-        if ((InputManager.Instance.buttonMoveRight.isPressed||InputManager.Instance.buttonMoveLeft.isPressed)&&Mathf.Abs(player.playerRigidbody.velocity.x) > 0f)
+        if ((player.inputManager.buttonMoveRight.isPressed|| player.inputManager.buttonMoveLeft.isPressed)&&Mathf.Abs(player.playerRigidbody.velocity.x) > 0f)
         {
             player.animator.SetBool(player.animatorWalkingBool, true);
         }

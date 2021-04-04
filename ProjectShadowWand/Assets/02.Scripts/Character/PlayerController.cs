@@ -55,12 +55,34 @@ public class PlayerController : Character
 
     public bool CanMove = true;
 
-//    public float angle;
-//    private float limitAngle = 0.1f; //기준치
+    //    public float angle;
+    //    private float limitAngle = 0.1f; //기준치
 
     public GameObject lightExplosionObject;
 
-    void Start()
+
+    static PlayerController instance;
+    public static PlayerController Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<PlayerController>();
+            }
+            return instance;
+        }
+    }
+    private void Awake()
+    {
+        //if (Instance == null)
+        //{
+        //    instance = this;
+        //}
+
+        Init();
+    }
+    void Init()
     {
 
         playerRigidbody = GetComponent<Rigidbody2D>();
@@ -80,11 +102,15 @@ public class PlayerController : Character
 
         //  EdgeColliderTest();
         playerStateMachine = new PlayerStateMachine(this);
-        playerStateMachine.ChangeState(eState.PLAYER_DEFAULT);
-        playerStateMachine.Start();
+
         rainMask = LayerMask.GetMask(eLayer.WeatherFx_withOpaqueTex.ToString());
     }
 
+    private void Start()
+    {
+        playerStateMachine.ChangeState(eState.PLAYER_DEFAULT);
+        playerStateMachine.Start();
+    }
 
     void Update()
     {
@@ -103,19 +129,19 @@ public class PlayerController : Character
 
     private void OnParticleCollision(GameObject other)
     {
-        if (other.layer==(int)eLayer.WeatherFx_withOpaqueTex &&CanMove==true)
+        if (other.layer == (int)eLayer.WeatherFx_withOpaqueTex && CanMove == true)
         {
             ProcessDie();
         }
         else
         {
-            if (CanMove==false)
+            if (CanMove == false)
             {
                 ProcessRaise();
             }
 
         }
-        
+
     }
 
     public void ProcessDie()
@@ -283,7 +309,7 @@ public class PlayerController : Character
     private void UpdateDirection()
     {
         //스케일 변경으로 flip
-        if (InputManager.Instance.buttonMoveRight.isPressed &&playerRigidbody.velocity.x > minFlipSpeed && isFlipped)
+        if (InputManager.Instance.buttonMoveRight.isPressed && playerRigidbody.velocity.x > minFlipSpeed && isFlipped)
         {
             isFlipped = false;
             puppet.localScale = Vector3.one;
@@ -303,8 +329,8 @@ public class PlayerController : Character
         if (blockType == eBlockType.NONE)
         {
             //만약 땅에 닿아있는 상태가 아닐때 : 점프중이라면 점프 그라비티 스케일로, 아니라면 추락 그라비티 스케일로 변경
-            gravityScale = 
-                playerRigidbody.velocity.y > 0.0f ? 
+            gravityScale =
+                playerRigidbody.velocity.y > 0.0f ?
                 jumpGravityScale : fallGravityScale;
         }
 
