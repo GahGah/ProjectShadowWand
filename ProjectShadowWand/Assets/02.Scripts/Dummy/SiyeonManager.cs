@@ -50,7 +50,7 @@ public class SiyeonManager : MonoBehaviour
     }
     public void ButtonGoRestart()
     {
-        SceneManager.LoadScene("ProtoSiyeonScene");
+        SceneManager.LoadScene("20210405");
         Time.timeScale = 1f;
         restartCanvas.SetActive(false);
     }
