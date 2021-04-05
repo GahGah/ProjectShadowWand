@@ -157,7 +157,6 @@ public class TornadoSecond : WeatherInteractionObject
                 }
                 else
                 {
-                    Debug.Log("써니 : 아리아 이펙터에 안닿고 있음");
                     //아니라면 직접 움직이는 상태로
                     moveSelf = false;
 

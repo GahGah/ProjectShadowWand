@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
             instance = this;
 
         }
-        DontDestroyOnLoad(gameObject); // 씬 로딩을 할 때(옮겨다닐 때) 지우지마라 
+        //DontDestroyOnLoad(gameObject); // 씬 로딩을 할 때(옮겨다닐 때) 지우지마라 
         isGameOver = false;
         isGameStarted = false;
     }

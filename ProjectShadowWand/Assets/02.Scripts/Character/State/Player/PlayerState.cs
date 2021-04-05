@@ -16,7 +16,6 @@ public class PlayerState_Default : PlayerState
     public override void Enter()
     {
         Log("Enter Default");
-        Debug.Assert(InputManager.Instance != null, "인풋 매니저가 없어");
 
         if ((InputManager.Instance.buttonMoveRight.isPressed || InputManager.Instance.buttonMoveLeft.isPressed) && Mathf.Abs(player.playerRigidbody.velocity.x) > 0f)
         {

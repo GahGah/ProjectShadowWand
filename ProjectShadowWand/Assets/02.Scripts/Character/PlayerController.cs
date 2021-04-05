@@ -61,6 +61,7 @@ public class PlayerController : Character
     public GameObject lightExplosionObject;
 
 
+    private bool isDie = false;
     static PlayerController instance;
     public static PlayerController Instance
     {
@@ -135,10 +136,6 @@ public class PlayerController : Character
         }
         else
         {
-            if (CanMove == false)
-            {
-                ProcessRaise();
-            }
 
         }
 
@@ -146,8 +143,14 @@ public class PlayerController : Character
 
     public void ProcessDie()
     {
-        playerRigidbody.rotation = 90f;
-        CanMove = false;
+        if (isDie == false)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 90);
+            CanMove = false;
+            SiyeonManager.Instance.SetActiveTrueRestartUI();
+            Time.timeScale = 0f;
+        }
+
     }
 
     public void ProcessRaise()
