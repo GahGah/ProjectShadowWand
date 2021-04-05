@@ -7,9 +7,16 @@ public class SunnyTotem : Totem
     [Header("비 이펙트 ")]
     public GameObject rainEffect;
 
+    [Header("토템의 활성화 시간")]
+    public float activeTime;
+
+    [Tooltip("활성화 되어있는 시간...")]
+    private float currentTime;
+
+    private bool isTimer;
+
     private void Awake()
     {
-
         Init();
         SetDefaultWeatherType();
     }
@@ -18,6 +25,8 @@ public class SunnyTotem : Totem
     {
         base.Init();
         mainWeatherType = eMainWeatherType.SUNNY;
+        currentTime = 0f;
+        isTimer = false;
     }
 
     private void Update()
@@ -25,7 +34,30 @@ public class SunnyTotem : Totem
         ChangeCanUse();
         CheckingInput();
         Execute();
+    }
 
+    protected override void CheckingInput()
+    {
+        if (isInteractable)
+        {
+            if (canUse && isTimer == false)
+            {
+                if (InputManager.Instance.buttonCatch.wasPressedThisFrame && isPlayerIn == true)
+                {
+                    Debug.Log("is Change");
+
+                    if (WeatherManager.Instance.GetMainWeather() != mainWeatherType)
+                    {
+                        WeatherManager.Instance.SetMainWeather(mainWeatherType);
+                    }
+                    else
+                    {
+
+                    }
+                }
+            }
+
+        }
     }
 
     public override void Execute()
@@ -37,7 +69,12 @@ public class SunnyTotem : Totem
                 //if (rainEffect.activeSelf == true)
                 //{
                 rainEffect.SetActive(false);
-                isOn = true;
+
+                if (isOn == false)
+                {
+                    isOn = true;
+                    StartCoroutine(ProcessOnSunny());
+                }
                 //}
 
             }
@@ -46,7 +83,11 @@ public class SunnyTotem : Totem
                 //if (rainEffect.activeSelf == false)
                 //{
                 rainEffect.SetActive(true);
-                isOn = false;
+                if (isOn == true)
+                {
+                    isOn = false;
+                }
+
                 //}
 
             }
@@ -60,5 +101,23 @@ public class SunnyTotem : Totem
     public override void ChangeCanUse()
     {
         base.ChangeCanUse();
+    }
+
+    public IEnumerator ProcessOnSunny()
+    {
+        currentTime = 0f;
+
+        isTimer = true;
+
+        while (currentTime < activeTime) //타이머가 액티브 타임보다 적을 때 까지
+        {
+            currentTime += Time.deltaTime;
+            yield return null;
+        }
+
+        
+        var test = WeatherManager.Instance.SetMainWeather(defaultWeatherType);
+        Debug.Log("메인 웨더 체인지 시도: " + test);
+        isTimer = false;
     }
 }

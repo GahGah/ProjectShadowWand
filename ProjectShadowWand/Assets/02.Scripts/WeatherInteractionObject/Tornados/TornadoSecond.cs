@@ -205,6 +205,7 @@ public class TornadoSecond : WeatherInteractionObject
         upWindAreaEffector.gameObject.SetActive(true);
 
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Default"), Tornado_ColliderLayer, true);
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("TornadoBreakLayer"), Tornado_ColliderLayer, true);
 
     }
 
@@ -233,7 +234,7 @@ public class TornadoSecond : WeatherInteractionObject
 
 
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Default"), Tornado_ColliderLayer, false);
-
+        Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("TornadoBreakLayer"), Tornado_ColliderLayer, false);
     }
 
 
