@@ -12,7 +12,8 @@ public enum eBlockType
     NONE,
     GROUND,
     MOVING_GROUND,
-    WALL
+    WALL,
+    LADDER,
 
 }
 public enum eMonsterType
@@ -110,6 +111,7 @@ public enum eLayer
     AreaEffector = 21,
     Totem = 22,
     TornadoBreakLayer = 23,
+    Ladder = 24,
 }
 
 /// <summary>

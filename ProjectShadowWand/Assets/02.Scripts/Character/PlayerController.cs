@@ -50,11 +50,17 @@ public class PlayerController : Character
     [HideInInspector] public PlayerStateMachine playerStateMachine;
     [HideInInspector] public InputManager inputManager;
 
+    [HideInInspector]
     public float saveMoveInputX;
 
 
+    [HideInInspector]
     public bool CanMove = true;
 
+    [SerializeField]
+    private bool isLadder = false;
+
+    private bool onLadder = false;
     //    public float angle;
     //    private float limitAngle = 0.1f; //기준치
 
@@ -101,6 +107,8 @@ public class PlayerController : Character
 
         inputManager = InputManager.Instance;
 
+        isLadder = false;
+        onLadder = false;
         rainMask = LayerMask.GetMask(eLayer.WeatherFx_withOpaqueTex.ToString());
         //  EdgeColliderTest();
         playerStateMachine = new PlayerStateMachine(this);
@@ -123,10 +131,28 @@ public class PlayerController : Character
         //    lightExplosionObject.SetActive(true);
         //}
 
-
-        CheckInput();
+        if (isLadder) //사다리에 있을 때
+        {
+            CheckInput_LadderMove();
+        }
+        else
+        {
+            CheckInput();
+        }
         playerStateMachine.Update();
     }
+    void FixedUpdate()
+    {
+        UpdateGroundCheck();
+        playerStateMachine.FixedUpdate();
+        UpdateVelocity();
+        UpdateDirection();
+        UpdateJump();
+        UpdateGravityScale();
+
+        prevVelocity = playerRigidbody.velocity;
+    }
+
 
     private void OnParticleCollision(GameObject other)
     {
@@ -158,23 +184,78 @@ public class PlayerController : Character
         playerRigidbody.rotation = 0f;
         CanMove = true;
     }
-    void FixedUpdate()
+    public void CheckInput_LadderMove()
     {
-        UpdateGroundCheck();
-        playerStateMachine.FixedUpdate();
-        UpdateVelocity();
-        UpdateDirection();
-        UpdateJump();
-        UpdateGravityScale();
+        float moveVertical = 0f;
 
-        prevVelocity = playerRigidbody.velocity;
+        if (inputManager.buttonDown.isPressed)
+        {
+            onLadder = true;
+
+            moveVertical = -1f;
+            movementInput = new Vector2(0f, moveVertical);
+
+            if (isGrounded)
+            {
+                playerRigidbody.bodyType = RigidbodyType2D.Dynamic;
+                CheckInput();
+            }
+
+
+        }
+        else if (inputManager.buttonUp.isPressed)
+        {
+            onLadder = true;
+
+            moveVertical = 1f;
+            movementInput = new Vector2(0f, moveVertical);
+            LadderHelper();
+        }
+        else
+        {
+            playerRigidbody.bodyType = RigidbodyType2D.Dynamic;
+            CheckInput();
+        }
+
+
+
+
+    }
+    public void SetIsLadder(bool _isLadder)
+    {
+        isLadder = _isLadder;
+        if (_isLadder == false && onLadder == true)
+        {
+            playerRigidbody.velocity = Vector2.zero;
+        }
     }
 
+    private void LadderHelper()
+    {
+
+        if (movementInput != Vector2.zero)
+        {
+            playerRigidbody.bodyType = RigidbodyType2D.Kinematic;
+        }
+        else
+        {
+            playerRigidbody.bodyType = RigidbodyType2D.Dynamic;
+        }
+
+        // Jumping input
+        if (!isJumping && inputManager.buttonMoveJump.wasPressedThisFrame)
+        {
+            jumpInput = true;
+            CheckInput();
+        }
+    }
     /// <summary>
     /// 이동키 입력 등을 체크
     /// </summary>
     private void CheckInput()
     {
+        onLadder = false;
+        playerRigidbody.bodyType = RigidbodyType2D.Dynamic;
         float moveHorizontal = 0.0f;
         float moveVertical = 0.0f;
 
@@ -186,20 +267,22 @@ public class PlayerController : Character
         {
             moveHorizontal = 1.0f;
         }
-        else if (inputManager.buttonDown.isPressed)
-        {
-            moveVertical = -10.0f;
-        }
+        //else if (inputManager.buttonDown.isPressed)
+        //{
+        //    moveVertical = -10.0f;
+        //}
         else
         {
             moveHorizontal = 0.0f;
             moveVertical = 0.0f;
         }
+
         movementInput = new Vector2(moveHorizontal, moveVertical);
 
         // Jumping input
         if (!isJumping && inputManager.buttonMoveJump.wasPressedThisFrame)
             jumpInput = true;
+
     }
     private void UpdateGroundCheck()
     {
@@ -233,6 +316,8 @@ public class PlayerController : Character
         #endregion
 
 
+
+
         if (playerCollider.IsTouching(contactFilter_Ground))
         {
             isGrounded = true;
@@ -243,6 +328,19 @@ public class PlayerController : Character
             isGrounded = false;
             blockType = eBlockType.NONE;
         }
+
+        ////Ladder
+        //if (playerCollider.IsTouchingLayers(LayerMask.NameToLayer("Ladder")))
+        //{
+        //    isLadder = true;
+        //    blockType = eBlockType.LADDER;
+        //}
+        //else
+        //{
+
+        //    isLadder = false;
+        //}
+
         animator.SetBool(animatorGroundedBool, isGrounded);
     }
 
@@ -382,6 +480,8 @@ public class PlayerController : Character
     //}
 
     #endregion
+
+
 
     #region TestTopCheck
     //private void TestTopCheck()
