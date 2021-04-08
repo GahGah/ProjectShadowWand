@@ -215,9 +215,11 @@ public class SecondPlayerController : Character
         if (isClimbLadder)
         {
             playerRigidbody.gravityScale = 0f;
+            playerRigidbody.isKinematic = true;
         }
         else
         {
+            playerRigidbody.isKinematic = false;
             if (isGrounded)
             {
                 playerRigidbody.gravityScale = groundedGravityScale;
@@ -261,14 +263,17 @@ public class SecondPlayerController : Character
             {
                 Debug.Log("레더 점프");
 
-                playerRigidbody.gravityScale = jumpGravityScale;
-
-                playerRigidbody.velocity =
-    new Vector2(playerRigidbody.velocity.x, jumpForce);
-
                 shouldJump = false;
                 isClimbLadder = false;
                 onLadderJump = false;
+
+                // UpdateGravityScale();
+
+                playerRigidbody.isKinematic = false;
+                playerRigidbody.gravityScale = jumpGravityScale;
+                playerRigidbody.velocity =
+    new Vector2(playerRigidbody.velocity.x, jumpForce);
+
 
             }
             else
