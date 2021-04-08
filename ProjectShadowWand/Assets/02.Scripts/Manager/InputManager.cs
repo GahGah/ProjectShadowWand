@@ -101,11 +101,11 @@ public class InputManager : MonoBehaviour
     /// </summary>
     public void SetButtonsDefaultKey()
     {
-        buttonUp = Keyboard.current.wKey;
-        buttonMoveLeft = Keyboard.current.aKey;
-        buttonDown = Keyboard.current.sKey;
-        buttonMoveRight = Keyboard.current.dKey;
+        buttonUp = Keyboard.current.upArrowKey;
+        buttonMoveLeft = Keyboard.current.leftArrowKey;
+        buttonDown = Keyboard.current.downArrowKey;
         buttonMoveJump = Keyboard.current.spaceKey;
+        buttonMoveRight = Keyboard.current.rightArrowKey;
         buttonMouseLeft = Mouse.current.leftButton;
         buttonCtrl = Keyboard.current.ctrlKey;
         buttonPause = Keyboard.current.escapeKey;

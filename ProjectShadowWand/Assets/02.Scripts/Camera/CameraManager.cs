@@ -122,6 +122,7 @@ public class CameraManager : MonoBehaviour
         if (BGObject == null)
         {
             BGObject = new GameObject();
+            BGObject.transform.parent = gameObject.transform;
             //그냥 오류 방지를 위해 빈깡 하나 넣기.
         }
         #endregion
