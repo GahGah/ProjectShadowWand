@@ -9,7 +9,7 @@ public class SecondLadder : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            SecondPlayerController.Instance.SetIsLadder(true);
+            SecondPlayerController.Instance.SetIsLadder(true, gameObject.transform.position);
         }
     }
 
@@ -17,7 +17,7 @@ public class SecondLadder : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            SecondPlayerController.Instance.SetIsLadder(false);
+            SecondPlayerController.Instance.SetIsLadder(false, gameObject.transform.position);
         }
     }
 }

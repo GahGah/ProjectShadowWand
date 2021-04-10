@@ -200,8 +200,6 @@ public class PlayerController : Character
                 playerRigidbody.bodyType = RigidbodyType2D.Dynamic;
                 CheckInput();
             }
-
-
         }
         else if (inputManager.buttonUp.isPressed)
         {

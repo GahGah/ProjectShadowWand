@@ -15,14 +15,14 @@ public class SecondPlayerController : Character
 
     [Tooltip("GroundCheck에 쓸 컨택트필터입니다.")]
     public ContactFilter2D contactFilter_Ground;
-    [SerializeField, Tooltip("점프키를 꾹 눌렀을 때, 해당하는 중력값으로 변합니다.")]
-    float jumpGravityScale = 1.0f;
+    //[SerializeField, Tooltip("점프키를 꾹 눌렀을 때, 해당하는 중력값으로 변합니다.")]
+    //private float jumpGravityScale = 1.0f;
 
     //[SerializeField, Tooltip("떨어지고 있는 상태라면 해당하는 중력값으로 변합니다.")]
     //float fallGravityScale = 1.0f;
 
     [SerializeField, Tooltip("기본적인 중력값입니다. ")]
-    float groundedGravityScale = 1.0f;
+    private float groundedGravityScale = 1.0f;
 
     public bool resetSpeedOnLand = false;
 
@@ -80,7 +80,10 @@ public class SecondPlayerController : Character
     [Tooltip("사다리 등을 올라가는 속도입니다.")]
     public float climbSpeed;
 
-    [Tooltip("사다리에 올라탄 상태인가를 뜻합니다.")]
+    [Tooltip("사다리에 닿은 상태로 상하키 입력을 했는가를 뜻합니다.")]
+    public bool inLadder = false;
+
+    [Tooltip("사다리에 닿은 !!! 상태인가를 뜻합니다.")]
     public bool onLadder = false; //퍼블릭으로 변경함
 
     [Tooltip("사다리에 올라탄 상태에서 특정 방향으로 점프했는가를 뜻합니다.")]
@@ -88,6 +91,9 @@ public class SecondPlayerController : Character
 
     [Tooltip("사다리를 오르고 있는 상태인가를 뜻합니다.")]
     public bool isClimbLadder = false;
+
+    [Tooltip("현재 타고있는 사다리의 위치.")]
+    public Vector2 ladderPosition = Vector2.zero;
 
     #endregion
 
@@ -134,7 +140,9 @@ public class SecondPlayerController : Character
     void Update()
     {
         CheckMoveInput();
+        CheckLadderInput();
         CheckJumpInput();
+
     }
     void FixedUpdate()
     {
@@ -144,42 +152,101 @@ public class SecondPlayerController : Character
         UpdateGravityScale();
     }
 
+    private void JudgementMoveOrLadder()
+    {
+        if (onLadder)
+        {
+            if (inLadder)
+            {
+                CheckLadderInput();
+            }
+            else
+            {
+                if (InputManager.Instance.buttonUp.isPressed || InputManager.Instance.buttonDown.isPressed)
+                {
 
+                    //if (InputManager.Instance.buttonUp.wasPressedThisFrame
+                    //    || InputManager.Instance.buttonDown.wasPressedThisFrame)
+                    //{
+                    inLadder = true;
+                    isClimbLadder = true;
+                    CheckLadderInput();
+                }
+                else
+                {
+                    CheckMoveInput();
+                }
+            }
 
+        }
+        else
+        {
+            CheckMoveInput();
+        }
+
+    }
     private void CheckMoveInput()
     {
         //무브먼트 인풋을 0으로 초기화
         movementInput = Vector2.zero;
 
-        if (InputManager.Instance.buttonMoveRight.isPressed) //오른쪽 이동
+        if (inLadder == false)
         {
-            movementInput = Vector2.right;
-            isRight = true;
+            if (InputManager.Instance.buttonMoveRight.isPressed) //오른쪽 이동
+            {
+                movementInput = Vector2.right;
+                isRight = true;
 
-        }
-        else if (InputManager.Instance.buttonMoveLeft.isPressed) //왼쪽 이동
-        {
-            movementInput = Vector2.left;
-            isRight = false;
+            }
+            else if (InputManager.Instance.buttonMoveLeft.isPressed) //왼쪽 이동
+            {
+                movementInput = Vector2.left;
+                isRight = false;
+            }
         }
 
-        //사다리에 올라탄 상태일때
+    }
+
+    private void CheckLadderInput()
+    {
+        //사다리에 닿은!!! 상태일때
         if (onLadder)
         {
+            if (InputManager.Instance.buttonUp.wasPressedThisFrame
+                || InputManager.Instance.buttonDown.wasPressedThisFrame)
+            {
+                inLadder = true;
+                isClimbLadder = true;
+                isJumping = false;
+                //사다리의 가운데 부분으로 이동시키기 위해서...
+                playerRigidbody.position = (new Vector2(ladderPosition.x, playerRigidbody.position.y));
+            }
+        }
+
+
+        if (inLadder)
+        {
+            movementInput = Vector2.zero;
             if (InputManager.Instance.buttonUp.isPressed)//위쪽 이동
             {
                 movementInput.y = 1f;
                 isClimbLadder = true;
+
             }
             else if (InputManager.Instance.buttonDown.isPressed) //아래쪽 이동
             {
                 movementInput.y = -1f;
                 isClimbLadder = true;
             }
+
+
         }
 
     }
 
+    /// <summary>
+    /// 점프 입력을 감지
+    /// </summary>
     private void CheckJumpInput()
     {
         if (InputManager.Instance.buttonMoveJump.wasPressedThisFrame)
@@ -197,15 +264,15 @@ public class SecondPlayerController : Character
 
         }
         #region 중력조절
-        if (InputManager.Instance.buttonMoveJump.isPressed)
-        {
-            playerRigidbody.gravityScale = jumpGravityScale;
-        }
+        //if (InputManager.Instance.buttonMoveJump.isPressed)
+        //{
+        //    playerRigidbody.gravityScale = jumpGravityScale;
+        //}
 
-        if (InputManager.Instance.buttonMoveJump.wasReleasedThisFrame)
-        {
-            playerRigidbody.gravityScale = groundedGravityScale;
-        }
+        //if (InputManager.Instance.buttonMoveJump.wasReleasedThisFrame)
+        //{
+        //    playerRigidbody.gravityScale = groundedGravityScale;
+        //}
         #endregion
     }
 
@@ -220,14 +287,23 @@ public class SecondPlayerController : Character
         else
         {
             playerRigidbody.isKinematic = false;
+
             if (isGrounded)
             {
                 playerRigidbody.gravityScale = groundedGravityScale;
             }
-            else
+            else if (!isClimbLadder)
             {
                 playerRigidbody.gravityScale = groundedGravityScale;
             }
+            //if (isGrounded && !isJumping)
+            //{
+            //    playerRigidbody.gravityScale = groundedGravityScale;
+            //}
+            //else if( isJumping)
+            //{
+            //    playerRigidbody.gravityScale = jumpGravityScale;
+            //}
         }
 
 
@@ -266,21 +342,23 @@ public class SecondPlayerController : Character
                 shouldJump = false;
                 isClimbLadder = false;
                 onLadderJump = false;
-
+                inLadder = false;
                 // UpdateGravityScale();
 
                 playerRigidbody.isKinematic = false;
-                playerRigidbody.gravityScale = jumpGravityScale;
+                //playerRigidbody.gravityScale = jumpGravityScale;
                 playerRigidbody.velocity =
     new Vector2(playerRigidbody.velocity.x, jumpForce);
-
-
+                isJumping = true;
+                isGrounded = false;
             }
             else
             {
+                shouldJump = false;
                 playerRigidbody.velocity =
     new Vector2(playerRigidbody.velocity.x, jumpForce);
-                shouldJump = false;
+                isJumping = true;
+                isGrounded = false;
             }
 
         }
@@ -293,12 +371,29 @@ public class SecondPlayerController : Character
     {
         if (playerCollider.IsTouching(contactFilter_Ground))
         {
-            isGrounded = true;
+            if (playerRigidbody.velocity.y > 0f)
+            {
+                //isJumping = false;
+            }
+            else
+            {
+                isGrounded = true;
+                isJumping = false;
+            }
         }
         else
         {
             isGrounded = false;
         }
+    }
+
+
+    /// <summary>
+    /// 사다리에 타고있는 상태일 때, 간이 땅 체크를 합니다.
+    /// </summary>
+    private void CheckLadderGround()
+    {
+
     }
     private void OnParticleCollision(GameObject other)
     {
@@ -334,10 +429,30 @@ public class SecondPlayerController : Character
     {
         if (_isLadder == true)
         {
+
         }
         else
         {
             isClimbLadder = false;
+            inLadder = false;
+            UpdateGravityScale();
+        }
+        onLadder = _isLadder;
+    }
+
+    public void SetIsLadder(bool _isLadder, Vector2 _pos)
+    {
+        if (_isLadder == true)
+        {
+            ladderPosition = _pos;
+        }
+        else
+        {
+            isClimbLadder = false;
+            inLadder = false;
+            ladderPosition = Vector2.zero;
+            UpdateGravityScale();
+
         }
         onLadder = _isLadder;
     }
