@@ -64,7 +64,7 @@ public class Child : Character
             }
             else if (childOption==eChildOption.FRIEND)
             {
-                gameObject.transform.position = player.childPostion[childVal].position;
+                //gameObject.transform.position = player.childPostion[childVal].position;
             }
         }
 

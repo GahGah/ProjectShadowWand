@@ -16,7 +16,6 @@ public class PlayerState_Default : PlayerState
     public override void Enter()
     {
         Log("Enter Default");
-
         if ((InputManager.Instance.buttonMoveRight.isPressed || InputManager.Instance.buttonMoveLeft.isPressed) && Mathf.Abs(player.playerRigidbody.velocity.x) > 0f)
         {
             player.animator.SetBool(player.animatorWalkingBool, true);
@@ -86,13 +85,13 @@ public class PlayerState_Jump : PlayerState
             player.animator.SetTrigger(player.animatorJumpTrigger);
 
             //점프
-            player.playerRigidbody.AddForce(new Vector2(0, player.jumpForce), ForceMode2D.Impulse);
+            //player.playerRigidbody.AddForce(new Vector2(0, player.jumpForce), ForceMode2D.Impulse);
 
 
-            //점프 입력을 false로(점프를 한번만 하기 위해서)
-            player.jumpInput = false;
-            //점프상태 true
-            player.isJumping = true;
+            ////점프 입력을 false로(점프를 한번만 하기 위해서)
+            //player.jumpInput = false;
+            ////점프상태 true
+            //player.isJumping = true;
 
             // Play audio
             //audioPlayer.PlayJump();
