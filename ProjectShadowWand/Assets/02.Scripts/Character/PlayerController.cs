@@ -414,11 +414,13 @@ public class PlayerController : Character
     {
         if (_isLadder == true)
         {
+            //Physics2D.IgnoreLayerCollision(groundMask, playerMask, true);
         }
         else
         {
             isClimbLadder = false;
             inLadder = false;
+            //Physics2D.IgnoreLayerCollision(groundMask, playerMask, false);
             UpdateGravityScale();
         }
         onLadder = _isLadder;
@@ -429,12 +431,14 @@ public class PlayerController : Character
         if (_isLadder == true)
         {
             ladderPosition = _pos;
+            Physics2D.IgnoreLayerCollision(groundMask, playerMask, true);
         }
         else
         {
             isClimbLadder = false;
             inLadder = false;
             ladderPosition = Vector2.zero;
+            Physics2D.IgnoreLayerCollision(groundMask, playerMask, false);
             UpdateGravityScale();
 
         }
