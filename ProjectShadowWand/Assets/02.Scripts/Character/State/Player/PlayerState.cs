@@ -5,6 +5,10 @@ using UnityEngine;
 public class PlayerState : State
 {
     public PlayerController player;
+    protected void ResetAnimatorSpeed()
+    {
+        player.animator.speed = 1f;
+    }
 }
 
 public class PlayerState_Default : PlayerState
@@ -16,6 +20,7 @@ public class PlayerState_Default : PlayerState
     public override void Enter()
     {
         Log("Enter Default");
+        ResetAnimatorSpeed();
         if ((InputManager.Instance.buttonMoveRight.isPressed || InputManager.Instance.buttonMoveLeft.isPressed) && Mathf.Abs(player.playerRigidbody.velocity.x) > 0f)
         {
             player.animator.SetBool(player.animatorWalkingBool, true);
@@ -35,7 +40,7 @@ public class PlayerState_Default : PlayerState
     /// </summary>
     public override void PhysicsExecute()
     {
-        if ((InputManager.Instance.buttonMoveRight.isPressed|| InputManager.Instance.buttonMoveLeft.isPressed)&&Mathf.Abs(player.playerRigidbody.velocity.x) > 0f)
+        if ((InputManager.Instance.buttonMoveRight.isPressed || InputManager.Instance.buttonMoveLeft.isPressed) && Mathf.Abs(player.playerRigidbody.velocity.x) > 0f)
         {
             player.animator.SetBool(player.animatorWalkingBool, true);
         }
@@ -63,6 +68,7 @@ public class PlayerState_Jump : PlayerState
     public override void Enter()
     {
         Log("Enter Jump");
+        ResetAnimatorSpeed();
         isJumped = false;
 
     }
@@ -154,9 +160,22 @@ public class PlayerState_Climb_Ladder : PlayerState
     public override void Enter()
     {
         Log("Enter Ladder");
+        ResetAnimatorSpeed();
+        player.animator.SetBool(player.animatorClimbBool, true);
     }
     public override void Execute()
     {
+
+
+        //이전 위치와 현재 위치가 다를 경우 
+        if (player.prevPosition != player.playerRigidbody.position)
+        {
+            player.animator.speed = 1f;
+        }
+        else
+        {
+            player.animator.speed = 0f;
+        }
 
     }
     public override void PhysicsExecute()
@@ -167,6 +186,8 @@ public class PlayerState_Climb_Ladder : PlayerState
     public override void Exit()
     {
         Log("Exit Ladder");
+        ResetAnimatorSpeed();
+        player.animator.SetBool(player.animatorClimbBool, false);
     }
 
     public override void HandleInput() { }

@@ -50,13 +50,13 @@ public class StateMachine
         {
             currentState.Exit();
         }
-
         //Enter---
         if (stateDict.ContainsKey(_state))
         {
             currentState = stateDict[_state];
             currentStateE = _state;
             currentState.Enter();
+        Debug.Log("현재 상태 : " +  GetCurrentStateName());
         }
         else
         {

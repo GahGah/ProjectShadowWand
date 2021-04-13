@@ -52,6 +52,7 @@ public class PlayerController : Character
     [HideInInspector] public int animatorGroundedBool;
     [HideInInspector] public int animatorWalkingBool;
     [HideInInspector] public int animatorJumpTrigger;
+    [HideInInspector] public int animatorClimbBool;
     //public int animatorFallingBool;
 
     [HideInInspector] public PlayerStateMachine playerStateMachine;
@@ -97,6 +98,10 @@ public class PlayerController : Character
     [Tooltip("현재 타고있는 사다리의 위치.")]
     [HideInInspector] public Vector2 ladderPosition = Vector2.zero;
 
+
+    public TextMesh stateTextMesh;
+
+    public Vector2 prevPosition;
     #endregion
 
 
@@ -136,6 +141,7 @@ public class PlayerController : Character
         animatorWalkingBool = Animator.StringToHash("Walking");
         animatorGroundedBool = Animator.StringToHash("Grounded");
         animatorJumpTrigger = Animator.StringToHash("Jump");
+        animatorClimbBool = Animator.StringToHash("Climb");
         Init_ContactFilter();
     }
 
@@ -157,7 +163,10 @@ public class PlayerController : Character
         CheckLadderInput();
         CheckJumpInput();
 
+        UpdateChangeState();
         playerStateMachine.Update();
+
+        UpdateStateTextMesh();
     }
     void FixedUpdate()
     {
@@ -168,8 +177,17 @@ public class PlayerController : Character
         UpdateDirection();
 
         playerStateMachine.FixedUpdate();
+
     }
 
+    //TEST
+    private void UpdateStateTextMesh()
+    {
+        stateTextMesh.gameObject.transform.position = playerRigidbody.position;
+        var _text = playerStateMachine.GetCurrentStateName();
+        stateTextMesh.text = _text;
+    }
+    #region 이동, 점프, 사다리
     private void CheckMoveInput()
     {
         //무브먼트 인풋을 0으로 초기화
@@ -214,7 +232,14 @@ public class PlayerController : Character
                 movementInput.y = 1f;
                 isClimbLadder = true;
                 //사다리의 가운데 부분으로 이동시키기 위해서...
+
                 playerRigidbody.position = (new Vector2(ladderPosition.x, playerRigidbody.position.y));
+                //if (prevPosition != playerRigidbody.position)
+                //{
+
+                //    ChangeState(eState.PLAYER_CLIMB_LADDER);
+                //}
+
             }
             else if (InputManager.Instance.buttonDown.isPressed) //아래쪽 이동
             {
@@ -222,6 +247,11 @@ public class PlayerController : Character
                 isClimbLadder = true;
                 //사다리의 가운데 부분으로 이동시키기 위해서...
                 playerRigidbody.position = (new Vector2(ladderPosition.x, playerRigidbody.position.y));
+                //if (prevPosition != playerRigidbody.position)
+                //{
+
+                //    ChangeState(eState.PLAYER_CLIMB_LADDER);
+                //}
             }
         }
 
@@ -259,43 +289,63 @@ public class PlayerController : Character
         #endregion
     }
 
+    #endregion
 
-    private void UpdateGravityScale()
+    /// <summary>
+    /// 플레이어가 땅에 닿았는지 체크합니다.
+    /// </summary>
+    private void GroundCheck()
     {
-        if (isClimbLadder)
+        if (playerCollider.IsTouching(contactFilter_Ground))
         {
-            playerRigidbody.gravityScale = 0f;
-            Physics2D.IgnoreLayerCollision(groundMask, playerMask, true);
+            if (playerRigidbody.velocity.y > 0f)
+            {
+                //isJumping = false;
+            }
+            else
+            {
+                isGrounded = true;
+                isJumping = false;
+
+                animator.SetBool(animatorGroundedBool, isGrounded);
+
+                //ChangeState(eState.PLAYER_DEFAULT);
+            }
         }
         else
         {
-            Physics2D.IgnoreLayerCollision(groundMask, playerMask, false);
-            if (isGrounded)
-            {
-                playerRigidbody.gravityScale = groundedGravityScale;
-            }
-            else if (!isClimbLadder)
-            {
-                playerRigidbody.gravityScale = groundedGravityScale;
-            }
-            //if (isGrounded && !isJumping)
-            //{
-            //    playerRigidbody.gravityScale = groundedGravityScale;
-            //}
-            //else if( isJumping)
-            //{
-            //    playerRigidbody.gravityScale = jumpGravityScale;
-            //}
+            isGrounded = false;
+            animator.SetBool(animatorGroundedBool, isGrounded);
+        }
+    }
+
+    private void UpdateChangeState()
+    {
+        if (inLadder && prevPosition.y != playerRigidbody.position.y)
+        {
+            ChangeState(eState.PLAYER_CLIMB_LADDER);
+        }
+        else if (isGrounded && !isJumping)
+        {
+            ChangeState(eState.PLAYER_DEFAULT);
+        }
+        else if (!isGrounded && isJumping)
+        {
+            ChangeState(eState.PLAYER_JUMP);
         }
 
-
-
     }
+    private void ChangeState(eState _state)
+    {
+        playerStateMachine.ChangeState(_state);
+    }
+
     /// <summary>
     /// 이동 관련 벨로시티 업데이트.
     /// </summary>
     private void UpdateMoveVelocity()
     {
+        prevPosition = new Vector2(playerRigidbody.position.x, playerRigidbody.position.y);
         if (isClimbLadder == false)
         {
             playerRigidbody.velocity =
@@ -327,9 +377,14 @@ public class PlayerController : Character
                 // UpdateGravityScale();
                 //playerRigidbody.gravityScale = groundedGravityScale;
 
+
+                //오른쪽을 보고있으면 1f, 아니면 -1f
+                float jumpX = isRight ? 1f : -1f;
+                //필요하다면 쓰기.
+
+
                 playerRigidbody.velocity =
     new Vector2(playerRigidbody.velocity.x, jumpForce);
-
                 shouldJump = false;
 
                 ChangeState(eState.PLAYER_JUMP);
@@ -353,36 +408,36 @@ public class PlayerController : Character
         }
     }
 
-    private void ChangeState(eState _state)
+
+    private void UpdateGravityScale()
     {
-        playerStateMachine.ChangeState(_state);
-    }
-    /// <summary>
-    /// 플레이어가 땅에 닿았는지 체크합니다.
-    /// </summary>
-    private void GroundCheck()
-    {
-        if (playerCollider.IsTouching(contactFilter_Ground))
+        if (isClimbLadder)
         {
-            if (playerRigidbody.velocity.y > 0f)
-            {
-                //isJumping = false;
-            }
-            else
-            {
-                isGrounded = true;
-                isJumping = false;
-                animator.SetBool(animatorGroundedBool, isGrounded);
-                ChangeState(eState.PLAYER_DEFAULT);
-            }
+            playerRigidbody.gravityScale = 0f;
+            Physics2D.IgnoreLayerCollision(groundMask, playerMask, true);
         }
         else
         {
-            isGrounded = false;
-            animator.SetBool(animatorGroundedBool, isGrounded);
+            Physics2D.IgnoreLayerCollision(groundMask, playerMask, false);
+            if (isGrounded)
+            {
+                playerRigidbody.gravityScale = groundedGravityScale;
+            }
+            else if (!isClimbLadder)
+            {
+                playerRigidbody.gravityScale = groundedGravityScale;
+            }
+            //if (isGrounded && !isJumping)
+            //{
+            //    playerRigidbody.gravityScale = groundedGravityScale;
+            //}
+            //else if( isJumping)
+            //{
+            //    playerRigidbody.gravityScale = jumpGravityScale;
+            //}
         }
-    }
 
+    }
 
     private void OnParticleCollision(GameObject other)
     {
@@ -407,6 +462,20 @@ public class PlayerController : Character
             Time.timeScale = 0f;
         }
 
+    }
+    private void UpdateDirection()
+    {
+        //스케일 변경으로 flip
+        if (InputManager.Instance.buttonMoveRight.isPressed && playerRigidbody.velocity.x > minFlipSpeed && isFlipped)
+        {
+            isFlipped = false;
+            puppet.localScale = Vector3.one;
+        }
+        else if (InputManager.Instance.buttonMoveLeft.isPressed && playerRigidbody.velocity.x < -minFlipSpeed && !isFlipped)
+        {
+            isFlipped = true;
+            puppet.localScale = flippedScale;
+        }
     }
 
     public void ProcessRaise()
@@ -473,6 +542,12 @@ public class PlayerController : Character
         animator.SetBool(animatorGroundedBool, isGrounded);
     }
 
+    //private void OnGUI()
+    //{
+    //    GUI.Label(new Rect(new Vector2(transform.position.x, transform.position.y), new Vector2(5, 5)),"Hi");
+    //}
+
+
     //private void UpdateVelocity()
     //{
     //    updatingVelocity = playerRigidbody.velocity;
@@ -534,20 +609,6 @@ public class PlayerController : Character
     //    }
     //}
 
-    private void UpdateDirection()
-    {
-        //스케일 변경으로 flip
-        if (InputManager.Instance.buttonMoveRight.isPressed && playerRigidbody.velocity.x > minFlipSpeed && isFlipped)
-        {
-            isFlipped = false;
-            puppet.localScale = Vector3.one;
-        }
-        else if (InputManager.Instance.buttonMoveLeft.isPressed && playerRigidbody.velocity.x < -minFlipSpeed && !isFlipped)
-        {
-            isFlipped = true;
-            puppet.localScale = flippedScale;
-        }
-    }
 
     //private void UpdateGravityScale()
     //{
