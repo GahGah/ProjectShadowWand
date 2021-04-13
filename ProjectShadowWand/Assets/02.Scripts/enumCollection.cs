@@ -26,6 +26,7 @@ public enum eState // 상태를 정의해놓습니다.
     PLAYER_JUMP,
     PLAYER_AIR,
     PLAYER_DIE,
+    PLAYER_CLIMB_LADDER,
 
     /// <summary>
     /// 몬스터가 그림자 안에 있고, 추격 상태가 아닐 때를 의미합니다.

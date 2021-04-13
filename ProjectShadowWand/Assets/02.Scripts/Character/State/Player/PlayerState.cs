@@ -142,3 +142,33 @@ public class PlayerState_Air : PlayerState
 
     public override void HandleInput() { }
 }
+
+
+public class PlayerState_Climb_Ladder : PlayerState
+{
+    public PlayerState_Climb_Ladder(PlayerController _p)
+    {
+        player = _p;
+    }
+
+    public override void Enter()
+    {
+        Log("Enter Ladder");
+    }
+    public override void Execute()
+    {
+
+    }
+    public override void PhysicsExecute()
+    {
+
+
+    }
+    public override void Exit()
+    {
+        Log("Exit Ladder");
+    }
+
+    public override void HandleInput() { }
+
+}

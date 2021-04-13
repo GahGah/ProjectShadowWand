@@ -147,7 +147,7 @@ public class PlayerController : Character
 
     private void Start()
     {
-        playerStateMachine.ChangeState(eState.PLAYER_DEFAULT);
+        ChangeState(eState.PLAYER_DEFAULT);
         playerStateMachine.Start();
     }
 
@@ -166,6 +166,7 @@ public class PlayerController : Character
         UpdateJumpVelocity();
         UpdateGravityScale();
         UpdateDirection();
+
         playerStateMachine.FixedUpdate();
     }
 
@@ -205,7 +206,6 @@ public class PlayerController : Character
 
             }
         }
-
 
         if (inLadder)
         {
@@ -332,7 +332,7 @@ public class PlayerController : Character
 
                 shouldJump = false;
 
-                playerStateMachine.ChangeState(eState.PLAYER_JUMP);
+                ChangeState(eState.PLAYER_JUMP);
 
                 isJumping = true;
                 isGrounded = false;
@@ -344,7 +344,7 @@ public class PlayerController : Character
 
                 shouldJump = false;
 
-                playerStateMachine.ChangeState(eState.PLAYER_JUMP);
+                ChangeState(eState.PLAYER_JUMP);
 
                 isJumping = true;
                 isGrounded = false;
@@ -353,6 +353,10 @@ public class PlayerController : Character
         }
     }
 
+    private void ChangeState(eState _state)
+    {
+        playerStateMachine.ChangeState(_state);
+    }
     /// <summary>
     /// 플레이어가 땅에 닿았는지 체크합니다.
     /// </summary>
@@ -369,7 +373,7 @@ public class PlayerController : Character
                 isGrounded = true;
                 isJumping = false;
                 animator.SetBool(animatorGroundedBool, isGrounded);
-                playerStateMachine.ChangeState(eState.PLAYER_DEFAULT);
+                ChangeState(eState.PLAYER_DEFAULT);
             }
         }
         else
