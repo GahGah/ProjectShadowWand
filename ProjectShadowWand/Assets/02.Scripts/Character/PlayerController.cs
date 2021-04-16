@@ -84,16 +84,16 @@ public class PlayerController : Character
     public float climbSpeed;
 
     [Tooltip("사다리에 닿은 상태로 상하키 입력을 했는가를 뜻합니다.")]
-    [HideInInspector] public bool inLadder = false;
+    public bool inLadder = false;
 
     [Tooltip("사다리에 닿은 !!! 상태인가를 뜻합니다.")]
-    [HideInInspector] public bool onLadder = false; //퍼블릭으로 변경함
+    public bool onLadder = false; //퍼블릭으로 변경함
 
     [Tooltip("사다리에 올라탄 상태에서 특정 방향으로 점프했는가를 뜻합니다.")]
     [HideInInspector] public bool onLadderJump = false;
 
     [Tooltip("사다리를 오르고 있는 상태인가를 뜻합니다.")]
-    [HideInInspector] public bool isClimbLadder = false;
+    public bool isClimbLadder = false;
 
     [Tooltip("현재 타고있는 사다리의 위치.")]
     [HideInInspector] public Vector2 ladderPosition = Vector2.zero;
@@ -321,6 +321,8 @@ public class PlayerController : Character
 
     private void UpdateChangeState()
     {
+
+
         if (inLadder && prevPosition.y != playerRigidbody.position.y)
         {
             ChangeState(eState.PLAYER_CLIMB_LADDER);
@@ -332,6 +334,10 @@ public class PlayerController : Character
         else if (!isGrounded && isJumping)
         {
             ChangeState(eState.PLAYER_JUMP);
+        }
+        else if (!inLadder && !isGrounded && !onLadder)
+        {
+            ChangeState(eState.PLAYER_DEFAULT);
         }
 
     }

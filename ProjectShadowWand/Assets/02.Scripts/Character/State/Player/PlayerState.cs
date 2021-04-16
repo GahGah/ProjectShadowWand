@@ -53,6 +53,7 @@ public class PlayerState_Default : PlayerState
     public override void Exit()
     {
         Log("Exit Default");
+        player.animator.SetBool(player.animatorWalkingBool, false);
     }
 
     public override void HandleInput() { }
@@ -152,9 +153,11 @@ public class PlayerState_Air : PlayerState
 
 public class PlayerState_Climb_Ladder : PlayerState
 {
+    private float animatorSpeed = 0f;
     public PlayerState_Climb_Ladder(PlayerController _p)
     {
         player = _p;
+        animatorSpeed = 1.4f;
     }
 
     public override void Enter()
@@ -162,19 +165,28 @@ public class PlayerState_Climb_Ladder : PlayerState
         Log("Enter Ladder");
         ResetAnimatorSpeed();
         player.animator.SetBool(player.animatorClimbBool, true);
+        player.animator.SetBool(player.animatorWalkingBool, false);
     }
     public override void Execute()
     {
-
-
+        player.animator.SetBool(player.animatorClimbBool, true);
         //이전 위치와 현재 위치가 다를 경우 
         if (player.prevPosition != player.playerRigidbody.position)
         {
-            player.animator.speed = 1f;
+            if (player.animator.speed != animatorSpeed)
+            {
+                player.animator.speed = animatorSpeed;
+
+            }
+
         }
         else
         {
-            player.animator.speed = 0f;
+            if (player.animator.speed != 0f)
+            {
+                player.animator.speed = 0f;
+            }
+
         }
 
     }
