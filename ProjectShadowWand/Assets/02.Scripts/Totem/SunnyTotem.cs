@@ -86,6 +86,9 @@ public class SunnyTotem : Totem
                 if (isOn == true)
                 {
                     isOn = false;
+                    StopCoroutine(ProcessOnSunny());
+
+                    Init();
                 }
 
                 //}

@@ -165,8 +165,11 @@ public class PlayerController : Character
 
         UpdateChangeState();
         playerStateMachine.Update();
+        if (stateTextMesh != null)
+        {
+            UpdateStateTextMesh();
+        }
 
-        UpdateStateTextMesh();
     }
     void FixedUpdate()
     {

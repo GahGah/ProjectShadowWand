@@ -15704,7 +15704,7 @@ MonoBehaviour:
   puppet: {fileID: 1174078048}
   spriteRenderer: {fileID: 0}
   movementInput: {x: 0, y: 0}
-  movementSpeed: 30
+  movementSpeed: 3
   maxMovementSpeed: 4
   jumpForce: 8
   minFlipSpeed: 0.1
@@ -15723,12 +15723,6 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 35
     maxNormalAngle: 145
-  childPostion:
-  - {fileID: 808889960}
-  - {fileID: 674696420}
-  - {fileID: 1179241693}
-  jumpGravityScale: 1
-  fallGravityScale: 2.5
   groundedGravityScale: 1
   resetSpeedOnLand: 0
   playerRigidbody: {fileID: 0}
@@ -15741,11 +15735,18 @@ MonoBehaviour:
   animatorGroundedBool: 0
   animatorWalkingBool: 0
   animatorJumpTrigger: 0
+  animatorClimbBool: 0
   inputManager: {fileID: 0}
   saveMoveInputX: 0
-  CanMove: 1
-  isLadder: 0
-  lightExplosionObject: {fileID: 0}
+  canMove: 1
+  climbSpeed: 0
+  inLadder: 0
+  onLadder: 0
+  onLadderJump: 0
+  isClimbLadder: 0
+  ladderPosition: {x: 0, y: 0}
+  stateTextMesh: {fileID: 0}
+  prevPosition: {x: 0, y: 0}
 --- !u!4 &1174078048
 Transform:
   m_ObjectHideFlags: 0
@@ -17453,7 +17454,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1557938720}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.3, y: 1.1, z: -1}
+  m_LocalPosition: {x: -6.22, y: -2.72, z: -1}
   m_LocalScale: {x: 0.3427909, y: 0.3427909, z: 0.3427909}
   m_Children:
   - {fileID: 349522919}
