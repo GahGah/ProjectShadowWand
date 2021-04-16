@@ -37,7 +37,6 @@ public class StateMachine
 
             if (currentState == stateDict[_state]) //만약 현재 상태와 또 똑같은 상태로 바꾸려고 했다면?
             {
-                Debug.LogError("같은 상태로 바뀐다면 좀 이상하지 않을까? 안변하면 되는거지??");
                 goReturn = true;
             }
         }
@@ -51,13 +50,13 @@ public class StateMachine
         {
             currentState.Exit();
         }
-
         //Enter---
         if (stateDict.ContainsKey(_state))
         {
             currentState = stateDict[_state];
             currentStateE = _state;
             currentState.Enter();
+        Debug.Log("현재 상태 : " +  GetCurrentStateName());
         }
         else
         {

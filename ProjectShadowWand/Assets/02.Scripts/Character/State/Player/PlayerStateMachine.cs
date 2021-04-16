@@ -30,6 +30,11 @@ public class PlayerStateMachine : StateMachine
             case eState.PLAYER_JUMP:
                 tempState = new PlayerState_Jump(player);
                 break;
+
+            case eState.PLAYER_CLIMB_LADDER:
+                tempState = new PlayerState_Climb_Ladder(player);
+                break;
+
             case eState.PLAYER_AIR:
                 tempState = new PlayerState_Air(player);
                 break;
@@ -37,6 +42,7 @@ public class PlayerStateMachine : StateMachine
             case eState.PLAYER_DIE:
                 Debug.Log("Player_Die");
                 break;
+
             default:
                 break;
         }
