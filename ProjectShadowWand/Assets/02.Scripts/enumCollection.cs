@@ -14,7 +14,6 @@ public enum eBlockType
     MOVING_GROUND,
     WALL,
     LADDER,
-
 }
 public enum eMonsterType
 {
@@ -56,7 +55,8 @@ public enum eChildOption
 }
 public enum eUItype
 {
-    NONE, DIARY, SAVE, LOAD
+    NONE, DIARY, SAVE, LOAD,
+    OPTION,
 }
 
 public enum eChildType

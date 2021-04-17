@@ -115,7 +115,7 @@ public class SaveLoadManager : MonoBehaviour
 
         tempData.currentStage = _d.currentStage;
         tempData.currentPosition = _d.currentPosition;
-        tempData.currentHP = _d.currentHP;
+        //tempData.currentHP = _d.currentHP;
 
         currentData_Player = tempData;
     }
@@ -135,13 +135,15 @@ public class SaveLoadManager : MonoBehaviour
     public IEnumerator LoadData_Player()
     {
         yield return StartCoroutine(CreatePath(eDataType.PLAYER, currentDataSlot));
+
         string path = currentFilePath;
+
         yield return StartCoroutine(fileManager.ReadText(playerFileName, path));
+
         if (!string.IsNullOrEmpty(fileManager.readText_Result))
         {
             var loadedData = JsonUtility.FromJson<Data_Player>(fileManager.readText_Result);
             currentData_Player = loadedData;
-
             //ApplySettings(loadedData);
         }
     }

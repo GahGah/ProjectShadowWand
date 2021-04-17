@@ -19,7 +19,12 @@ public class UIDiary : UIBase
     /// <summary>
     /// 활성화되었을 때 UIManager의 딕셔너리에 추가하던지 말던지 합니다.
     /// </summary>
-    private void OnEnable()
+    private void Awake()
+    {
+        Init();
+    }
+
+    public override void Init()
     {
         uiType = eUItype.DIARY;
         DictionaryCheck();

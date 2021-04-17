@@ -24,6 +24,13 @@ public class FileManager : MonoBehaviour
     }
 
     [HideInInspector] public string readText_Result;
+
+    /// <summary>
+    /// 파일을 읽은 후, ,readText_Result에 저장합니다.
+    /// </summary>
+    /// <param name="dataName">파일의 이름을 적습니다. 예시 : "testFile.png"  </param>
+    /// <param name="dataPath">파일의 이름을 제외한 경로를 적습니다. 예시 : "Assets/data/" </param>
+    /// <returns></returns>
     public IEnumerator ReadText(string dataName, string path)
     {
 

@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 public class UISettings/* : UIView*/
 {
-
     public Slider soundSFXSlider;
     public Slider bgmSlider;
     public Slider brightnessSlider;

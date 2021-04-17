@@ -324,8 +324,6 @@ public class PlayerController : Character
 
     private void UpdateChangeState()
     {
-
-
         if (inLadder && prevPosition.y != playerRigidbody.position.y)
         {
             ChangeState(eState.PLAYER_CLIMB_LADDER);

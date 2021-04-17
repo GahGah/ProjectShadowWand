@@ -12,7 +12,7 @@ public class Data_Player : InGameData
 {
     public int currentStage;
     public Vector3 currentPosition;
-    public float currentHP;
+   // public float currentHP;
 
 }
 

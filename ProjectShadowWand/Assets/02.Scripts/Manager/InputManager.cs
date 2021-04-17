@@ -19,6 +19,8 @@ public class InputManager : MonoBehaviour
     public ButtonControl buttonMouseLeft;// = Mouse.current.leftButton;
     public Vector2Control buttonScroll;// = Mouse.current.scroll;
 
+    public ButtonControl buttonEscape;
+
 
 
     public Keyboard keyboard;
@@ -110,7 +112,10 @@ public class InputManager : MonoBehaviour
         buttonCtrl = Keyboard.current.ctrlKey;
         buttonPause = Keyboard.current.escapeKey;
         buttonCatch = Keyboard.current.cKey;
+
         buttonScroll = Mouse.current.scroll;
+
+        buttonEscape = Keyboard.current.escapeKey;
     }
 
     /// <summary>
