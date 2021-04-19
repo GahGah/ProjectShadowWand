@@ -14,11 +14,15 @@ public class WeatherInteractionObject : MonoBehaviour
     public delegate void WeatherDelegate();
     WeatherDelegate weatherDelegate;
 
+    [Tooltip("ChangeState시 GetMainWeatherType의 반환값을 가지고 있습니다.")]
+    protected eMainWeatherType currentMainWeatherType;
+
     /// <summary>
     /// 기본적으로 SUNNY로 초기화합니다.
     /// </summary>
     public virtual void Init()
     {
+        currentMainWeatherType = WeatherManager.Instance.GetMainWeather();
         affectedWeather = WeatherManager.Instance.GetMainWeather();
         ChangeDelegate(affectedWeather);
     }
@@ -36,11 +40,11 @@ public class WeatherInteractionObject : MonoBehaviour
     /// </summary>
     public virtual void ChangeState()
     {
-        eMainWeatherType nowMainType = WeatherManager.Instance.GetMainWeather();
-        if (nowMainType!=affectedWeather)
+        currentMainWeatherType= WeatherManager.Instance.GetMainWeather();
+        if (currentMainWeatherType != affectedWeather)
         {
             Debug.Log("Weather is Different");
-            ChangeDelegate(nowMainType);
+            ChangeDelegate(currentMainWeatherType);
         }
         else
         {
@@ -84,7 +88,7 @@ public class WeatherInteractionObject : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-       // Debug.Log(gameObject.name + " : 뭔가 닿았음! : " + collision.gameObject.name);
+        // Debug.Log(gameObject.name + " : 뭔가 닿았음! : " + collision.gameObject.name);
 
 
         if (collision.gameObject.CompareTag("Tornado"))
