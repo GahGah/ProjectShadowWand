@@ -29,8 +29,16 @@ public class Totem : MonoBehaviour
 
     protected virtual void Init()
     {
-        sr = GetComponent<SpriteRenderer>();
-        totemLight = GetComponentInChildren<Light2D>();
+        if (sr == null)
+        {
+            sr = GetComponent<SpriteRenderer>();
+
+        }
+        if (totemLight == null)
+        {
+            totemLight = GetComponentInChildren<Light2D>();
+
+        }
         canUse = true;
         isOn = false;
         isPlayerIn = false;
@@ -160,7 +168,10 @@ public class Totem : MonoBehaviour
             else
             {
                 sr.color = Color.white;
-                totemLight.gameObject.SetActive(false);
+                if (totemLight.gameObject.activeInHierarchy == true)
+                {
+                    totemLight.gameObject.SetActive(false);
+                }
 
             }
         }

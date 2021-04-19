@@ -724,7 +724,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123862411}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.3, y: 3.27, z: 0}
+  m_LocalPosition: {x: 4.86, y: -4.56, z: 0}
   m_LocalScale: {x: 4.0442157, y: 0.4068, z: 1}
   m_Children:
   - {fileID: 45718868}
@@ -751,7 +751,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!251 &159288029
 PlatformEffector2D:
   m_ObjectHideFlags: 0
@@ -15354,7 +15354,7 @@ MonoBehaviour:
   isOn: 0
   isInteractable: 1
   rainEffect: {fileID: 1472265891}
-  activeTime: 16.5
+  activeTime: 115.28
 --- !u!212 &1897877744
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -16111,7 +16111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   affectedWeather: 0
   maxExtent: {x: 0, y: 2.07}
-  changeTime: 20
+  changeTime: 5
   isCenter: 0
 --- !u!253 &2139783622
 BuoyancyEffector2D:
