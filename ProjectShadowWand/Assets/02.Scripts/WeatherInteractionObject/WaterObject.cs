@@ -44,21 +44,23 @@ public class WaterObject : WeatherInteractionObject
     }
     private void Start()
     {
-        StartCoroutine(ChangeExtentCoroutine);
+        //StartCoroutine(ChangeExtentCoroutine);
+        ChangeDelegate(affectedWeather);
     }
     void Update()
     {
-        //Execute();
-        //ChangeState();
+        Execute();
+        ChangeState();
     }
     public override void Execute()
     {
-        //base.Execute();
+        base.Execute();
 
     }
     public override void ChangeState()
     {
-        //base.ChangeState();
+        base.ChangeState();
+
     }
     private IEnumerator DoChangeExtent()
     {
@@ -76,8 +78,9 @@ public class WaterObject : WeatherInteractionObject
             yield return new WaitForEndOfFrame();
         }
 
-        var test = GetComponent<SpriteRenderer>();
-        test.color = Color.red;
+        //var test = GetComponent<SpriteRenderer>();
+        //test.color = Color.red;
+        ChangeExtentCoroutine = null; // null로 변경
     }
 
     /// <summary>
@@ -94,6 +97,34 @@ public class WaterObject : WeatherInteractionObject
         }
 
     }
+
+    public override void EnterRainy()
+    {
+        Debug.Log("EnterRainy");
+        if (ChangeExtentCoroutine != null) //이미 실행되어있는 상태였다면
+        {
+            StopCoroutine(ChangeExtentCoroutine); //멈추기
+        }
+        else
+        {
+            ChangeExtentCoroutine = DoChangeExtent();
+        }
+        StartCoroutine(ChangeExtentCoroutine);
+    }
+
+    public override void EnterSunny()
+    {
+        if (ChangeExtentCoroutine != null) //이미 실행되어있는 상태였다면
+        {
+            StopCoroutine(ChangeExtentCoroutine); //멈추기
+        }
+        else
+        {
+            ChangeExtentCoroutine = DoChangeExtent();
+            StopCoroutine(ChangeExtentCoroutine);
+        }
+    }
+
 
     public void ButtonGoTest(int _i)
     {
@@ -139,7 +170,22 @@ public class WaterObject : WeatherInteractionObject
     }
 
 
-    private void OnDrawGizmos()
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player")) //플래이어가 들어왔다면
+        {
+            PlayerController.Instance.SetIsWater(true);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player")) //플래이어가 나갔다면
+        {
+            PlayerController.Instance.SetIsWater(false);
+        }
+    }
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
         if (originalScale != Vector2.zero)
@@ -154,4 +200,21 @@ public class WaterObject : WeatherInteractionObject
                     new Vector3(transform.localScale.x + maxExtent.x, transform.localScale.y + maxExtent.y));
         }
     }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.cyan;
+    //    if (originalScale != Vector2.zero)
+    //    {
+    //        Gizmos.DrawWireCube(new Vector3(originalPosition.x + (maxExtent.x / 2), originalPosition.y + (maxExtent.y / 2)),
+    //                new Vector3(originalScale.x + maxExtent.x, originalScale.y + maxExtent.y));
+
+    //    }
+    //    else
+    //    {
+    //        Gizmos.DrawWireCube(new Vector3(transform.position.x + (maxExtent.x / 2), transform.position.y + (maxExtent.y / 2)),
+    //                new Vector3(transform.localScale.x + maxExtent.x, transform.localScale.y + maxExtent.y));
+    //    }
+    //}
+
+
 }

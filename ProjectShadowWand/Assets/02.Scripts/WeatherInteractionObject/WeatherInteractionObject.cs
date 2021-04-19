@@ -50,10 +50,9 @@ public class WeatherInteractionObject : MonoBehaviour
         {
 
         }
-
-
     }
-    private void ChangeDelegate(eMainWeatherType _wt)
+
+    protected void ChangeDelegate(eMainWeatherType _wt)
     {
         Debug.Log("ChangeDelegate");
         switch (_wt)

@@ -70,6 +70,9 @@ public class PlayerController : Character
     private bool isDie = false;
 
     #region 추가된 것
+    [SerializeField, Tooltip("캐릭터가 물과 닿았는가")]
+    private bool isWater = false;
+
 
     [Tooltip("캐릭터가 오른쪽을 바라보고 있는가")]
     private bool isRight = false;
@@ -102,6 +105,8 @@ public class PlayerController : Character
     public TextMesh stateTextMesh;
 
     public Vector2 prevPosition;
+
+
     #endregion
 
 
@@ -142,6 +147,8 @@ public class PlayerController : Character
         animatorGroundedBool = Animator.StringToHash("Grounded");
         animatorJumpTrigger = Animator.StringToHash("Jump");
         animatorClimbBool = Animator.StringToHash("Climb");
+
+        isWater = false;
         Init_ContactFilter();
     }
 
@@ -315,6 +322,13 @@ public class PlayerController : Character
                 //ChangeState(eState.PLAYER_DEFAULT);
             }
         }
+        else if (isWater == true) // 아니면 물 속?
+        {
+            isGrounded = true;
+            isJumping = false;
+
+            animator.SetBool(animatorGroundedBool, isGrounded);
+        }
         else
         {
             isGrounded = false;
@@ -464,7 +478,7 @@ public class PlayerController : Character
         {
             transform.rotation = Quaternion.Euler(0, 0, 90);
             canMove = false;
-            SiyeonManager.Instance.SetActiveTrueRestartUI();
+            //SiyeonManager.Instance.SetActiveTrueRestartUI();
             Time.timeScale = 0f;
         }
 
@@ -522,6 +536,11 @@ public class PlayerController : Character
 
         }
         onLadder = _isLadder;
+    }
+
+    public void SetIsWater(bool _isWater)
+    {
+        isWater = _isWater;
     }
 
     /// <summary>
