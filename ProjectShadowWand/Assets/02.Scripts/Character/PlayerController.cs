@@ -340,7 +340,6 @@ public class PlayerController : Character
         {
             ChangeState(eState.PLAYER_DEFAULT);
         }
-
     }
     private void ChangeState(eState _state)
     {
