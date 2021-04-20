@@ -103,7 +103,7 @@ public class PlayerController : Character
     public Vector2 prevPosition;
 
     [Tooltip("테스트용 idle 모션입니다.")]
-    public Motion[] testIdleMotion;
+    public Motion[] testIdleMotions;
 
 
     #endregion
@@ -589,13 +589,6 @@ public class PlayerController : Character
         var _text = playerStateMachine.GetCurrentStateName();
         stateTextMesh.text = _text;
     }
-
-
-    //private void OnGUI()
-    //{
-    //    GUI.Label(new Rect(new Vector2(transform.position.x, transform.position.y), new Vector2(5, 5)),"Hi");
-    //}
-
 
     //private void UpdateVelocity()
     //{

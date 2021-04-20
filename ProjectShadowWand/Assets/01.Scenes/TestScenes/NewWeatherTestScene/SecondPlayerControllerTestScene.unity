@@ -1429,7 +1429,7 @@ MonoBehaviour:
   cameraDefaultPositionZ: -10
   cameraDefaultSize: 5
   cameraZoomInSize: 3
-  cameraZoomOutSize: 7.65
+  cameraZoomOutSize: 7.5
   followSpeed: 0
   zoomSpeed: 0.1
   isTimeMode: 1
@@ -4245,7 +4245,7 @@ MonoBehaviour:
   isClimbLadder: 0
   ladderPosition: {x: 0, y: 0}
   prevPosition: {x: 0, y: 0}
-  testIdleMotion: []
+  testIdleMotions: []
 --- !u!61 &1271847640
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4259,18 +4259,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.028485656}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.01, y: 1.19}
-    newSize: {x: 1, y: 1}
+    oldSize: {x: 1.3, y: 1.3}
+    newSize: {x: 1.3, y: 1.3}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.18}
+  m_Size: {x: 1, y: 1.2369711}
   m_EdgeRadius: 0
 --- !u!50 &1271847641
 Rigidbody2D:
@@ -4338,7 +4338,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.3, y: 1.3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -4352,7 +4352,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1271847638}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.33, y: -4.81, z: -1}
+  m_LocalPosition: {x: -1.192, y: -5.574, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -16110,8 +16110,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   affectedWeather: 0
-  maxExtent: {x: 0, y: 2.07}
-  changeTime: 5
+  maxExtent: {x: 0, y: 1.97}
+  changeTime: 10
   isCenter: 0
 --- !u!253 &2139783622
 BuoyancyEffector2D:
