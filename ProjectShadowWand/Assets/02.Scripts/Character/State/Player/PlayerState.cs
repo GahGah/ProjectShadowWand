@@ -157,7 +157,7 @@ public class PlayerState_Climb_Ladder : PlayerState
     public PlayerState_Climb_Ladder(PlayerController _p)
     {
         player = _p;
-        animatorSpeed = 1.4f;
+        animatorSpeed = 1.5f;
     }
 
     public override void Enter()
