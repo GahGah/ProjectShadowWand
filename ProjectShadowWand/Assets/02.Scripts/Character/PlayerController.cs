@@ -66,7 +66,6 @@ public class PlayerController : Character
     public bool canMove = true;
 
 
-
     private bool isDie = false;
 
     #region 추가된 것
@@ -101,10 +100,10 @@ public class PlayerController : Character
     [Tooltip("현재 타고있는 사다리의 위치.")]
     [HideInInspector] public Vector2 ladderPosition = Vector2.zero;
 
-
-    public TextMesh stateTextMesh;
-
     public Vector2 prevPosition;
+
+    [Tooltip("테스트용 idle 모션입니다.")]
+    public Motion[] testIdleMotion;
 
 
     #endregion
@@ -149,6 +148,11 @@ public class PlayerController : Character
         animatorClimbBool = Animator.StringToHash("Climb");
 
         isWater = false;
+
+        if (stateTextMesh == null)
+        {
+            CreateStateTextMesh();
+        }
         Init_ContactFilter();
     }
 
@@ -172,10 +176,8 @@ public class PlayerController : Character
 
         UpdateChangeState();
         playerStateMachine.Update();
-        if (stateTextMesh != null)
-        {
-            UpdateStateTextMesh();
-        }
+
+        UpdateStateTextMesh();
 
     }
     void FixedUpdate()
@@ -191,12 +193,6 @@ public class PlayerController : Character
     }
 
     //TEST
-    private void UpdateStateTextMesh()
-    {
-        stateTextMesh.gameObject.transform.position = playerRigidbody.position;
-        var _text = playerStateMachine.GetCurrentStateName();
-        stateTextMesh.text = _text;
-    }
     #region 이동, 점프, 사다리
     private void CheckMoveInput()
     {
@@ -566,6 +562,34 @@ public class PlayerController : Character
 
         animator.SetBool(animatorGroundedBool, isGrounded);
     }
+
+    /// <summary>
+    /// 스테이트 제대로 돌아가는지 테스트용의 텍스트 메쉬
+    /// </summary>
+    private TextMesh stateTextMesh = null;
+    private void CreateStateTextMesh()
+    {
+        GameObject tempObject = new GameObject("stateTextMesh(Created)");
+        tempObject.transform.localScale = new Vector3(0.3f, 0.3f);
+        tempObject.transform.position = new Vector3(0f, 0f, -9f);
+
+        stateTextMesh = tempObject.AddComponent<TextMesh>();
+
+        stateTextMesh.fontSize = 20;
+        stateTextMesh.characterSize = 0.5f;
+
+        stateTextMesh.anchor = TextAnchor.MiddleCenter;
+        stateTextMesh.alignment = TextAlignment.Center;
+        stateTextMesh.color = Color.white;
+
+    }
+    private void UpdateStateTextMesh()
+    {
+        stateTextMesh.gameObject.transform.position = new Vector3(playerRigidbody.position.x, playerRigidbody.position.y + 0.8f, -9f);
+        var _text = playerStateMachine.GetCurrentStateName();
+        stateTextMesh.text = _text;
+    }
+
 
     //private void OnGUI()
     //{

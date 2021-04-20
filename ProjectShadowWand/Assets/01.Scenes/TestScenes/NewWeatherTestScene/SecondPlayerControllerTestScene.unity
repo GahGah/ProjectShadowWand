@@ -638,7 +638,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!61 &123862414
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4244,8 +4244,8 @@ MonoBehaviour:
   onLadderJump: 0
   isClimbLadder: 0
   ladderPosition: {x: 0, y: 0}
-  stateTextMesh: {fileID: 1967018973}
   prevPosition: {x: 0, y: 0}
+  testIdleMotion: []
 --- !u!61 &1271847640
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -15866,7 +15866,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!102 &1967018973
 TextMesh:
   serializedVersion: 3
@@ -15877,12 +15877,12 @@ TextMesh:
   m_GameObject: {fileID: 1967018972}
   m_Text: Test
   m_OffsetZ: 0
-  m_CharacterSize: 1
+  m_CharacterSize: 0.3
   m_LineSpacing: 1
-  m_Anchor: 0
-  m_Alignment: 0
+  m_Anchor: 4
+  m_Alignment: 1
   m_TabSize: 4
-  m_FontSize: 0
+  m_FontSize: 20
   m_FontStyle: 0
   m_RichText: 1
   m_Font: {fileID: 0}
@@ -15938,8 +15938,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1967018972}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.459999, y: 7.1399994, z: -1}
-  m_LocalScale: {x: 0.39738, y: 0.39738, z: 0.39738}
+  m_LocalPosition: {x: -1.84, y: -3.32, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 11
@@ -16127,7 +16127,7 @@ BuoyancyEffector2D:
     m_Bits: 4294967295
   m_SurfaceLevel: 0.45
   m_Density: 4
-  m_LinearDrag: 3
+  m_LinearDrag: 2
   m_AngularDrag: 0
   m_FlowAngle: 0
   m_FlowMagnitude: 0
