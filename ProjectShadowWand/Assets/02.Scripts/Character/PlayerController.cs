@@ -30,7 +30,7 @@ public class PlayerController : Character
 
     [HideInInspector] public Rigidbody2D playerRigidbody;
 
-    private Collider2D playerCollider;
+    public Collider2D playerCollider;
     private EdgeCollider2D playerSideCollider;
 
     public eBlockType blockType;
@@ -105,7 +105,17 @@ public class PlayerController : Character
     [Tooltip("테스트용 idle 모션입니다.")]
     public Motion[] testIdleMotions;
 
+    [SerializeField, Space(10)]
+    private FixedJoint2D currentCatchJoint = null;
 
+    [Tooltip("잡기 키를 눌렀는가?")]
+    public bool isInputCatchKey = false;
+
+    public GameObject catchPosition_Push;
+    public GameObject catchPosition_Lift;
+
+    [SerializeField]
+    private GameObject catchingObject = null;
     #endregion
 
 
@@ -148,7 +158,8 @@ public class PlayerController : Character
         animatorClimbBool = Animator.StringToHash("Climb");
 
         isWater = false;
-
+        currentCatchJoint = null;
+        isInputCatchKey = false;
         if (stateTextMesh == null)
         {
             CreateStateTextMesh();
@@ -170,6 +181,7 @@ public class PlayerController : Character
 
     void Update()
     {
+        CheckCatchInput();
         CheckMoveInput();
         CheckLadderInput();
         CheckJumpInput();
@@ -296,6 +308,18 @@ public class PlayerController : Character
     }
 
     #endregion
+
+
+    private void CheckCatchInput()
+    {
+        isInputCatchKey = InputManager.Instance.buttonCatch.wasPressedThisFrame;
+        if (isInputCatchKey)
+        {
+
+            Debug.Log("잡기 키 누름");
+        }
+
+    }
 
     /// <summary>
     /// 플레이어가 땅에 닿았는지 체크합니다.
@@ -590,6 +614,45 @@ public class PlayerController : Character
         stateTextMesh.text = _text;
     }
 
+    /// <summary>
+    /// 잡을 수 있는 오브젝트의 FixedJoint를 설정합니다.
+    /// </summary>
+    /// <param name="_fixedJoint">이걸로 설정합니다.</param>
+    public void SetCurrentJointThis(FixedJoint2D _fixedJoint)
+    {
+        currentCatchJoint = _fixedJoint;
+    }
+
+    public FixedJoint2D GetCurrentCatchJoint()
+    {
+        return currentCatchJoint;
+    }
+
+    public GameObject GetCatchingObject()
+    {
+        return catchingObject;
+    }
+
+    public void SetCatchingObject(GameObject _gameObject)
+    {
+        catchingObject = _gameObject;
+    }
+    ///// <summary>
+    ///// 커런트조인트에 있는 것을 잡습니다.
+    ///// </summary>
+    //public void CatchCurrentJoint()
+    //{
+    //}
+
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    WeatherInteractionObject tempObject = collision.gameObject.GetComponent<WeatherInteractionObject>();
+    //    if (collision is ICatchable)
+    //    {
+
+    //    }
+    //}
+    #region 구버전
     //private void UpdateVelocity()
     //{
     //    updatingVelocity = playerRigidbody.velocity;
@@ -667,6 +730,8 @@ public class PlayerController : Character
 
     //    playerRigidbody.gravityScale = gravityScale;
     //}
+
+    #endregion
 }
 
 

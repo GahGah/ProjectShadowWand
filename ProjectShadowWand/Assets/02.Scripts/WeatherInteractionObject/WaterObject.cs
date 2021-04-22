@@ -23,6 +23,7 @@ public class WaterObject : WeatherInteractionObject
     private float currentTime;
     private float currentPer;
 
+
     private IEnumerator ChangeExtentCoroutine;
 
     private void Awake()
@@ -62,6 +63,11 @@ public class WaterObject : WeatherInteractionObject
         base.ChangeState();
 
     }
+
+    /// <summary>
+    /// 물의 양을 불리는 코루틴
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator DoChangeExtent()
     {
         Debug.Log("시작");
@@ -84,7 +90,7 @@ public class WaterObject : WeatherInteractionObject
     }
 
     /// <summary>
-    /// 적용시킵니다.
+    /// 물의 크기와 위치를 적용시킵니다.
     /// </summary>
     /// <param name="_extent"></param>
     private void ApplyExtent(Vector2 _extent)

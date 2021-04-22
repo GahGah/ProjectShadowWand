@@ -17,6 +17,8 @@ public class WeatherInteractionObject : MonoBehaviour
     [Tooltip("ChangeState시 GetMainWeatherType의 반환값을 가지고 있습니다.")]
     protected eMainWeatherType currentMainWeatherType;
 
+
+
     /// <summary>
     /// 기본적으로 SUNNY로 초기화합니다.
     /// </summary>
@@ -99,6 +101,10 @@ public class WeatherInteractionObject : MonoBehaviour
     public virtual void ProcessDestroy()
     {
         Destroy(gameObject);
+    }
+    protected void Log(object _obj)
+    {
+        Debug.Log(gameObject.name + " : " + _obj);
     }
 }
 
