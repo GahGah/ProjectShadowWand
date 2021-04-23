@@ -106,16 +106,23 @@ public class PlayerController : Character
     public Motion[] testIdleMotions;
 
     [SerializeField, Space(10)]
-    private FixedJoint2D currentCatchJoint = null;
+    private Joint2D currentCatchJoint = null;
 
     [Tooltip("잡기 키를 눌렀는가?")]
     public bool isInputCatchKey = false;
+
+    [Tooltip("밀기 키를 눌렀는가?")]
+    public bool isInputPushKey = false;
 
     public GameObject catchPosition_Push;
     public GameObject catchPosition_Lift;
 
     [SerializeField]
     private GameObject catchingObject = null;
+
+    public Rigidbody2D catchBody;
+
+    public GameObject touchedObject = null;
     #endregion
 
 
@@ -182,6 +189,7 @@ public class PlayerController : Character
     void Update()
     {
         CheckCatchInput();
+        CheckPushInput();
         CheckMoveInput();
         CheckLadderInput();
         CheckJumpInput();
@@ -315,11 +323,21 @@ public class PlayerController : Character
         isInputCatchKey = InputManager.Instance.buttonCatch.wasPressedThisFrame;
         if (isInputCatchKey)
         {
-
-            Debug.Log("잡기 키 누름");
         }
 
     }
+
+    private void CheckPushInput()
+    {
+        isInputPushKey = InputManager.Instance.buttonPush.isPressed;
+        //if (isInputPushKey)
+        //{
+
+        //    Debug.Log("잡기 키 누름");
+        //}
+
+    }
+
 
     /// <summary>
     /// 플레이어가 땅에 닿았는지 체크합니다.
@@ -618,12 +636,21 @@ public class PlayerController : Character
     /// 잡을 수 있는 오브젝트의 FixedJoint를 설정합니다.
     /// </summary>
     /// <param name="_fixedJoint">이걸로 설정합니다.</param>
-    public void SetCurrentJointThis(FixedJoint2D _fixedJoint)
+    public void SetCurrentJointThis(Joint2D _fixedJoint)
     {
         currentCatchJoint = _fixedJoint;
     }
 
-    public FixedJoint2D GetCurrentCatchJoint()
+    public void SetTouchedObject(GameObject _object)
+    {
+        touchedObject = _object;
+    }
+    public GameObject GetTouchedObject()
+    {
+        return touchedObject;
+    }
+
+    public Joint2D GetCurrentCatchJoint()
     {
         return currentCatchJoint;
     }

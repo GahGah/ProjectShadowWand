@@ -104,7 +104,7 @@ public class WeatherInteractionObject : MonoBehaviour
     }
     protected void Log(object _obj)
     {
-        Debug.Log(gameObject.name + " : " + _obj);
+        //Debug.Log(gameObject.name + " : " + _obj);
     }
 }
 

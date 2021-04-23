@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(FixedJoint2D))]
-public class CuttingWoodObject : WeatherInteractionObject, ICatchable
+public class TestCatchingObject : WeatherInteractionObject, ICatchable
 {
     [Space(10)]
     public Collider2D currentCollider;
@@ -20,6 +20,7 @@ public class CuttingWoodObject : WeatherInteractionObject, ICatchable
     [Tooltip("이 오브젝트가 잡혀있는 상태인지 체크합니다.")]
     public bool isCatched;
 
+    private Rigidbody2D rb;
     void Start()
     {
         Init();
@@ -30,6 +31,7 @@ public class CuttingWoodObject : WeatherInteractionObject, ICatchable
 
     public override void Init()
     {
+        rb = PlayerController.Instance.catchBody;
         if (currentCollider == null)
         {
             Log("커런트 콜라이더가 없음. 일단 자동으로 넣어볼게");
@@ -61,8 +63,6 @@ public class CuttingWoodObject : WeatherInteractionObject, ICatchable
         fixedJoint.autoConfigureConnectedAnchor = false;
         fixedJoint.enabled = false;
 
-        Physics2D.IgnoreCollision(PlayerController.Instance.playerCollider, currentCollider);
-
     }
 
     private void Update()
@@ -87,6 +87,7 @@ public class CuttingWoodObject : WeatherInteractionObject, ICatchable
 
                 GoPutThis();
 
+
             }
 
 
@@ -97,7 +98,7 @@ public class CuttingWoodObject : WeatherInteractionObject, ICatchable
     {
         //Physics2D.IgnoreCollision(PlayerController.Instance.playerCollider, currentCollider, false);
 
-        SetConnectedBody(PlayerController.Instance.playerRigidbody);
+        SetConnectedBody(rb);
         SetConnectedAnchor(PlayerController.Instance.catchPosition_Lift.transform.localPosition);
         SetAutoAnchor(false);
 
