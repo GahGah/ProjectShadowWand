@@ -80,7 +80,7 @@ public class ThunderTotem : Totem
             if (canUse)
             {
 
-                if (InputManager.Instance.buttonCatch.wasPressedThisFrame && isPlayerIn == true)
+                if (InputManager.Instance.buttonSkillUse.wasPressedThisFrame && isPlayerIn == true)
                 {
                     if (WeatherManager.Instance.GetMainWeather() == mainWeatherType) // == eMainWeatherType.RAINY;
                     {

@@ -79,7 +79,7 @@ public class WindyTotem : Totem
 
     protected override void CheckingInput()
     {
-        if (InputManager.Instance.buttonCatch.wasPressedThisFrame
+        if (InputManager.Instance.buttonSkillUse.wasPressedThisFrame
             && isPlayerIn == true)
         {
             Debug.Log("is Change");

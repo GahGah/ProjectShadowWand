@@ -42,7 +42,7 @@ public class SunnyTotem : Totem
         {
             if (canUse && isTimer == false)
             {
-                if (InputManager.Instance.buttonCatch.wasPressedThisFrame && isPlayerIn == true)
+                if (InputManager.Instance.buttonSkillUse.wasPressedThisFrame && isPlayerIn == true)
                 {
                     Debug.Log("is Change");
 

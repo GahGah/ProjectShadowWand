@@ -10,9 +10,16 @@ public class PushableObject : MonoBehaviour, IPushable
     public Rigidbody2D rigidBody;
 
     public float originalMass;
+
+    private Vector2 prevPosition;
     public void GoPushReady()
     {
         rigidBody.mass = 1f;
+        PlayerController.Instance.movementSpeed = PlayerController.Instance.pushMoveSpeed;
+    }
+    public void SetDirection(Vector3 _dir)
+    {
+
     }
     /// <summary>
     /// 지속적으로 불립니다. 주의해!!
@@ -25,6 +32,8 @@ public class PushableObject : MonoBehaviour, IPushable
     {
         rigidBody.mass = originalMass;
         rigidBody.velocity = Vector2.zero;
+
+        PlayerController.Instance.movementSpeed = PlayerController.Instance.originalMoveSpeed;
     }
 
     public void SetAutoAnchor(bool _b)
@@ -37,25 +46,12 @@ public class PushableObject : MonoBehaviour, IPushable
 
     public void SetConnectedBody(Rigidbody2D _rb)
     {
-     }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         Init();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (PlayerController.Instance.GetTouchedObject()==gameObject)
-        {
-            PlayerController.Instance.CheckPushInput(this);
-        }
-        else if (PlayerController.Instance.GetPushedObject() == this)
-        {
-            PlayerController.Instance.CheckPushInput(this);
-        }
     }
     public void Init()
     {
@@ -81,6 +77,27 @@ public class PushableObject : MonoBehaviour, IPushable
             }
         }
         originalMass = rigidBody.mass;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (PlayerController.Instance.GetTouchedObject() == gameObject)
+        {
+            PlayerController.Instance.CheckPushInput(this);
+        }
+        else if (PlayerController.Instance.GetPushedObject() == this)
+        {
+            PlayerController.Instance.CheckPushInput(this);
+        }
+
+
+
+    }
+
+    private void FixedUpdate()
+    {
+
     }
 
     /// <summary>
@@ -115,6 +132,7 @@ public class PushableObject : MonoBehaviour, IPushable
             if (PlayerController.Instance.GetPushedObject() == this)
             {
                 PlayerController.Instance.SetPushedObject(null);
+                PlayerController.Instance.movementSpeed = PlayerController.Instance.originalMoveSpeed;
                 rigidBody.mass = originalMass;
 
             }

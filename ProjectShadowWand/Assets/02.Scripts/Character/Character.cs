@@ -11,11 +11,12 @@ public class Character : MonoBehaviour
 
 
     [HideInInspector] public Vector2 movementInput;
-    [Header("이동 관련")]
-    [Tooltip("이동속도")] 
+    [Header("이동속도")] 
     public float movementSpeed = 0.0f;
     [Tooltip("플레이어의 최대 이동속도. \n velocity에 관여합니다.")]
-    public float maxMovementSpeed = 0.0f;
+    [HideInInspector]public float maxMovementSpeed = 0.0f;
+
+    [Header("점프력")]
     public float jumpForce = 0.0f;
 
     [HideInInspector] public float minFlipSpeed = 0.1f;

@@ -23,6 +23,7 @@ public class InputManager : MonoBehaviour
 
     public ButtonControl buttonPush;
 
+    public ButtonControl buttonSkillUse;
 
 
     public Keyboard keyboard;
@@ -120,6 +121,8 @@ public class InputManager : MonoBehaviour
         buttonScroll = Mouse.current.scroll;
 
         buttonEscape = Keyboard.current.escapeKey;
+
+        buttonSkillUse = Keyboard.current.xKey;
     }
 
     /// <summary>

@@ -30,10 +30,12 @@ public class PlayerController : Character
 
     [HideInInspector] public Rigidbody2D playerRigidbody;
 
-    public Collider2D playerCollider;
+
+    [HideInInspector] public Collider2D playerCollider;
     private EdgeCollider2D playerSideCollider;
 
-    public eBlockType blockType;
+
+    [HideInInspector] public eBlockType blockType;
     private int noPlayerMask;
     private LayerMask groundMask;
     private LayerMask wallMask;
@@ -45,9 +47,12 @@ public class PlayerController : Character
     private Vector2 updatingVelocity;
 
     [HideInInspector] public bool jumpInput;
-    public bool isJumping;
-    public bool isGrounded;
-    public bool isFalling;
+
+    [HideInInspector] public bool isJumping;
+
+    [HideInInspector] public bool isGrounded;
+
+    [HideInInspector] public bool isFalling;
 
     [HideInInspector] public int animatorGroundedBool;
     [HideInInspector] public int animatorWalkingBool;
@@ -58,18 +63,16 @@ public class PlayerController : Character
     [HideInInspector] public PlayerStateMachine playerStateMachine;
     [HideInInspector] public InputManager inputManager;
 
-    [HideInInspector]
-    public float saveMoveInputX;
+    [HideInInspector] public float saveMoveInputX;
 
 
-    [HideInInspector]
-    public bool canMove = true;
+    [HideInInspector] public bool canMove = true;
 
 
     private bool isDie = false;
 
     #region 추가된 것
-    [SerializeField, Tooltip("캐릭터가 물과 닿았는가")]
+    [Tooltip("캐릭터가 물과 닿았는가")]
     private bool isWater = false;
 
 
@@ -82,52 +85,58 @@ public class PlayerController : Character
     [Tooltip("UpdateVelocity에서 들어갈 추가적인 힘입니다.")]
     private Vector2 extraForce;
 
-    [Tooltip("사다리 등을 올라가는 속도입니다.")]
+    [Header("사다리 이동 속도"),Tooltip("사다리 등을 올라가는 속도입니다.")]
     public float climbSpeed;
 
     [Tooltip("사다리에 닿은 상태로 상하키 입력을 했는가를 뜻합니다.")]
-    public bool inLadder = false;
+    [HideInInspector] public bool inLadder = false;
 
     [Tooltip("사다리에 닿은 !!! 상태인가를 뜻합니다.")]
-    public bool onLadder = false; //퍼블릭으로 변경함
+    [HideInInspector] public bool onLadder = false; //퍼블릭으로 변경함
 
     [Tooltip("사다리에 올라탄 상태에서 특정 방향으로 점프했는가를 뜻합니다.")]
     [HideInInspector] public bool onLadderJump = false;
 
     [Tooltip("사다리를 오르고 있는 상태인가를 뜻합니다.")]
-    public bool isClimbLadder = false;
+    [HideInInspector] public bool isClimbLadder = false;
 
     [Tooltip("현재 타고있는 사다리의 위치.")]
     [HideInInspector] public Vector2 ladderPosition = Vector2.zero;
 
-    public Vector2 prevPosition;
+    [HideInInspector] public Vector2 prevPosition;
+    [HideInInspector] public float originalMoveSpeed;
 
     [Tooltip("테스트용 idle 모션입니다.")]
     public Motion[] testIdleMotions;
 
-
-    [SerializeField, Space(10)]
     private Joint2D currentCatchJoint = null;
 
+
+    [Header("밀기 시 이동속도")]
+    public float pushMoveSpeed;
+
     [Tooltip("잡기 키를 눌렀는가?")]
-    public bool isInputCatchKey = false;
+    [HideInInspector] public bool isInputCatchKey = false;
 
     [Tooltip("밀기 키를 눌렀는가?")]
-    public bool isInputPushKey = false;
+    [HideInInspector] public bool isInputPushKey = false;
 
+    [HideInInspector] public bool isPushing = false;
+
+    [Header("밀기/잡기 시 손의 위치"), Space(10)]
     public GameObject handPosition_Push;
     public GameObject handPosition_Catch;
 
     [SerializeField]
-    private CatchableObject catchedObject = null;
+    [HideInInspector] private CatchableObject catchedObject = null;
     [SerializeField]
-    private PushableObject pushedObject = null;
+    [HideInInspector] private PushableObject pushedObject = null;
     [SerializeField]
-    public GameObject touchedObject = null;
+    [HideInInspector] public GameObject touchedObject = null;
 
-    public Rigidbody2D catchBody;
+    [HideInInspector] public Rigidbody2D catchBody;
 
-    public bool isPushing = false;
+
 
     #endregion
 
@@ -178,6 +187,7 @@ public class PlayerController : Character
         pushedObject = null;
         touchedObject = null;
 
+        originalMoveSpeed = movementSpeed;
 
         if (stateTextMesh == null)
         {
@@ -346,28 +356,31 @@ public class PlayerController : Character
 
         if (pushedObject != null)//뭔가 밀고 있는 오브젝트가 있을 때
         {
+            var tempVelo = pushedObject.rigidBody.velocity;
+            var testSpeed = movementSpeed;
             if (isRight)
             {
                 if (movementInput == Vector2.left)
                 {
-                    var tempVelo = pushedObject.rigidBody.velocity;
+                    pushedObject.rigidBody.velocity = Vector2.zero;
                     tempVelo += Vector2.left;
 
-                    var vec = new Vector2(Mathf.Clamp(tempVelo.x, -movementSpeed, movementSpeed), Mathf.Clamp(tempVelo.y, -movementSpeed, movementSpeed));
-                    pushedObject.rigidBody.velocity = vec;
+                    var vec = new Vector2(Mathf.Clamp(tempVelo.x, -testSpeed, testSpeed), Mathf.Clamp(tempVelo.y, -testSpeed, testSpeed));
+                    pushedObject.rigidBody.velocity += vec;
+                    //pushedObject.rigidBody.velocity = playerRigidbody.velocity;
                 }
             }
             else
             {
                 if (movementInput == Vector2.right)
                 {
-                    //  pushedObject.rigidBody.velocity += (Vector2.right);
-
-                    var tempVelo = pushedObject.rigidBody.velocity;
+                    //  pushedObject.rigidBody.velocity += (Vector2.right);;
+                    pushedObject.rigidBody.velocity = Vector2.zero;
                     tempVelo += Vector2.right;
 
-                    var vec = new Vector2(Mathf.Clamp(tempVelo.x, -movementSpeed, movementSpeed), Mathf.Clamp(tempVelo.y, -movementSpeed, movementSpeed));
-                    pushedObject.rigidBody.velocity = vec;
+                    var vec = new Vector2(Mathf.Clamp(tempVelo.x, -testSpeed, testSpeed), Mathf.Clamp(tempVelo.y, -testSpeed, testSpeed));
+                    pushedObject.rigidBody.velocity += vec;
+                    //pushedObject.rigidBody.velocity = playerRigidbody.velocity;
                 }
             }
         }
@@ -435,6 +448,7 @@ public class PlayerController : Character
                     {
                         pushedObject.GoPushReady();
 
+
                     }
                 }
             }
@@ -445,7 +459,7 @@ public class PlayerController : Character
         {
             pushedObject.GoPutThis();
             pushedObject = null;
-            Debug.LogError("놓기 해라.");
+
 
         }
 
@@ -545,6 +559,14 @@ public class PlayerController : Character
     {
         if (inLadder && prevPosition.y != playerRigidbody.position.y)
         {
+
+
+            if (catchedObject != null)//물체를 들고있다면
+            {
+                catchedObject.GoPutThis();
+                catchedObject = null;
+            }
+
             ChangeState(eState.PLAYER_CLIMB_LADDER);
         }
         else if (isGrounded && !isJumping)

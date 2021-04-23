@@ -55,7 +55,7 @@ public class Totem : MonoBehaviour
             if (canUse)
             {
 
-                if (InputManager.Instance.buttonCatch.wasPressedThisFrame && isPlayerIn == true)
+                if (InputManager.Instance.buttonSkillUse.wasPressedThisFrame && isPlayerIn == true)
                 {
                     Debug.Log("is Change");
 

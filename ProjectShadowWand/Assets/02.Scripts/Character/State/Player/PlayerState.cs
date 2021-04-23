@@ -71,6 +71,8 @@ public class PlayerState_Jump : PlayerState
         Log("Enter Jump");
         ResetAnimatorSpeed();
         isJumped = false;
+        player.animator.SetTrigger(player.animatorJumpTrigger);
+        player.animator.SetBool(player.animatorGroundedBool, false);
 
     }
     public override void Execute()
@@ -166,6 +168,7 @@ public class PlayerState_Climb_Ladder : PlayerState
         ResetAnimatorSpeed();
         player.animator.SetBool(player.animatorClimbBool, true);
         player.animator.SetBool(player.animatorWalkingBool, false);
+
     }
     public override void Execute()
     {
