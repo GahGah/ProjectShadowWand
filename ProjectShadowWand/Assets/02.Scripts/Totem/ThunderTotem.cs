@@ -9,6 +9,8 @@ public class ThunderTotem : Totem
 
     [Tooltip("번개의 위치를 지정할 수 있는 돌~")]
     public ThunderStone thunderStone;
+
+    [Tooltip("내리칠 번개.")]
     public ThunderObject thunderObject;
 
     private void Awake()
@@ -26,6 +28,7 @@ public class ThunderTotem : Totem
     private void Update()
     {
         ChangeCanUse();
+
         CheckingInput();
         Execute();
     }
@@ -36,21 +39,20 @@ public class ThunderTotem : Totem
         {
             if (WeatherManager.Instance.GetMainWeather() == mainWeatherType)
             {
-                //if (rainEffect.activeSelf == false)
-                //{
-                //rainEffect.SetActive(true);
-                isOn = true;
-                //}
+                if (thunderObject.isThundering)
+                {
+                    isOn = true;
+                }
+                else
+                {
+                    isOn = false;
+                }
 
             }
             else
             {
-                //if (rainEffect.activeSelf == true)
-                //{
-                //rainEffect.SetActive(false);
-                isOn = false;
 
-                //}
+                isOn = false;
 
             }
 
@@ -62,7 +64,7 @@ public class ThunderTotem : Totem
     public override void ChangeCanUse()
     {
         //base.ChangeCanUse();
-        if (WeatherManager.Instance.GetMainWeather()==eMainWeatherType.RAINY)
+        if (WeatherManager.Instance.GetMainWeather() == eMainWeatherType.RAINY)
         {
             canUse = true;
         }
@@ -82,7 +84,12 @@ public class ThunderTotem : Totem
                 {
                     if (WeatherManager.Instance.GetMainWeather() == mainWeatherType) // == eMainWeatherType.RAINY;
                     {
-                       //썬더
+                        if (thunderObject.isThundering == false) //번개가 치고 있는 상태가 아닐 때에만
+                        {
+                            StartCoroutine(thunderObject.DoThunder(thunderStone.transform.position));
+                            Debug.LogError("START!");
+
+                        }
                     }
                     else
                     {

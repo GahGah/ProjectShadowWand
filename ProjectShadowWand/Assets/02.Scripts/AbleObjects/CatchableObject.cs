@@ -111,6 +111,7 @@ public class CatchableObject : MonoBehaviour, ICatchable
 
         SetConnectedAnchor(PlayerController.Instance.handPosition_Catch.transform.localPosition);
 
+        currentCollider.enabled = false;
         //SetAutoAnchor(false);
 
         //PlayerController.Instance.SetCatchedObject(this);
@@ -128,6 +129,7 @@ public class CatchableObject : MonoBehaviour, ICatchable
         SetConnectedBody(null);
         SetConnectedAnchor(Vector2.zero); ;
         //SetAutoAnchor(false);
+        currentCollider.enabled = true;
 
         //PlayerController.Instance.SetCatchingObject(null);
 
@@ -173,7 +175,6 @@ public class CatchableObject : MonoBehaviour, ICatchable
             //자신이 터치 오브젝트일 경우(다른 오브젝트에 닿지 않은 경우)
             if (PlayerController.Instance.GetTouchedObject() == gameObject)
             {
-                Debug.LogError("나감");
                 //터치 오브젝트를 null로
                 PlayerController.Instance.SetTouchedObject(null);
 

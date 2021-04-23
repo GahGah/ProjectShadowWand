@@ -666,14 +666,14 @@ public class PlayerController : Character
 
     private void OnParticleCollision(GameObject other)
     {
-        if (other.layer == (int)eLayer.WeatherFx_withOpaqueTex && canMove == true)
-        {
-            ProcessDie();
-        }
-        else
-        {
+        //if (other.layer == (int)eLayer.WeatherFx_withOpaqueTex && canMove == true)
+        //{
+        //    ProcessDie();
+        //}
+        //else
+        //{
 
-        }
+        //}
 
     }
 
