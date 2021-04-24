@@ -60,10 +60,10 @@ public enum eWindDirection
     RIGHT,
 
 
-/// <summary>
-/// 방향은 오른쪽에서 왼쪽
-/// </summary>
-    LEFT, 
+    /// <summary>
+    /// 방향은 오른쪽에서 왼쪽
+    /// </summary>
+    LEFT,
 
     /// <summary>
     /// 방향이 없습니다.
@@ -83,7 +83,7 @@ public enum eUItype
 
 public enum eBurnableType
 {
-    NOTBURN,
+    NOTBURN, BURN
 }
 public enum eChildType
 {
