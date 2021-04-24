@@ -51,6 +51,11 @@ public enum eFireDirection
 {
     twoDirection, fourDirection, oneDirection,
 }
+
+public enum eWindDirection
+{
+    RIGHT, LEFT,
+}
 public enum eChildOption
 {
     TAIN,
