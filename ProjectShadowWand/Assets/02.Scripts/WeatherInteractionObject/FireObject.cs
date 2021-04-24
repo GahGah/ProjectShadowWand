@@ -6,6 +6,8 @@ public class FireObject : MonoBehaviour
 {
 
     public WindController windConntroller;
+
+    [Header("불의 방향")]
     public eFireDirection fireDirection;
     private RaycastHit2D[] hits;
 
@@ -25,11 +27,14 @@ public class FireObject : MonoBehaviour
 
     public GameObject fireObject;
 
-    public int hitMask;
+    [HideInInspector] public int hitMask;
+
+    [HideInInspector]
+    public eFireDirection currentFireDirection;
     private void Awake()
     {
         Init();
-       // Debug.Log("AWake");
+        // Debug.Log("AWake");
     }
     // 0 : 상
     // 1 : 하
@@ -44,6 +49,7 @@ public class FireObject : MonoBehaviour
         {
             spreadSpeed = 5f;
         }
+        currentFireDirection = fireDirection;
     }
     private void Start()
     {
@@ -70,7 +76,7 @@ public class FireObject : MonoBehaviour
 
     private IEnumerator ProcessFire()
     {
-      //  Debug.Log("Start Fire!!");
+        //  Debug.Log("Start Fire!!");
         while (canSpread)
         {
             var timer = 0f;
@@ -92,9 +98,9 @@ public class FireObject : MonoBehaviour
     private void CheckSpreadFire()
     {
 
-        UpdateHits(fireDirection); //directionMode(?)에 따라서 hit 방향이 달라짐
+        UpdateHits(currentFireDirection); //directionMode(?)에 따라서 hit 방향이 달라짐
 
-        switch (fireDirection)
+        switch (currentFireDirection)
         {
             case eFireDirection.oneDirection:
                 if (windConntroller.windDirection == eWindDirection.LEFT)
@@ -124,7 +130,7 @@ public class FireObject : MonoBehaviour
                     }
 
                 }
-                else
+                else //NONE
                 {
 
                 }
@@ -137,7 +143,7 @@ public class FireObject : MonoBehaviour
                 // UpdateHits(fireDirection); //directionMode(?)에 따라서 hit 방향이 달라짐
                 if (hits[2] == true)//뭔가 닿았다면
                 {
-                   // Debug.Log("닿음");
+                    // Debug.Log("닿음");
                     var _burnObject = GetBurnable(2);
 
                     if (_burnObject != null) //제대로 가져와졌다면
@@ -246,9 +252,9 @@ public class FireObject : MonoBehaviour
                 }
                 else
                 {
-
+                    currentFireDirection = fireDirection;
+                    UpdateHits(currentFireDirection);
                 }
-
                 break;
 
             case eFireDirection.twoDirection:
@@ -298,12 +304,12 @@ public class FireObject : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        
+
         if (collision.gameObject == windConntroller.gameObject)
         {
             Debug.Log("test");
-            
-            fireDirection = eFireDirection.oneDirection;
+
+            currentFireDirection = eFireDirection.oneDirection;
         }
     }
 
@@ -313,7 +319,7 @@ public class FireObject : MonoBehaviour
         {
             Debug.Log("test");
 
-            fireDirection = eFireDirection.oneDirection;
+            currentFireDirection = eFireDirection.oneDirection;
         }
     }
 }
