@@ -81,6 +81,10 @@ public enum eUItype
     OPTION,
 }
 
+public enum eBurnableType
+{
+    ONCE,
+}
 public enum eChildType
 {
     KORA, TEME,
