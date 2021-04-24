@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FireObject : MonoBehaviour
 {
+
+    public WindController windConntroller;
     public eFireDirection fireDirection;
     private RaycastHit2D[] hits;
 
@@ -27,7 +29,7 @@ public class FireObject : MonoBehaviour
     private void Awake()
     {
         Init();
-        Debug.Log("AWake");
+       // Debug.Log("AWake");
     }
     // 0 : 상
     // 1 : 하
@@ -68,7 +70,7 @@ public class FireObject : MonoBehaviour
 
     private IEnumerator ProcessFire()
     {
-        Debug.Log("Start Fire!!");
+      //  Debug.Log("Start Fire!!");
         while (canSpread)
         {
             var timer = 0f;
@@ -95,15 +97,47 @@ public class FireObject : MonoBehaviour
         switch (fireDirection)
         {
             case eFireDirection.oneDirection:
+                if (windConntroller.windDirection == eWindDirection.LEFT)
+                {
+                    if (hits[2] == true)
+                    {
+                        var _burnObject = GetBurnable(2);
+
+                        if (_burnObject != null) //제대로 가져와졌다면
+                        {
+                            GoSpread(_burnObject);
+                        }
+                    }
+
+                }
+                else if (windConntroller.windDirection == eWindDirection.RIGHT)
+                {
+                    if (hits[3] == true)
+                    {
+                        var _burnObject = GetBurnable(3);
+
+                        if (_burnObject != null) //제대로 가져와졌다면
+                        {
+                            GoSpread(_burnObject);
+                        }
+
+                    }
+
+                }
+                else
+                {
+
+                }
+
                 //어렵다...
                 break;
 
             case eFireDirection.twoDirection:
 
-               // UpdateHits(fireDirection); //directionMode(?)에 따라서 hit 방향이 달라짐
+                // UpdateHits(fireDirection); //directionMode(?)에 따라서 hit 방향이 달라짐
                 if (hits[2] == true)//뭔가 닿았다면
                 {
-                    Debug.Log("닿음");
+                   // Debug.Log("닿음");
                     var _burnObject = GetBurnable(2);
 
                     if (_burnObject != null) //제대로 가져와졌다면
@@ -178,7 +212,6 @@ public class FireObject : MonoBehaviour
 
     private void GoSpread(BurnableObject _bo)
     {
-        Debug.Log("Go Spread!! : " + _bo.name);
         if (_bo.canBurn && _bo.isBurning == false) //탈 수 있으며, 이미 타고 있는 오브젝트가 아닌 것만 가능
         {
             _bo.fireObject = Instantiate(gameObject, _bo.transform.position, Quaternion.identity, null).GetComponent<FireObject>();
@@ -188,7 +221,7 @@ public class FireObject : MonoBehaviour
 
             _bo.fireObject.isStartSpread = false;
             _bo.fireObject.name = "FireObject";
-            
+
             _bo.isBurning = true; //타는 중
             _bo.isBurned = true; // 탄 적 있음
 
@@ -199,8 +232,25 @@ public class FireObject : MonoBehaviour
         switch (_dir)
         {
             case eFireDirection.oneDirection:
+                if (windConntroller.windDirection == eWindDirection.LEFT)
+                {                //좌
+                    hits[2] = Physics2D.Raycast(transform.position, Vector2.left, hitDistance, hitMask);
+                    Debug.DrawRay(transform.position, Vector2.left * hitDistance, Color.red, 1f);
+                }
+                else if (windConntroller.windDirection == eWindDirection.RIGHT)
+                {
+                    //우
+                    hits[3] = Physics2D.Raycast(transform.position, Vector2.right, hitDistance, hitMask);
+
+                    Debug.DrawRay(transform.position, Vector2.right * hitDistance, Color.red, 1f);
+                }
+                else
+                {
+
+                }
 
                 break;
+
             case eFireDirection.twoDirection:
 
                 //좌
@@ -217,16 +267,16 @@ public class FireObject : MonoBehaviour
             case eFireDirection.fourDirection:
 
                 //상
-                hits[0] = Physics2D.Raycast(transform.position, Vector2.up , hitDistance, hitMask);
+                hits[0] = Physics2D.Raycast(transform.position, Vector2.up, hitDistance, hitMask);
 
                 //하
-                hits[1] = Physics2D.Raycast(transform.position, Vector2.down , hitDistance, hitMask);
+                hits[1] = Physics2D.Raycast(transform.position, Vector2.down, hitDistance, hitMask);
 
                 //좌
-                hits[2] = Physics2D.Raycast(transform.position, Vector2.left , hitDistance, hitMask);
+                hits[2] = Physics2D.Raycast(transform.position, Vector2.left, hitDistance, hitMask);
 
                 //우
-                hits[3] = Physics2D.Raycast(transform.position, Vector2.right , hitDistance, hitMask);
+                hits[3] = Physics2D.Raycast(transform.position, Vector2.right, hitDistance, hitMask);
 
 
 
@@ -243,11 +293,27 @@ public class FireObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.name);
+
         if (collision.CompareTag("Untagged"))
         {
             Destroy(gameObject);
         }
+        
+        if (collision.gameObject == windConntroller.gameObject)
+        {
+            Debug.Log("test");
+            
+            fireDirection = eFireDirection.oneDirection;
+        }
+    }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("WindController"))
+        {
+            Debug.Log("test");
+
+            fireDirection = eFireDirection.oneDirection;
+        }
     }
 }

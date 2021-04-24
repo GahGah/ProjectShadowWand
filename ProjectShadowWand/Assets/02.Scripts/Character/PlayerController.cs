@@ -13,7 +13,12 @@ public class PlayerController : Character
     //[SerializeField] CharacterAudio audioPlayer = null;
 
     [Header("바람 관련 속도")]
-    public float windSpeed;
+    [Tooltip("느려지는 속도입니다. 기본 속도에 -계산을 합니다.")]
+    public float windDecreaseSpeed;
+    [Tooltip("빨라지는 속도입니다. 기본 속도에 +계산을 합니다.")]
+    public float windIncreaseSpeed;
+    [Tooltip("기본적으로 밀리는 속도입니다. 기본 속도에 +계산을 합니다.")]
+    public float windSlideSpeed;
 
     [Header("그 외")]
 
@@ -140,8 +145,9 @@ public class PlayerController : Character
 
     [HideInInspector] public Rigidbody2D catchBody;
 
+    public bool isWinding;
 
-
+    public eWindDirection windDirection;
     #endregion
 
 
@@ -598,6 +604,54 @@ public class PlayerController : Character
     private void UpdateMoveVelocity()
     {
         prevPosition = new Vector2(playerRigidbody.position.x, playerRigidbody.position.y);
+
+        if (isWinding)
+        {
+            animator.SetFloat("WindBlend", 1);
+
+            if (windDirection == eWindDirection.RIGHT) //오른쪽으로 -> 바람이 불면
+            {
+                if (movementInput == Vector2.left) //왼쪽으로 이동하고 싶을 때
+                {
+                    extraForce.x = windDecreaseSpeed; //저항이 생김
+                }
+                else if (movementInput == Vector2.right) //오른쪽으로 이동하고 싶을 때
+                {
+                    extraForce.x = windIncreaseSpeed;//속도가 오름
+                }
+                else if (movementInput == Vector2.zero)
+                {
+                    extraForce.x = windSlideSpeed;
+                }
+
+            }
+            else if (windDirection == eWindDirection.LEFT) //왼쪽으로 <- 바람이 불면
+            {
+                if (movementInput == Vector2.left) //왼쪽으로 이동하고 싶을 때
+                {
+                    extraForce.x = windIncreaseSpeed; //속도가 오름
+                }
+                else if (movementInput == Vector2.right) //오른쪽으로 이동하고 싶을 때
+                {
+                    extraForce.x = windDecreaseSpeed;//저항이 생김
+                }
+                else if (movementInput == Vector2.zero)
+                {
+                    extraForce.x = -windSlideSpeed;
+                }
+            }
+            else
+            {
+                extraForce = Vector2.zero;
+            }
+        }
+        else
+        {
+            animator.SetFloat("WindBlend", 0);
+            extraForce = Vector2.zero;
+        }
+
+
         if (isClimbLadder == false)
         {
             playerRigidbody.velocity =
@@ -608,6 +662,8 @@ public class PlayerController : Character
             playerRigidbody.velocity =
                 new Vector2((movementInput.x * movementSpeed) + extraForce.x, (movementInput.y * climbSpeed) + extraForce.y);
         }
+
+
 
     }
 
@@ -636,7 +692,7 @@ public class PlayerController : Character
 
 
                 playerRigidbody.velocity =
-    new Vector2(playerRigidbody.velocity.x, jumpForce + extraForce.y);
+    new Vector2(playerRigidbody.velocity.x + extraForce.x, jumpForce + extraForce.y);
                 shouldJump = false;
 
                 ChangeState(eState.PLAYER_JUMP);
@@ -647,7 +703,7 @@ public class PlayerController : Character
             else
             {
                 playerRigidbody.velocity =
-    new Vector2(playerRigidbody.velocity.x, jumpForce + extraForce.y);
+    new Vector2(playerRigidbody.velocity.x + extraForce.x, jumpForce + extraForce.y);
 
                 shouldJump = false;
 

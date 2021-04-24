@@ -73,9 +73,13 @@ public class WindController : MonoBehaviour
         rightCollider.offset -= Vector2.right;
     }
 
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+    }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.layer != notAffectedLayer.value && !collision.CompareTag("Player"))
+        if (collision.gameObject.layer != notAffectedLayer.value && !collision.CompareTag("Player") &&!collision.CompareTag("FireObject"))
         {
 
             var finalDir = GetReverseDirection(windDirection) * 10000f;
@@ -142,17 +146,23 @@ public class WindController : MonoBehaviour
             PlayerController player = PlayerController.Instance;
             if (canMove)
             {
+                player.isWinding = true;
+                player.windDirection = windDirection;
 
-                player.SetExtraForce(GetDirection(windDirection) * player.windSpeed);
-                player.animator.SetFloat("WindBlend", 1);
             }
             else
             {
-                player.SetExtraForce(Vector2.zero);
 
-                player.animator.SetFloat("WindBlend", 0);
+                player.isWinding = false;
+
+                player.windDirection = eWindDirection.NONE;
+
+                //player.SetExtraForce(Vector2.zero);
+
+                //player.animator.SetFloat("WindBlend", 0);
             }
         }
+
     }
     private Vector2 GetReverseDirection(eWindDirection _dir)
     {

@@ -54,7 +54,21 @@ public enum eFireDirection
 
 public enum eWindDirection
 {
-    RIGHT, LEFT,
+    /// <summary>
+    /// 방향은 왼쪽에서 오른쪽
+    /// </summary>
+    RIGHT,
+
+
+/// <summary>
+/// 방향은 오른쪽에서 왼쪽
+/// </summary>
+    LEFT, 
+
+    /// <summary>
+    /// 방향이 없습니다.
+    /// </summary>
+    NONE
 }
 public enum eChildOption
 {
