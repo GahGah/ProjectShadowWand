@@ -49,7 +49,7 @@ public enum eState // 상태를 정의해놓습니다.
 
 public enum eFireDirection
 {
-    oneDirection, twoDirection, fourDirection
+    twoDirection, fourDirection, oneDirection,
 }
 public enum eChildOption
 {
@@ -116,6 +116,7 @@ public enum eLayer
     Totem = 22,
     TornadoBreakLayer = 23,
     Ladder = 24,
+    Fire = 25,
 }
 
 /// <summary>

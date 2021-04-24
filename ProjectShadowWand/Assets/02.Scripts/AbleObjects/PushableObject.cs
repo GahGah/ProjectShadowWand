@@ -73,6 +73,7 @@ public class PushableObject : MonoBehaviour, IPushable
                     Debug.Log("자동으로 콜라이더 넣기 성공. ");
                     currentCollider = _tempColl;
                     break;
+                    
                 }
             }
         }
