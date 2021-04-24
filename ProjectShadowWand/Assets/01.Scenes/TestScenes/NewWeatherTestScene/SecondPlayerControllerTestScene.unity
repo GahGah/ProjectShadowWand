@@ -6973,8 +6973,8 @@ MonoBehaviour:
   jumpForce: 14
   minFlipSpeed: 0.1
   isFlipped: 0
-  windDownSpeed: 3.5
-  windUpSpeed: 0.5
+  windDecreaseSpeed: 3.5
+  windIncreaseSpeed: 1
   windSlideSpeed: 1
   contactFilter_Ground:
     useTriggers: 0

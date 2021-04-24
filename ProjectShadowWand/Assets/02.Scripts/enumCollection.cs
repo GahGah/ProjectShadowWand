@@ -83,7 +83,7 @@ public enum eUItype
 
 public enum eBurnableType
 {
-    ONCE,
+    NOTBURN,
 }
 public enum eChildType
 {
