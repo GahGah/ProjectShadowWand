@@ -12,6 +12,9 @@ public class PlayerController : Character
 
     //[SerializeField] CharacterAudio audioPlayer = null;
 
+    [Header("바람 관련 속도")]
+    public float windSpeed;
+
     [Header("그 외")]
 
     [Tooltip("GroundCheck에 쓸 컨택트필터입니다.")]
@@ -75,6 +78,7 @@ public class PlayerController : Character
     [Tooltip("캐릭터가 물과 닿았는가")]
     private bool isWater = false;
 
+    [HideInInspector] public float animatorWindBlend;
 
     [Tooltip("캐릭터가 오른쪽을 바라보고 있는가"), SerializeField]
     private bool isRight = false;
@@ -85,7 +89,7 @@ public class PlayerController : Character
     [Tooltip("UpdateVelocity에서 들어갈 추가적인 힘입니다.")]
     private Vector2 extraForce;
 
-    [Header("사다리 이동 속도"),Tooltip("사다리 등을 올라가는 속도입니다.")]
+    [Header("사다리 이동 속도"), Tooltip("사다리 등을 올라가는 속도입니다.")]
     public float climbSpeed;
 
     [Tooltip("사다리에 닿은 상태로 상하키 입력을 했는가를 뜻합니다.")]
@@ -178,7 +182,7 @@ public class PlayerController : Character
         animatorGroundedBool = Animator.StringToHash("Grounded");
         animatorJumpTrigger = Animator.StringToHash("Jump");
         animatorClimbBool = Animator.StringToHash("Climb");
-
+        animatorWindBlend = Animator.StringToHash("WindBlend");
         isWater = false;
         currentCatchJoint = null;
         isInputCatchKey = false;
@@ -188,7 +192,7 @@ public class PlayerController : Character
         touchedObject = null;
 
         originalMoveSpeed = movementSpeed;
-
+        animator.SetFloat("WindBlend", 0);
         if (stateTextMesh == null)
         {
             CreateStateTextMesh();
@@ -206,6 +210,7 @@ public class PlayerController : Character
     {
         ChangeState(eState.PLAYER_DEFAULT);
         playerStateMachine.Start();
+
     }
 
     void Update()
@@ -631,7 +636,7 @@ public class PlayerController : Character
 
 
                 playerRigidbody.velocity =
-    new Vector2(playerRigidbody.velocity.x, jumpForce);
+    new Vector2(playerRigidbody.velocity.x, jumpForce + extraForce.y);
                 shouldJump = false;
 
                 ChangeState(eState.PLAYER_JUMP);
@@ -642,7 +647,7 @@ public class PlayerController : Character
             else
             {
                 playerRigidbody.velocity =
-    new Vector2(playerRigidbody.velocity.x, jumpForce);
+    new Vector2(playerRigidbody.velocity.x, jumpForce + extraForce.y);
 
                 shouldJump = false;
 
@@ -765,6 +770,10 @@ public class PlayerController : Character
         onLadder = _isLadder;
     }
 
+    public void SetExtraForce(Vector2 _force)
+    {
+        extraForce = _force;
+    }
     public void SetIsWater(bool _isWater)
     {
         isWater = _isWater;

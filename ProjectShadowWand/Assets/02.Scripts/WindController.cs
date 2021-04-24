@@ -21,6 +21,7 @@ public class WindController : MonoBehaviour
 
     [Header("바람의 영향을 받지 않는 레이어")]
     public LayerMask notAffectedLayer;
+    public int noPlayerLayer;
 
     public GameObject leftColliderObject;
     public GameObject rightColliderObject;
@@ -35,6 +36,8 @@ public class WindController : MonoBehaviour
 
     private void Init()
     {
+        noPlayerLayer = ((1 << LayerMask.NameToLayer("Player") | (1 << LayerMask.NameToLayer("Ignore Raycast"))));
+        noPlayerLayer = ~noPlayerLayer;
         Debug.Log("Test");
         windArea = GetComponent<Collider2D>();
         Debug.Log("Do Test Plz");
@@ -72,7 +75,7 @@ public class WindController : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.layer != notAffectedLayer.value)
+        if (collision.gameObject.layer != notAffectedLayer.value && !collision.CompareTag("Player"))
         {
 
             var finalDir = GetReverseDirection(windDirection) * 10000f;
@@ -87,16 +90,14 @@ public class WindController : MonoBehaviour
                 if (hit.collider == rightCollider)
                 {
                     canMove = true;
-                    Debug.Log("Right True");
                 }
-                
+
             }
             else if (windDirection == eWindDirection.RIGHT)
             {
                 if (hit.collider == leftCollider)
                 {
                     canMove = true;
-                    Debug.Log("Left True");
                 }
             }
 
@@ -112,7 +113,45 @@ public class WindController : MonoBehaviour
         }
         else if (collision.CompareTag("Player"))
         {
-            //뭔가 하자
+            var finalDir = GetReverseDirection(windDirection) * 10000f;
+
+            RaycastHit2D hit = Physics2D.Raycast(collision.gameObject.transform.position, finalDir, 10000f, noPlayerLayer);
+
+            Debug.DrawRay(collision.gameObject.transform.position, GetReverseDirection(windDirection) * 10000f, Color.blue, 0.1f);
+
+            //Debug.Log(hit.collider.name);
+            //Debug.Log("hit : " + hit.collider.gameObject.name);
+            bool canMove = false;
+
+            if (windDirection == eWindDirection.LEFT)//왼쪽에서 불어오는 바람이라면
+            {
+                if (hit.collider == rightCollider)
+                {
+                    canMove = true;
+                }
+
+            }
+            else if (windDirection == eWindDirection.RIGHT)
+            {
+                if (hit.collider == leftCollider)
+                {
+                    canMove = true;
+                }
+            }
+
+            PlayerController player = PlayerController.Instance;
+            if (canMove)
+            {
+
+                player.SetExtraForce(GetDirection(windDirection) * player.windSpeed);
+                player.animator.SetFloat("WindBlend", 1);
+            }
+            else
+            {
+                player.SetExtraForce(Vector2.zero);
+
+                player.animator.SetFloat("WindBlend", 0);
+            }
         }
     }
     private Vector2 GetReverseDirection(eWindDirection _dir)
