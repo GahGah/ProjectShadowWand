@@ -1736,8 +1736,8 @@ GameObject:
   - component: {fileID: 425024643}
   - component: {fileID: 425024642}
   - component: {fileID: 425024641}
-  - component: {fileID: 425024644}
   - component: {fileID: 425024640}
+  - component: {fileID: 425024644}
   m_Layer: 25
   m_Name: FireObject
   m_TagString: FireObject
@@ -1876,12 +1876,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windConntroller: {fileID: 992075907}
   fireDirection: 0
-  hitDistance: 1.36
-  spreadSpeed: 1.25
+  hitDistance: 1.53
+  spreadSpeed: 1.36
   canSpread: 1
   isStartSpread: 0
   fireObject: {fileID: 0}
   hitMask: 0
+  currentFireDirection: 0
 --- !u!1 &426973523
 GameObject:
   m_ObjectHideFlags: 0
@@ -2300,6 +2301,7 @@ MonoBehaviour:
   isStartSpread: 0
   fireObject: {fileID: 0}
   hitMask: 0
+  currentFireDirection: 0
 --- !u!50 &440320696
 Rigidbody2D:
   serializedVersion: 4
