@@ -59,6 +59,11 @@ public class BurnableObject : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         originalColor = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, spriteRenderer.color.a);
         isBlack = false;
+
+        if (fireObject == null)
+        {
+            isBurning = false;
+        }
     }
 
     private void Update()
@@ -139,6 +144,7 @@ public class BurnableObject : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
+        Debug.Log("비에 닿음");
         if (other.layer == (int)eLayer.WeatherFx_withOpaqueTex)//비에 닿으면
         {
             if (BurningCoroutine != null)//타고있었을 경우에
