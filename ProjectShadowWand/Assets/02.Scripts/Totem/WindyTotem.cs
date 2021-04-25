@@ -4,23 +4,26 @@ using UnityEngine;
 
 public class WindyTotem : Totem
 {
-    [Header("바람의 각도")]
+    [Header("토템이 켜지면 바뀌는 바람의 각도")]
     [Tooltip("바람의 각도입니다.")]
-    public float windAngle;
+    public eWindDirection windDirection;
+    private eWindDirection originalWindDirection;
 
-    [Header("바람의 세기")]
-    [Tooltip("바람의 세기입니다.")]
-    public float windMagnitude;
+    //[Header("바람의 세기")]
+    //[Tooltip("바람의 세기입니다.")]
+    //public float windMagnitude;
 
-    [Header("담당할 에어리어 이펙터")]
-    public AreaEffector2D areaEffector;
+    //[Header("담당할 에어리어 이펙터")]
+    //public AreaEffector2D areaEffector;
+    [Header("윈드 컨트롤러")]
+    public WindController windController;
 
     [Header("담당할 포스 필드")]
     public ParticleSystemForceField forceField;
 
-    private float originalAngle;
-    private float originalMagnitude;
-    private float originalDirection;
+    //private float originalAngle;
+    //private float originalMagnitude;
+    private float originalForceFieldDirection;
 
 
     private void Awake()
@@ -30,19 +33,18 @@ public class WindyTotem : Totem
     protected override void Init()
     {
         base.Init();
-        originalAngle = areaEffector.forceAngle;
-        originalMagnitude = areaEffector.forceMagnitude;
-        originalDirection = forceField.directionX.constant;
+        // originalAngle = areaEffector.forceAngle;
+        // originalMagnitude = areaEffector.forceMagnitude;
+        originalForceFieldDirection = forceField.directionX.constant;
     }
     public void Update()
     {
         CheckingInput();
         Execute();
-
     }
     public override void Execute()
     {
-        if (isOn)
+        if (isOn) //켜진 
         {
 
             if (windAngle != areaEffector.forceAngle)

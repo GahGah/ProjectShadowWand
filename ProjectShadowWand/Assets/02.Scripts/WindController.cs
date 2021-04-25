@@ -7,8 +7,11 @@ using UnityEngine;
 /// </summary>
 public class WindController : MonoBehaviour
 {
-    [Header("바람 영역")]
+    [Header("바람의 영역")]
     public Collider2D windArea;
+    
+    [Header("파티클 전용 포스 필드"), Tooltip("파티클에게 영향을 줍니다.")]
+    public ParticleSystemForceField forceField;
 
     [Header("바람의 방향")]
     public eWindDirection windDirection;
@@ -28,6 +31,7 @@ public class WindController : MonoBehaviour
 
     public EdgeCollider2D leftCollider;
     public EdgeCollider2D rightCollider;
+
 
     private void Start()
     {

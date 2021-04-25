@@ -27,8 +27,6 @@ public class MovePlatform : MonoBehaviour
 
     }
 
-
-
     public void Init()
     {
         startPosition = transform.position;
