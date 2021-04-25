@@ -468,8 +468,12 @@ public class PlayerController : Character
 
         if (InputManager.Instance.buttonPush.wasReleasedThisFrame) // 키 떼기
         {
-            pushedObject.GoPutThis();
-            pushedObject = null;
+            if (pushedObject != null)
+            {
+                pushedObject.GoPutThis();
+                pushedObject = null;
+            }
+
 
 
         }
