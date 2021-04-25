@@ -9,15 +9,19 @@ public class WindController : MonoBehaviour
 {
     [Header("바람의 영역")]
     public Collider2D windArea;
-    
+
     [Header("파티클 전용 포스 필드"), Tooltip("파티클에게 영향을 줍니다.")]
     public ParticleSystemForceField forceField;
 
-    [Header("바람의 방향")]
+    [Header("바람의 방향"), Tooltip("현재 바람의 각도입니다.")]
     public eWindDirection windDirection;
+    public eWindDirection originalWindDirection;
 
-    [Header("바람 세기")]
+    [Header("오브젝트에 가해지는 속도")]
     public float windPower;
+
+    private float forceDirection = 0.5f;
+    private float originalForceDirection;
 
     [Header("오브젝트들의 최대 이동속도")]
     public float maxWindSpeed;
@@ -40,12 +44,15 @@ public class WindController : MonoBehaviour
 
     private void Init()
     {
+        originalWindDirection = windDirection;
+        originalForceDirection = forceField.directionX.constant;
         noPlayerLayer = ((1 << LayerMask.NameToLayer("Player") | (1 << LayerMask.NameToLayer("Ignore Raycast"))));
         noPlayerLayer = ~noPlayerLayer;
-        Debug.Log("Test");
+        //Debug.Log("Test");
         windArea = GetComponent<Collider2D>();
-        Debug.Log("Do Test Plz");
+        //Debug.Log("Do Test Plz");
 
+        SetWindDirection(windDirection);
         CreateEdgeCollider();
     }
     public void CreateEdgeCollider()
@@ -83,7 +90,7 @@ public class WindController : MonoBehaviour
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.layer != notAffectedLayer.value && !collision.CompareTag("Player") &&!collision.CompareTag("FireObject"))
+        if (collision.gameObject.layer != notAffectedLayer.value && !collision.CompareTag("Player") && !collision.CompareTag("FireObject"))
         {
 
             var finalDir = GetReverseDirection(windDirection) * 10000f;
@@ -168,6 +175,14 @@ public class WindController : MonoBehaviour
         }
 
     }
+
+    private void FixedUpdate()
+    {
+        if (windDirection != GetForceFieldDirection())
+        {
+            SetWindDirection(windDirection);
+        }
+    }
     private Vector2 GetReverseDirection(eWindDirection _dir)
     {
         if (_dir == eWindDirection.LEFT)
@@ -178,8 +193,8 @@ public class WindController : MonoBehaviour
         {
             return Vector2.left;
         }
-
     }
+
     private Vector2 GetDirection(eWindDirection _dir)
     {
         if (_dir == eWindDirection.LEFT)
@@ -190,5 +205,43 @@ public class WindController : MonoBehaviour
         {
             return Vector2.right;
         }
+    }
+
+    private eWindDirection GetForceFieldDirection()
+    {
+        if (forceField.directionX.constant == forceDirection) //Right
+        {
+            return eWindDirection.RIGHT;
+        }
+        else if (forceField.directionX.constant == -forceDirection) //Left
+        {
+            return eWindDirection.LEFT;
+        }
+        else
+        {
+            return eWindDirection.NONE;
+
+        }
+    }
+    public void SetWindDirection(eWindDirection _dir)
+    {
+        windDirection = _dir;
+
+        switch (windDirection)
+        {
+            case eWindDirection.RIGHT:
+                forceField.directionX = forceDirection;
+                break;
+            case eWindDirection.LEFT:
+                forceField.directionX = -forceDirection;
+                break;
+            case eWindDirection.NONE:
+                forceField.directionX = 0f;
+                break;
+
+            default:
+                break;
+        }
+
     }
 }

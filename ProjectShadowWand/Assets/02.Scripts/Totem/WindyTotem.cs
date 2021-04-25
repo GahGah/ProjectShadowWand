@@ -7,7 +7,6 @@ public class WindyTotem : Totem
     [Header("토템이 켜지면 바뀌는 바람의 각도")]
     [Tooltip("바람의 각도입니다.")]
     public eWindDirection windDirection;
-    private eWindDirection originalWindDirection;
 
     //[Header("바람의 세기")]
     //[Tooltip("바람의 세기입니다.")]
@@ -47,33 +46,37 @@ public class WindyTotem : Totem
         if (isOn) //켜진 
         {
 
-            if (windAngle != areaEffector.forceAngle)
+            if (windDirection != windController.windDirection)
             {
                 sr.color = Color.blue;
-                areaEffector.forceAngle = windAngle;
-                var test = new Vector2(Mathf.Cos(Mathf.Deg2Rad * windAngle), Mathf.Sin(Mathf.Deg2Rad * windAngle));
-                forceField.directionX = test.x;
+                windController.SetWindDirection(windDirection);
+
+                // var test = new Vector2(Mathf.Cos(Mathf.Deg2Rad * windAngle), Mathf.Sin(Mathf.Deg2Rad * windAngle));
+
+                //forceField.directionX = test.x;
+
                 //forceField.directionY = test.y;
 
             }
-            if (windMagnitude != areaEffector.forceMagnitude)
-            {
-                areaEffector.forceMagnitude = windMagnitude;
-            }
+            //if (windMagnitude != areaEffector.forceMagnitude)
+            //{
+            //    areaEffector.forceMagnitude = windMagnitude;
+            //}
         }
-        else
+        else //꺼져있다면
         {
-
-            if (originalAngle != areaEffector.forceAngle)
+            if (windController.originalWindDirection != windController.windDirection) // 원래 방향과 현재 방향이 다를 경우
             {
                 sr.color = Color.red;
-                areaEffector.forceAngle = originalAngle;
-                forceField.directionX = originalDirection;
+
+                windController.SetWindDirection(windController.originalWindDirection);
+                // areaEffector.forceAngle = originalAngle;
+                //forceField.directionX = originalDirection;
             }
-            if (originalMagnitude != areaEffector.forceMagnitude)
-            {
-                areaEffector.forceMagnitude = originalMagnitude;
-            }
+            //if (originalMagnitude != areaEffector.forceMagnitude)
+            //{
+            //    areaEffector.forceMagnitude = originalMagnitude;
+            //}
         }
         ColorChange();
     }
