@@ -65,7 +65,7 @@ public class FireObject : MonoBehaviour
 
         hitMask = ((1 << LayerMask.NameToLayer("Fire")) 
             | (1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Ignore Raycast")) 
-            | (1 << LayerMask.NameToLayer("Ground")));
+            | (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("FlamingObject")));
         hitMask = ~hitMask;
     }
 
