@@ -7,7 +7,7 @@ public class BurnableObject : MonoBehaviour
     [Header("가연성 / 불연성")]
     public eBurnableType burnType;
 
-    [Tooltip("탈 수 있는 상태인가?")]
+    [Tooltip("탈 수 있는 상태인가? 인스펙터의 수정이 영향을 끼칩니다.")]
     public bool canBurn = true;
 
     [Tooltip("타는 중인가?")]
@@ -19,7 +19,7 @@ public class BurnableObject : MonoBehaviour
     [Tooltip("붙은 불의 오브젝트")]
     public FireObject fireObject;
 
-    [Tooltip("이 오브젝트는 ")]
+    [Tooltip("이 오브젝트의 원래 레이어 ")]
     private int originalLayer;
 
     [Header("[불연성 오브젝트]")]
@@ -43,6 +43,11 @@ public class BurnableObject : MonoBehaviour
     //[Tooltip("물로 인해 불이 꺼져서 젖은 상태인가?")]
     //public bool isWet;
     private void Start()
+    {
+        Init();
+    }
+
+    public void Init()
     {
         if (liveTime == 0f)
         {

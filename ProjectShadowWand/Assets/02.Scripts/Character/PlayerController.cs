@@ -169,8 +169,14 @@ public class PlayerController : Character
         {
             instance = this;
         }
-
         Init();
+    }
+    private void Start()
+    {
+
+        ChangeState(eState.PLAYER_DEFAULT);
+        playerStateMachine.Start();
+
     }
     private void Init()
     {
@@ -212,12 +218,6 @@ public class PlayerController : Character
         contactFilter_Ground.useNormalAngle = true;
     }
 
-    private void Start()
-    {
-        ChangeState(eState.PLAYER_DEFAULT);
-        playerStateMachine.Start();
-
-    }
 
     void Update()
     {

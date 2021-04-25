@@ -25,7 +25,7 @@ public class FireObject : MonoBehaviour
     /// </summary>
     public bool isStartSpread = false;
 
-    public GameObject fireObject;
+    //public GameObject fireObject;
     private BurnableObject burnableObject;
 
     [HideInInspector] public int hitMask;
@@ -63,7 +63,9 @@ public class FireObject : MonoBehaviour
     {
         hits = new RaycastHit2D[4];
 
-        hitMask = ((1 << LayerMask.NameToLayer("Fire")) | (1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Ignore Raycast")));
+        hitMask = ((1 << LayerMask.NameToLayer("Fire")) 
+            | (1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Ignore Raycast")) 
+            | (1 << LayerMask.NameToLayer("Ground")));
         hitMask = ~hitMask;
     }
 
@@ -227,7 +229,7 @@ public class FireObject : MonoBehaviour
                 _bo.fireObject = Instantiate(gameObject, _bo.transform.position, Quaternion.identity, null).GetComponent<FireObject>();
                 _bo.fireObject.burnableObject = _bo;
 
-                _bo.gameObject.layer = 2;
+                _bo.gameObject.layer = LayerMask.NameToLayer("FlamingObject");
 
                 _bo.fireObject.isStartSpread = false;
                 _bo.fireObject.name = "FireObject";

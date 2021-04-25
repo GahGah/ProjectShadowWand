@@ -123,7 +123,6 @@ public class PushableObject : MonoBehaviour, IPushable
             //자신이 터치 오브젝트일 경우(다른 오브젝트에 닿지 않은 경우)
             if (PlayerController.Instance.GetTouchedObject() == gameObject)
             {
-                Debug.LogError("나감");
                 //터치 오브젝트를 null로
                 PlayerController.Instance.SetTouchedObject(null);
                 rigidBody.mass = originalMass;

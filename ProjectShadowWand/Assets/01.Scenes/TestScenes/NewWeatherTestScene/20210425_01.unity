@@ -5954,7 +5954,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 217303322}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -68.0101, y: 16.136696, z: -1}
+  m_LocalPosition: {x: 43, y: 12.7, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1274891514}
@@ -7857,7 +7857,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628124403}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 99.88989, y: 26.636696, z: 0}
+  m_LocalPosition: {x: 96.7, y: 26.636696, z: 0}
   m_LocalScale: {x: 41.464592, y: 1.3225521, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -8024,9 +8024,9 @@ GameObject:
   m_Component:
   - component: {fileID: 644945582}
   - component: {fileID: 644945581}
-  - component: {fileID: 644945580}
   - component: {fileID: 644945579}
   - component: {fileID: 644945578}
+  - component: {fileID: 644945580}
   m_Layer: 9
   m_Name: TestElecBox (Yellow) (1)
   m_TagString: Untagged
@@ -8081,15 +8081,15 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 644945577}
-  m_BodyType: 2
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 40.68
+  m_Mass: 1
   m_LinearDrag: 0
-  m_AngularDrag: 0
+  m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: fcd08f2e06808c041807f563837fd87b, type: 2}
+  m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -9474,7 +9474,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1159344116}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 80.0499, y: 19.253498, z: 0}
+  m_LocalPosition: {x: 76.86, y: 19.253498, z: 0}
   m_LocalScale: {x: 1.9062105, y: 15.020482, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -11165,7 +11165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canMoving: 0
-  isLoop: 0
+  isLoop: 1
   moveSelf: 0
   moveSpeed: 1
   endPoint: {fileID: 477931215}
