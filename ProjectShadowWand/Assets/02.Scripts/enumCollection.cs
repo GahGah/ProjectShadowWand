@@ -83,7 +83,17 @@ public enum eUItype
 
 public enum eBurnableType
 {
-    NOTBURN, BURN
+
+
+    /// <summary>
+    /// 불이 붙으면 지정한 초 후에 타서 사라집니다.
+    /// </summary>
+    BURN,
+
+/// <summary>
+/// 불이 붙지만 연기만 나오고, 타서 사라지지 않습니다.
+/// </summary>
+    SMOKE,
 }
 public enum eChildType
 {

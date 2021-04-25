@@ -26,11 +26,14 @@ public class FireObject : MonoBehaviour
     public bool isStartSpread = false;
 
     public GameObject fireObject;
+    private BurnableObject burnableObject;
 
     [HideInInspector] public int hitMask;
 
     [HideInInspector]
     public eFireDirection currentFireDirection;
+
+    public GameObject smokeObject;
     private void Awake()
     {
         Init();
@@ -128,7 +131,6 @@ public class FireObject : MonoBehaviour
                         }
 
                     }
-
                 }
                 else //NONE
                 {
@@ -218,20 +220,30 @@ public class FireObject : MonoBehaviour
 
     private void GoSpread(BurnableObject _bo)
     {
-        if (_bo.canBurn && _bo.isBurning == false) //탈 수 있으며, 이미 타고 있는 오브젝트가 아닌 것만 가능
+        if (_bo.burnType == eBurnableType.BURN) //불이 붙을 수 있는 오브젝트일 경우
         {
-            _bo.fireObject = Instantiate(gameObject, _bo.transform.position, Quaternion.identity, null).GetComponent<FireObject>();
+            if (_bo.canBurn && _bo.isBurning == false) //탈 수 있으며, 이미 타고 있는 오브젝트가 아닌 것만 가능
+            {
+                _bo.fireObject = Instantiate(gameObject, _bo.transform.position, Quaternion.identity, null).GetComponent<FireObject>();
+                _bo.fireObject.burnableObject = _bo;
 
-            _bo.gameObject.layer = 2;
-            _bo.gameObject.GetComponent<SpriteRenderer>().color = Color.black;
+                _bo.gameObject.layer = 2;
 
-            _bo.fireObject.isStartSpread = false;
-            _bo.fireObject.name = "FireObject";
+                _bo.fireObject.isStartSpread = false;
+                _bo.fireObject.name = "FireObject";
 
-            _bo.isBurning = true; //타는 중
-            _bo.isBurned = true; // 탄 적 있음
-
+                _bo.isBurning = true; //타는 중
+                _bo.isBurned = true; // 탄 적 있음
+            }
         }
+        else if (_bo.burnType == eBurnableType.SMOKE) //연기만 붙을 수 있는 오브젝트일 경우
+        {
+            if (_bo.canBurn && _bo.isBurning == false)
+            {
+                
+            }
+        }
+
     }
     private void UpdateHits(eFireDirection _dir)
     {
@@ -300,15 +312,13 @@ public class FireObject : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (collision.CompareTag("Untagged"))
-        {
-            Destroy(gameObject);
-        }
+        //if (collision.CompareTag("Water"))
+        //{
+
+        //}
 
         if (collision.gameObject == windConntroller.gameObject)
         {
-            Debug.Log("test");
-
             currentFireDirection = eFireDirection.oneDirection;
         }
     }
@@ -317,9 +327,18 @@ public class FireObject : MonoBehaviour
     {
         if (collision.CompareTag("WindController"))
         {
-            Debug.Log("test");
+            //Debug.Log("test");
 
             currentFireDirection = eFireDirection.oneDirection;
         }
+    }
+
+    /// <summary>
+    /// 형식상 불 오브젝트를 사라지게 합니다. 데스트로이 일수도 있고...그렇습니다. 
+    /// </summary>
+    public void DestroyFireObject()
+    {
+        //gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }
