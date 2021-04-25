@@ -3302,7 +3302,7 @@ GameObject:
   - component: {fileID: 844360792}
   m_Layer: 18
   m_Name: Paticle_RainDrop
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9241,6 +9241,9 @@ MonoBehaviour:
   jumpForce: 10
   minFlipSpeed: 0.1
   isFlipped: 0
+  windDecreaseSpeed: 0
+  windIncreaseSpeed: 0
+  windSlideSpeed: 0
   contactFilter_Ground:
     useTriggers: 0
     useLayerMask: 0
@@ -9255,15 +9258,10 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 35
     maxNormalAngle: 145
-  childPostion:
-  - {fileID: 357543888}
-  - {fileID: 1214398608}
-  - {fileID: 517518934}
-  jumpGravityScale: 1
-  fallGravityScale: 2.5
   groundedGravityScale: 1
   resetSpeedOnLand: 0
   playerRigidbody: {fileID: 0}
+  playerCollider: {fileID: 0}
   blockType: 0
   prevVelocity: {x: 0, y: 0}
   jumpInput: 0
@@ -9273,11 +9271,33 @@ MonoBehaviour:
   animatorGroundedBool: 0
   animatorWalkingBool: 0
   animatorJumpTrigger: 0
+  animatorClimbBool: 0
   inputManager: {fileID: 0}
   saveMoveInputX: 0
-  CanMove: 1
-  isLadder: 0
-  lightExplosionObject: {fileID: 0}
+  canMove: 1
+  animatorWindBlend: 0
+  isRight: 0
+  climbSpeed: 0
+  inLadder: 0
+  onLadder: 0
+  onLadderJump: 0
+  isClimbLadder: 0
+  ladderPosition: {x: 0, y: 0}
+  prevPosition: {x: 0, y: 0}
+  originalMoveSpeed: 0
+  testIdleMotions: []
+  pushMoveSpeed: 0
+  isInputCatchKey: 0
+  isInputPushKey: 0
+  isPushing: 0
+  handPosition_Push: {fileID: 0}
+  handPosition_Catch: {fileID: 0}
+  catchedObject: {fileID: 0}
+  pushedObject: {fileID: 0}
+  touchedObject: {fileID: 0}
+  catchBody: {fileID: 0}
+  isWinding: 0
+  windDirection: 0
 --- !u!212 &1183903016
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9682,7 +9702,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1262299309
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -9754,9 +9774,8 @@ MonoBehaviour:
   canUse: 1
   isOn: 0
   isInteractable: 1
-  windAngle: 45
-  windMagnitude: 4
-  areaEffector: {fileID: 782841979}
+  windDirection: 0
+  windController: {fileID: 0}
   forceField: {fileID: 376905760}
 --- !u!212 &1262299312
 SpriteRenderer:
@@ -10443,6 +10462,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TornadoSecondGroup
       objectReference: {fileID: 0}
+    - target: {fileID: 7424304624478626709, guid: a53161c9ca39d16439441cadefd94c8c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7424304624478626710, guid: a53161c9ca39d16439441cadefd94c8c, type: 3}
       propertyPath: m_RootOrder
       value: 24
@@ -10567,7 +10590,7 @@ GameObject:
   - component: {fileID: 1552365390}
   m_Layer: 18
   m_Name: VFX_Weather_Rain
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

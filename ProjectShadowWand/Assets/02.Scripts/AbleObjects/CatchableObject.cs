@@ -26,7 +26,6 @@ public class CatchableObject : MonoBehaviour, ICatchable
     }
 
 
-
     public void Init()
     {
         if (currentCollider == null)
