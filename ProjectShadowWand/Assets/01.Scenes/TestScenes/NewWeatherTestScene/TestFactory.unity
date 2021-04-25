@@ -10219,8 +10219,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windArea: {fileID: 0}
   forceField: {fileID: 1794090813}
-  windDirection: 2
-  originalWindDirection: 0
+  windDirection: 1
+  originalWindDirection: 1
   windPower: 0.77
   maxWindSpeed: 4.89
   notAffectedLayer:
@@ -12867,7 +12867,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!199 &1571286904
 ParticleSystemRenderer:
   serializedVersion: 6

@@ -30,10 +30,14 @@ public class WindController : MonoBehaviour
     public LayerMask notAffectedLayer;
     public int noPlayerLayer;
 
+    [Header("왼쪽 오른쪽 바람막이 콜라이더")]
     public GameObject leftColliderObject;
     public GameObject rightColliderObject;
 
+    [HideInInspector]
     public EdgeCollider2D leftCollider;
+
+    [HideInInspector]
     public EdgeCollider2D rightCollider;
 
 

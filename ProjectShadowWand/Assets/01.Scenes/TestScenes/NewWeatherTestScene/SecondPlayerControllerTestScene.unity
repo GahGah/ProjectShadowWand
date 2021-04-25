@@ -1081,7 +1081,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &159288030
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1127,9 +1127,8 @@ MonoBehaviour:
   canUse: 1
   isOn: 0
   isInteractable: 1
-  windAngle: 45
-  windMagnitude: 5.5
-  areaEffector: {fileID: 0}
+  windDirection: 0
+  windController: {fileID: 1004214447}
   forceField: {fileID: 1006740058}
 --- !u!212 &159288033
 SpriteRenderer:
@@ -5051,7 +5050,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1004214446
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5091,7 +5090,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windArea: {fileID: 0}
+  forceField: {fileID: 0}
   windDirection: 0
+  originalWindDirection: 0
   windPower: 4.1
   maxWindSpeed: 7.69
   notAffectedLayer:
