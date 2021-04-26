@@ -85,8 +85,6 @@ public class UIManager : MonoBehaviour
 
         }
 
-
-
     }
 
     /// <summary>

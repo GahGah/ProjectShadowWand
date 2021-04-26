@@ -124,21 +124,25 @@ public class BurnableObject : MonoBehaviour
 
         if (isBlack)
         {
-            if (BurningCoroutine != null)//타고있었을 경우에
+            if (collision.gameObject.CompareTag("Player"))
             {
-                StopCoroutine(BurningCoroutine); //타는걸 종료시키고
-                BurningCoroutine = null;
+                if (BurningCoroutine != null)//타고있었을 경우에
+                {
+                    StopCoroutine(BurningCoroutine); //타는걸 종료시키고
+                    BurningCoroutine = null;
 
-                fireObject.DestroyFireObject();
-                fireObject = null;
-            }
-            if (fireObject != null) //아직도 불타고 있다면
-            {
-                fireObject.DestroyFireObject();
-                fireObject = null;
+                    fireObject.DestroyFireObject();
+                    fireObject = null;
+                }
+                if (fireObject != null) //아직도 불타고 있다면
+                {
+                    fireObject.DestroyFireObject();
+                    fireObject = null;
+                }
+
+                Destroy(gameObject);
             }
 
-            Destroy(gameObject);
         }
     }
 

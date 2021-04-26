@@ -45,6 +45,10 @@ public class FireObject : MonoBehaviour
     // 3 : 우
     public void Init()
     {
+        if (windConntroller == null)
+        {
+            windConntroller = FindObjectOfType<WindController>();
+        }
         InitHits();
         isStartSpread = false;
         //0은 오바
@@ -63,8 +67,8 @@ public class FireObject : MonoBehaviour
     {
         hits = new RaycastHit2D[4];
 
-        hitMask = ((1 << LayerMask.NameToLayer("Fire")) 
-            | (1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Ignore Raycast")) 
+        hitMask = ((1 << LayerMask.NameToLayer("Fire"))
+            | (1 << LayerMask.NameToLayer("Player")) | (1 << LayerMask.NameToLayer("Ignore Raycast"))
             | (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("FlamingObject")));
         hitMask = ~hitMask;
     }
@@ -242,7 +246,7 @@ public class FireObject : MonoBehaviour
         {
             if (_bo.canBurn && _bo.isBurning == false)
             {
-                
+
             }
         }
 
@@ -311,19 +315,19 @@ public class FireObject : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
 
-        //if (collision.CompareTag("Water"))
-        //{
+    //    //if (collision.CompareTag("Water"))
+    //    //{
 
-        //}
+    //    //}
 
-        if (collision.gameObject == windConntroller.gameObject)
-        {
-            currentFireDirection = eFireDirection.oneDirection;
-        }
-    }
+    //    if (collision.gameObject == windConntroller.gameObject)
+    //    {
+    //        currentFireDirection = eFireDirection.oneDirection;
+    //    }
+    //}
 
     private void OnTriggerStay2D(Collider2D collision)
     {

@@ -38,7 +38,7 @@ public class UIBase : MonoBehaviour
     }
 
     /// <summary>
-    /// UI를 열기 위해 호출되는 함수.
+    /// UI를 열기 위해 호출되는 함수. 성공적으로 열렸다면 true를 반환합니다.
     /// </summary>
     public virtual bool Open()
     {
@@ -46,7 +46,7 @@ public class UIBase : MonoBehaviour
     }
 
     /// <summary>
-    /// UI를 닫기 위해 호출되는 함수.
+    /// UI를 닫기 위해 호출되는 함수. 성공적으로 닫혔다면 false를 반환합니다.
     /// </summary>
     public virtual bool Close()
     {
