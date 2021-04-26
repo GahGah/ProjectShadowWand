@@ -39,22 +39,28 @@ public class MovePlatform : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (canMoving && moveSelf)
+        if (moveSelf)
         {
-            if (isLoop == false)
+            if (canMoving)// && moveSelf)
             {
-                if (!isGoal)
+                if (isLoop == false)
+                {
+                    if (!isGoal)
+                    {
+                        ProcessMove();
+                    }
+
+                }
+                else
                 {
                     ProcessMove();
                 }
 
             }
-            else
-            {
-                ProcessMove();
-            }
 
         }
+
+
     }
     public void SetDestination(Vector3 _pos)
     {
@@ -83,7 +89,7 @@ public class MovePlatform : MonoBehaviour
     {
         if (canMoving)
         {
-            gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, currentDestination, Time.fixedDeltaTime * moveSpeed);
+            gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, currentDestination, Time.fixedDeltaTime * moveSpeed);
         }
 
         if (Vector2.Distance(gameObject.transform.position, currentDestination) <= 1f) //거리가 0.01라면

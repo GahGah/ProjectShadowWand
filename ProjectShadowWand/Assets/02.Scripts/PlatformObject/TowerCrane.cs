@@ -20,7 +20,7 @@ public class TowerCrane : MonoBehaviour
     {
         towerArm.Init();
         towerArm.moveSelf = false;
-        towerArm.isLoop = false;
+        //towerArm.isLoop = false;
         towerArm.canMoving = false;
         isMoving = false;
     }
@@ -30,10 +30,6 @@ public class TowerCrane : MonoBehaviour
         if (electricableObject.isShocked)
         {
             towerArm.canMoving = true;
-        }
-        else
-        {
-            towerArm.canMoving = false;
         }
     }
     private void FixedUpdate()
@@ -52,7 +48,7 @@ public class TowerCrane : MonoBehaviour
             }
         }
 
-        
+
 
     }
 
