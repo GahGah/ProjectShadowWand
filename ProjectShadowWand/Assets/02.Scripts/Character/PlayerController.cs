@@ -163,7 +163,7 @@ public class PlayerController : Character
 
     public eWindDirection windDirection;
 
-
+    public TestSceneChanger testSceneChanger;
     #endregion
 
 

@@ -315,6 +315,10 @@ public class PlayerState_Climb_Ladder : PlayerState
 
 }
 
+public class PlayerState_Use_Skill : PlayerState
+{
+
+}
 public class PlayerState_Die : PlayerState
 {
     public PlayerState_Die(PlayerController _p)
@@ -325,6 +329,7 @@ public class PlayerState_Die : PlayerState
     {
         ResetAnimatorSpeed();
         player.animator.SetBool(player.animatorDieBool,true);
+        player.testSceneChanger.PlayerDie_SceneReload();
     }
     public override void Execute()
     {

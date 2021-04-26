@@ -11,6 +11,8 @@ public class TowerCrane : MonoBehaviour
     public bool isMoving;
 
     private DistanceJoint2D distanceJoint;
+
+    public LineRenderer lineRederer;
     private void Start()
     {
         Init();
