@@ -10,7 +10,7 @@ public class TestDieObject : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerController.Instance.ProcessDie();
+            PlayerController.Instance.isDie = true;
         }
     }
 }
