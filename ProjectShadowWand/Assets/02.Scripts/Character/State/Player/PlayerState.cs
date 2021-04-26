@@ -216,16 +216,38 @@ public class PlayerState_Push : PlayerState
 
 public class PlayerState_Lift : PlayerState
 {
+    private float animatorSpeed;
     public PlayerState_Lift(PlayerController _p)
     {
         player = _p;
+        animatorSpeed = 1f;
     }
     public override void Enter()
     {
         ResetAnimatorSpeed();
+        player.animator.SetBool(player.animatorLiftingBool, true);
     }
     public override void Execute()
     {
+        player.animator.SetBool(player.animatorLiftingBool, true);
+
+        if (player.prevPosition != player.playerRigidbody.position)
+        {
+            if (player.animator.speed != animatorSpeed)
+            {
+                player.animator.speed = animatorSpeed;
+
+            }
+
+        }
+        else
+        {
+            if (player.animator.speed != 0f)
+            {
+                player.animator.speed = 0f;
+            }
+
+        }
     }
     public override void PhysicsExecute()
     {
@@ -235,6 +257,7 @@ public class PlayerState_Lift : PlayerState
     public override void Exit()
     {
         ResetAnimatorSpeed();
+        player.animator.SetBool(player.animatorLiftingBool, false);
     }
 }
 public class PlayerState_Climb_Ladder : PlayerState

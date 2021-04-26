@@ -450,7 +450,6 @@ public class PlayerController : Character
                     {
                         catchedObject.GoCatchThis();
                     }
-
                 }
 
             }
@@ -474,8 +473,6 @@ public class PlayerController : Character
                 //얘도 딱히...
             }
         }
-
-
     }
 
     public void CheckPushInput(PushableObject _obj)
@@ -494,12 +491,9 @@ public class PlayerController : Character
                     if (pushedObject != null)
                     {
                         pushedObject.GoPushReady();
-
-
                     }
                 }
             }
-
         }
 
         if (InputManager.Instance.buttonPush.wasReleasedThisFrame) // 키 떼기
@@ -618,6 +612,10 @@ public class PlayerController : Character
         else if (isPushing)
         {
             ChangeState(eState.PLAYER_PUSH);
+        }
+        else if (isCatching)
+        {
+            ChangeState(eState.PLAYER_LIFT);
         }
         else if (isGrounded && !isJumping)
         {
