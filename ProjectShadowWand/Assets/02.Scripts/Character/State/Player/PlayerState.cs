@@ -168,6 +168,17 @@ public class PlayerState_Push : PlayerState
     public override void Execute()
     {
         player.animator.SetBool(player.animatorPushingBool, true);
+
+        //if ((InputManager.Instance.buttonMoveRight.isPressed && Mathf.Abs(player.playerRigidbody.velocity.x) > 0f))
+        //{
+
+        //    //player.animator.SetBool(player.animatorWalkingBool, true);
+        //}
+        //else
+        //{
+        //    player.animator.SetBool(player.animatorWalkingBool, false);
+        //}
+
         //이전 위치와 현재 위치가 다를 경우 
         if (player.prevPosition != player.playerRigidbody.position)
         {

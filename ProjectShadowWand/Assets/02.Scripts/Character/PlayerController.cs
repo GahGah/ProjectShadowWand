@@ -390,6 +390,7 @@ public class PlayerController : Character
             isPushing = true;
             var tempVelo = pushedObject.rigidBody.velocity;
             var testSpeed = movementSpeed;
+            pushedObject.rigidBody.velocity = Vector2.zero;
             if (isRight)
             {
                 if (movementInput == Vector2.left)
@@ -816,16 +817,25 @@ public class PlayerController : Character
     private void UpdateDirection()
     {
         //스케일 변경으로 flip
-        if (InputManager.Instance.buttonMoveRight.isPressed && playerRigidbody.velocity.x > minFlipSpeed && isFlipped)
+
+        if (isPushing == false)
         {
-            isFlipped = false;
-            puppet.localScale = Vector3.one;
+            if (InputManager.Instance.buttonMoveRight.isPressed && playerRigidbody.velocity.x > minFlipSpeed && isFlipped)
+            {
+                isFlipped = false;
+                puppet.localScale = Vector3.one;
+            }
+            else if (InputManager.Instance.buttonMoveLeft.isPressed && playerRigidbody.velocity.x < -minFlipSpeed && !isFlipped)
+            {
+                isFlipped = true;
+                puppet.localScale = flippedScale;
+            }
         }
-        else if (InputManager.Instance.buttonMoveLeft.isPressed && playerRigidbody.velocity.x < -minFlipSpeed && !isFlipped)
+        else //isPushing이 트루일때
         {
-            isFlipped = true;
-            puppet.localScale = flippedScale;
+
         }
+
     }
 
     public void ProcessRaise()
