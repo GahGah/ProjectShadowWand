@@ -76,6 +76,8 @@ public class CameraManager : MonoBehaviour
     private Vector3 originBGObjectScale;
 
 
+    public GameObject whiteScreen;
+
     static CameraManager instance;
     public static CameraManager Instance
     {
@@ -413,5 +415,10 @@ public class CameraManager : MonoBehaviour
         bool inScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
 
         return inScreen;
+    }
+
+    public void SetWhiteScreen(bool _b)
+    {
+        whiteScreen.SetActive(_b);   
     }
 }

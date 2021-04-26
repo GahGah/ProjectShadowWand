@@ -5,6 +5,7 @@ using UnityEngine;
 public class ThunderObject : MonoBehaviour
 {
 
+    //public GameObject whiteScreen;
     public float time = 3f;
 
     ElectricableObject tempElecObject = null;
@@ -12,9 +13,16 @@ public class ThunderObject : MonoBehaviour
     [Tooltip("번개를 치고 있는 상태인지를...네.")]
     public bool isThundering = false;
 
+
+    public Animator animator;
     private void Start()
     {
         gameObject.SetActive(false);
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
+
     }
 
     /// <summary>
@@ -22,7 +30,6 @@ public class ThunderObject : MonoBehaviour
     /// </summary>
     public void GoThunder()
     {
-        gameObject.SetActive(true);
     }
 
 
@@ -37,7 +44,8 @@ public class ThunderObject : MonoBehaviour
         isThundering = true;
         var timer = 0f;
 
-        GoThunder();
+        //GoThunder();
+        gameObject.SetActive(true);
 
         while (timer < time)
         {

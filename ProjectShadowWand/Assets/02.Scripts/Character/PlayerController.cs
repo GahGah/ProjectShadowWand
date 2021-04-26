@@ -1014,14 +1014,14 @@ public class PlayerController : Character
     //{
     //}
 
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    WeatherInteractionObject tempObject = collision.gameObject.GetComponent<WeatherInteractionObject>();
-    //    if (collision is ICatchable)
-    //    {
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //WeatherInteractionObject tempObject = collision.gameObject.GetComponent<WeatherInteractionObject>();
+        //if (collision is ICatchable)
+        //{
 
-    //    }
-    //}
+        //}
+    }
     #region 구버전
     //private void UpdateVelocity()
     //{

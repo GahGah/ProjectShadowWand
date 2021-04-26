@@ -122,6 +122,14 @@ public class BurnableObject : MonoBehaviour
             }
         }
 
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if (BurningCoroutine != null)//타고있었을 경우에
+            {
+                PlayerController.Instance.isDie = true;
+            }
+        }
+
         if (isBlack)
         {
             if (collision.gameObject.CompareTag("Player"))
