@@ -7434,6 +7434,7 @@ MonoBehaviour:
   catchBody: {fileID: 1178597129}
   isWinding: 0
   windDirection: 2
+  testSceneChanger: {fileID: 0}
 --- !u!61 &1271847640
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -20123,7 +20124,7 @@ GameObject:
   - component: {fileID: 1938101170}
   - component: {fileID: 1938101169}
   m_Layer: 0
-  m_Name: TessThunder
+  m_Name: TestThunder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
