@@ -152,7 +152,80 @@ public class PlayerState_Air : PlayerState
     public override void HandleInput() { }
 }
 
+public class PlayerState_Push : PlayerState
+{
+    private float animatorSpeed;
+    public PlayerState_Push(PlayerController _p)
+    {
+        player = _p;
+        animatorSpeed = 1f;
+    }
+    public override void Enter()
+    {
+        ResetAnimatorSpeed();
+        player.animator.SetBool(player.animatorPushingBool, true);
+    }
+    public override void Execute()
+    {
+        player.animator.SetBool(player.animatorPushingBool, true);
+        //이전 위치와 현재 위치가 다를 경우 
+        if (player.prevPosition != player.playerRigidbody.position)
+        {
+            if (player.animator.speed != animatorSpeed)
+            {
+                player.animator.speed = animatorSpeed;
 
+            }
+
+        }
+        else
+        {
+            if (player.animator.speed != 0f)
+            {
+                player.animator.speed = 0f;
+            }
+
+        }
+
+    }
+
+    public override void PhysicsExecute()
+    {
+
+
+    }
+    public override void Exit()
+    {
+        Log("Exit Ladder");
+        ResetAnimatorSpeed();
+        player.animator.SetBool(player.animatorPushingBool, false);
+        // player.animator.SetBool(player.animatorClimbBool, false);
+    }
+}
+
+public class PlayerState_Lift : PlayerState
+{
+    public PlayerState_Lift(PlayerController _p)
+    {
+        player = _p;
+    }
+    public override void Enter()
+    {
+        ResetAnimatorSpeed();
+    }
+    public override void Execute()
+    {
+    }
+    public override void PhysicsExecute()
+    {
+
+
+    }
+    public override void Exit()
+    {
+        ResetAnimatorSpeed();
+    }
+}
 public class PlayerState_Climb_Ladder : PlayerState
 {
     private float animatorSpeed = 0f;

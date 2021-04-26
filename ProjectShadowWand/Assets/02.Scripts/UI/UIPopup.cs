@@ -27,4 +27,15 @@ public class UIPopup : UIBase
         SetActive(false);
         return !gameObject.activeSelf;
     }
+
+
+    public void ButtonOpen()
+    {
+        SetActive(true);
+    }
+
+    public void ButtonClose()
+    {
+        SetActive(false);
+    }
 }

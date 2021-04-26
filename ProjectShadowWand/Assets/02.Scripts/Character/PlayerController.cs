@@ -45,11 +45,16 @@ public class PlayerController : Character
 
     [HideInInspector] public eBlockType blockType;
     private int noPlayerMask;
-    private LayerMask groundMask;
+
     private LayerMask wallMask;
     private LayerMask movingGroundMask;
     private LayerMask playerMask;
     private LayerMask rainMask;
+
+    private LayerMask groundMask;
+    private LayerMask groundSoftMask;
+    private LayerMask groundHardMask;
+
 
     [HideInInspector] public Vector2 prevVelocity;
     private Vector2 updatingVelocity;
@@ -66,6 +71,8 @@ public class PlayerController : Character
     [HideInInspector] public int animatorWalkingBool;
     [HideInInspector] public int animatorJumpTrigger;
     [HideInInspector] public int animatorClimbBool;
+    [HideInInspector] public int animatorPushingBool;
+    [HideInInspector] public int animatorLiftingBool;
     //public int animatorFallingBool;
 
     [HideInInspector] public PlayerStateMachine playerStateMachine;
@@ -130,7 +137,12 @@ public class PlayerController : Character
     [Tooltip("밀기 키를 눌렀는가?")]
     [HideInInspector] public bool isInputPushKey = false;
 
-    [HideInInspector] public bool isPushing = false;
+
+    [Tooltip("미는 중인가?")]
+    public bool isPushing = false;
+
+    [Tooltip("물건을 잡았나?")]
+    public bool isCatching = false;
 
     [Header("밀기/잡기 시 손의 위치"), Space(10)]
     public GameObject handPosition_Push;
@@ -148,6 +160,8 @@ public class PlayerController : Character
     public bool isWinding;
 
     public eWindDirection windDirection;
+
+
     #endregion
 
 
@@ -187,7 +201,10 @@ public class PlayerController : Character
         puppet = gameObject.transform;
 
         playerMask = LayerMask.NameToLayer("Player");
-        groundMask = LayerMask.NameToLayer("Ground");
+        groundMask = LayerMask.NameToLayer("Ground");// LayerMask.NameToLayer("Ground_Soft") LayerMask.NameToLayer("Ground_Hard");
+
+        groundSoftMask = LayerMask.NameToLayer("Ground_Soft");
+        groundHardMask = LayerMask.NameToLayer("Ground_Hard");
         rainMask = LayerMask.NameToLayer("WeatherFx_withOpaqueTex");
 
         animatorWalkingBool = Animator.StringToHash("Walking");
@@ -195,6 +212,9 @@ public class PlayerController : Character
         animatorJumpTrigger = Animator.StringToHash("Jump");
         animatorClimbBool = Animator.StringToHash("Climb");
         animatorWindBlend = Animator.StringToHash("WindBlend");
+        animatorLiftingBool = Animator.StringToHash("Lifting");
+        animatorPushingBool = Animator.StringToHash("Pushing");
+
         isWater = false;
         currentCatchJoint = null;
         isInputCatchKey = false;
@@ -367,6 +387,7 @@ public class PlayerController : Character
 
         if (pushedObject != null)//뭔가 밀고 있는 오브젝트가 있을 때
         {
+            isPushing = true;
             var tempVelo = pushedObject.rigidBody.velocity;
             var testSpeed = movementSpeed;
             if (isRight)
@@ -394,6 +415,19 @@ public class PlayerController : Character
                     //pushedObject.rigidBody.velocity = playerRigidbody.velocity;
                 }
             }
+        }
+        else
+        {
+            isPushing = false;
+        }
+
+        if (catchedObject != null)
+        {
+            isCatching = true;
+        }
+        else
+        {
+            isCatching = false;
         }
 
         //}
@@ -572,17 +606,21 @@ public class PlayerController : Character
 
     private void UpdateChangeState()
     {
-        if (inLadder && prevPosition.y != playerRigidbody.position.y)
+        if (inLadder && prevPosition.y != playerRigidbody.position.y) //사다리 안쪽에 있고, 위로 올라갔다면
         {
-
-
-            if (catchedObject != null)//물체를 들고있다면
+            if (catchedObject != null)//그런데 물체를 들고있다면
             {
                 catchedObject.GoPutThis();
                 catchedObject = null;
+
+                //물체를 일단 내려놓음
             }
 
-            ChangeState(eState.PLAYER_CLIMB_LADDER);
+            ChangeState(eState.PLAYER_CLIMB_LADDER); // 사다리상태로 변경
+        }
+        else if (isPushing)
+        {
+            ChangeState(eState.PLAYER_PUSH);
         }
         else if (isGrounded && !isJumping)
         {
@@ -726,11 +764,11 @@ public class PlayerController : Character
         if (isClimbLadder)
         {
             playerRigidbody.gravityScale = 0f;
-            Physics2D.IgnoreLayerCollision(groundMask, playerMask, true);
+            SetIgnoreGroundCollision(true);
         }
         else
         {
-            Physics2D.IgnoreLayerCollision(groundMask, playerMask, false);
+            SetIgnoreGroundCollision(false);
             if (isGrounded)
             {
                 playerRigidbody.gravityScale = groundedGravityScale;
@@ -816,20 +854,26 @@ public class PlayerController : Character
         if (_isLadder == true)
         {
             ladderPosition = _pos;
-            Physics2D.IgnoreLayerCollision(groundMask, playerMask, true);
+            SetIgnoreGroundCollision(true);
         }
         else
         {
             isClimbLadder = false;
             inLadder = false;
             ladderPosition = Vector2.zero;
-            Physics2D.IgnoreLayerCollision(groundMask, playerMask, false);
+            SetIgnoreGroundCollision(false);
             UpdateGravityScale();
 
         }
         onLadder = _isLadder;
     }
+    public void SetIgnoreGroundCollision(bool _b)
+    {
+        Physics2D.IgnoreLayerCollision(groundMask, playerMask, _b);
+        Physics2D.IgnoreLayerCollision(groundHardMask, playerMask, _b);
+        Physics2D.IgnoreLayerCollision(groundSoftMask, playerMask, _b);
 
+    }
     public void SetExtraForce(Vector2 _force)
     {
         extraForce = _force;

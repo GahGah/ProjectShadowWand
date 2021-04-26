@@ -5,9 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class TestSceneChanger : MonoBehaviour
 {
-
+    public string moveSceneName;
     public void ButtonGoPlayerScene()
     {
-        SceneManager.LoadScene("SecondPlayerControllerTestScene");
+        SceneManager.LoadScene(moveSceneName);
+    }
+
+    public void Test()
+    {
+        Screen.fullScreen = false;
     }
 }
