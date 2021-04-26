@@ -48,7 +48,7 @@ public class PlayerStateMachine : StateMachine
                 break;
 
             case eState.PLAYER_DIE:
-                Debug.Log("Player_Die");
+                tempState = new PlayerState_Die(player);
                 break;
 
             default:

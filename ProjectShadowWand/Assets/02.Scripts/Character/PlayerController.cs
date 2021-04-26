@@ -84,7 +84,7 @@ public class PlayerController : Character
     [HideInInspector] public bool canMove = true;
 
 
-    private bool isDie = false;
+    public bool isDie = false;
 
     #region 추가된 것
     [Tooltip("캐릭터가 물과 닿았는가")]
@@ -271,7 +271,7 @@ public class PlayerController : Character
         //무브먼트 인풋을 0으로 초기화
         movementInput = Vector2.zero;
 
-        if (true)
+        if (CanMove())
         {
             if (InputManager.Instance.buttonMoveRight.isPressed) //오른쪽 이동
             {
@@ -297,48 +297,52 @@ public class PlayerController : Character
 
     private void CheckLadderInput()
     {
-        //사다리에 닿은!!! 상태일때
-        if (onLadder)
+        if (CanMove())
         {
-            if (InputManager.Instance.buttonUp.wasPressedThisFrame
-                || InputManager.Instance.buttonDown.wasPressedThisFrame)
+            //사다리에 닿은!!! 상태일때
+            if (onLadder)
             {
-                inLadder = true;
-                isClimbLadder = true;
-                isJumping = false;
+                if (InputManager.Instance.buttonUp.wasPressedThisFrame
+                    || InputManager.Instance.buttonDown.wasPressedThisFrame)
+                {
+                    inLadder = true;
+                    isClimbLadder = true;
+                    isJumping = false;
 
+                }
+            }
+
+            if (inLadder)
+            {
+                if (InputManager.Instance.buttonUp.isPressed)//위쪽 이동
+                {
+                    movementInput.y = 1f;
+                    isClimbLadder = true;
+                    //사다리의 가운데 부분으로 이동시키기 위해서...
+
+                    playerRigidbody.position = (new Vector2(ladderPosition.x, playerRigidbody.position.y));
+                    //if (prevPosition != playerRigidbody.position)
+                    //{
+
+                    //    ChangeState(eState.PLAYER_CLIMB_LADDER);
+                    //}
+
+                }
+                else if (InputManager.Instance.buttonDown.isPressed) //아래쪽 이동
+                {
+                    movementInput.y = -1f;
+                    isClimbLadder = true;
+                    //사다리의 가운데 부분으로 이동시키기 위해서...
+                    playerRigidbody.position = (new Vector2(ladderPosition.x, playerRigidbody.position.y));
+                    //if (prevPosition != playerRigidbody.position)
+                    //{
+
+                    //    ChangeState(eState.PLAYER_CLIMB_LADDER);
+                    //}
+                }
             }
         }
-
-        if (inLadder)
-        {
-            if (InputManager.Instance.buttonUp.isPressed)//위쪽 이동
-            {
-                movementInput.y = 1f;
-                isClimbLadder = true;
-                //사다리의 가운데 부분으로 이동시키기 위해서...
-
-                playerRigidbody.position = (new Vector2(ladderPosition.x, playerRigidbody.position.y));
-                //if (prevPosition != playerRigidbody.position)
-                //{
-
-                //    ChangeState(eState.PLAYER_CLIMB_LADDER);
-                //}
-
-            }
-            else if (InputManager.Instance.buttonDown.isPressed) //아래쪽 이동
-            {
-                movementInput.y = -1f;
-                isClimbLadder = true;
-                //사다리의 가운데 부분으로 이동시키기 위해서...
-                playerRigidbody.position = (new Vector2(ladderPosition.x, playerRigidbody.position.y));
-                //if (prevPosition != playerRigidbody.position)
-                //{
-
-                //    ChangeState(eState.PLAYER_CLIMB_LADDER);
-                //}
-            }
-        }
+      
 
     }
 
@@ -347,24 +351,29 @@ public class PlayerController : Character
     /// </summary>
     private void CheckJumpInput()
     {
-        if (InputManager.Instance.buttonMoveJump.wasPressedThisFrame)
+        if (CanMove())
         {
-            if (pushedObject == null)
+            if (InputManager.Instance.buttonMoveJump.wasPressedThisFrame)
             {
-                if (isGrounded) //땅에 닿아있을 때와 사다리를 타는 상태일 때만 점프를 할 수 있습니다.
+                if (pushedObject == null)
                 {
-                    shouldJump = true;
+                    if (isGrounded) //땅에 닿아있을 때와 사다리를 타는 상태일 때만 점프를 할 수 있습니다.
+                    {
+                        shouldJump = true;
 
-                }
-                if (isClimbLadder)
-                {
-                    onLadderJump = true;
-                    shouldJump = true;
+                    }
+                    if (isClimbLadder)
+                    {
+                        onLadderJump = true;
+                        shouldJump = true;
+                    }
+
                 }
 
             }
 
         }
+
         #region 중력조절
         //if (InputManager.Instance.buttonMoveJump.isPressed)
         //{
@@ -384,146 +393,158 @@ public class PlayerController : Character
     #region 밀기/잡기
     private void CheckCatchAndPush() //최적화가 필요함
     {
-
-        if (pushedObject != null)//뭔가 밀고 있는 오브젝트가 있을 때
+        if (CanMove())
         {
-
-            isPushing = true;
-            var tempVelo = pushedObject.rigidBody.velocity;
-            var testSpeed = movementSpeed;
-            if (isRight)
+            if (pushedObject != null)//뭔가 밀고 있는 오브젝트가 있을 때
             {
-                if (movementInput == Vector2.left)
-                {
-                    pushedObject.rigidBody.velocity = Vector2.zero;
-                    tempVelo += Vector2.left;
 
-                    var vec = new Vector2(Mathf.Clamp(tempVelo.x, -testSpeed, testSpeed), Mathf.Clamp(tempVelo.y, -testSpeed, testSpeed));
-                    pushedObject.rigidBody.velocity += vec;
-                    //pushedObject.rigidBody.velocity = playerRigidbody.velocity;
+                isPushing = true;
+                var tempVelo = pushedObject.rigidBody.velocity;
+                var testSpeed = movementSpeed;
+                if (isRight)
+                {
+                    if (movementInput == Vector2.left)
+                    {
+                        pushedObject.rigidBody.velocity = Vector2.zero;
+                        tempVelo += Vector2.left;
+
+                        var vec = new Vector2(Mathf.Clamp(tempVelo.x, -testSpeed, testSpeed), Mathf.Clamp(tempVelo.y, -testSpeed, testSpeed));
+                        pushedObject.rigidBody.velocity += vec;
+                        //pushedObject.rigidBody.velocity = playerRigidbody.velocity;
+                    }
                 }
+                else
+                {
+                    if (movementInput == Vector2.right)
+                    {
+                        //  pushedObject.rigidBody.velocity += (Vector2.right);;
+                        pushedObject.rigidBody.velocity = Vector2.zero;
+                        tempVelo += Vector2.right;
+
+                        var vec = new Vector2(Mathf.Clamp(tempVelo.x, -testSpeed, testSpeed), Mathf.Clamp(tempVelo.y, -testSpeed, testSpeed));
+                        pushedObject.rigidBody.velocity += vec;
+                        //pushedObject.rigidBody.velocity = playerRigidbody.velocity;
+                    }
+                }
+
             }
             else
             {
-                if (movementInput == Vector2.right)
-                {
-                    //  pushedObject.rigidBody.velocity += (Vector2.right);;
-                    pushedObject.rigidBody.velocity = Vector2.zero;
-                    tempVelo += Vector2.right;
+                isPushing = false;
+            }
 
-                    var vec = new Vector2(Mathf.Clamp(tempVelo.x, -testSpeed, testSpeed), Mathf.Clamp(tempVelo.y, -testSpeed, testSpeed));
-                    pushedObject.rigidBody.velocity += vec;
-                    //pushedObject.rigidBody.velocity = playerRigidbody.velocity;
-                }
+            if (catchedObject != null)
+            {
+                isCatching = true;
+            }
+            else
+            {
+                isCatching = false;
             }
 
         }
-        else
-        {
-            isPushing = false;
-        }
 
-        if (catchedObject != null)
-        {
-            isCatching = true;
-        }
-        else
-        {
-            isCatching = false;
-        }
 
         //}
 
     }
     public void CheckCatchInput(CatchableObject _obj)
     {
-        var tempObj = _obj;
-
-        if (InputManager.Instance.buttonCatch.wasPressedThisFrame)// 키 누르기
+        if (CanMove())
         {
-            if (catchedObject == null) //잡아야 할 경우
+            var tempObj = _obj;
+
+            if (InputManager.Instance.buttonCatch.wasPressedThisFrame)// 키 누르기
             {
-                if (touchedObject != null)
+                if (catchedObject == null) //잡아야 할 경우
                 {
-                    SetCatchedObject(tempObj);
-                    if (catchedObject != null)
+                    if (touchedObject != null)
                     {
-                        catchedObject.GoCatchThis();
+                        SetCatchedObject(tempObj);
+                        if (catchedObject != null)
+                        {
+                            catchedObject.GoCatchThis();
+                        }
                     }
+
                 }
-
-            }
-            else //놓아야 함
-            {
-                catchedObject.GoPutThis();
-
-                catchedObject = null;
-            }
-        }
-        else
-        {
-
-            if (InputManager.Instance.buttonCatch.isPressed) //키 계속 누르기 
-            {
-                //딱히...?
-            }
-
-            if (InputManager.Instance.buttonCatch.wasReleasedThisFrame) // 키 떼기
-            {
-                //얘도 딱히...
-            }
-        }
-    }
-
-    public void CheckPushInput(PushableObject _obj)
-    {
-
-        var tempObj = _obj;
-
-        if (InputManager.Instance.buttonPush.wasPressedThisFrame)// 키 누르기
-        {
-            if (pushedObject == null) //밀어야 할 경우
-            {
-                if (touchedObject != null)
+                else //놓아야 함
                 {
-                    SetPushedObject(tempObj);
+                    catchedObject.GoPutThis();
 
-                    if (pushedObject != null)
-                    {
-                        pushedObject.GoPushReady();
-                    }
-                }
-            }
-        }
-
-        if (InputManager.Instance.buttonPush.wasReleasedThisFrame) // 키 떼기
-        {
-            if (pushedObject != null)
-            {
-                pushedObject.GoPutThis();
-                pushedObject = null;
-            }
-        }
-        if (InputManager.Instance.buttonPush.isPressed) //키 계속 누르기 
-        {
-            if (pushedObject == null) //밀어야 할 경우
-            {
-                if (touchedObject != null)
-                {
-                    SetPushedObject(tempObj);
-
-                    if (pushedObject != null)
-                    {
-                        pushedObject.GoPushReady();
-
-                    }
+                    catchedObject = null;
                 }
             }
             else
             {
-                pushedObject.GoPushThis();
+
+                if (InputManager.Instance.buttonCatch.isPressed) //키 계속 누르기 
+                {
+                    //딱히...?
+                }
+
+                if (InputManager.Instance.buttonCatch.wasReleasedThisFrame) // 키 떼기
+                {
+                    //얘도 딱히...
+                }
             }
         }
+
+    }
+
+    public void CheckPushInput(PushableObject _obj)
+    {
+        if (CanMove())
+        {
+            var tempObj = _obj;
+
+            if (InputManager.Instance.buttonPush.wasPressedThisFrame)// 키 누르기
+            {
+                if (pushedObject == null) //밀어야 할 경우
+                {
+                    if (touchedObject != null)
+                    {
+                        SetPushedObject(tempObj);
+
+                        if (pushedObject != null)
+                        {
+                            pushedObject.GoPushReady();
+                        }
+                    }
+                }
+            }
+
+            if (InputManager.Instance.buttonPush.wasReleasedThisFrame) // 키 떼기
+            {
+                if (pushedObject != null)
+                {
+                    pushedObject.GoPutThis();
+                    pushedObject = null;
+                }
+            }
+            if (InputManager.Instance.buttonPush.isPressed) //키 계속 누르기 
+            {
+                if (pushedObject == null) //밀어야 할 경우
+                {
+                    if (touchedObject != null)
+                    {
+                        SetPushedObject(tempObj);
+
+                        if (pushedObject != null)
+                        {
+                            pushedObject.GoPushReady();
+
+                        }
+                    }
+                }
+                else
+                {
+                    pushedObject.GoPushThis();
+                }
+            }
+
+        }
+
 
     }
 
@@ -597,7 +618,11 @@ public class PlayerController : Character
 
     private void UpdateChangeState()
     {
-        if (inLadder && prevPosition.y != playerRigidbody.position.y) //사다리 안쪽에 있고, 위로 올라갔다면
+        if (isDie)
+        {
+            ChangeState(eState.PLAYER_DIE);
+        }
+        else if (inLadder && prevPosition.y != playerRigidbody.position.y) //사다리 안쪽에 있고, 위로 올라갔다면
         {
             if (catchedObject != null)//그런데 물체를 들고있다면
             {
@@ -953,6 +978,15 @@ public class PlayerController : Character
         return currentCatchJoint;
     }
 
+
+    public bool CanMove()
+    {
+        if (isDie)
+        {
+            return false;
+        }
+        return true;
+    }
     //public GameObject GetCatchingObject()
     //{
     //    return catchingObject;

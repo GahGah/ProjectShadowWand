@@ -260,6 +260,7 @@ public class PlayerState_Lift : PlayerState
         player.animator.SetBool(player.animatorLiftingBool, false);
     }
 }
+
 public class PlayerState_Climb_Ladder : PlayerState
 {
     private float animatorSpeed = 0f;
@@ -286,9 +287,7 @@ public class PlayerState_Climb_Ladder : PlayerState
             if (player.animator.speed != animatorSpeed)
             {
                 player.animator.speed = animatorSpeed;
-
             }
-
         }
         else
         {
@@ -314,4 +313,63 @@ public class PlayerState_Climb_Ladder : PlayerState
 
     public override void HandleInput() { }
 
+}
+
+public class PlayerState_Die : PlayerState
+{
+    public PlayerState_Die(PlayerController _p)
+    {
+        player = _p;
+    }
+    public override void Enter()
+    {
+        //Log("Enter Jump");
+        //ResetAnimatorSpeed();
+        //isJumped = false;
+        //player.animator.SetTrigger(player.animatorJumpTrigger);
+        //player.animator.SetBool(player.animatorGroundedBool, false);
+
+    }
+    public override void Execute()
+    {
+
+    }
+
+    /// <summary>
+    /// 혹시 물리용 업데이트를 할까봐...
+    /// </summary>
+    public override void PhysicsExecute()
+    {
+        //if (!isJumped)
+        //{
+        //    Log("PE Jump");
+        //    isJumped = true;
+
+        //    //점프 트리거 온
+        //    player.animator.SetTrigger(player.animatorJumpTrigger);
+
+        //    //점프
+        //    //player.playerRigidbody.AddForce(new Vector2(0, player.jumpForce), ForceMode2D.Impulse);
+
+
+        //    ////점프 입력을 false로(점프를 한번만 하기 위해서)
+        //    //player.jumpInput = false;
+        //    ////점프상태 true
+        //    //player.isJumping = true;
+
+        //    // Play audio
+        //    //audioPlayer.PlayJump();
+
+        //}
+
+    }
+    public override void Exit()
+    {
+        //Log("Exit Jump");
+    }
+
+    public override void HandleInput()
+    {
+
+    }
 }
