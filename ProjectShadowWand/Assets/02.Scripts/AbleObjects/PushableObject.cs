@@ -73,7 +73,7 @@ public class PushableObject : MonoBehaviour, IPushable
                     Debug.Log("자동으로 콜라이더 넣기 성공. ");
                     currentCollider = _tempColl;
                     break;
-                    
+
                 }
             }
         }
@@ -83,6 +83,7 @@ public class PushableObject : MonoBehaviour, IPushable
     // Update is called once per frame
     void Update()
     {
+
         if (PlayerController.Instance.GetTouchedObject() == gameObject)
         {
             PlayerController.Instance.CheckPushInput(this);
@@ -91,8 +92,6 @@ public class PushableObject : MonoBehaviour, IPushable
         {
             PlayerController.Instance.CheckPushInput(this);
         }
-
-
 
     }
 

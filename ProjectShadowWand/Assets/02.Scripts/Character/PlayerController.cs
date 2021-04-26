@@ -387,10 +387,10 @@ public class PlayerController : Character
 
         if (pushedObject != null)//뭔가 밀고 있는 오브젝트가 있을 때
         {
+
             isPushing = true;
             var tempVelo = pushedObject.rigidBody.velocity;
             var testSpeed = movementSpeed;
-            pushedObject.rigidBody.velocity = Vector2.zero;
             if (isRight)
             {
                 if (movementInput == Vector2.left)
@@ -416,6 +416,7 @@ public class PlayerController : Character
                     //pushedObject.rigidBody.velocity = playerRigidbody.velocity;
                 }
             }
+
         }
         else
         {
@@ -508,12 +509,7 @@ public class PlayerController : Character
                 pushedObject.GoPutThis();
                 pushedObject = null;
             }
-
-
-
         }
-
-
         if (InputManager.Instance.buttonPush.isPressed) //키 계속 누르기 
         {
             if (pushedObject == null) //밀어야 할 경우
@@ -613,11 +609,11 @@ public class PlayerController : Character
             {
                 catchedObject.GoPutThis();
                 catchedObject = null;
-
                 //물체를 일단 내려놓음
             }
 
             ChangeState(eState.PLAYER_CLIMB_LADDER); // 사다리상태로 변경
+        
         }
         else if (isPushing)
         {
