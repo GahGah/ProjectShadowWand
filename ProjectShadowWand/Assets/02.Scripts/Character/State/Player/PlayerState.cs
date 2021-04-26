@@ -323,12 +323,8 @@ public class PlayerState_Die : PlayerState
     }
     public override void Enter()
     {
-        //Log("Enter Jump");
-        //ResetAnimatorSpeed();
-        //isJumped = false;
-        //player.animator.SetTrigger(player.animatorJumpTrigger);
-        //player.animator.SetBool(player.animatorGroundedBool, false);
-
+        ResetAnimatorSpeed();
+        player.animator.SetBool(player.animatorDieBool,true);
     }
     public override void Execute()
     {
@@ -340,32 +336,11 @@ public class PlayerState_Die : PlayerState
     /// </summary>
     public override void PhysicsExecute()
     {
-        //if (!isJumped)
-        //{
-        //    Log("PE Jump");
-        //    isJumped = true;
-
-        //    //점프 트리거 온
-        //    player.animator.SetTrigger(player.animatorJumpTrigger);
-
-        //    //점프
-        //    //player.playerRigidbody.AddForce(new Vector2(0, player.jumpForce), ForceMode2D.Impulse);
-
-
-        //    ////점프 입력을 false로(점프를 한번만 하기 위해서)
-        //    //player.jumpInput = false;
-        //    ////점프상태 true
-        //    //player.isJumping = true;
-
-        //    // Play audio
-        //    //audioPlayer.PlayJump();
-
-        //}
 
     }
     public override void Exit()
     {
-        //Log("Exit Jump");
+        ResetAnimatorSpeed();
     }
 
     public override void HandleInput()

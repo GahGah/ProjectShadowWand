@@ -1,28 +1,34 @@
 fileFormatVersion: 2
-guid: bc8eb91ab9926a34abb795c0a9040f28
+guid: 7ba344bf9279868448a493dd3aa6e0e4
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 2520200289350391970
-    second: SpriteSheet_Character_Swim_dead_dummy_02_0
+      213: -6031296646622332479
+    second: Lightning_Sprite_FX_0
   - first:
-      213: 6079281127844584429
-    second: SpriteSheet_Character_Swim_dead_dummy_02_1
+      213: -626237663167460902
+    second: Lightning_Sprite_FX_1
   - first:
-      213: -6742288830202107567
-    second: SpriteSheet_Character_Swim_dead_dummy_02_2
+      213: 8857129247585763062
+    second: Lightning_Sprite_FX_2
   - first:
-      213: 4942746018956662654
-    second: SpriteSheet_Character_Swim_dead_dummy_02_3
+      213: 1700990993642232509
+    second: Lightning_Sprite_FX_3
   - first:
-      213: 6559748872589382590
-    second: SpriteSheet_Character_Swim_dead_dummy_02_4
+      213: -3477549778739096337
+    second: Lightning_Sprite_FX_4
   - first:
-      213: -4391653674971640866
-    second: SpriteSheet_Character_Swim_dead_dummy_02_5
+      213: -3095403886406466066
+    second: Lightning_Sprite_FX_5
   - first:
-      213: 8915070909860764683
-    second: SpriteSheet_Character_Swim_dead_dummy_02_6
+      213: -7881994851342510489
+    second: Lightning_Sprite_FX_6
+  - first:
+      213: 3512375064264229678
+    second: Lightning_Sprite_FX_7
+  - first:
+      213: -6658043012220909486
+    second: Lightning_Sprite_FX_8
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -112,148 +118,190 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SpriteSheet_Character_Swim_dead_dummy_02_0
+      name: Lightning_Sprite_FX_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1024
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c93213b7a78c4ca0800000000000000
+      internalID: -6031296646622332479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lightning_Sprite_FX_1
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1024
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad9ceedc9282f47f0800000000000000
+      internalID: -626237663167460902
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lightning_Sprite_FX_2
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1024
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6fe7214af18daea70800000000000000
+      internalID: 8857129247585763062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lightning_Sprite_FX_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dba1f26eb422b9710800000000000000
+      internalID: 1700990993642232509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lightning_Sprite_FX_4
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 512
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe4948da6e24dbfc0800000000000000
+      internalID: -3477549778739096337
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lightning_Sprite_FX_5
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 512
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee50162c09aea05d0800000000000000
+      internalID: -3095403886406466066
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Lightning_Sprite_FX_6
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 130
-        height: 130
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2a811918fcc89f220800000000000000
-      internalID: 2520200289350391970
+      spriteID: 766954c71778d9290800000000000000
+      internalID: -7881994851342510489
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_Character_Swim_dead_dummy_02_1
+      name: Lightning_Sprite_FX_7
       rect:
         serializedVersion: 2
-        x: 130
+        x: 512
         y: 0
-        width: 130
-        height: 130
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: deb99e2f9f1fd5450800000000000000
-      internalID: 6079281127844584429
+      spriteID: e23c867f2867eb030800000000000000
+      internalID: 3512375064264229678
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_Character_Swim_dead_dummy_02_2
+      name: Lightning_Sprite_FX_8
       rect:
         serializedVersion: 2
-        x: 260
+        x: 1024
         y: 0
-        width: 130
-        height: 130
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 15928b6f7049e62a0800000000000000
-      internalID: -6742288830202107567
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SpriteSheet_Character_Swim_dead_dummy_02_3
-      rect:
-        serializedVersion: 2
-        x: 390
-        y: 0
-        width: 130
-        height: 130
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e7753e20159289440800000000000000
-      internalID: 4942746018956662654
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SpriteSheet_Character_Swim_dead_dummy_02_4
-      rect:
-        serializedVersion: 2
-        x: 520
-        y: 0
-        width: 130
-        height: 130
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: eb3957638d8e80b50800000000000000
-      internalID: 6559748872589382590
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SpriteSheet_Character_Swim_dead_dummy_02_5
-      rect:
-        serializedVersion: 2
-        x: 650
-        y: 0
-        width: 130
-        height: 130
-      alignment: 9
-      pivot: {x: 0.5, y: 0.55}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: edbc6c62046bd03c0800000000000000
-      internalID: -4391653674971640866
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SpriteSheet_Character_Swim_dead_dummy_02_6
-      rect:
-        serializedVersion: 2
-        x: 780
-        y: 0
-        width: 130
-        height: 130
-      alignment: 9
-      pivot: {x: 0.5, y: 0.6}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: b0c5ba922c1b8bb70800000000000000
-      internalID: 8915070909860764683
+      spriteID: 2580d4df721e993a0800000000000000
+      internalID: -6658043012220909486
       vertices: []
       indices: 
       edges: []

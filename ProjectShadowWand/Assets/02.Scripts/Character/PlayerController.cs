@@ -67,12 +67,14 @@ public class PlayerController : Character
 
     [HideInInspector] public bool isFalling;
 
+    [HideInInspector] public int animatorDieBool;
     [HideInInspector] public int animatorGroundedBool;
     [HideInInspector] public int animatorWalkingBool;
     [HideInInspector] public int animatorJumpTrigger;
     [HideInInspector] public int animatorClimbBool;
     [HideInInspector] public int animatorPushingBool;
     [HideInInspector] public int animatorLiftingBool;
+
     //public int animatorFallingBool;
 
     [HideInInspector] public PlayerStateMachine playerStateMachine;
@@ -214,6 +216,7 @@ public class PlayerController : Character
         animatorWindBlend = Animator.StringToHash("WindBlend");
         animatorLiftingBool = Animator.StringToHash("Lifting");
         animatorPushingBool = Animator.StringToHash("Pushing");
+        animatorDieBool = Animator.StringToHash("Die");
 
         isWater = false;
         currentCatchJoint = null;
@@ -819,20 +822,28 @@ public class PlayerController : Character
         //{
 
         //}
-
     }
 
-    public void ProcessDie()
+    public IEnumerator ProcessDie()
     {
-        if (isDie == false)
+        if (isDie)
         {
-            transform.rotation = Quaternion.Euler(0, 0, 90);
-            canMove = false;
-            //SiyeonManager.Instance.SetActiveTrueRestartUI();
-            Time.timeScale = 0f;
+
         }
 
+        yield return new WaitForFixedUpdate();
     }
+    //public void ProcessDie()
+    //{
+    //    if (isDie == false)
+    //    {
+    //        transform.rotation = Quaternion.Euler(0, 0, 90);
+    //        canMove = false;
+    //        //SiyeonManager.Instance.SetActiveTrueRestartUI();
+    //        Time.timeScale = 0f;
+    //    }
+
+    //}
     private void UpdateDirection()
     {
         //스케일 변경으로 flip

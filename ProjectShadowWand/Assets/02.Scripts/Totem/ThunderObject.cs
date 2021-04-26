@@ -53,7 +53,6 @@ public class ThunderObject : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
         tempElecObject = collision.GetComponent<ElectricableObject>();
 
         //제대로 가져와졌다면
