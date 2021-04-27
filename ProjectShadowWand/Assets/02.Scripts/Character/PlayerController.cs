@@ -230,7 +230,7 @@ public class PlayerController : Character
         animator.SetFloat("WindBlend", 0);
         if (stateTextMesh == null)
         {
-            CreateStateTextMesh();
+            //CreateStateTextMesh();
         }
         Init_ContactFilter();
     }
@@ -252,7 +252,7 @@ public class PlayerController : Character
         UpdateChangeState();
         playerStateMachine.Update();
 
-        UpdateStateTextMesh();
+       // UpdateStateTextMesh();
 
     }
     void FixedUpdate()

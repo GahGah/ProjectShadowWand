@@ -24,4 +24,9 @@ public class UIMainMenu : MonoBehaviour
         _ui.Open();
     }
 
+    public void Button_Quit()
+    {
+        Application.Quit();
+    }    
+
 }

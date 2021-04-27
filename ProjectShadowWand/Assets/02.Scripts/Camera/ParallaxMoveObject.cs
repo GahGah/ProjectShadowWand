@@ -10,9 +10,12 @@ public class ParallaxMoveObject : MonoBehaviour
     public Vector3 movementScale = Vector3.one;
     private Transform mainCameraTransform;
 
+    private float originalZ;
+
     void Awake()
     {
         mainCameraTransform = Camera.main.transform;
+        originalZ = transform.position.z;
         //Init();  
     }
 
@@ -22,7 +25,8 @@ public class ParallaxMoveObject : MonoBehaviour
     //}
     void LateUpdate()
     {
-        transform.position = Vector3.Scale(mainCameraTransform.position, movementScale);
+        var tempVector3 = Vector2.Scale(mainCameraTransform.position, movementScale);
+        transform.position = new Vector3(tempVector3.x, tempVector3.y, originalZ);
     }
 
 }

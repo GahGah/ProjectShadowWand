@@ -10,6 +10,10 @@ public class TestSceneChanger : MonoBehaviour
 
     public Image goBlackImage;
 
+    private void Awake()
+    {
+        Screen.SetResolution(1920, 1080, true);
+    }
     private void Start()
     {
         goBlackImage.gameObject.SetActive(false);
@@ -20,6 +24,16 @@ public class TestSceneChanger : MonoBehaviour
     }
 
 
+    private void Update()
+    {
+        if (SceneManager.GetActiveScene().name == "20210425_01")
+        {
+            if (InputManager.Instance.buttonEscape.wasPressedThisFrame)
+            {
+                SceneManager.LoadScene("TestMainScene");
+            }
+        }
+    }
     public void PlayerDie_SceneReload()
     {
         StartCoroutine(ProcessDie());
@@ -45,7 +59,7 @@ public class TestSceneChanger : MonoBehaviour
         {
             timer += Time.deltaTime;
             progress = timer / maxTime;
-            Debug.Log("Progress : "+ progress);
+            Debug.Log("Progress : " + progress);
 
             goBlackImage.color = Color32.Lerp(twoMyeong, black, progress);
             yield return new WaitForEndOfFrame();

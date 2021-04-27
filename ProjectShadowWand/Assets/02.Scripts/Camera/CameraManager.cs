@@ -83,7 +83,7 @@ public class CameraManager : MonoBehaviour
     {
         get
         {
-            if (Instance == null)
+            if (instance == null)
             {
                 instance = FindObjectOfType<CameraManager>();
             }
@@ -92,14 +92,16 @@ public class CameraManager : MonoBehaviour
     }
     private void Awake()
     {
+        if (Instance == null)
+        {
+            instance = this;
+        }
         Init();
     }
 
 
     public void Init()
     {
-        if (instance == null)
-            instance = this;
 
 
         height = currentCamera.orthographicSize;
