@@ -6,19 +6,28 @@ using UnityEngine.InputSystem;
 using UnityEngine.Animations;
 
 public class PlayerController : Character
-{
+{//거리 속도 각도 뺴기
+
 
     readonly Quaternion flippedRotation = new Quaternion(0, 0, 1, 0);
 
-    //[SerializeField] CharacterAudio audioPlayer = null;
 
-    [Header("바람 관련 속도")]
-    [Tooltip("느려지는 속도입니다. 기본 속도에 -계산을 합니다.")]
-    public float windDecreaseSpeed;
-    [Tooltip("빨라지는 속도입니다. 기본 속도에 +계산을 합니다.")]
-    public float windIncreaseSpeed;
-    [Tooltip("기본적으로 밀리는 속도입니다. 기본 속도에 +계산을 합니다.")]
-    public float windSlideSpeed;
+    [Header("활강 관련")]
+
+    [Tooltip("활강하는 각도입니다.")]
+    public float glideAngle;
+
+    [Tooltip("활강하는 속도입니다.")]
+    public float glideSpeed;
+
+    [Tooltip("활강하는 거리입니다.")]
+    public float glideDistance;
+
+    [Space(20)]
+
+
+
+    ////[SerializeField] CharacterAudio audioPlayer = null;
 
     [Header("그 외")]
 
@@ -74,6 +83,7 @@ public class PlayerController : Character
     [HideInInspector] public int animatorClimbBool;
     [HideInInspector] public int animatorPushingBool;
     [HideInInspector] public int animatorLiftingBool;
+    [HideInInspector] public float animatorWindBlend;
 
     //public int animatorFallingBool;
 
@@ -82,17 +92,22 @@ public class PlayerController : Character
 
     [HideInInspector] public float saveMoveInputX;
 
+    [Header("사다리 이동 속도"), Tooltip("사다리 등을 올라가는 속도입니다.")]
+    public float climbSpeed;
 
+
+
+    [Tooltip("UpdateVelocity에서 들어갈 추가적인 힘입니다.")]
+    private Vector2 extraForce;
+
+
+    //상태적인 bool 값들
     [HideInInspector] public bool canMove = true;
-
 
     public bool isDie = false;
 
-    #region 추가된 것
     [Tooltip("캐릭터가 물과 닿았는가")]
     private bool isWater = false;
-
-    [HideInInspector] public float animatorWindBlend;
 
     [Tooltip("캐릭터가 오른쪽을 바라보고 있는가"), SerializeField]
     private bool isRight = false;
@@ -100,11 +115,7 @@ public class PlayerController : Character
     [Tooltip("점프를 해야하는가")]
     private bool shouldJump = false;
 
-    [Tooltip("UpdateVelocity에서 들어갈 추가적인 힘입니다.")]
-    private Vector2 extraForce;
 
-    [Header("사다리 이동 속도"), Tooltip("사다리 등을 올라가는 속도입니다.")]
-    public float climbSpeed;
 
     [Tooltip("사다리에 닿은 상태로 상하키 입력을 했는가를 뜻합니다.")]
     [HideInInspector] public bool inLadder = false;
@@ -117,6 +128,19 @@ public class PlayerController : Character
 
     [Tooltip("사다리를 오르고 있는 상태인가를 뜻합니다.")]
     [HideInInspector] public bool isClimbLadder = false;
+
+    [Tooltip("미는 중인가?")]
+    public bool isPushing = false;
+
+    [Tooltip("물건을 잡았나?")]
+    public bool isCatching = false;
+
+    [Tooltip("활강 중인가?")]
+    public bool isGliding;
+    #region 추가된 것
+
+
+
 
     [Tooltip("현재 타고있는 사다리의 위치.")]
     [HideInInspector] public Vector2 ladderPosition = Vector2.zero;
@@ -140,11 +164,7 @@ public class PlayerController : Character
     [HideInInspector] public bool isInputPushKey = false;
 
 
-    [Tooltip("미는 중인가?")]
-    public bool isPushing = false;
 
-    [Tooltip("물건을 잡았나?")]
-    public bool isCatching = false;
 
     [Header("밀기/잡기 시 손의 위치"), Space(10)]
     public GameObject handPosition_Push;
@@ -159,7 +179,6 @@ public class PlayerController : Character
 
     [HideInInspector] public Rigidbody2D catchBody;
 
-    public bool isWinding;
 
     public eWindDirection windDirection;
 
@@ -252,7 +271,7 @@ public class PlayerController : Character
         UpdateChangeState();
         playerStateMachine.Update();
 
-       // UpdateStateTextMesh();
+        // UpdateStateTextMesh();
 
     }
     void FixedUpdate()
@@ -345,7 +364,7 @@ public class PlayerController : Character
                 }
             }
         }
-      
+
 
     }
 
@@ -495,77 +514,10 @@ public class PlayerController : Character
 
     }
 
-    public void CheckPushInput(PushableObject _obj)
-    {
-        if (CanMove())
-        {
-            var tempObj = _obj;
-
-            if (InputManager.Instance.buttonPush.wasPressedThisFrame)// 키 누르기
-            {
-                if (pushedObject == null) //밀어야 할 경우
-                {
-                    if (touchedObject != null)
-                    {
-                        SetPushedObject(tempObj);
-
-                        if (pushedObject != null)
-                        {
-                            pushedObject.GoPushReady();
-                        }
-                    }
-                }
-            }
-
-            if (InputManager.Instance.buttonPush.wasReleasedThisFrame) // 키 떼기
-            {
-                if (pushedObject != null)
-                {
-                    pushedObject.GoPutThis();
-                    pushedObject = null;
-                }
-            }
-            if (InputManager.Instance.buttonPush.isPressed) //키 계속 누르기 
-            {
-                if (pushedObject == null) //밀어야 할 경우
-                {
-                    if (touchedObject != null)
-                    {
-                        SetPushedObject(tempObj);
-
-                        if (pushedObject != null)
-                        {
-                            pushedObject.GoPushReady();
-
-                        }
-                    }
-                }
-                else
-                {
-                    pushedObject.GoPushThis();
-                }
-            }
-
-        }
-
-
-    }
-
-
-
-    public void SetPushedObject(PushableObject _po)
-    {
-        pushedObject = _po;
-    }
 
     public void SetCatchedObject(CatchableObject _co)
     {
         catchedObject = _co;
-    }
-
-    public PushableObject GetPushedObject()
-    {
-        return pushedObject;
     }
 
     public CatchableObject GetCatchedObject()
@@ -635,7 +587,7 @@ public class PlayerController : Character
             }
 
             ChangeState(eState.PLAYER_CLIMB_LADDER); // 사다리상태로 변경
-        
+
         }
         else if (isPushing)
         {

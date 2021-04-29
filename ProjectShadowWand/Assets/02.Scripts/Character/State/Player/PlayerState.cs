@@ -119,6 +119,34 @@ public class PlayerState_Jump : PlayerState
     }
 }
 
+
+public class PlayerState_Glide : PlayerState
+{
+    public PlayerState_Glide(PlayerController _p)
+    {
+        player = _p;
+    }
+
+    public override void Enter()
+    {
+    }
+
+    public override void Execute()
+    {
+    }
+
+    public override void Exit()
+    {
+    }
+
+    public override void HandleInput()
+    {
+    }
+
+    public override void PhysicsExecute()
+    {
+    }
+}
 public class PlayerState_Air : PlayerState
 {
     public PlayerState_Air(PlayerController _p)
@@ -152,67 +180,6 @@ public class PlayerState_Air : PlayerState
     public override void HandleInput() { }
 }
 
-public class PlayerState_Push : PlayerState
-{
-    private float animatorSpeed;
-    public PlayerState_Push(PlayerController _p)
-    {
-        player = _p;
-        animatorSpeed = 1f;
-    }
-    public override void Enter()
-    {
-        ResetAnimatorSpeed();
-        player.animator.SetBool(player.animatorPushingBool, true);
-    }
-    public override void Execute()
-    {
-        player.animator.SetBool(player.animatorPushingBool, true);
-
-        //if ((InputManager.Instance.buttonMoveRight.isPressed && Mathf.Abs(player.playerRigidbody.velocity.x) > 0f))
-        //{
-
-        //    //player.animator.SetBool(player.animatorWalkingBool, true);
-        //}
-        //else
-        //{
-        //    player.animator.SetBool(player.animatorWalkingBool, false);
-        //}
-
-        //이전 위치와 현재 위치가 다를 경우 
-        if (player.prevPosition != player.playerRigidbody.position)
-        {
-            if (player.animator.speed != animatorSpeed)
-            {
-                player.animator.speed = animatorSpeed;
-
-            }
-
-        }
-        else
-        {
-            if (player.animator.speed != 0f)
-            {
-                player.animator.speed = 0f;
-            }
-
-        }
-
-    }
-
-    public override void PhysicsExecute()
-    {
-
-
-    }
-    public override void Exit()
-    {
-        Log("Exit Ladder");
-        ResetAnimatorSpeed();
-        player.animator.SetBool(player.animatorPushingBool, false);
-        // player.animator.SetBool(player.animatorClimbBool, false);
-    }
-}
 
 public class PlayerState_Lift : PlayerState
 {
@@ -352,4 +319,139 @@ public class PlayerState_Die : PlayerState
     {
 
     }
+}
+public class PlayerState_Push : PlayerState
+{
+    private float animatorSpeed;
+    public PlayerState_Push(PlayerController _p)
+    {
+        player = _p;
+        animatorSpeed = 1f;
+    }
+    public override void Enter()
+    {
+        ResetAnimatorSpeed();
+        player.animator.SetBool(player.animatorPushingBool, true);
+    }
+    public override void Execute()
+    {
+        player.animator.SetBool(player.animatorPushingBool, true);
+
+        //if ((InputManager.Instance.buttonMoveRight.isPressed && Mathf.Abs(player.playerRigidbody.velocity.x) > 0f))
+        //{
+
+        //    //player.animator.SetBool(player.animatorWalkingBool, true);
+        //}
+        //else
+        //{
+        //    player.animator.SetBool(player.animatorWalkingBool, false);
+        //}
+
+        //이전 위치와 현재 위치가 다를 경우 
+        if (player.prevPosition != player.playerRigidbody.position)
+        {
+            if (player.animator.speed != animatorSpeed)
+            {
+                player.animator.speed = animatorSpeed;
+
+            }
+
+        }
+        else
+        {
+            if (player.animator.speed != 0f)
+            {
+                player.animator.speed = 0f;
+            }
+
+        }
+
+
+
+
+
+    }
+
+    public override void PhysicsExecute()
+    {
+
+
+    }
+    public override void Exit()
+    {
+        Log("Exit Ladder");
+        ResetAnimatorSpeed();
+        player.animator.SetBool(player.animatorPushingBool, false);
+        // player.animator.SetBool(player.animatorClimbBool, false);
+    }
+
+    //플레이어에 들어갔던 푸시 관련 함수들...
+    //public void CheckPushInput(PushableObject _obj)
+    //{
+    //    if (CanMove())
+    //    {
+    //        var tempObj = _obj;
+
+    //        if (InputManager.Instance.buttonPush.wasPressedThisFrame)// 키 누르기
+    //        {
+    //            if (pushedObject == null) //밀어야 할 경우
+    //            {
+    //                if (touchedObject != null)
+    //                {
+    //                    SetPushedObject(tempObj);
+
+    //                    if (pushedObject != null)
+    //                    {
+    //                        pushedObject.GoPushReady();
+    //                    }
+    //                }
+    //            }
+    //        }
+
+    //        if (InputManager.Instance.buttonPush.wasReleasedThisFrame) // 키 떼기
+    //        {
+    //            if (pushedObject != null)
+    //            {
+    //                pushedObject.GoPutThis();
+    //                pushedObject = null;
+    //            }
+    //        }
+    //        if (InputManager.Instance.buttonPush.isPressed) //키 계속 누르기 
+    //        {
+    //            if (pushedObject == null) //밀어야 할 경우
+    //            {
+    //                if (touchedObject != null)
+    //                {
+    //                    SetPushedObject(tempObj);
+
+    //                    if (pushedObject != null)
+    //                    {
+    //                        pushedObject.GoPushReady();
+
+    //                    }
+    //                }
+    //            }
+    //            else
+    //            {
+    //                pushedObject.GoPushThis();
+    //            }
+    //        }
+
+    //    }
+
+
+    //}
+
+
+
+    //public void SetPushedObject(PushableObject _po)
+    //{
+    //    pushedObject = _po;
+    //}
+    //public PushableObject GetPushedObject()
+    //{
+    //    return pushedObject;
+    //}
+
+
 }
