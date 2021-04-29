@@ -29,6 +29,7 @@ public enum eState // 상태를 정의해놓습니다.
     PLAYER_DIE,
    // PLAYER_PUSH,
     PLAYER_CATCH,
+    NONE,
 
 }
 

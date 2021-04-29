@@ -7,6 +7,7 @@ public class PlayerStateMachine : StateMachine
     public PlayerStateMachine(PlayerController _player)
     {
         player = _player;
+        prevStateE = eState.NONE;
     }
     public void Start()
     {

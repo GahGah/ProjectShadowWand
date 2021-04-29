@@ -653,7 +653,6 @@ public class PlayerController : Character
             }
 
             ChangeState(eState.PLAYER_CLIMB_LADDER); // 사다리상태로 변경
-
         }
         else if (isPushing)
         {
@@ -693,7 +692,10 @@ public class PlayerController : Character
     }
     private void ChangeState(eState _state)
     {
-        playerStateMachine.ChangeState(_state);
+        if (playerStateMachine.GetCurrentStateE() != _state)
+        {
+            playerStateMachine.ChangeState(_state);
+        }
     }
 
     /// <summary>
@@ -857,20 +859,20 @@ public class PlayerController : Character
             isFlipped = false;
             puppet.localScale = Vector3.one;
 
-            if (flipFX.activeSelf == false)
-            {
-                flipFX.SetActive(true);
-            }
+            //if (flipFX.activeSelf == false)
+            //{
+            //    flipFX.SetActive(true);
+            //}
         }
         else if (InputManager.Instance.buttonMoveLeft.isPressed && playerRigidbody.velocity.x < -minFlipSpeed && !isFlipped)
         {
             isFlipped = true;
             puppet.localScale = flippedScale;
-            if (flipFX.activeSelf == false)
-            {
-                flipFX.SetActive(true);
+            //if (flipFX.activeSelf == false)
+            //{
+            //    flipFX.SetActive(true);
 
-            }
+            //}
         }
 
     }

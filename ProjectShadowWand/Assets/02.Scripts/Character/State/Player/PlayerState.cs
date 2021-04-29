@@ -19,7 +19,16 @@ public class PlayerState_Default : PlayerState
     }
     public override void Enter()
     {
-        player.landedFX.SetActive(true);
+        eState tempState = player.playerStateMachine.GetPrevStateE();
+        if (tempState != eState.PLAYER_GLIDE)
+        {
+            player.landedFX.SetActive(true);
+        }
+        else if (tempState != eState.NONE)
+        {
+            player.flipFX.SetActive(true);
+        }
+
 
         Log("Enter Default");
         ResetAnimatorSpeed();
@@ -297,7 +306,7 @@ public class PlayerState_Die : PlayerState
     public override void Enter()
     {
         ResetAnimatorSpeed();
-        player.animator.SetBool(player.animatorDieBool,true);
+        player.animator.SetBool(player.animatorDieBool, true);
         player.testSceneChanger.PlayerDie_SceneReload();
     }
     public override void Execute()
