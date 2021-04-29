@@ -42,8 +42,8 @@ public class PlayerStateMachine : StateMachine
                 tempState = new PlayerState_Catch(player);
                 break;
 
-            case eState.PLAYER_AIR:
-                tempState = new PlayerState_Air(player);
+            case eState.PLAYER_FALL:
+                tempState = new PlayerState_Fall(player);
                 break;
 
             case eState.PLAYER_DIE:

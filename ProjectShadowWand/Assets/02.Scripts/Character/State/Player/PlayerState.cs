@@ -19,6 +19,8 @@ public class PlayerState_Default : PlayerState
     }
     public override void Enter()
     {
+        player.landedFX.SetActive(true);
+
         Log("Enter Default");
         ResetAnimatorSpeed();
         if ((InputManager.Instance.buttonMoveRight.isPressed || InputManager.Instance.buttonMoveLeft.isPressed) && Mathf.Abs(player.playerRigidbody.velocity.x) > 0f)
@@ -110,7 +112,7 @@ public class PlayerState_Jump : PlayerState
     }
     public override void Exit()
     {
-        player.landedFX.SetActive(true);
+
     }
 
     public override void HandleInput()
@@ -147,9 +149,9 @@ public class PlayerState_Glide : PlayerState
     {
     }
 }
-public class PlayerState_Air : PlayerState
+public class PlayerState_Fall : PlayerState
 {
-    public PlayerState_Air(PlayerController _p)
+    public PlayerState_Fall(PlayerController _p)
     {
         player = _p;
     }

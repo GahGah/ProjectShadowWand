@@ -4,15 +4,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Animations;
+using UnityEngine.UI;
 
 public class PlayerController : Character
 {//거리 속도 각도 뺴기
 
+    #region 변수들
+    public Image glideGauge;
     [Tooltip("디버그모드입니다.")]
     public bool isDebug;
     readonly Quaternion flippedRotation = new Quaternion(0, 0, 1, 0);
 
     public GameObject landedFX;
+    private IEnumerator GlideCoroutine;
 
     [Header("활강 관련")]
 
@@ -24,6 +28,7 @@ public class PlayerController : Character
 
     [Tooltip("활강할 수 있는 시간입니다.")]
     public float glideTime;
+    private float currentGlideTIme;
 
     ////[SerializeField] CharacterAudio audioPlayer = null;
 
@@ -68,13 +73,6 @@ public class PlayerController : Character
 
     [HideInInspector] public bool jumpInput;
 
-    [HideInInspector] public bool isJumping;
-
-    //[HideInInspector] 
-    public bool isGrounded;
-
-    public bool isFalling;
-
     [HideInInspector] public int animatorDieBool;
     [HideInInspector] public int animatorGroundedBool;
     [HideInInspector] public int animatorWalkingBool;
@@ -104,7 +102,17 @@ public class PlayerController : Character
     //상태적인 bool 값들
     [HideInInspector] public bool canMove = true;
 
+    [HideInInspector] public bool isJumping;
+
+    //[HideInInspector] 
+    public bool isGrounded;
+
+    public bool isFalling;
+
     public bool isDie = false;
+
+    [Tooltip("활강상태로 진입할 수 있는지 여부입니다.")]
+    public bool canGliding = false;
 
     [Tooltip("캐릭터가 물과 닿았는가")]
     private bool isWater = false;
@@ -114,8 +122,6 @@ public class PlayerController : Character
 
     [Tooltip("점프를 해야하는가")]
     private bool shouldJump = false;
-
-
 
     [Tooltip("사다리에 닿은 상태로 상하키 입력을 했는가를 뜻합니다.")]
     [HideInInspector] public bool inLadder = false;
@@ -185,6 +191,8 @@ public class PlayerController : Character
     public TestSceneChanger testSceneChanger;
     #endregion
 
+    #endregion
+
 
     private static PlayerController instance;
     public static PlayerController Instance
@@ -205,6 +213,7 @@ public class PlayerController : Character
             instance = this;
         }
         Init();
+        GlideCoroutine = ProcessGlideTimer();
     }
     private void Start()
     {
@@ -293,6 +302,7 @@ public class PlayerController : Character
         GroundCheck();
         UpdateMoveVelocity();
         UpdateJumpVelocity();
+        UpdateCanGlide();
         UpdateGravityScale();
         UpdateDirection();
 
@@ -301,7 +311,7 @@ public class PlayerController : Character
     }
 
     //TEST
-    #region 이동, 점프, 사다리
+    #region 이동, 점프, 사다리, 활강
     private void CheckMoveInput()
     {
         //무브먼트 인풋을 0으로 초기화
@@ -331,9 +341,10 @@ public class PlayerController : Character
 
     }
 
+    #region 활강
     private void CheckGlideInput()
     {
-        if (CanMove() && isJumping)
+        if (CanMove() && canGliding && (isFalling || isJumping))
         {
             if (InputManager.Instance.buttonMoveJump.wasPressedThisFrame)
             {
@@ -343,13 +354,54 @@ public class PlayerController : Character
             if (InputManager.Instance.buttonMoveJump.wasReleasedThisFrame)
             {
                 isGliding = false;
+                glideGauge.fillAmount = 0f;
+                if (GlideCoroutine != null)
+                {
+                    StopCoroutine(GlideCoroutine);
+                    GlideCoroutine = null;
+                }
             }
         }
         else
         {
-            isGliding = false;
+            if (InputManager.Instance.buttonMoveJump.isPressed == false)
+            {
+                isGliding = false;
+                glideGauge.fillAmount = 0f;
+                if (GlideCoroutine != null)
+                {
+                    StopCoroutine(GlideCoroutine);
+                    GlideCoroutine = null;
+                }
+
+            }
         }
     }
+
+    private void UpdateCanGlide()
+    {
+        if (isGliding == true && canGliding == true)
+        {
+            canGliding = false;
+        }
+    }
+
+    private IEnumerator ProcessGlideTimer()
+    {
+        float one = 1f;
+        float timer = 0f;
+        glideGauge.fillAmount = 1f;
+
+        while (timer < glideTime)
+        {
+            glideGauge.fillAmount = one - timer / glideTime;
+            timer += Time.deltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+        glideGauge.fillAmount = 0f;
+        isGliding = false;
+    }
+    #endregion
     private void CheckLadderInput()
     {
         if (CanMove())
@@ -538,6 +590,7 @@ public class PlayerController : Character
             else
             {
                 isGrounded = true;
+                GroundGlide();
                 isJumping = false;
 
                 animator.SetBool(animatorGroundedBool, isGrounded);
@@ -548,6 +601,8 @@ public class PlayerController : Character
         else if (isWater == true) // 아니면 물 속?
         {
             isGrounded = true;
+
+            GroundGlide();
             isJumping = false;
 
             animator.SetBool(animatorGroundedBool, isGrounded);
@@ -559,6 +614,17 @@ public class PlayerController : Character
         }
     }
 
+    private void GroundGlide()
+    {
+        glideGauge.fillAmount = 0f;
+        isGliding = false;
+        canGliding = true;
+        if (GlideCoroutine != null)
+        {
+            StopCoroutine(GlideCoroutine);
+            GlideCoroutine = null;
+        }
+    }
     private void CheckFalling()
     {
         if (playerRigidbody.velocity.y < 0.5 && isGrounded == false)
@@ -600,13 +666,24 @@ public class PlayerController : Character
         {
             ChangeState(eState.PLAYER_DEFAULT);
         }
+        else if (isFalling && !isGliding)
+        {
+            ChangeState(eState.PLAYER_FALL);
+        }
         else if (!isGrounded && isJumping && !isGliding)
         {
             ChangeState(eState.PLAYER_JUMP);
         }
         else if (isGliding)
         {
-            ChangeState(eState.PLAYER_GLIDE);
+
+            if (playerStateMachine.GetCurrentStateE() != eState.PLAYER_GLIDE)
+            {
+                ChangeState(eState.PLAYER_GLIDE);
+                GlideCoroutine = ProcessGlideTimer();
+                StartCoroutine(GlideCoroutine);
+            }
+
         }
         else if (!inLadder && !isGrounded && !onLadder)
         {
@@ -642,6 +719,10 @@ public class PlayerController : Character
             if (movementInput != Vector2.zero)
             {
                 playerRigidbody.velocity = dir * glideSpeed;
+            }
+            else
+            {
+                playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, -glideSpeed * 0.3f);
             }
 
 
@@ -844,14 +925,6 @@ public class PlayerController : Character
         isWater = _isWater;
     }
 
-    /// <summary>
-    /// 이동키 입력 등을 체크
-    /// </summary>
-    private void CheckInput()
-    {
-
-
-    }
     private void UpdateGroundCheck()
     {
         if (playerCollider.IsTouching(contactFilter_Ground))

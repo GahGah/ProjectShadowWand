@@ -24,7 +24,7 @@ public enum eState // 상태를 정의해놓습니다.
     PLAYER_DEFAULT,
     PLAYER_JUMP,
     PLAYER_CLIMB_LADDER,
-    PLAYER_AIR,
+    PLAYER_FALL,
     PLAYER_GLIDE,
     PLAYER_DIE,
    // PLAYER_PUSH,
