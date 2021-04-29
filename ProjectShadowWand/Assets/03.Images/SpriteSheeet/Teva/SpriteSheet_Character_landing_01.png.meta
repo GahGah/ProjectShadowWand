@@ -1,19 +1,16 @@
 fileFormatVersion: 2
-guid: a4a27926ebc30c64b8bdc8e2b3434253
+guid: 7d945e47762f3b24c982d16c45f5dd33
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7646371375673794332
-    second: SpriteSheet_Character_Idle_01_0
+      213: 2582134016326156129
+    second: SpriteSheet_Character_landing_01_0
   - first:
-      213: 9175555679781910765
-    second: SpriteSheet_Character_Idle_01_1
+      213: 7592199232674269533
+    second: SpriteSheet_Character_landing_01_1
   - first:
-      213: -342902387799685159
-    second: SpriteSheet_Character_Idle_01_2
-  - first:
-      213: -3055583128737286723
-    second: SpriteSheet_Character_Idle_01_3
+      213: -2025795257010357841
+    second: SpriteSheet_Character_landing_01_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -103,85 +100,64 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SpriteSheet_Character_Idle_01_0
+      name: SpriteSheet_Character_landing_01_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 14
         y: 0
-        width: 130
+        width: 96
         height: 130
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c1f50c3014e5d1a60800000000000000
-      internalID: 7646371375673794332
+      spriteID: 16fb295053595d320800000000000000
+      internalID: 2582134016326156129
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_Character_Idle_01_1
+      name: SpriteSheet_Character_landing_01_1
       rect:
         serializedVersion: 2
-        x: 130
+        x: 142
         y: 0
-        width: 130
+        width: 97
         height: 130
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: de8f73ec64f165f70800000000000000
-      internalID: 9175555679781910765
+      spriteID: d590b871af8ec5960800000000000000
+      internalID: 7592199232674269533
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_Character_Idle_01_2
+      name: SpriteSheet_Character_landing_01_2
       rect:
         serializedVersion: 2
-        x: 260
+        x: 272
         y: 0
-        width: 130
+        width: 99
         height: 130
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9d701965814cd3bf0800000000000000
-      internalID: -342902387799685159
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SpriteSheet_Character_Idle_01_3
-      rect:
-        serializedVersion: 2
-        x: 390
-        y: 0
-        width: 130
-        height: 130
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: db5ffe565536895d0800000000000000
-      internalID: -3055583128737286723
+      spriteID: fa9f93662fde2e3e0800000000000000
+      internalID: -2025795257010357841
       vertices: []
       indices: 
       edges: []
