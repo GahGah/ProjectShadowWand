@@ -35,12 +35,11 @@ public class PlayerStateMachine : StateMachine
                 tempState = new PlayerState_Climb_Ladder(player);
                 break;
 
-            case eState.PLAYER_PUSH:
-                tempState = new PlayerState_Push(player);
+            case eState.PLAYER_GLIDE:
+                tempState = new PlayerState_Glide(player);
                 break;
-
-            case eState.PLAYER_LIFT:
-                tempState = new PlayerState_Lift(player);
+            case eState.PLAYER_CATCH:
+                tempState = new PlayerState_Catch(player);
                 break;
 
             case eState.PLAYER_AIR:
@@ -50,6 +49,10 @@ public class PlayerStateMachine : StateMachine
             case eState.PLAYER_DIE:
                 tempState = new PlayerState_Die(player);
                 break;
+
+            //case eState.PLAYER_PUSH:
+            //    tempState = new PlayerState_Push(player);
+            //    break;
 
             default:
                 break;

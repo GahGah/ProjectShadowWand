@@ -110,7 +110,7 @@ public class PlayerState_Jump : PlayerState
     }
     public override void Exit()
     {
-        Log("Exit Jump");
+        player.landedFX.SetActive(true);
     }
 
     public override void HandleInput()
@@ -181,10 +181,10 @@ public class PlayerState_Air : PlayerState
 }
 
 
-public class PlayerState_Lift : PlayerState
+public class PlayerState_Catch : PlayerState
 {
     private float animatorSpeed;
-    public PlayerState_Lift(PlayerController _p)
+    public PlayerState_Catch(PlayerController _p)
     {
         player = _p;
         animatorSpeed = 1f;
@@ -192,11 +192,11 @@ public class PlayerState_Lift : PlayerState
     public override void Enter()
     {
         ResetAnimatorSpeed();
-        player.animator.SetBool(player.animatorLiftingBool, true);
+        player.animator.SetBool(player.animatorCatchingBool, true);
     }
     public override void Execute()
     {
-        player.animator.SetBool(player.animatorLiftingBool, true);
+        player.animator.SetBool(player.animatorCatchingBool, true);
 
         if (player.prevPosition != player.playerRigidbody.position)
         {
@@ -224,7 +224,7 @@ public class PlayerState_Lift : PlayerState
     public override void Exit()
     {
         ResetAnimatorSpeed();
-        player.animator.SetBool(player.animatorLiftingBool, false);
+        player.animator.SetBool(player.animatorCatchingBool, false);
     }
 }
 
@@ -241,13 +241,13 @@ public class PlayerState_Climb_Ladder : PlayerState
     {
         Log("Enter Ladder");
         ResetAnimatorSpeed();
-        player.animator.SetBool(player.animatorClimbBool, true);
+        player.animator.SetBool(player.animatorClimbingBool, true);
         player.animator.SetBool(player.animatorWalkingBool, false);
 
     }
     public override void Execute()
     {
-        player.animator.SetBool(player.animatorClimbBool, true);
+        player.animator.SetBool(player.animatorClimbingBool, true);
         //이전 위치와 현재 위치가 다를 경우 
         if (player.prevPosition != player.playerRigidbody.position)
         {
@@ -275,7 +275,7 @@ public class PlayerState_Climb_Ladder : PlayerState
     {
         Log("Exit Ladder");
         ResetAnimatorSpeed();
-        player.animator.SetBool(player.animatorClimbBool, false);
+        player.animator.SetBool(player.animatorClimbingBool, false);
     }
 
     public override void HandleInput() { }
@@ -320,138 +320,178 @@ public class PlayerState_Die : PlayerState
 
     }
 }
-public class PlayerState_Push : PlayerState
-{
-    private float animatorSpeed;
-    public PlayerState_Push(PlayerController _p)
-    {
-        player = _p;
-        animatorSpeed = 1f;
-    }
-    public override void Enter()
-    {
-        ResetAnimatorSpeed();
-        player.animator.SetBool(player.animatorPushingBool, true);
-    }
-    public override void Execute()
-    {
-        player.animator.SetBool(player.animatorPushingBool, true);
 
-        //if ((InputManager.Instance.buttonMoveRight.isPressed && Mathf.Abs(player.playerRigidbody.velocity.x) > 0f))
-        //{
+//public class PlayerState_Push : PlayerState
+//{
+//    private float animatorSpeed;
+//    public PlayerState_Push(PlayerController _p)
+//    {
+//        player = _p;
+//        animatorSpeed = 1f;
+//    }
+//    public override void Enter()
+//    {
+//        ResetAnimatorSpeed();
+//        player.animator.SetBool(player.animatorPushingBool, true);
+//    }
+//    public override void Execute()
+//    {
+//        player.animator.SetBool(player.animatorPushingBool, true);
 
-        //    //player.animator.SetBool(player.animatorWalkingBool, true);
-        //}
-        //else
-        //{
-        //    player.animator.SetBool(player.animatorWalkingBool, false);
-        //}
+//        //if ((InputManager.Instance.buttonMoveRight.isPressed && Mathf.Abs(player.playerRigidbody.velocity.x) > 0f))
+//        //{
 
-        //이전 위치와 현재 위치가 다를 경우 
-        if (player.prevPosition != player.playerRigidbody.position)
-        {
-            if (player.animator.speed != animatorSpeed)
-            {
-                player.animator.speed = animatorSpeed;
+//        //    //player.animator.SetBool(player.animatorWalkingBool, true);
+//        //}
+//        //else
+//        //{
+//        //    player.animator.SetBool(player.animatorWalkingBool, false);
+//        //}
 
-            }
+//        //이전 위치와 현재 위치가 다를 경우 
+//        if (player.prevPosition != player.playerRigidbody.position)
+//        {
+//            if (player.animator.speed != animatorSpeed)
+//            {
+//                player.animator.speed = animatorSpeed;
 
-        }
-        else
-        {
-            if (player.animator.speed != 0f)
-            {
-                player.animator.speed = 0f;
-            }
+//            }
 
-        }
+//        }
+//        else
+//        {
+//            if (player.animator.speed != 0f)
+//            {
+//                player.animator.speed = 0f;
+//            }
 
-
-
-
-
-    }
-
-    public override void PhysicsExecute()
-    {
-
-
-    }
-    public override void Exit()
-    {
-        Log("Exit Ladder");
-        ResetAnimatorSpeed();
-        player.animator.SetBool(player.animatorPushingBool, false);
-        // player.animator.SetBool(player.animatorClimbBool, false);
-    }
-
-    //플레이어에 들어갔던 푸시 관련 함수들...
-    //public void CheckPushInput(PushableObject _obj)
-    //{
-    //    if (CanMove())
-    //    {
-    //        var tempObj = _obj;
-
-    //        if (InputManager.Instance.buttonPush.wasPressedThisFrame)// 키 누르기
-    //        {
-    //            if (pushedObject == null) //밀어야 할 경우
-    //            {
-    //                if (touchedObject != null)
-    //                {
-    //                    SetPushedObject(tempObj);
-
-    //                    if (pushedObject != null)
-    //                    {
-    //                        pushedObject.GoPushReady();
-    //                    }
-    //                }
-    //            }
-    //        }
-
-    //        if (InputManager.Instance.buttonPush.wasReleasedThisFrame) // 키 떼기
-    //        {
-    //            if (pushedObject != null)
-    //            {
-    //                pushedObject.GoPutThis();
-    //                pushedObject = null;
-    //            }
-    //        }
-    //        if (InputManager.Instance.buttonPush.isPressed) //키 계속 누르기 
-    //        {
-    //            if (pushedObject == null) //밀어야 할 경우
-    //            {
-    //                if (touchedObject != null)
-    //                {
-    //                    SetPushedObject(tempObj);
-
-    //                    if (pushedObject != null)
-    //                    {
-    //                        pushedObject.GoPushReady();
-
-    //                    }
-    //                }
-    //            }
-    //            else
-    //            {
-    //                pushedObject.GoPushThis();
-    //            }
-    //        }
-
-    //    }
-
-
-    //}
+//        }
 
 
 
-    //public void SetPushedObject(PushableObject _po)
-    //{
-    //    pushedObject = _po;
-    //}
-    //public PushableObject GetPushedObject()
-    //{
-    //    return pushedObject;
-    //}
 
 
-}
+//    }
+
+//    public override void PhysicsExecute()
+//    {
+
+
+//    }
+//    public override void Exit()
+//    {
+//        Log("Exit Ladder");
+//        ResetAnimatorSpeed();
+//        player.animator.SetBool(player.animatorPushingBool, false);
+//        // player.animator.SetBool(player.animatorClimbBool, false);
+//    }
+
+//    //플레이어에 들어갔던 푸시 관련 함수들...
+//    //public void CheckPushInput(PushableObject _obj)
+//    //{
+//    //    if (CanMove())
+//    //    {
+//    //        var tempObj = _obj;
+
+//    //        if (InputManager.Instance.buttonPush.wasPressedThisFrame)// 키 누르기
+//    //        {
+//    //            if (pushedObject == null) //밀어야 할 경우
+//    //            {
+//    //                if (touchedObject != null)
+//    //                {
+//    //                    SetPushedObject(tempObj);
+
+//    //                    if (pushedObject != null)
+//    //                    {
+//    //                        pushedObject.GoPushReady();
+//    //                    }
+//    //                }
+//    //            }
+//    //        }
+
+//    //        if (InputManager.Instance.buttonPush.wasReleasedThisFrame) // 키 떼기
+//    //        {
+//    //            if (pushedObject != null)
+//    //            {
+//    //                pushedObject.GoPutThis();
+//    //                pushedObject = null;
+//    //            }
+//    //        }
+//    //        if (InputManager.Instance.buttonPush.isPressed) //키 계속 누르기 
+//    //        {
+//    //            if (pushedObject == null) //밀어야 할 경우
+//    //            {
+//    //                if (touchedObject != null)
+//    //                {
+//    //                    SetPushedObject(tempObj);
+
+//    //                    if (pushedObject != null)
+//    //                    {
+//    //                        pushedObject.GoPushReady();
+
+//    //                    }
+//    //                }
+//    //            }
+//    //            else
+//    //            {
+//    //                pushedObject.GoPushThis();
+//    //            }
+//    //        }
+
+//    //    }
+
+
+//    //}
+
+
+
+//    //public void SetPushedObject(PushableObject _po)
+//    //{
+//    //    pushedObject = _po;
+//    //}
+//    //public PushableObject GetPushedObject()
+//    //{
+//    //    return pushedObject;
+//    //}
+
+
+//if (pushedObject != null)//뭔가 밀고 있는 오브젝트가 있을 때
+//{
+
+//    isPushing = true;
+//    var tempVelo = pushedObject.rigidBody.velocity;
+//    var testSpeed = movementSpeed;
+//    if (isRight)
+//    {
+//        if (movementInput == Vector2.left)
+//        {
+//            pushedObject.rigidBody.velocity = Vector2.zero;
+//            tempVelo += Vector2.left;
+
+//            var vec = new Vector2(Mathf.Clamp(tempVelo.x, -testSpeed, testSpeed), Mathf.Clamp(tempVelo.y, -testSpeed, testSpeed));
+//            pushedObject.rigidBody.velocity += vec;
+//            //pushedObject.rigidBody.velocity = playerRigidbody.velocity;
+//        }
+//    }
+//    else
+//    {
+//        if (movementInput == Vector2.right)
+//        {
+//            //  pushedObject.rigidBody.velocity += (Vector2.right);;
+//            pushedObject.rigidBody.velocity = Vector2.zero;
+//            tempVelo += Vector2.right;
+
+//            var vec = new Vector2(Mathf.Clamp(tempVelo.x, -testSpeed, testSpeed), Mathf.Clamp(tempVelo.y, -testSpeed, testSpeed));
+//            pushedObject.rigidBody.velocity += vec;
+//            //pushedObject.rigidBody.velocity = playerRigidbody.velocity;
+//        }
+//    }
+
+//}
+//else
+//{
+//    isPushing = false;
+//}
+
+
+//}

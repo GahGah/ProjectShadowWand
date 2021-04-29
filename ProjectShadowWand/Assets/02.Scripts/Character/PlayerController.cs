@@ -8,24 +8,22 @@ using UnityEngine.Animations;
 public class PlayerController : Character
 {//거리 속도 각도 뺴기
 
-
+    [Tooltip("디버그모드입니다.")]
+    public bool isDebug;
     readonly Quaternion flippedRotation = new Quaternion(0, 0, 1, 0);
 
+    public GameObject landedFX;
 
     [Header("활강 관련")]
 
     [Tooltip("활강하는 각도입니다.")]
     public float glideAngle;
-
+    private float currentGlideAngle;
     [Tooltip("활강하는 속도입니다.")]
     public float glideSpeed;
 
-    [Tooltip("활강하는 거리입니다.")]
-    public float glideDistance;
-
-    [Space(20)]
-
-
+    [Tooltip("활강할 수 있는 시간입니다.")]
+    public float glideTime;
 
     ////[SerializeField] CharacterAudio audioPlayer = null;
 
@@ -72,19 +70,21 @@ public class PlayerController : Character
 
     [HideInInspector] public bool isJumping;
 
-    [HideInInspector] public bool isGrounded;
+    //[HideInInspector] 
+    public bool isGrounded;
 
-    [HideInInspector] public bool isFalling;
+    public bool isFalling;
 
     [HideInInspector] public int animatorDieBool;
     [HideInInspector] public int animatorGroundedBool;
     [HideInInspector] public int animatorWalkingBool;
     [HideInInspector] public int animatorJumpTrigger;
-    [HideInInspector] public int animatorClimbBool;
-    [HideInInspector] public int animatorPushingBool;
-    [HideInInspector] public int animatorLiftingBool;
-    [HideInInspector] public float animatorWindBlend;
+    [HideInInspector] public int animatorClimbingBool;
+    [HideInInspector] public int animatorCatchingBool;
+    [HideInInspector] public float animatorIdleBlend;
+    [HideInInspector] public float animatorCatchBlend;
 
+    // [HideInInspector] public int animatorPushingBool;
     //public int animatorFallingBool;
 
     [HideInInspector] public PlayerStateMachine playerStateMachine;
@@ -154,26 +154,26 @@ public class PlayerController : Character
     private Joint2D currentCatchJoint = null;
 
 
-    [Header("밀기 시 이동속도")]
-    public float pushMoveSpeed;
+    // [Header("밀기 시 이동속도")]
+    // public float pushMoveSpeed;
 
     [Tooltip("잡기 키를 눌렀는가?")]
     [HideInInspector] public bool isInputCatchKey = false;
 
-    [Tooltip("밀기 키를 눌렀는가?")]
-    [HideInInspector] public bool isInputPushKey = false;
+    // [Tooltip("밀기 키를 눌렀는가?")]
+    // [HideInInspector] public bool isInputPushKey = false;
 
 
 
 
-    [Header("밀기/잡기 시 손의 위치"), Space(10)]
-    public GameObject handPosition_Push;
+    // [Header("밀기/잡기 시 손의 위치"), Space(10)]
+    // public GameObject handPosition_Push;
     public GameObject handPosition_Catch;
 
     [SerializeField]
     [HideInInspector] private CatchableObject catchedObject = null;
-    [SerializeField]
-    [HideInInspector] private PushableObject pushedObject = null;
+    // [SerializeField]
+    // [HideInInspector] private PushableObject pushedObject = null;
     [SerializeField]
     [HideInInspector] public GameObject touchedObject = null;
 
@@ -231,10 +231,10 @@ public class PlayerController : Character
         animatorWalkingBool = Animator.StringToHash("Walking");
         animatorGroundedBool = Animator.StringToHash("Grounded");
         animatorJumpTrigger = Animator.StringToHash("Jump");
-        animatorClimbBool = Animator.StringToHash("Climb");
-        animatorWindBlend = Animator.StringToHash("WindBlend");
-        animatorLiftingBool = Animator.StringToHash("Lifting");
-        animatorPushingBool = Animator.StringToHash("Pushing");
+        animatorClimbingBool = Animator.StringToHash("Climbing");
+        animatorCatchingBool = Animator.StringToHash("Catching");
+        //animatorWindBlend = Animator.StringToHash("WindBlend");
+        //animatorPushingBool = Animator.StringToHash("Pushing");
         animatorDieBool = Animator.StringToHash("Die");
 
         isWater = false;
@@ -242,15 +242,21 @@ public class PlayerController : Character
         isInputCatchKey = false;
 
         catchedObject = null;
-        pushedObject = null;
+        //pushedObject = null;
         touchedObject = null;
 
         originalMoveSpeed = movementSpeed;
-        animator.SetFloat("WindBlend", 0);
-        if (stateTextMesh == null)
+        //animator.SetFloat("WindBlend", 0);
+        isGliding = false;
+        currentGlideAngle = glideAngle + 90f;
+        if (isDebug)
         {
-            //CreateStateTextMesh();
+            if (stateTextMesh == null)
+            {
+                CreateStateTextMesh();
+            }
         }
+
         Init_ContactFilter();
     }
 
@@ -263,15 +269,23 @@ public class PlayerController : Character
 
     void Update()
     {
-        CheckCatchAndPush();
+        CheckCatch();
+
         CheckMoveInput();
         CheckLadderInput();
         CheckJumpInput();
 
+        CheckGlideInput();
+
         UpdateChangeState();
+        CheckFalling();
         playerStateMachine.Update();
 
-        // UpdateStateTextMesh();
+        if (isDebug)
+        {
+            UpdateStateTextMesh();
+        }
+
 
     }
     void FixedUpdate()
@@ -298,25 +312,44 @@ public class PlayerController : Character
             if (InputManager.Instance.buttonMoveRight.isPressed) //오른쪽 이동
             {
                 movementInput = Vector2.right;
-                if (pushedObject == null)
-                {
-                    isRight = true;
-                }
+                //if (pushedObject == null)
+                //{
+                isRight = true;
+                //}
 
 
             }
             else if (InputManager.Instance.buttonMoveLeft.isPressed) //왼쪽 이동
             {
                 movementInput = Vector2.left;
-                if (pushedObject == null)
-                {
-                    isRight = false;
-                }
+                //if (pushedObject == null)
+                //{
+                isRight = false;
+                //}
             }
         }
 
     }
 
+    private void CheckGlideInput()
+    {
+        if (CanMove() && isJumping)
+        {
+            if (InputManager.Instance.buttonMoveJump.wasPressedThisFrame)
+            {
+                isGliding = true;
+            }
+
+            if (InputManager.Instance.buttonMoveJump.wasReleasedThisFrame)
+            {
+                isGliding = false;
+            }
+        }
+        else
+        {
+            isGliding = false;
+        }
+    }
     private void CheckLadderInput()
     {
         if (CanMove())
@@ -377,23 +410,17 @@ public class PlayerController : Character
         {
             if (InputManager.Instance.buttonMoveJump.wasPressedThisFrame)
             {
-                if (pushedObject == null)
+                if (isGrounded) //땅에 닿아있을 때와 사다리를 타는 상태일 때만 점프를 할 수 있습니다.
                 {
-                    if (isGrounded) //땅에 닿아있을 때와 사다리를 타는 상태일 때만 점프를 할 수 있습니다.
-                    {
-                        shouldJump = true;
-
-                    }
-                    if (isClimbLadder)
-                    {
-                        onLadderJump = true;
-                        shouldJump = true;
-                    }
+                    shouldJump = true;
 
                 }
-
+                if (isClimbLadder)
+                {
+                    onLadderJump = true;
+                    shouldJump = true;
+                }
             }
-
         }
 
         #region 중력조절
@@ -413,47 +440,10 @@ public class PlayerController : Character
 
 
     #region 밀기/잡기
-    private void CheckCatchAndPush() //최적화가 필요함
+    private void CheckCatch() //최적화가 필요함
     {
         if (CanMove())
         {
-            if (pushedObject != null)//뭔가 밀고 있는 오브젝트가 있을 때
-            {
-
-                isPushing = true;
-                var tempVelo = pushedObject.rigidBody.velocity;
-                var testSpeed = movementSpeed;
-                if (isRight)
-                {
-                    if (movementInput == Vector2.left)
-                    {
-                        pushedObject.rigidBody.velocity = Vector2.zero;
-                        tempVelo += Vector2.left;
-
-                        var vec = new Vector2(Mathf.Clamp(tempVelo.x, -testSpeed, testSpeed), Mathf.Clamp(tempVelo.y, -testSpeed, testSpeed));
-                        pushedObject.rigidBody.velocity += vec;
-                        //pushedObject.rigidBody.velocity = playerRigidbody.velocity;
-                    }
-                }
-                else
-                {
-                    if (movementInput == Vector2.right)
-                    {
-                        //  pushedObject.rigidBody.velocity += (Vector2.right);;
-                        pushedObject.rigidBody.velocity = Vector2.zero;
-                        tempVelo += Vector2.right;
-
-                        var vec = new Vector2(Mathf.Clamp(tempVelo.x, -testSpeed, testSpeed), Mathf.Clamp(tempVelo.y, -testSpeed, testSpeed));
-                        pushedObject.rigidBody.velocity += vec;
-                        //pushedObject.rigidBody.velocity = playerRigidbody.velocity;
-                    }
-                }
-
-            }
-            else
-            {
-                isPushing = false;
-            }
 
             if (catchedObject != null)
             {
@@ -466,8 +456,6 @@ public class PlayerController : Character
 
         }
 
-
-        //}
 
     }
     public void CheckCatchInput(CatchableObject _obj)
@@ -571,6 +559,17 @@ public class PlayerController : Character
         }
     }
 
+    private void CheckFalling()
+    {
+        if (playerRigidbody.velocity.y < 0.5 && isGrounded == false)
+        {
+            isFalling = true;
+        }
+        else
+        {
+            isFalling = false;
+        }
+    }
     private void UpdateChangeState()
     {
         if (isDie)
@@ -591,19 +590,23 @@ public class PlayerController : Character
         }
         else if (isPushing)
         {
-            ChangeState(eState.PLAYER_PUSH);
+            //ChangeState(eState.PLAYER_PUSH);
         }
         else if (isCatching)
         {
-            ChangeState(eState.PLAYER_LIFT);
+            ChangeState(eState.PLAYER_CATCH);
         }
-        else if (isGrounded && !isJumping)
+        else if (isGrounded && !isJumping && !isGliding)
         {
             ChangeState(eState.PLAYER_DEFAULT);
         }
-        else if (!isGrounded && isJumping)
+        else if (!isGrounded && isJumping && !isGliding)
         {
             ChangeState(eState.PLAYER_JUMP);
+        }
+        else if (isGliding)
+        {
+            ChangeState(eState.PLAYER_GLIDE);
         }
         else if (!inLadder && !isGrounded && !onLadder)
         {
@@ -622,62 +625,28 @@ public class PlayerController : Character
     {
         prevPosition = new Vector2(playerRigidbody.position.x, playerRigidbody.position.y);
 
-        if (isWinding)
-        {
-            animator.SetFloat("WindBlend", 1);
-
-            if (windDirection == eWindDirection.RIGHT) //오른쪽으로 -> 바람이 불면
-            {
-                if (movementInput == Vector2.left) //왼쪽으로 이동하고 싶을 때
-                {
-                    extraForce.x = windDecreaseSpeed; //저항이 생김
-                }
-                else if (movementInput == Vector2.right) //오른쪽으로 이동하고 싶을 때
-                {
-                    extraForce.x = windIncreaseSpeed;//속도가 오름
-                }
-                else if (movementInput == Vector2.zero)
-                {
-                    extraForce.x = windSlideSpeed;
-                }
-
-            }
-            else if (windDirection == eWindDirection.LEFT) //왼쪽으로 <- 바람이 불면
-            {
-                if (movementInput == Vector2.left) //왼쪽으로 이동하고 싶을 때
-                {
-                    extraForce.x = windIncreaseSpeed; //속도가 오름
-                }
-                else if (movementInput == Vector2.right) //오른쪽으로 이동하고 싶을 때
-                {
-                    extraForce.x = windDecreaseSpeed;//저항이 생김
-                }
-                else if (movementInput == Vector2.zero)
-                {
-                    extraForce.x = -windSlideSpeed;
-                }
-            }
-            else
-            {
-                extraForce = Vector2.zero;
-            }
-        }
-        else
-        {
-            animator.SetFloat("WindBlend", 0);
-            extraForce = Vector2.zero;
-        }
-
-
-        if (isClimbLadder == false)
+        if (isClimbLadder == false && isGliding == false)//사다리도 안타고, 글라이딩상태도 아닐때
         {
             playerRigidbody.velocity =
                 new Vector2((movementInput.x * movementSpeed) + extraForce.x, playerRigidbody.velocity.y + extraForce.y);
         }
-        else
+        else if (isClimbLadder)
         {
             playerRigidbody.velocity =
                 new Vector2((movementInput.x * movementSpeed) + extraForce.x, (movementInput.y * climbSpeed) + extraForce.y);
+        }
+        else if (isGliding)
+        {
+            Vector2 dir = new Vector2(Mathf.Sin(Mathf.Deg2Rad * currentGlideAngle * movementInput.x), Mathf.Cos(Mathf.Deg2Rad * currentGlideAngle * movementInput.x));
+
+            if (movementInput != Vector2.zero)
+            {
+                playerRigidbody.velocity = dir * glideSpeed;
+            }
+
+
+            //playerRigidbody.velocity =
+            //    new Vector2()
         }
 
 
@@ -950,6 +919,7 @@ public class PlayerController : Character
         }
         return true;
     }
+
     //public GameObject GetCatchingObject()
     //{
     //    return catchingObject;
@@ -1054,6 +1024,24 @@ public class PlayerController : Character
     //}
 
     #endregion
-}
 
+
+    private void OnDrawGizmos()
+    {
+        //    Gizmos.color = Color.yellow;
+
+        //    var startPos = gameObject.transform.position;
+        //    var finalPos = new Vector2 ()
+        //    Debug.Log(right);
+
+        //    //Vector2 finalPos =
+        //    //    new Vector2(
+        //    //        Mathf.Cos(Mathf.PI / 180 * Quaternion.AngleAxis(glideAngle * right, startPos).eulerAngles.z),
+        //    //        Mathf.Sin(Quaternion.AngleAxis(glideAngle * right, startPos).eulerAngles.z * Mathf.Deg2Rad)).normalized;
+
+        //    Gizmos.DrawLine(startPos, _rightV);
+        //}
+
+    }
+}
 
