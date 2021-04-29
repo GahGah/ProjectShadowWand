@@ -16,6 +16,7 @@ public class PlayerController : Character
     readonly Quaternion flippedRotation = new Quaternion(0, 0, 1, 0);
 
     public GameObject landedFX;
+    public GameObject flipFX;
     private IEnumerator GlideCoroutine;
 
     [Header("활강 관련")]
@@ -850,22 +851,26 @@ public class PlayerController : Character
     {
         //스케일 변경으로 flip
 
-        if (isPushing == false)
+
+        if (InputManager.Instance.buttonMoveRight.isPressed && playerRigidbody.velocity.x > minFlipSpeed && isFlipped)
         {
-            if (InputManager.Instance.buttonMoveRight.isPressed && playerRigidbody.velocity.x > minFlipSpeed && isFlipped)
+            isFlipped = false;
+            puppet.localScale = Vector3.one;
+
+            if (flipFX.activeSelf == false)
             {
-                isFlipped = false;
-                puppet.localScale = Vector3.one;
-            }
-            else if (InputManager.Instance.buttonMoveLeft.isPressed && playerRigidbody.velocity.x < -minFlipSpeed && !isFlipped)
-            {
-                isFlipped = true;
-                puppet.localScale = flippedScale;
+                flipFX.SetActive(true);
             }
         }
-        else //isPushing이 트루일때
+        else if (InputManager.Instance.buttonMoveLeft.isPressed && playerRigidbody.velocity.x < -minFlipSpeed && !isFlipped)
         {
+            isFlipped = true;
+            puppet.localScale = flippedScale;
+            if (flipFX.activeSelf == false)
+            {
+                flipFX.SetActive(true);
 
+            }
         }
 
     }
