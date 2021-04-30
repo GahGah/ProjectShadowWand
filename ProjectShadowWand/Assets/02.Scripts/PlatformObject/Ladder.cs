@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ladder : WeatherInteractionObject
+public class Ladder : MonoBehaviour
 {
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -10,6 +10,7 @@ public class Ladder : WeatherInteractionObject
         if (collision.gameObject.CompareTag("Player"))
         {
             PlayerController.Instance.SetIsLadder(true, gameObject.transform.position);
+            Debug.Log("SetIsLadder!!");
         }
     }
 
