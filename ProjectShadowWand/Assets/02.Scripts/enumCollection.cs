@@ -33,6 +33,11 @@ public enum eState // 상태를 정의해놓습니다.
 
 }
 
+public enum eSkill
+{
+    WINDGILDE,
+    LIGHTNINGSHOCK,
+}
 public enum eFireDirection
 {
     twoDirection, fourDirection, oneDirection,

@@ -8,7 +8,6 @@ public class Skill_LightningShock : Skill
     {
         player = _p;
     }
-
     public override void Execute()
     {
     }
