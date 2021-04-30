@@ -112,7 +112,7 @@ public class CatchableObject : MonoBehaviour, ICatchable
     /// <param name="_pos"></param>
     public void SetPosition(Vector2 _pos)
     {
-        transform.position = _pos;
+        transform.localPosition = _pos;
     }
     public void GoPutThis()
     {
