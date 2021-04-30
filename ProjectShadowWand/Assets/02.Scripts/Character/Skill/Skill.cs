@@ -4,5 +4,13 @@ using UnityEngine;
 
 public class Skill : MonoBehaviour
 {
+    public virtual void Execute()
+    {
 
+    }
+
+    public virtual void PhysicsExecute()
+    {
+
+    }
 }
