@@ -7,8 +7,8 @@ public class CatchableObject : MonoBehaviour, ICatchable
     [Space(10)]
     public Collider2D currentCollider;
 
-    [Space(10)]
-    public FixedJoint2D fixedJoint;
+    //[Space(10)]
+    //public FixedJoint2D fixedJoint;
 
     public Rigidbody2D rigidBody;
 
@@ -30,7 +30,6 @@ public class CatchableObject : MonoBehaviour, ICatchable
     {
         if (currentCollider == null)
         {
-            Debug.Log("커런트 콜라이더가 없음. 일단 자동으로 넣어볼게");
 
             var _tempColls = GetComponentsInChildren<Collider2D>();
             for (int i = 0; i < _tempColls.Length; i++)
@@ -39,17 +38,16 @@ public class CatchableObject : MonoBehaviour, ICatchable
 
                 if (_tempColl.isTrigger == false)
                 {
-                    Debug.Log("자동으로 콜라이더 넣기 성공. ");
                     currentCollider = _tempColl;
                     break;
                 }
             }
         }
 
-        if (fixedJoint == null)
-        {
-            fixedJoint = GetComponentInChildren<FixedJoint2D>();
-        }
+        //if (fixedJoint == null)
+        //{
+        //    fixedJoint = GetComponentInChildren<FixedJoint2D>();
+        //}
 
         if (rigidBody == null)
         {
@@ -57,7 +55,7 @@ public class CatchableObject : MonoBehaviour, ICatchable
         }
 
         //fixedJoint.autoConfigureConnectedAnchor = false;
-        fixedJoint.enabled = false;
+        //fixedJoint.enabled = false;
 
         Physics2D.IgnoreCollision(PlayerController.Instance.playerCollider, currentCollider);
 
@@ -104,52 +102,22 @@ public class CatchableObject : MonoBehaviour, ICatchable
     //}
     public void GoCatchThis()
     {
-        //Physics2D.IgnoreCollision(PlayerController.Instance.playerCollider, currentCollider, true);
-
-        SetConnectedBody(PlayerController.Instance.playerRigidbody);
-
-        SetConnectedAnchor(PlayerController.Instance.handPosition_Catch.transform.localPosition);
-
-        currentCollider.enabled = false;
-        //SetAutoAnchor(false);
-
-        //PlayerController.Instance.SetCatchedObject(this);
-        fixedJoint.enabled = true;
-
-        //플레이어와 충돌하게...안해도 될 것 같은데 일단 하기
-
-        //  Debug.Log("잡았습니다.");
+        rigidBody.bodyType = RigidbodyType2D.Kinematic;
     }
 
+    /// <summary>
+    /// 위치를 정합니다.
+    /// </summary>
+    /// <param name="_pos"></param>
+    public void SetPosition(Vector2 _pos)
+    {
+        rigidBody.position = _pos;
+    }
     public void GoPutThis()
     {
-        Physics2D.IgnoreCollision(PlayerController.Instance.playerCollider, currentCollider);
-
-        SetConnectedBody(null);
-        SetConnectedAnchor(Vector2.zero); ;
-        //SetAutoAnchor(false);
-        currentCollider.enabled = true;
-
-        //PlayerController.Instance.SetCatchingObject(null);
-
-        fixedJoint.enabled = false;
-
-
-        // Debug.Log("놓아봅시다.");
-
+        rigidBody.bodyType = RigidbodyType2D.Dynamic;
     }
-    public void SetConnectedBody(Rigidbody2D _rb)
-    {
-        fixedJoint.connectedBody = _rb;
-    }
-    public void SetConnectedAnchor(Vector2 _vec)
-    {
-        fixedJoint.connectedAnchor = _vec;
-    }
-    public void SetAutoAnchor(bool _b)
-    {
-        fixedJoint.autoConfigureConnectedAnchor = _b;
-    }
+
 
 
     /// <summary>
@@ -158,12 +126,13 @@ public class CatchableObject : MonoBehaviour, ICatchable
     /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("Player");
         if (collision.CompareTag("Player"))
         {
             //닿았다면 터지 오브젝트를 자신으로
             PlayerController.Instance.SetTouchedObject(gameObject);
             isTouched = true;
-            //Debug.Log(gameObject.name + "와 닿았다.");
+            Debug.Log(gameObject.name + "와 닿았다.");
         }
     }
 
@@ -206,9 +175,9 @@ public class CatchableObject : MonoBehaviour, ICatchable
     /// 플레이어의 캣치조인트가 자신의 조인트인지 판단합니다.
     /// </summary>
     /// <returns>맞으면 트루, 틀리면 펄스</returns>
-    private bool CheckPlayerJoint()
-    {
-        return PlayerController.Instance.GetCurrentCatchJoint() == fixedJoint;
-    }
+    //private bool CheckPlayerJoint()
+    //{
+    //    return PlayerController.Instance.GetCurrentCatchJoint() == fixedJoint;
+    //}
 
 }

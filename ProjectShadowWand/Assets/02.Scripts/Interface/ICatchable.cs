@@ -8,9 +8,9 @@ using UnityEngine;
 /// </summary>
 public interface ICatchable
 {
-    public void SetConnectedBody(Rigidbody2D _rb);
-    public void SetConnectedAnchor(Vector2 _vec);
-    public void SetAutoAnchor(bool _b);
+    //public void SetConnectedBody(Rigidbody2D _rb);
+    //public void SetConnectedAnchor(Vector2 _vec);
+    //public void SetAutoAnchor(bool _b);
 
     /// <summary>
     /// 이 오브젝트를 잡습니다.

@@ -39,9 +39,9 @@ public class PlayerStateMachine : StateMachine
             case eState.PLAYER_GLIDE:
                 tempState = new PlayerState_Glide(player);
                 break;
-            case eState.PLAYER_CATCH:
-                tempState = new PlayerState_Catch(player);
-                break;
+            //case eState.PLAYER_CATCH:
+            //    tempState = new PlayerState_Catch(player);
+            //    break;
 
             case eState.PLAYER_FALL:
                 tempState = new PlayerState_Fall(player);

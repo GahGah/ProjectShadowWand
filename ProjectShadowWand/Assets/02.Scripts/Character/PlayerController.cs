@@ -106,8 +106,8 @@ public class PlayerController : Character
     [HideInInspector] public int animatorJumpTrigger;
     [HideInInspector] public int animatorClimbingBool;
     [HideInInspector] public int animatorCatchingBool;
-    [HideInInspector] public float animatorIdleBlend;
-    [HideInInspector] public float animatorCatchBlend;
+    [HideInInspector] public int animatorIdleBlend;
+    [HideInInspector] public int animatorCatchBlend;
 
     // [HideInInspector] public int animatorPushingBool;
     //public int animatorFallingBool;
@@ -188,7 +188,7 @@ public class PlayerController : Character
     [Tooltip("테스트용 idle 모션입니다.")]
     public Motion[] testIdleMotions;
 
-    private Joint2D currentCatchJoint = null;
+    //  private Joint2D currentCatchJoint = null;
 
 
     // [Header("밀기 시 이동속도")]
@@ -205,14 +205,16 @@ public class PlayerController : Character
 
     // [Header("밀기/잡기 시 손의 위치"), Space(10)]
     // public GameObject handPosition_Push;
-    public GameObject handPosition_Catch;
+    //public GameObject handPosition_Catch;
 
     [SerializeField]
-    [HideInInspector] private CatchableObject catchedObject = null;
+    //[HideInInspector] 
+    private CatchableObject catchedObject = null;
     // [SerializeField]
     // [HideInInspector] private PushableObject pushedObject = null;
     [SerializeField]
-    [HideInInspector] public GameObject touchedObject = null;
+    //[HideInInspector]
+    public GameObject touchedObject = null;
 
     [HideInInspector] public Rigidbody2D catchBody;
 
@@ -280,13 +282,14 @@ public class PlayerController : Character
         animatorJumpTrigger = Animator.StringToHash("Jump");
         animatorClimbingBool = Animator.StringToHash("Climbing");
         animatorCatchingBool = Animator.StringToHash("Catching");
+        animatorCatchBlend = Animator.StringToHash("CatchBlend");
+        animatorIdleBlend = Animator.StringToHash("IdleBlend");
         //animatorWindBlend = Animator.StringToHash("WindBlend");
         //animatorPushingBool = Animator.StringToHash("Pushing");
         animatorDieBool = Animator.StringToHash("Die");
 
         isRight = true;
         isWater = false;
-        currentCatchJoint = null;
         isInputCatchKey = false;
 
         catchedObject = null;
@@ -490,6 +493,8 @@ public class PlayerController : Character
             if (catchedObject != null)
             {
                 isCatching = true;
+                catchedObject.SetPosition(GetHandPosition());
+
             }
             else
             {
@@ -617,7 +622,7 @@ public class PlayerController : Character
     }
     private void CheckFalling()
     {
-        if (playerRigidbody.velocity.y <-1f && isGrounded == false)
+        if (playerRigidbody.velocity.y < -1f && isGrounded == false)
         {
             if (isClimbLadder == false && inLadder == false)
             {
@@ -632,6 +637,19 @@ public class PlayerController : Character
     }
     private void UpdateChangeState()
     {
+
+        if (isCatching)
+        {
+            animator.SetFloat(animatorIdleBlend, 7f);
+            animator.SetFloat(animatorCatchBlend, 7f);
+        }
+        else
+        {
+            animator.SetFloat(animatorIdleBlend, 0f);
+            animator.SetFloat(animatorCatchBlend, 0f);
+
+        }
+
         if (isDie)
         {
             ChangeState(eState.PLAYER_DIE);
@@ -650,10 +668,6 @@ public class PlayerController : Character
         else if (isPushing)
         {
             //ChangeState(eState.PLAYER_PUSH);
-        }
-        else if (isCatching)
-        {
-            ChangeState(eState.PLAYER_CATCH);
         }
         else if (isGrounded && !isJumping && !isGliding)
         {
@@ -968,20 +982,20 @@ public class PlayerController : Character
         stateTextMesh.text = _text;
     }
 
-    /// <summary>
-    /// 잡을 수 있는 오브젝트의 FixedJoint를 설정합니다.
-    /// </summary>
-    /// <param name="_fixedJoint">이걸로 설정합니다.</param>
-    public void SetCurrentJointThis(Joint2D _fixedJoint)
-    {
-        currentCatchJoint = _fixedJoint;
-    }
+    ///// <summary>
+    ///// 잡을 수 있는 오브젝트의 FixedJoint를 설정합니다.
+    ///// </summary>
+    ///// <param name="_fixedJoint">이걸로 설정합니다.</param>
+    //public void SetCurrentJointThis(Joint2D _fixedJoint)
+    //{
+    //    currentCatchJoint = _fixedJoint;
+    //}
 
 
-    public Joint2D GetCurrentCatchJoint()
-    {
-        return currentCatchJoint;
-    }
+    //public Joint2D GetCurrentCatchJoint()
+    //{
+    //    return currentCatchJoint;
+    //}
 
 
     public bool CanMove()

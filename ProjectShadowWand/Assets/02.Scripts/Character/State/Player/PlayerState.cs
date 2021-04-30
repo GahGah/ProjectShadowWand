@@ -192,52 +192,52 @@ public class PlayerState_Fall : PlayerState
 }
 
 
-public class PlayerState_Catch : PlayerState
-{
-    private float animatorSpeed;
-    public PlayerState_Catch(PlayerController _p)
-    {
-        player = _p;
-        animatorSpeed = 1f;
-    }
-    public override void Enter()
-    {
-        ResetAnimatorSpeed();
-        player.animator.SetBool(player.animatorCatchingBool, true);
-    }
-    public override void Execute()
-    {
-        player.animator.SetBool(player.animatorCatchingBool, true);
+//public class PlayerState_Catch : PlayerState
+//{
+//    private float animatorSpeed;
+//    public PlayerState_Catch(PlayerController _p)
+//    {
+//        player = _p;
+//        animatorSpeed = 1f;
+//    }
+//    public override void Enter()
+//    {
+//        ResetAnimatorSpeed();
+//        player.animator.SetBool(player.animatorCatchingBool, true);
+//    }
+//    public override void Execute()
+//    {
+//        player.animator.SetBool(player.animatorCatchingBool, true);
 
-        if (player.prevPosition != player.playerRigidbody.position)
-        {
-            if (player.animator.speed != animatorSpeed)
-            {
-                player.animator.speed = animatorSpeed;
+//        if (player.prevPosition != player.playerRigidbody.position)
+//        {
+//            if (player.animator.speed != animatorSpeed)
+//            {
+//                player.animator.speed = animatorSpeed;
 
-            }
+//            }
 
-        }
-        else
-        {
-            if (player.animator.speed != 0f)
-            {
-                player.animator.speed = 0f;
-            }
+//        }
+//        else
+//        {
+//            if (player.animator.speed != 0f)
+//            {
+//                player.animator.speed = 0f;
+//            }
 
-        }
-    }
-    public override void PhysicsExecute()
-    {
+//        }
+//    }
+//    public override void PhysicsExecute()
+//    {
 
 
-    }
-    public override void Exit()
-    {
-        ResetAnimatorSpeed();
-        player.animator.SetBool(player.animatorCatchingBool, false);
-    }
-}
+//    }
+//    public override void Exit()
+//    {
+//        ResetAnimatorSpeed();
+//        player.animator.SetBool(player.animatorCatchingBool, false);
+//    }
+//}
 
 public class PlayerState_Climb_Ladder : PlayerState
 {
