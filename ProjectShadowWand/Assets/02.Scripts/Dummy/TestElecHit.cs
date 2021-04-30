@@ -6,12 +6,17 @@ public class TestElecHit : MonoBehaviour
 {
 
     RaycastHit2D[] hits;
+    [Header("판정 크기")]
+    public Vector2 size;
+
+    [Header("판정 범위")]
     public float maxDistance = 4f;
     public bool hit = false;
+    public LayerMask machineLayerMask;
     // Update is called once per frame
     void Update()
     {
-        hits = Physics2D.BoxCastAll(transform.position, Vector2.one, 0f, Vector2.right, maxDistance);
+        hits = Physics2D.BoxCastAll(transform.position, size, 0f, Vector2.right, maxDistance);
 
         hit = false;
         foreach (var item in hits)
@@ -19,10 +24,9 @@ public class TestElecHit : MonoBehaviour
             var test = item.collider.GetComponent<ElectricableObject>();
             if (test != null)
             {
-                if (test is IElectricable)
-                {
-                    Debug.Log("일렉트리케이블!!");
-                }
+                //if (test is IElectricable) 이거 트루 나옴 ㅇㅇ
+                //{
+                //}
             }
             if (item && hit == false)
             {
@@ -47,7 +51,7 @@ public class TestElecHit : MonoBehaviour
                     //Draw a Ray forward from GameObject toward the hit
                     Gizmos.DrawRay(transform.position, Vector2.right * item.distance);
                     //Draw a cube that extends to where the hit exists
-                    Gizmos.DrawWireCube(transform.position + (Vector3)Vector2.right * item.distance, transform.localScale);
+                    Gizmos.DrawWireCube(transform.position + (Vector3)Vector2.right * item.distance, size);
 
                 }
             }
@@ -57,11 +61,11 @@ public class TestElecHit : MonoBehaviour
         {
             Gizmos.color = Color.red;
 
-            Gizmos.DrawWireCube(transform.position, transform.localScale);
+            Gizmos.DrawWireCube(transform.position, size);
             //Draw a Ray forward from GameObject toward the maximum distance
             Gizmos.DrawRay(transform.position, Vector2.right * maxDistance);
             //Draw a cube at the maximum distance
-            Gizmos.DrawWireCube(transform.position + (Vector3)Vector2.right * maxDistance, transform.localScale);
+            Gizmos.DrawWireCube(transform.position + (Vector3)Vector2.right * maxDistance, size);
         }
     }
 }
