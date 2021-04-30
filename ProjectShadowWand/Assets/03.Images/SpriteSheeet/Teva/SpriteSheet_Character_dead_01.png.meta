@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: dd88dc9e47882754796f7272efb86cf7
+guid: 5965ea1bbe3761a4eaff0c8ee2c039cd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8423205033513690657
-    second: SpriteSheet_Character_jump_01_0
+      213: 6775530822564481488
+    second: SpriteSheet_Character_dead_01_0
   - first:
-      213: 584720413452673941
-    second: SpriteSheet_Character_jump_01_1
+      213: 7784718785312914896
+    second: SpriteSheet_Character_dead_01_1
   - first:
-      213: 7370932489287854731
-    second: SpriteSheet_Character_jump_01_2
+      213: 3069772416380925747
+    second: SpriteSheet_Character_dead_01_2
   - first:
-      213: -5232110866841500008
-    second: SpriteSheet_Character_jump_01_3
+      213: -3972963882956595938
+    second: SpriteSheet_Character_dead_01_3
   - first:
-      213: 7236697001858148919
-    second: SpriteSheet_Character_jump_01_4
+      213: 2282636754559061181
+    second: SpriteSheet_Character_dead_01_4
   - first:
-      213: 2933460552294040839
-    second: SpriteSheet_Character_jump_01_5
+      213: 5575698301740042216
+    second: SpriteSheet_Character_dead_01_5
   - first:
-      213: -6804290522803015536
-    second: SpriteSheet_Character_jump_01_6
+      213: -4240309641504137925
+    second: SpriteSheet_Character_dead_01_6
   - first:
-      213: -4153444066154370819
-    second: SpriteSheet_Character_jump_01_7
+      213: 677175472912016933
+    second: SpriteSheet_Character_dead_01_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -56,7 +56,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: -1
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -115,148 +115,169 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SpriteSheet_Character_jump_01_0
+      name: SpriteSheet_Character_dead_01_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 256
-        width: 256
-        height: 256
+        y: 4
+        width: 97
+        height: 109
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fd9522b66a3ca1b80800000000000000
-      internalID: -8423205033513690657
+      spriteID: 0d98aa38265870e50800000000000000
+      internalID: 6775530822564481488
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_Character_jump_01_1
+      name: SpriteSheet_Character_dead_01_1
       rect:
         serializedVersion: 2
-        x: 256
-        y: 256
-        width: 256
-        height: 256
+        x: 157
+        y: 2
+        width: 89
+        height: 112
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 59324c83e185d1800800000000000000
-      internalID: 584720413452673941
+      spriteID: 0ddf2e27d70e80c60800000000000000
+      internalID: 7784718785312914896
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_Character_jump_01_2
+      name: SpriteSheet_Character_dead_01_2
       rect:
         serializedVersion: 2
-        x: 512
-        y: 256
-        width: 256
-        height: 256
+        x: 300
+        y: 4
+        width: 97
+        height: 109
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b8a636fcb00da4660800000000000000
-      internalID: 7370932489287854731
+      spriteID: 3377da39fb50a9a20800000000000000
+      internalID: 3069772416380925747
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_Character_jump_01_3
+      name: SpriteSheet_Character_dead_01_3
       rect:
         serializedVersion: 2
-        x: 768
-        y: 256
-        width: 256
-        height: 256
+        x: 457
+        y: 2
+        width: 89
+        height: 112
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 896837433eec367b0800000000000000
-      internalID: -5232110866841500008
+      spriteID: e1d5aeae5623dd8c0800000000000000
+      internalID: -3972963882956595938
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_Character_jump_01_4
+      name: SpriteSheet_Character_dead_01_4
       rect:
         serializedVersion: 2
-        x: 0
+        x: 606
+        y: 3
+        width: 114
+        height: 107
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dbc4ebac80e8daf10800000000000000
+      internalID: 2282636754559061181
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteSheet_Character_dead_01_5
+      rect:
+        serializedVersion: 2
+        x: 777
+        y: 6
+        width: 108
+        height: 79
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e7c6f9601cd06d40800000000000000
+      internalID: 5575698301740042216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteSheet_Character_dead_01_6
+      rect:
+        serializedVersion: 2
+        x: 917
+        y: 2
+        width: 122
+        height: 128
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b3d5b70e8d46725c0800000000000000
+      internalID: -4240309641504137925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteSheet_Character_dead_01_7
+      rect:
+        serializedVersion: 2
+        x: 1067
         y: 0
-        width: 256
-        height: 256
+        width: 123
+        height: 130
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 73aa3eed499ed6460800000000000000
-      internalID: 7236697001858148919
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SpriteSheet_Character_jump_01_6
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 0
-        width: 256
-        height: 256
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 090f4c7f1dd4291a0800000000000000
-      internalID: -6804290522803015536
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: SpriteSheet_Character_jump_01_5
-      rect:
-        serializedVersion: 2
-        x: 256
-        y: 0
-        width: 256
-        height: 256
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7058b1684deb5b820800000000000000
-      internalID: 2933460552294040839
+      spriteID: 5262789318fc56900800000000000000
+      internalID: 677175472912016933
       vertices: []
       indices: 
       edges: []

@@ -6,15 +6,23 @@ public class PlayerSkillManager : MonoBehaviour
 {
     public Skill_WindGlide skillWindGilde;
     public Skill_LightningShock skillLightningShock;
+    public Skill_WaterWave skillWaterWave;
 
     List<Skill> skillList = null;
 
     public bool unlockWind;
     public bool unlockLightning;
-
+    public bool unlockWater;
     public void Init()
     {
         CheckSkills();
+        if (skillList != null)
+        {
+            for (int i = 0; i < skillList.Count; i++)
+            {
+                skillList[i].Init();
+            }
+        }
     }
 
     /// <summary>
@@ -29,17 +37,22 @@ public class PlayerSkillManager : MonoBehaviour
         }
         skillList = new List<Skill>();
 
+        if (unlockWind == true)
+        {
+            skillWindGilde = new Skill_WindGlide(PlayerController.Instance);
+            skillList.Add(skillWindGilde);
+        }
+        if (unlockWater ==true)
+        {
+            skillWaterWave = new Skill_WaterWave(PlayerController.Instance);
+            skillList.Add(skillWaterWave);
+        }
         if (unlockLightning == true)
         {
             skillLightningShock = new Skill_LightningShock(PlayerController.Instance);
             skillList.Add(skillLightningShock);
         }
 
-        if (unlockWind == true)
-        {
-            skillWindGilde = new Skill_WindGlide(PlayerController.Instance);
-            skillList.Add(skillWindGilde);
-        }
     }
 
 
@@ -65,7 +78,21 @@ public class PlayerSkillManager : MonoBehaviour
             }
         }
     }
+    public void UnlockWind()
+    {
 
+        UnlockSkill(eSkill.WINDGILDE);
+    }
+
+    public void UnlockLightning()
+    {
+        UnlockSkill(eSkill.LIGHTNINGSHOCK);
+    }
+
+    public void UnlockWater()
+    {
+        UnlockSkill(eSkill.WATERWAVE);
+    }
     /// <summary>
     /// 스킬을 해금하고 획득합니다.이미 있으면 아무것도 안하지롱
     /// </summary>
@@ -89,11 +116,20 @@ public class PlayerSkillManager : MonoBehaviour
                     skillLightningShock = new Skill_LightningShock(PlayerController.Instance);
                     skillList.Add(skillLightningShock);
                 }
-
                 break;
 
+            case eSkill.WATERWAVE:
+                if (unlockWater == false) //해금하지 않은 상태라면
+                {
+                    unlockWater = true;
+                    skillWaterWave = new Skill_WaterWave(PlayerController.Instance);
+                    skillList.Add(skillWaterWave);
+                }
+                break;
             default:
                 break;
         }
     }
+
+
 }

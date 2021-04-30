@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: a4a27926ebc30c64b8bdc8e2b3434253
+guid: ae1ce3b1ebc7fa748827cecd5a590257
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7646371375673794332
-    second: SpriteSheet_Character_Idle_01_0
+      213: 1961581318449922868
+    second: SpriteSheet_Character_catch_idle_01_0
   - first:
-      213: 9175555679781910765
-    second: SpriteSheet_Character_Idle_01_1
+      213: 1137856514315940570
+    second: SpriteSheet_Character_catch_idle_01_1
   - first:
-      213: -342902387799685159
-    second: SpriteSheet_Character_Idle_01_2
+      213: -6752758727727935095
+    second: SpriteSheet_Character_catch_idle_01_2
   - first:
-      213: -3055583128737286723
-    second: SpriteSheet_Character_Idle_01_3
+      213: 3138510258131539755
+    second: SpriteSheet_Character_catch_idle_01_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -44,7 +44,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: -1
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -103,13 +103,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SpriteSheet_Character_Idle_01_0
+      name: SpriteSheet_Character_catch_idle_01_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 312
-        width: 200
-        height: 200
+        y: 0
+        width: 130
+        height: 130
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -117,20 +117,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c1f50c3014e5d1a60800000000000000
-      internalID: 7646371375673794332
+      spriteID: 4330044f0dfe83b10800000000000000
+      internalID: 1961581318449922868
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_Character_Idle_01_1
+      name: SpriteSheet_Character_catch_idle_01_1
       rect:
         serializedVersion: 2
-        x: 200
-        y: 312
-        width: 200
-        height: 200
+        x: 130
+        y: 0
+        width: 130
+        height: 130
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -138,20 +138,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: de8f73ec64f165f70800000000000000
-      internalID: 9175555679781910765
+      spriteID: ad27a2d987a7acf00800000000000000
+      internalID: 1137856514315940570
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_Character_Idle_01_2
+      name: SpriteSheet_Character_catch_idle_01_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 112
-        width: 200
-        height: 200
+        x: 260
+        y: 0
+        width: 130
+        height: 130
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,20 +159,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9d701965814cd3bf0800000000000000
-      internalID: -342902387799685159
+      spriteID: 9819bdbf6b16942a0800000000000000
+      internalID: -6752758727727935095
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_Character_Idle_01_3
+      name: SpriteSheet_Character_catch_idle_01_3
       rect:
         serializedVersion: 2
-        x: 200
-        y: 112
-        width: 200
-        height: 200
+        x: 390
+        y: 0
+        width: 130
+        height: 130
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -180,8 +180,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: db5ffe565536895d0800000000000000
-      internalID: -3055583128737286723
+      spriteID: b2799d3837a3e8b20800000000000000
+      internalID: 3138510258131539755
       vertices: []
       indices: 
       edges: []

@@ -8,5 +8,6 @@ using UnityEngine;
 public interface IElectricable
 {
     //번개에 맞았을 떄
-    public void OnThunder();
+
+    public void OnLightining();
 }

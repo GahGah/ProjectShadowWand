@@ -23,7 +23,12 @@ public class InputManager : MonoBehaviour
 
     public ButtonControl buttonPush;
 
+
+    //안씀
     public ButtonControl buttonSkillUse;
+
+    public ButtonControl buttonSkillWater;
+    public ButtonControl buttonSkillLightning;
 
 
     public Keyboard keyboard;
@@ -115,14 +120,19 @@ public class InputManager : MonoBehaviour
         buttonCtrl = Keyboard.current.ctrlKey;
 
         buttonPause = Keyboard.current.escapeKey;
-        buttonCatch = Keyboard.current.cKey;
-        buttonPush = Keyboard.current.cKey;
 
         buttonScroll = Mouse.current.scroll;
 
         buttonEscape = Keyboard.current.escapeKey;
+        buttonCatch = Keyboard.current.vKey;
+        buttonSkillWater = Keyboard.current.xKey;
+        buttonSkillLightning = Keyboard.current.cKey;
 
+
+        //이 밑 키들은 아마도 안씀
+        buttonPush = Keyboard.current.cKey;
         buttonSkillUse = Keyboard.current.xKey;
+
     }
 
     /// <summary>

@@ -1,19 +1,31 @@
 fileFormatVersion: 2
-guid: a4a27926ebc30c64b8bdc8e2b3434253
+guid: 82f9640c87903bb4db7b3f174935d619
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7646371375673794332
-    second: SpriteSheet_Character_Idle_01_0
+      213: -5131686842922698080
+    second: SpriteSheet_Character_catch_jump_01_0
   - first:
-      213: 9175555679781910765
-    second: SpriteSheet_Character_Idle_01_1
+      213: -4475986181544152500
+    second: SpriteSheet_Character_catch_jump_01_1
   - first:
-      213: -342902387799685159
-    second: SpriteSheet_Character_Idle_01_2
+      213: 1657258570470107357
+    second: SpriteSheet_Character_catch_jump_01_2
   - first:
-      213: -3055583128737286723
-    second: SpriteSheet_Character_Idle_01_3
+      213: -7527713124736142213
+    second: SpriteSheet_Character_catch_jump_01_3
+  - first:
+      213: 4231674917530566289
+    second: SpriteSheet_Character_catch_jump_01_4
+  - first:
+      213: -2856029931465363182
+    second: SpriteSheet_Character_catch_jump_01_5
+  - first:
+      213: 6844224503198586635
+    second: SpriteSheet_Character_catch_jump_01_6
+  - first:
+      213: 7012189936097398499
+    second: SpriteSheet_Character_catch_jump_01_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -44,7 +56,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: -1
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -103,13 +115,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SpriteSheet_Character_Idle_01_0
+      name: SpriteSheet_Character_catch_jump_01_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 312
-        width: 200
-        height: 200
+        x: 9
+        y: 50
+        width: 104
+        height: 113
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -117,20 +129,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c1f50c3014e5d1a60800000000000000
-      internalID: 7646371375673794332
+      spriteID: 0aafb05510698c8b0800000000000000
+      internalID: -5131686842922698080
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_Character_Idle_01_1
+      name: SpriteSheet_Character_catch_jump_01_1
       rect:
         serializedVersion: 2
-        x: 200
-        y: 312
-        width: 200
-        height: 200
+        x: 141
+        y: 43
+        width: 96
+        height: 107
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -138,20 +150,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: de8f73ec64f165f70800000000000000
-      internalID: 9175555679781910765
+      spriteID: c42f08d584a12e1c0800000000000000
+      internalID: -4475986181544152500
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_Character_Idle_01_2
+      name: SpriteSheet_Character_catch_jump_01_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 112
-        width: 200
-        height: 200
+        x: 269
+        y: 45
+        width: 99
+        height: 103
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -159,20 +171,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9d701965814cd3bf0800000000000000
-      internalID: -342902387799685159
+      spriteID: dd8a7d9a3e3cff610800000000000000
+      internalID: 1657258570470107357
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: SpriteSheet_Character_Idle_01_3
+      name: SpriteSheet_Character_catch_jump_01_3
       rect:
         serializedVersion: 2
-        x: 200
-        y: 112
-        width: 200
-        height: 200
+        x: 426
+        y: 0
+        width: 82
+        height: 150
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -180,8 +192,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: db5ffe565536895d0800000000000000
-      internalID: -3055583128737286723
+      spriteID: b747e0debc0388790800000000000000
+      internalID: -7527713124736142213
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteSheet_Character_catch_jump_01_4
+      rect:
+        serializedVersion: 2
+        x: 556
+        y: 0
+        width: 79
+        height: 150
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19ef658caede9ba30800000000000000
+      internalID: 4231674917530566289
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteSheet_Character_catch_jump_01_6
+      rect:
+        serializedVersion: 2
+        x: 669
+        y: 39
+        width: 104
+        height: 121
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b071d246ce19bfe50800000000000000
+      internalID: 6844224503198586635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SpriteSheet_Character_catch_jump_01_7
+      rect:
+        serializedVersion: 2
+        x: 813
+        y: 32
+        width: 90
+        height: 130
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3ee87ae389d405160800000000000000
+      internalID: 7012189936097398499
       vertices: []
       indices: 
       edges: []

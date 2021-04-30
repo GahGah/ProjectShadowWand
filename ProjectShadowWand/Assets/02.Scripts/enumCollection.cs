@@ -27,7 +27,7 @@ public enum eState // 상태를 정의해놓습니다.
     PLAYER_FALL,
     PLAYER_GLIDE,
     PLAYER_DIE,
-   // PLAYER_PUSH,
+    // PLAYER_PUSH,
     PLAYER_CATCH,
     NONE,
 
@@ -36,6 +36,7 @@ public enum eState // 상태를 정의해놓습니다.
 public enum eSkill
 {
     WINDGILDE,
+    WATERWAVE,
     LIGHTNINGSHOCK,
 }
 public enum eFireDirection
@@ -72,6 +73,12 @@ public enum eUItype
     OPTION,
 }
 
+public enum eElectricableType
+{
+    DESTROY,
+    WORK,
+}
+
 public enum eBurnableType
 {
 
@@ -81,9 +88,9 @@ public enum eBurnableType
     /// </summary>
     BURN,
 
-/// <summary>
-/// 불이 붙지만 연기만 나오고, 타서 사라지지 않습니다.
-/// </summary>
+    /// <summary>
+    /// 불이 붙지만 연기만 나오고, 타서 사라지지 않습니다.
+    /// </summary>
     SMOKE,
 }
 public enum eChildType

@@ -131,7 +131,7 @@ public class PlayerState_Jump : PlayerState
 }
 
 
-public class PlayerState_Glide : PlayerState
+public class PlayerState_Glide : PlayerState // = wind
 {
     public PlayerState_Glide(PlayerController _p)
     {
@@ -293,10 +293,59 @@ public class PlayerState_Climb_Ladder : PlayerState
 
 }
 
-public class PlayerState_Use_Skill : PlayerState
+public class PlayerState_Skill_Lightning : PlayerState
 {
+    public PlayerState_Skill_Lightning(PlayerController _p)
+    {
+        player = _p;
+    }
 
+    public override void Enter()
+    {
+    }
+
+    public override void Execute()
+    {
+    }
+
+    public override void Exit()
+    {
+    }
+
+    public override void PhysicsExecute()
+    {
+    }
 }
+
+public class PlayerState_Skill_Water : PlayerState
+{
+    public PlayerState_Skill_Water(PlayerController _p)
+    {
+        player = _p;
+    }
+
+    public override void Enter()
+    {
+    }
+
+    public override void Execute()
+    {
+
+    }
+
+    public override void Exit()
+    {
+
+    }
+
+    public override void PhysicsExecute()
+    {
+    }
+}
+//public class PlayerState_Skill_Wind : PlayerState
+//{
+
+//}
 public class PlayerState_Die : PlayerState
 {
     public PlayerState_Die(PlayerController _p)

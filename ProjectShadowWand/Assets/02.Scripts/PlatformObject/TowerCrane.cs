@@ -6,7 +6,7 @@ public class TowerCrane : MonoBehaviour
 {
     public MovePlatform towerArm;
 
-    public ElectricableObject electricableObject;
+   // public ElectricableObject electricableObject;
 
     public bool isMoving;
 
@@ -29,26 +29,26 @@ public class TowerCrane : MonoBehaviour
 
     private void Update()
     {
-        if (electricableObject.isShocked)
-        {
-            towerArm.canMoving = true;
-        }
+        //if (electricableObject.isShocked)
+        //{
+        //    towerArm.canMoving = true;
+        //}
     }
     private void FixedUpdate()
     {
-        if (electricableObject.isShocked)
-        {
-            if (towerArm.canMoving && !towerArm.isGoal)
-            {
-                towerArm.ProcessMove();
-            }
-            else if (towerArm.isGoal) //도착하면
-            {
-                electricableObject.isShocked = false;
-                towerArm.ToggleDestination();
-                //다시 꺼뜨리고 출발지와 목적지를 변경
-            }
-        }
+        //if (electricableObject.isShocked)
+        //{
+        //    if (towerArm.canMoving && !towerArm.isGoal)
+        //    {
+        //        towerArm.ProcessMove();
+        //    }
+        //    else if (towerArm.isGoal) //도착하면
+        //    {
+        //        electricableObject.isShocked = false;
+        //        towerArm.ToggleDestination();
+        //        //다시 꺼뜨리고 출발지와 목적지를 변경
+        //    }
+        //}
 
 
 

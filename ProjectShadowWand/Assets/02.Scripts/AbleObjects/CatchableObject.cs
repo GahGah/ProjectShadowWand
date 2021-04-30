@@ -32,7 +32,7 @@ public class CatchableObject : MonoBehaviour, ICatchable
         {
             Debug.Log("커런트 콜라이더가 없음. 일단 자동으로 넣어볼게");
 
-            var _tempColls = GetComponents<Collider2D>();
+            var _tempColls = GetComponentsInChildren<Collider2D>();
             for (int i = 0; i < _tempColls.Length; i++)
             {
                 var _tempColl = _tempColls[i];
@@ -48,12 +48,12 @@ public class CatchableObject : MonoBehaviour, ICatchable
 
         if (fixedJoint == null)
         {
-            fixedJoint = GetComponent<FixedJoint2D>();
+            fixedJoint = GetComponentInChildren<FixedJoint2D>();
         }
 
         if (rigidBody == null)
         {
-           rigidBody =  GetComponent<Rigidbody2D>();
+           rigidBody =  GetComponentInChildren<Rigidbody2D>();
         }
 
         //fixedJoint.autoConfigureConnectedAnchor = false;

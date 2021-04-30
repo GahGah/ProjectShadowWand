@@ -4,98 +4,98 @@ using UnityEngine;
 
 public class ThunderTotem : Totem
 {
-    //[Header("비 이펙트 ")]
-    //public GameObject rainEffect;
+    ////[Header("비 이펙트 ")]
+    ////public GameObject rainEffect;
 
-    [Tooltip("번개의 위치를 지정할 수 있는 돌~")]
-    public ThunderStone thunderStone;
+    //[Tooltip("번개의 위치를 지정할 수 있는 돌~")]
+    //public ThunderStone thunderStone;
 
-    [Tooltip("내리칠 번개.")]
-    public ThunderObject thunderObject;
+    //[Tooltip("내리칠 번개.")]
+    //public ThunderObject thunderObject;
 
-    private void Awake()
-    {
-        Init();
-        SetDefaultWeatherType();
-    }
+    //private void Awake()
+    //{
+    //    Init();
+    //    SetDefaultWeatherType();
+    //}
 
-    protected override void Init()
-    {
-        base.Init();
-        mainWeatherType = eMainWeatherType.RAINY;
-    }
+    //protected override void Init()
+    //{
+    //    base.Init();
+    //    mainWeatherType = eMainWeatherType.RAINY;
+    //}
 
-    private void Update()
-    {
-        ChangeCanUse();
+    //private void Update()
+    //{
+    //    ChangeCanUse();
 
-        CheckingInput();
-        Execute();
-    }
+    //    CheckingInput();
+    //    Execute();
+    //}
 
-    public override void Execute()
-    {
-        if (canUse)
-        {
-            if (WeatherManager.Instance.GetMainWeather() == mainWeatherType)
-            {
-                if (thunderObject.isThundering)
-                {
-                    isOn = true;
-                }
-                else
-                {
-                    isOn = false;
-                }
+    //public override void Execute()
+    //{
+    //    if (canUse)
+    //    {
+    //        if (WeatherManager.Instance.GetMainWeather() == mainWeatherType)
+    //        {
+    //            if (thunderObject.isThundering)
+    //            {
+    //                isOn = true;
+    //            }
+    //            else
+    //            {
+    //                isOn = false;
+    //            }
 
-            }
-            else
-            {
+    //        }
+    //        else
+    //        {
 
-                isOn = false;
+    //            isOn = false;
 
-            }
+    //        }
 
-        }
+    //    }
 
-        ColorChange();
-    }
+    //    ColorChange();
+    //}
 
-    public override void ChangeCanUse()
-    {
-        //base.ChangeCanUse();
-        if (WeatherManager.Instance.GetMainWeather() == eMainWeatherType.RAINY)
-        {
-            canUse = true;
-        }
-        else
-        {
-            canUse = false;
-        }
-    }
-    protected override void CheckingInput()
-    {
-        if (isInteractable)
-        {
-            if (canUse)
-            {
+    //public override void ChangeCanUse()
+    //{
+    //    //base.ChangeCanUse();
+    //    if (WeatherManager.Instance.GetMainWeather() == eMainWeatherType.RAINY)
+    //    {
+    //        canUse = true;
+    //    }
+    //    else
+    //    {
+    //        canUse = false;
+    //    }
+    //}
+    //protected override void CheckingInput()
+    //{
+    //    if (isInteractable)
+    //    {
+    //        if (canUse)
+    //        {
 
-                if (InputManager.Instance.buttonSkillUse.wasPressedThisFrame && isPlayerIn == true)
-                {
-                    if (WeatherManager.Instance.GetMainWeather() == mainWeatherType) // == eMainWeatherType.RAINY;
-                    {
-                        if (thunderObject.isThundering == false) //번개가 치고 있는 상태가 아닐 때에만
-                        {
-                            StartCoroutine(thunderObject.DoThunder(thunderStone.transform.position));
-                            Debug.LogError("START!");
+    //            if (InputManager.Instance.buttonSkillUse.wasPressedThisFrame && isPlayerIn == true)
+    //            {
+    //                if (WeatherManager.Instance.GetMainWeather() == mainWeatherType) // == eMainWeatherType.RAINY;
+    //                {
+    //                    if (thunderObject.isThundering == false) //번개가 치고 있는 상태가 아닐 때에만
+    //                    {
+    //                        StartCoroutine(thunderObject.DoThunder(thunderStone.transform.position));
+    //                        Debug.LogError("START!");
 
-                        }
-                    }
-                    else
-                    {
-                    }
-                }
-            }
-        }
-    }
+    //                    }
+    //                }
+    //                else
+    //                {
+    //                }
+    //            }
+    //        }
+    //    }
+    //}
 }

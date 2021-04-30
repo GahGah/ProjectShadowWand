@@ -9,7 +9,17 @@ using UnityEngine.UI;
 public class PlayerController : Character
 {//거리 속도 각도 뺴기
 
+
+
     #region 변수들
+
+    [Header("잡기 손 위치")]
+    public Vector2 handPosition_idle;
+    public Vector2 handPosition_walk;
+    public Vector2[] handPosition_jump;
+    public Vector2[] handPosition_landed;
+
+    public Vector2 currentHandPosition;
     public Image glideGauge;
     [Tooltip("디버그모드입니다.")]
     public bool isDebug;
@@ -18,6 +28,7 @@ public class PlayerController : Character
     public GameObject landedFX;
     public GameObject flipFX;
     public IEnumerator GlideCoroutine;
+    public IEnumerator WaterCoroutine;
 
     [Header("활강 관련")]
 
@@ -30,6 +41,21 @@ public class PlayerController : Character
     [Tooltip("활강할 수 있는 시간입니다.")]
     public float glideTime;
     private float currentGlideTIme;
+
+
+    [Header("물 관련")]
+    [Tooltip("물 한 칸(?)의 크기입니다.")]
+    public Vector2 waterSize;
+
+    [Tooltip("물의 판정 길이입니다.")]
+    public float waterDistance;
+
+    [Tooltip("물의 지속 시간입니다.")]
+    public float waterActiveTime;
+
+
+    [Tooltip("물의 방향입니다.")]
+    public Vector2 waterDirection = Vector2.right;
 
     ////[SerializeField] CharacterAudio audioPlayer = null;
 
@@ -119,7 +145,7 @@ public class PlayerController : Character
     private bool isWater = false;
 
     [Tooltip("캐릭터가 오른쪽을 바라보고 있는가"), SerializeField]
-    private bool isRight = false;
+    public bool isRight = true;
 
     [Tooltip("점프를 해야하는가")]
     private bool shouldJump = false;
@@ -258,6 +284,7 @@ public class PlayerController : Character
         //animatorPushingBool = Animator.StringToHash("Pushing");
         animatorDieBool = Animator.StringToHash("Die");
 
+        isRight = true;
         isWater = false;
         currentCatchJoint = null;
         isInputCatchKey = false;
@@ -338,6 +365,7 @@ public class PlayerController : Character
         {
             if (InputManager.Instance.buttonMoveRight.isPressed) //오른쪽 이동
             {
+
                 movementInput = Vector2.right;
                 //if (pushedObject == null)
                 //{
@@ -354,6 +382,8 @@ public class PlayerController : Character
                 isRight = false;
                 //}
             }
+
+
         }
 
     }
@@ -372,7 +402,10 @@ public class PlayerController : Character
                     inLadder = true;
                     isClimbLadder = true;
                     isJumping = false;
-
+                    if (canGliding == false)
+                    {
+                        GroundGlide();
+                    }
                 }
             }
 
@@ -584,7 +617,7 @@ public class PlayerController : Character
     }
     private void CheckFalling()
     {
-        if (playerRigidbody.velocity.y < 0.5 && isGrounded == false)
+        if (playerRigidbody.velocity.y <-1f && isGrounded == false)
         {
             if (isClimbLadder == false && inLadder == false)
             {
@@ -634,7 +667,7 @@ public class PlayerController : Character
         {
             ChangeState(eState.PLAYER_JUMP);
         }
-        else if (isGliding)
+        else if (isGliding && !inLadder)
         {
 
             if (playerStateMachine.GetCurrentStateE() != eState.PLAYER_GLIDE)
@@ -960,6 +993,28 @@ public class PlayerController : Character
         return true;
     }
 
+    public Vector2 GetHandPosition()
+    {
+        return currentHandPosition;
+    }
+    public void SetHandPosition_Idle()
+    {
+        currentHandPosition = handPosition_idle;
+    }
+
+    public void SetHandPosition_Walk()
+    {
+        currentHandPosition = handPosition_walk;
+    }
+    public void SetHandPosition_Jump(int _index)
+    {
+        currentHandPosition = handPosition_jump[_index];
+    }
+
+    public void SetHandPosition_Landed(int _index)
+    {
+        currentHandPosition = handPosition_landed[_index];
+    }
     //public GameObject GetCatchingObject()
     //{
     //    return catchingObject;
@@ -1065,23 +1120,35 @@ public class PlayerController : Character
 
     #endregion
 
-
-    private void OnDrawGizmos()
+    void OnDrawGizmos()
     {
-        //    Gizmos.color = Color.yellow;
 
-        //    var startPos = gameObject.transform.position;
-        //    var finalPos = new Vector2 ()
-        //    Debug.Log(right);
 
-        //    //Vector2 finalPos =
-        //    //    new Vector2(
-        //    //        Mathf.Cos(Mathf.PI / 180 * Quaternion.AngleAxis(glideAngle * right, startPos).eulerAngles.z),
-        //    //        Mathf.Sin(Quaternion.AngleAxis(glideAngle * right, startPos).eulerAngles.z * Mathf.Deg2Rad)).normalized;
+        Gizmos.color = Color.cyan;
 
-        //    Gizmos.DrawLine(startPos, _rightV);
-        //}
+        Gizmos.DrawWireCube(transform.position, waterSize);
+        //Draw a Ray forward from GameObject toward the maximum distance
+        Gizmos.DrawRay(transform.position, waterDirection * waterDistance);
+        //Draw a cube at the maximum distance
+        Gizmos.DrawWireCube(transform.position + (Vector3)waterDirection * waterDistance, waterSize);
 
     }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.yellow;
+
+    //    var startPos = gameObject.transform.position;
+    //    var finalPos = new Vector2 ()
+    //    Debug.Log(right);
+
+    //    //Vector2 finalPos =
+    //    //    new Vector2(
+    //    //        Mathf.Cos(Mathf.PI / 180 * Quaternion.AngleAxis(glideAngle * right, startPos).eulerAngles.z),
+    //    //        Mathf.Sin(Quaternion.AngleAxis(glideAngle * right, startPos).eulerAngles.z * Mathf.Deg2Rad)).normalized;
+
+    //    Gizmos.DrawLine(startPos, _rightV);
+    //}
+
+    //}
 }
 
