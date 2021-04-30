@@ -607,7 +607,7 @@ public class PlayerController : Character
     }
     private void CheckFalling()
     {
-        if (playerRigidbody.velocity.y < 0.5 && isGrounded == false)
+        if (playerRigidbody.velocity.y <-1f && isGrounded == false)
         {
             if (isClimbLadder == false && inLadder == false)
             {
