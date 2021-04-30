@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ElectricableObject : MonoBehaviour,IElectricable
+public class ElectricableWorkObject : MonoBehaviour, IElectricable
 {
     [Tooltip("감전 당했었나?")]
-    public bool isShocked; 
-    public void OnThunder()
+    public bool isShocked;
+
+    public void OnLightining()
     {
-        isShocked = true;   
     }
+
 
     //private void OnTriggerEnter2D(Collider2D collision)
     //{

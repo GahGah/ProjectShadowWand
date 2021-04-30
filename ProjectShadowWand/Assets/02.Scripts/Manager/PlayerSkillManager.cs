@@ -65,7 +65,16 @@ public class PlayerSkillManager : MonoBehaviour
             }
         }
     }
+    public void UnlockWind()
+    {
 
+        UnlockSkill(eSkill.WINDGILDE);
+    }
+
+    public void UnlockLightning()
+    {
+        UnlockSkill(eSkill.LIGHTNINGSHOCK);
+    }
     /// <summary>
     /// 스킬을 해금하고 획득합니다.이미 있으면 아무것도 안하지롱
     /// </summary>
@@ -96,4 +105,6 @@ public class PlayerSkillManager : MonoBehaviour
                 break;
         }
     }
+
+
 }
