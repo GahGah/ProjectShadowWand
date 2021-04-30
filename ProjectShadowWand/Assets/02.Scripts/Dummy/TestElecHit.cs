@@ -16,7 +16,7 @@ public class TestElecHit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        hits = Physics2D.BoxCastAll(transform.position, size, 0f, Vector2.right, maxDistance);
+        hits = Physics2D.BoxCastAll(transform.position, size, 0f, Vector2.right, maxDistance, machineLayerMask);
 
         hit = false;
         foreach (var item in hits)

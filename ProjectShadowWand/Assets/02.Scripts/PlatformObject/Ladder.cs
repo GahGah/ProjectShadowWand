@@ -4,21 +4,30 @@ using UnityEngine;
 
 public class Ladder : MonoBehaviour
 {
-
+    public bool canLadder = true;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (canLadder)
         {
-            PlayerController.Instance.SetIsLadder(true, gameObject.transform.position);
-            Debug.Log("SetIsLadder!!");
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                PlayerController.Instance.SetIsLadder(true, gameObject.transform.position);
+                Debug.Log("SetIsLadder!!");
+            }
+
         }
+
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (canLadder)
         {
-            PlayerController.Instance.SetIsLadder(false, gameObject.transform.position);
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                PlayerController.Instance.SetIsLadder(false, gameObject.transform.position);
+            }
         }
+
     }
 }

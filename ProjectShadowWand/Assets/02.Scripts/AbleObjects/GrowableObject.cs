@@ -7,9 +7,9 @@ using UnityEngine;
 /// </summary>
 public class GrowableObject : MonoBehaviour, IWaterable
 {
-    [HideInInspector]
     [Tooltip("물에 한 번이라도 젖은 적이 있다면 true가 됩니다.")]
     public bool isWetted = false;
+
     public void OnWater()
     {
         if (isWetted == false)
