@@ -332,27 +332,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!50 &730199316
-Rigidbody2D:
-  serializedVersion: 4
+--- !u!251 &730199316
+PlatformEffector2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730199315}
-  m_BodyType: 2
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 0
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!61 &730199317
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -364,7 +362,7 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
@@ -420,7 +418,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: db750325989564987a34393247d883b4, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.53631186, g: 0.8679245, b: 0.79398304, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -438,8 +436,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 730199315}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -8.819334, y: -4.055709, z: 1.2695532}
-  m_LocalScale: {x: 24.167, y: 1, z: 1}
+  m_LocalPosition: {x: -8.819334, y: -6.1791, z: 1.2695532}
+  m_LocalScale: {x: 24.167, y: 5.2467, z: 1}
   m_Children: []
   m_Father: {fileID: 1491907894}
   m_RootOrder: 0
@@ -624,7 +622,7 @@ MonoBehaviour:
   flipFX: {fileID: 240405179}
   glideAngle: 3
   glideSpeed: 3
-  glideTime: 1000
+  glideTime: 40
   contactFilter_Ground:
     useTriggers: 0
     useLayerMask: 0
@@ -694,7 +692,7 @@ GameObject:
   - component: {fileID: 904079025}
   - component: {fileID: 904079024}
   - component: {fileID: 904079023}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
