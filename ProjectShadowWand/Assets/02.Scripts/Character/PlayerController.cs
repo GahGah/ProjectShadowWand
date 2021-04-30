@@ -9,7 +9,17 @@ using UnityEngine.UI;
 public class PlayerController : Character
 {//거리 속도 각도 뺴기
 
+
+
     #region 변수들
+
+    [Header("잡기 손 위치")]
+    public Vector2 handPosition_idle;
+    public Vector2 handPosition_walk;
+    public Vector2[] handPosition_jump;
+    public Vector2[] handPosition_landed;
+
+    public Vector2 currentHandPosition;
     public Image glideGauge;
     [Tooltip("디버그모드입니다.")]
     public bool isDebug;
@@ -983,6 +993,28 @@ public class PlayerController : Character
         return true;
     }
 
+    public Vector2 GetHandPosition()
+    {
+        return currentHandPosition;
+    }
+    public void SetHandPosition_Idle()
+    {
+        currentHandPosition = handPosition_idle;
+    }
+
+    public void SetHandPosition_Walk()
+    {
+        currentHandPosition = handPosition_walk;
+    }
+    public void SetHandPosition_Jump(int _index)
+    {
+        currentHandPosition = handPosition_jump[_index];
+    }
+
+    public void SetHandPosition_Landed(int _index)
+    {
+        currentHandPosition = handPosition_landed[_index];
+    }
     //public GameObject GetCatchingObject()
     //{
     //    return catchingObject;
