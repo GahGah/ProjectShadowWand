@@ -321,7 +321,6 @@ public class PlayerController : Character
     void Update()
     {
         CheckCatch();
-
         CheckMoveInput();
         CheckLadderInput();
         CheckJumpInput();

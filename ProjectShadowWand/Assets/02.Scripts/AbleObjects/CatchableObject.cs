@@ -103,6 +103,7 @@ public class CatchableObject : MonoBehaviour, ICatchable
     public void GoCatchThis()
     {
         rigidBody.bodyType = RigidbodyType2D.Kinematic;
+        gameObject.transform.SetParent(PlayerController.Instance.transform);
     }
 
     /// <summary>
@@ -111,11 +112,12 @@ public class CatchableObject : MonoBehaviour, ICatchable
     /// <param name="_pos"></param>
     public void SetPosition(Vector2 _pos)
     {
-        rigidBody.position = _pos;
+        transform.position = _pos;
     }
     public void GoPutThis()
     {
         rigidBody.bodyType = RigidbodyType2D.Dynamic;
+        gameObject.transform.SetParent(null);
     }
 
 
