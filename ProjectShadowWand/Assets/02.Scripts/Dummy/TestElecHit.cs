@@ -37,8 +37,6 @@ public class TestElecHit : MonoBehaviour
     }
     void OnDrawGizmos()
     {
-
-
         //Check if there has been a hit yet
         if (hit)
         {
