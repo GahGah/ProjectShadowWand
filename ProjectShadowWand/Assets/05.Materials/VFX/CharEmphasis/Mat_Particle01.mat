@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat_SkyColor
-  m_Shader: {fileID: -6465566751694194690, guid: 419ad67f37e42554ca156b5e3ff0b4a8, type: 3}
+  m_Name: Mat_Particle01
+  m_Shader: {fileID: -6465566751694194690, guid: 5b4760f70e3197543a3d14c8c26425ab, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -21,6 +21,10 @@ Material:
     m_TexEnvs:
     - _AlphaTex:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseTex:
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -48,10 +52,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - BOOLEAN_F4A241E0F5444999919CFE8950C68A25: 0
+    - Vector1_9a9f0afaa72a420ab791aa73fa968a59: 1
+    - _ColorStep: 5
     - _EnableExternalAlpha: 0
     m_Colors:
-    - Color_2960955c66b9492a9e500287c082cfbc: {r: 0.13803844, g: 0.49283713, b: 0.6226415, a: 0}
-    - _Color: {r: 0.36834514, g: 0.3794516, b: 0.4708356, a: 1}
+    - _BaseColor: {r: 1.4980392, g: 1.4980392, b: 1.4980392, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
