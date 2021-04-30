@@ -17,7 +17,7 @@ public class PlayerController : Character
 
     public GameObject landedFX;
     public GameObject flipFX;
-    private IEnumerator GlideCoroutine;
+    public IEnumerator GlideCoroutine;
 
     [Header("활강 관련")]
 
@@ -199,6 +199,8 @@ public class PlayerController : Character
     #endregion
 
 
+    public PlayerSkillManager playerSkillManager;
+
     private static PlayerController instance;
     public static PlayerController Instance
     {
@@ -218,18 +220,23 @@ public class PlayerController : Character
             instance = this;
         }
         Init();
-        GlideCoroutine = ProcessGlideTimer();
     }
     private void Start()
     {
 
         ChangeState(eState.PLAYER_DEFAULT);
+        playerSkillManager.Init();
         playerStateMachine.Start();
 
     }
     private void Init()
     {
         playerStateMachine = new PlayerStateMachine(this);
+        if (playerSkillManager == null)
+        {
+            playerSkillManager = GetComponent<PlayerSkillManager>();
+
+        }
         playerRigidbody = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<Collider2D>();
         animator = GetComponent<Animator>();
@@ -289,10 +296,12 @@ public class PlayerController : Character
         CheckLadderInput();
         CheckJumpInput();
 
-        CheckGlideInput();
+        playerSkillManager.Execute();
+        //CheckGlideInput();
 
         UpdateChangeState();
         CheckFalling();
+
         playerStateMachine.Update();
 
         if (isDebug)
@@ -307,7 +316,10 @@ public class PlayerController : Character
         GroundCheck();
         UpdateMoveVelocity();
         UpdateJumpVelocity();
-        UpdateCanGlide();
+
+        playerSkillManager.PhysicsExcute();
+        //UpdateCanGlide();
+
         UpdateGravityScale();
         UpdateDirection();
 
@@ -346,67 +358,7 @@ public class PlayerController : Character
 
     }
 
-    #region 활강
-    private void CheckGlideInput()
-    {
-        if (CanMove() && canGliding && (isFalling || isJumping))
-        {
-            if (InputManager.Instance.buttonMoveJump.wasPressedThisFrame)
-            {
-                isGliding = true;
-            }
 
-            if (InputManager.Instance.buttonMoveJump.wasReleasedThisFrame)
-            {
-                isGliding = false;
-                glideGauge.fillAmount = 0f;
-                if (GlideCoroutine != null)
-                {
-                    StopCoroutine(GlideCoroutine);
-                    GlideCoroutine = null;
-                }
-            }
-        }
-        else
-        {
-            if (InputManager.Instance.buttonMoveJump.isPressed == false)
-            {
-                isGliding = false;
-                glideGauge.fillAmount = 0f;
-                if (GlideCoroutine != null)
-                {
-                    StopCoroutine(GlideCoroutine);
-                    GlideCoroutine = null;
-                }
-
-            }
-        }
-    }
-
-    private void UpdateCanGlide()
-    {
-        if (isGliding == true && canGliding == true)
-        {
-            canGliding = false;
-        }
-    }
-
-    private IEnumerator ProcessGlideTimer()
-    {
-        float one = 1f;
-        float timer = 0f;
-        glideGauge.fillAmount = 1f;
-
-        while (timer < glideTime)
-        {
-            glideGauge.fillAmount = one - timer / glideTime;
-            timer += Time.deltaTime;
-            yield return new WaitForFixedUpdate();
-        }
-        glideGauge.fillAmount = 0f;
-        isGliding = false;
-    }
-    #endregion
     private void CheckLadderInput()
     {
         if (CanMove())
@@ -688,7 +640,7 @@ public class PlayerController : Character
             if (playerStateMachine.GetCurrentStateE() != eState.PLAYER_GLIDE)
             {
                 ChangeState(eState.PLAYER_GLIDE);
-                GlideCoroutine = ProcessGlideTimer();
+                GlideCoroutine = playerSkillManager.skillWindGilde.ProcessGlideTimer();
                 StartCoroutine(GlideCoroutine);
             }
 

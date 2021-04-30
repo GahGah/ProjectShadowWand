@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class PlayerSkillManager : MonoBehaviour
 {
-    Skill_WindGlide skillWindGilde;
-    Skill_LightningShock skillLightningShock;
+    public Skill_WindGlide skillWindGilde;
+    public Skill_LightningShock skillLightningShock;
 
     List<Skill> skillList;
 
-    private bool unlockWind;
-    private bool unlockLightning;
+    public bool unlockWind;
+    public bool unlockLightning;
 
     public void Init()
     {
         CheckSkills();
-
     }
 
     /// <summary>
@@ -23,17 +22,21 @@ public class PlayerSkillManager : MonoBehaviour
     /// </summary>
     public void CheckSkills()
     {
+        if (skillList != null)
+        {
+            skillList.Clear();
+        }
         skillList = new List<Skill>();
 
         if (unlockLightning == true)
         {
-            skillLightningShock = new Skill_LightningShock();
+            skillLightningShock = new Skill_LightningShock(PlayerController.Instance);
             skillList.Add(skillLightningShock);
         }
 
         if (unlockWind == true)
         {
-            skillWindGilde = new Skill_WindGlide();
+            skillWindGilde = new Skill_WindGlide(PlayerController.Instance);
             skillList.Add(skillWindGilde);
         }
     }
@@ -55,4 +58,5 @@ public class PlayerSkillManager : MonoBehaviour
         }
 
     }
+
 }
