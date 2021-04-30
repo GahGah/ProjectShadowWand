@@ -16,21 +16,30 @@ public class TestElecHit : MonoBehaviour
         hit = false;
         foreach (var item in hits)
         {
-            if (item)
+            var test = item.collider.GetComponent<ElectricableObject>();
+            if (test != null)
+            {
+                if (test is IElectricable)
+                {
+                    Debug.Log("일렉트리케이블!!");
+                }
+            }
+            if (item && hit == false)
             {
                 hit = true;
-                break;
             }
 
         }
     }
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.cyan;
+
 
         //Check if there has been a hit yet
         if (hit)
         {
+            Gizmos.color = Color.cyan;
+
             foreach (var item in hits)
             {
                 if (item)
@@ -46,6 +55,9 @@ public class TestElecHit : MonoBehaviour
         //If there hasn't been a hit yet, draw the ray at the maximum distance
         else
         {
+            Gizmos.color = Color.red;
+
+            Gizmos.DrawWireCube(transform.position, transform.localScale);
             //Draw a Ray forward from GameObject toward the maximum distance
             Gizmos.DrawRay(transform.position, Vector2.right * maxDistance);
             //Draw a cube at the maximum distance

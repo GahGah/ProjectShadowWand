@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 226333557}
   - component: {fileID: 226333556}
   - component: {fileID: 226333555}
+  - component: {fileID: 226333559}
   m_Layer: 0
   m_Name: Static Sprite
   m_TagString: Untagged
@@ -254,6 +255,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &226333559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226333554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee0cfdb7250942f4b9deefa0d1390c08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isShocked: 0
 --- !u!1 &240405179
 GameObject:
   m_ObjectHideFlags: 0
@@ -1567,7 +1581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d859f809006cd444094c980f3a2de20d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDistance: 4
+  maxDistance: 3
   hit: 0
 --- !u!4 &1152602174
 Transform:
@@ -1577,7 +1591,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1152602171}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.681, y: -0.44, z: 0}
+  m_LocalPosition: {x: 4.35, y: 0.33, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
