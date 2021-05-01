@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat_Tornaido01
+  m_Name: Mat_Tornaido04
   m_Shader: {fileID: -6465566751694194690, guid: d824928c07acaa540988a7587ed2cf36, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -53,32 +53,32 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - BOOLEAN_8AB26DC557054335B0B6C57DE2544D89: 0
-    - Vector1_2a91a3aad8684ff18c55a3a4e63855d7: 0.535
-    - Vector1_63ecbb5c5bb44ecbbfbb4b343c7d54a5: 0.054
-    - Vector1_aa4a1be4c6874759abd91adcf66eed80: 0.263
+    - Vector1_2a91a3aad8684ff18c55a3a4e63855d7: 0.786
+    - Vector1_63ecbb5c5bb44ecbbfbb4b343c7d54a5: 0.0001
+    - Vector1_aa4a1be4c6874759abd91adcf66eed80: 0.514
     - _EnableExternalAlpha: 0
     - _LeftMaskOffset: 0
     - _LeftMaskPower: 0.001
     - _NoisePower: 0.36
-    - _NoiseRotate: 302
-    - _NoiseScale: 37.68
+    - _NoiseRotate: 122
+    - _NoiseScale: 38.55
     - _RightMaskOffset: -1
     - _RightMaskPower: 0.01
     - _UseNoise: 1
     m_Colors:
-    - Color_0f1fd12d328846f6bb423a44ee0c74c0: {r: 0.10065861, g: 0.735849, b: 0.5168178, a: 0.46666667}
+    - Color_0f1fd12d328846f6bb423a44ee0c74c0: {r: 0.20385958, g: 4.867145, b: 0.83299065, a: 1}
     - Vector2_a48fb04ba40942a9adc502cd626bb861: {r: -3, g: 0, b: 0, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseOffsetSpeed: {r: 1, g: 0, b: 0, a: 0}
     - _BaseTiling: {r: 1, g: 1.04, b: 0, a: 0}
-    - _Color: {r: 1.2426683, g: 2.6082377, b: 1.3928808, a: 0.75686276}
+    - _Color: {r: 0.34509805, g: 3.3882353, b: 1.3333334, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _NoiseMoveSpeed: {r: -0.57, g: -0.53, b: 0, a: 0}
+    - _NoiseMoveSpeed: {r: -0.19, g: 0.48, b: 0, a: 0}
     - _NoiseSpeed: {r: 1.59, g: 0, b: 0, a: 0}
     - _OffsetMoveSpeed: {r: -1, g: 0, b: 0, a: 0}
-    - _Offset_MainTex: {r: 3.5, g: 0.32, b: 0, a: 0}
+    - _Offset_MainTex: {r: 3.5, g: 0.56, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
     - _Tiling_MainTex: {r: 1, g: 1, b: 0, a: 0}
-    - _VerticalMaskOffset: {r: -0.5, g: -0.55, b: 0, a: 0}
-    - _VerticalMaskPower: {r: 0.89, g: 0.96, b: 0, a: 0}
+    - _VerticalMaskOffset: {r: -0.17, g: -0.3, b: 0, a: 0}
+    - _VerticalMaskPower: {r: 0.7, g: 0.54, b: 0, a: 0}
   m_BuildTextureStacks: []
