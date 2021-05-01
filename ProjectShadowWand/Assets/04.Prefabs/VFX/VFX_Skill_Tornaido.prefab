@@ -9649,6 +9649,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 730078373828982924}
+  - component: {fileID: 634876060}
   m_Layer: 0
   m_Name: VFX_Skill_Tornaido
   m_TagString: Untagged
@@ -9665,7 +9666,7 @@ Transform:
   m_GameObject: {fileID: 730078373828982925}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6028, y: 1.096, z: 1.096}
+  m_LocalScale: {x: 0.6028, y: 1.0960002, z: 1.0960002}
   m_Children:
   - {fileID: 730078374318591554}
   - {fileID: 730078373692647691}
@@ -9676,6 +9677,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!95 &634876060
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 730078373828982925}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d96bfb7f4eefcb944be2511281517667, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &730078374318591555
 GameObject:
   m_ObjectHideFlags: 0
