@@ -87,7 +87,6 @@ public class Skill_LightningShock : Skill
 
             }
 
-
         }
         yield return null;
 
