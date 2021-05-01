@@ -1361,7 +1361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windEffect: {fileID: 583821253}
-  unlockWind: 1
+  unlockWind: 0
   unlockLightning: 0
   unlockWater: 0
 --- !u!1 &866651299
@@ -2631,7 +2631,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 730078373828982925, guid: 55fa95e6c447f8f4791f11e1440bbf4e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55fa95e6c447f8f4791f11e1440bbf4e, type: 3}

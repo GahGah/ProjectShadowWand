@@ -26,6 +26,7 @@ public class PlayerSkillManager : MonoBehaviour
                 skillList[i].Init();
             }
         }
+        windEffect.SetActive(false);
     }
 
 
