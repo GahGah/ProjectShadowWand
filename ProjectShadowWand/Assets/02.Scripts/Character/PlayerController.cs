@@ -42,6 +42,7 @@ public class PlayerController : Character
 
 
     [Header("물 관련")]
+
     [Tooltip("물 한 칸(?)의 크기입니다.")]
     public Vector2 waterSize;
 
@@ -51,9 +52,17 @@ public class PlayerController : Character
     [Tooltip("물의 지속 시간입니다.")]
     public float waterActiveTime;
 
-
     [Tooltip("물의 방향입니다.")]
     public Vector2 waterDirection = Vector2.right;
+
+
+    [Header("번개 관련")]
+
+    [Tooltip("번개의 원 크기입니다.")]
+    public float lightningRadius;
+
+    [Tooltip("번개의 지속 시간입니다.")]
+    public float lightningActiveTime;
 
     ////[SerializeField] CharacterAudio audioPlayer = null;
 
