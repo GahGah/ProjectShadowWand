@@ -1050,7 +1050,7 @@ public class PlayerController : Character
     //    return currentCatchJoint;
     //}
 
-
+    [HideInInspector] public bool isTalking = false;
     public bool CanMove()
     {
         if (isDie)
@@ -1062,6 +1062,10 @@ public class PlayerController : Character
             return false;
         }
         else if (isSkillUse_Lighting)
+        {
+            return false;
+        }
+        else if (isTalking)
         {
             return false;
         }

@@ -30,6 +30,7 @@ public class InputManager : MonoBehaviour
     public ButtonControl buttonSkillWater;
     public ButtonControl buttonSkillLightning;
 
+    public ButtonControl buttonTalkNext;
 
     public Keyboard keyboard;
     public bool isDebugMode;
@@ -128,6 +129,7 @@ public class InputManager : MonoBehaviour
         buttonSkillWater = Keyboard.current.xKey;
         buttonSkillLightning = Keyboard.current.cKey;
 
+        buttonTalkNext = Keyboard.current.spaceKey;
 
         //이 밑 키들은 아마도 안씀
         buttonPush = Keyboard.current.cKey;
