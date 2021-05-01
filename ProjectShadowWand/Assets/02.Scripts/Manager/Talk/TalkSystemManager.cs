@@ -11,13 +11,16 @@ public class TalkSystemManager : MonoBehaviour
     [Tooltip("CSV로 불러온 이름 파일의 내용이 담겨있는 딕셔너리 리스트입니다.")]
     public List<Dictionary<string, object>> charData;
 
+    [Header("이름")]
     [Tooltip("이름이 표시될 Text")]
     public Text nameText;
 
+    [Header("대화 내용")]
     [Tooltip("글자가 표시될 Text")]
     public Text talkText;
 
-    public GameObject nextButton;
+    [Header("스킵 버튼")]
+    public Button nextButton;
 
     [Tooltip("다음으로 가는 버튼을 눌렀는가?")]
     public bool isNextPressed;//다음으로 가는 버튼이 눌렸는가?
@@ -49,6 +52,7 @@ public class TalkSystemManager : MonoBehaviour
     //private int currentTalkFace;
 
     public Text spaceTest;
+
     private static TalkSystemManager instance;
     public static TalkSystemManager Instance
     {

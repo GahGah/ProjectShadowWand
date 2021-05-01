@@ -223,6 +223,7 @@ public class PlayerController : Character
 
     #endregion
 
+    public TalkStarter talkStater;
 
     public PlayerSkillManager playerSkillManager;
 

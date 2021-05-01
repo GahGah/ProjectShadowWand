@@ -32,6 +32,8 @@ public class InputManager : MonoBehaviour
 
     public ButtonControl buttonTalkNext;
 
+    public ButtonControl buttonInteraction;
+
     public Keyboard keyboard;
     public bool isDebugMode;
 
@@ -126,10 +128,12 @@ public class InputManager : MonoBehaviour
 
         buttonEscape = Keyboard.current.escapeKey;
         buttonCatch = Keyboard.current.vKey;
-        buttonSkillWater = Keyboard.current.xKey;
-        buttonSkillLightning = Keyboard.current.cKey;
+        buttonSkillWater = Keyboard.current.aKey;
+        buttonSkillLightning = Keyboard.current.sKey;
 
         buttonTalkNext = Keyboard.current.spaceKey;
+
+        buttonInteraction = Keyboard.current.fKey;
 
         //이 밑 키들은 아마도 안씀
         buttonPush = Keyboard.current.cKey;
