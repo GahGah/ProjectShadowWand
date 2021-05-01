@@ -61,9 +61,10 @@ public class CsvReader : MonoBehaviour
             var entry = new Dictionary<string, object>();
             for (var j = 0; j < header.Length && j < values.Length; j++)
             {
-                string value = values[j].Replace("\"\"", "\"");
+                string value = values[j].Replace("\\n", "\n");
+                //string value = values[j].Replace("\"\"", "\"");
                 value = UnquoteString(value);
-                value = value.Replace("\\", "");
+                //value = value.Replace("\\", "");
                 object finalvalue = value;
                 int n;
                 float f;

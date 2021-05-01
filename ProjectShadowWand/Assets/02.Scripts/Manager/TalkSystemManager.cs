@@ -9,7 +9,6 @@ public class TalkSystemManager : MonoBehaviour
     [Tooltip("CSV로 불러온 파일의 내용이 담겨있는 딕셔너리 리스트입니다.")]
     public List<Dictionary<string, object>> talkData;
 
-
     [Tooltip("이름이 표시될 Text")]
     public Text nameText;
 
@@ -25,14 +24,15 @@ public class TalkSystemManager : MonoBehaviour
     public float talkSpeed;
 
     public Coroutine TalkCoroutine;
+
     private string filePath;
 
+    [Tooltip("현재 캐릭터 이름")]
+    private string currentCharName;
 
     [Tooltip("현재 토크 코드")]
     private int currentTalkCode;
 
-    [Tooltip("현재 캐릭터 이름")]
-    private string currentCharName;
 
     [Tooltip("현재 토크 내용.")]
     private string currentTalkText;
@@ -43,6 +43,7 @@ public class TalkSystemManager : MonoBehaviour
     [Tooltip("현재 토크 페이스. 우선은 쓰이지 않습니다.")]
     private int currentTalkFace;
 
+    public Text spaceTest;
     private void Awake()
     {
         Init();
@@ -51,8 +52,8 @@ public class TalkSystemManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(ProcessStart());
+        spaceTest.text = "Test\nTest";
     }
-
 
     public void Init()
     {
@@ -66,19 +67,16 @@ public class TalkSystemManager : MonoBehaviour
     }
 
 
-
-
     // Update is called once per frame
     void Update()
     {
-        if (PlayerController.Instance.isTalking)
-        {
+        //if (PlayerController.Instance.isTalking)
+        //{
             if (InputManager.Instance.buttonTalkNext.wasPressedThisFrame)
             {
                 SetTrueGoNext();
             }
-
-        }
+        //}
     }
 
     public IEnumerator ProcessStart()
@@ -107,10 +105,7 @@ public class TalkSystemManager : MonoBehaviour
         filePath = "TalkDataFiles/" + path;
         talkData = CsvReader.Read(filePath);
         Debug.Log("OK?...");
-
     }
-
-
 
     /// <summary>
     /// 대화를 종료시킵니다. 사실은 버튼, 캐릭터, 윈도우 등을 전부 비활성화 시킵니다. 또한,플레이어 컨트롤러의 isTalking을 false로 합니다.
@@ -124,6 +119,7 @@ public class TalkSystemManager : MonoBehaviour
         }
         //PlayerController.Instance.isTalking = false;
     }
+
     /// <summary>
     /// goNext를 트루로 설정합니다. goNext는 지정된 텍스트가 출력되면, GoTalk코루틴에서 자동으로 false가 됩니다.
     /// </summary>
@@ -163,6 +159,8 @@ public class TalkSystemManager : MonoBehaviour
         currentTalkText = talkData[TALK_CODE]["TALK_NAEYONG"] as string;
 
         //talkWindow.SetActive(true);
+
+        nameText.text = currentCharName;
 
        // bool isSkip = false;
         for (int s = 0; s < currentTalkText.Length + 1; s++)
