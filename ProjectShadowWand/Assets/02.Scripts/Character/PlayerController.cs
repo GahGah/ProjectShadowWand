@@ -712,10 +712,20 @@ public class PlayerController : Character
         }
         else if (isSkillUse_Water)
         {//물능력
+            if (catchedObject != null)
+            {
+                catchedObject.GoPutThis();
+                catchedObject = null;
+            }
             ChangeState(eState.PLAYER_SKILL_WATER);
         }
         else if (isSkillUse_Lightning)
         {//번개능력
+            if (catchedObject != null)
+            {
+                catchedObject.GoPutThis();
+                catchedObject = null;
+            }
             ChangeState(eState.PLAYER_SKILL_LIGHTNING);
         }
         else if (isGrounded && !isJumping && !isGliding)
