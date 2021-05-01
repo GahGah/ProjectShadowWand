@@ -124,8 +124,6 @@ public class PlayerController : Character
     [Header("사다리 이동 속도"), Tooltip("사다리 등을 올라가는 속도입니다.")]
     public float climbSpeed;
 
-
-
     [Tooltip("UpdateVelocity에서 들어갈 추가적인 힘입니다.")]
     private Vector2 extraForce;
 
@@ -181,8 +179,6 @@ public class PlayerController : Character
     #region 추가된 것
 
 
-
-
     [Tooltip("현재 타고있는 사다리의 위치.")]
     [HideInInspector] public Vector2 ladderPosition = Vector2.zero;
 
@@ -203,9 +199,6 @@ public class PlayerController : Character
 
     // [Tooltip("밀기 키를 눌렀는가?")]
     // [HideInInspector] public bool isInputPushKey = false;
-
-
-
 
     // [Header("밀기/잡기 시 손의 위치"), Space(10)]
     // public GameObject handPosition_Push;
