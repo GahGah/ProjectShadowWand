@@ -280,6 +280,7 @@ public class PlayerState_Skill_Water : PlayerState
 
     public override void Enter()
     {
+        //player.animator
     }
 
     public override void Execute()

@@ -42,7 +42,9 @@ public class Skill_WaterWave : Skill
     public override void Execute()
     {
         UpdateWaterDirection();
-        if (InputManager.Instance.buttonSkillWater.wasPressedThisFrame && player.isOtherSkillUse() == false)
+        if (InputManager.Instance.buttonSkillWater.wasPressedThisFrame
+            && player.isOtherSkillUse() == false
+            && player.playerStateMachine.GetCurrentStateE()==eState.PLAYER_DEFAULT)
         {
             if (player.WaterCoroutine == null)
             {

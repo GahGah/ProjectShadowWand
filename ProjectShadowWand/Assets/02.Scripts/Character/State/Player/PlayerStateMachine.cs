@@ -42,6 +42,13 @@ public class PlayerStateMachine : StateMachine
             //case eState.PLAYER_CATCH:
             //    tempState = new PlayerState_Catch(player);
             //    break;
+            case eState.PLAYER_SKILL_WATER:
+                tempState = new PlayerState_Skill_Water(player);
+                break;
+
+            case eState.PLAYER_SKILL_LIGHTNING:
+                tempState = new PlayerState_Skill_Lightning(player);
+                break;
 
             case eState.PLAYER_FALL:
                 tempState = new PlayerState_Fall(player);

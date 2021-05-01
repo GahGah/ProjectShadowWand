@@ -110,6 +110,8 @@ public class PlayerController : Character
     [HideInInspector] public int animatorCatchBlend;
     [HideInInspector] public int animatorFallingBool;
     [HideInInspector] public int animatorGlidingBool;
+    [HideInInspector] public int animatorLightningBool;
+    [HideInInspector] public int animatorWaterBool;
 
     // [HideInInspector] public int animatorPushingBool;
     //public int animatorFallingBool;
@@ -286,7 +288,10 @@ public class PlayerController : Character
         animatorCatchingBool = Animator.StringToHash("Catching");
 
         animatorFallingBool = Animator.StringToHash("Falling");
+
         animatorGlidingBool = Animator.StringToHash("Gliding");
+        animatorWaterBool = Animator.StringToHash("Water");
+        animatorLightningBool = Animator.StringToHash("Lightning");
 
         animatorCatchBlend = Animator.StringToHash("CatchBlend");
         animatorIdleBlend = Animator.StringToHash("IdleBlend");
@@ -685,11 +690,11 @@ public class PlayerController : Character
         }
 
         if (isDie)
-        {
+        {//죽음
             ChangeState(eState.PLAYER_DIE);
         }
         else if (inLadder && prevPosition.y != playerRigidbody.position.y) //사다리 안쪽에 있고, 위로 올라갔다면
-        {
+        {//사다리
             if (catchedObject != null)//그런데 물체를 들고있다면
             {
                 catchedObject.GoPutThis();
@@ -699,9 +704,13 @@ public class PlayerController : Character
 
             ChangeState(eState.PLAYER_CLIMB_LADDER); // 사다리상태로 변경
         }
-        else if (isPushing)
-        {
-            //ChangeState(eState.PLAYER_PUSH);
+        else if (isSkillUse_Water)
+        {//물능력
+            ChangeState(eState.PLAYER_SKILL_WATER);
+        }
+        else if (isSkillUse_Lighting)
+        {//번개능력
+            ChangeState(eState.PLAYER_SKILL_LIGHTNING);
         }
         else if (isGrounded && !isJumping && !isGliding)
         {
@@ -713,7 +722,11 @@ public class PlayerController : Character
         }
         else if (!isGrounded && isJumping && !isGliding)
         {
-            ChangeState(eState.PLAYER_JUMP);
+            if (playerStateMachine.GetCurrentStateE() != eState.PLAYER_GLIDE)
+            {
+                ChangeState(eState.PLAYER_JUMP);
+            }
+
         }
         else if (isGliding && !inLadder)
         {
