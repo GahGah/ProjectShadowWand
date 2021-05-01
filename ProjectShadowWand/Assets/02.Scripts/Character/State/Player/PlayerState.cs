@@ -130,7 +130,6 @@ public class PlayerState_Jump : PlayerState
     }
 }
 
-
 public class PlayerState_Glide : PlayerState // = wind
 {
     public PlayerState_Glide(PlayerController _p)
@@ -140,6 +139,8 @@ public class PlayerState_Glide : PlayerState // = wind
 
     public override void Enter()
     {
+        player.animator.SetBool(player.animatorFallingBool, false);
+        player.animator.SetBool(player.animatorGlidingBool, true);
     }
 
     public override void Execute()
@@ -148,6 +149,7 @@ public class PlayerState_Glide : PlayerState // = wind
 
     public override void Exit()
     {
+        player.animator.SetBool(player.animatorGlidingBool, false);
     }
 
     public override void HandleInput()
@@ -166,7 +168,7 @@ public class PlayerState_Fall : PlayerState
     }
     public override void Enter()
     {
-        Log("Enter Air");
+        player.animator.SetBool(player.animatorFallingBool, true);
     }
     public override void Execute()
     {
@@ -183,61 +185,13 @@ public class PlayerState_Fall : PlayerState
     }
     public override void Exit()
     {
-        Log("Exit Air");
+        player.animator.SetBool(player.animatorFallingBool, false);
         // Play audio
         //audioPlayer.PlayLanding(blockType);
     }
 
     public override void HandleInput() { }
 }
-
-
-//public class PlayerState_Catch : PlayerState
-//{
-//    private float animatorSpeed;
-//    public PlayerState_Catch(PlayerController _p)
-//    {
-//        player = _p;
-//        animatorSpeed = 1f;
-//    }
-//    public override void Enter()
-//    {
-//        ResetAnimatorSpeed();
-//        player.animator.SetBool(player.animatorCatchingBool, true);
-//    }
-//    public override void Execute()
-//    {
-//        player.animator.SetBool(player.animatorCatchingBool, true);
-
-//        if (player.prevPosition != player.playerRigidbody.position)
-//        {
-//            if (player.animator.speed != animatorSpeed)
-//            {
-//                player.animator.speed = animatorSpeed;
-
-//            }
-
-//        }
-//        else
-//        {
-//            if (player.animator.speed != 0f)
-//            {
-//                player.animator.speed = 0f;
-//            }
-
-//        }
-//    }
-//    public override void PhysicsExecute()
-//    {
-
-
-//    }
-//    public override void Exit()
-//    {
-//        ResetAnimatorSpeed();
-//        player.animator.SetBool(player.animatorCatchingBool, false);
-//    }
-//}
 
 public class PlayerState_Climb_Ladder : PlayerState
 {

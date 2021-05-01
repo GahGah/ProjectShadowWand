@@ -9,8 +9,6 @@ using UnityEngine.UI;
 public class PlayerController : Character
 {//거리 속도 각도 뺴기
 
-
-
     #region 변수들
 
     [Header("잡기 손 위치")]
@@ -77,6 +75,8 @@ public class PlayerController : Character
 
     [HideInInspector] public Rigidbody2D playerRigidbody;
 
+    public bool isSkillUse_Water;
+    public bool isSkillUse_Lighting;
 
     [HideInInspector] public Collider2D playerCollider;
     private EdgeCollider2D playerSideCollider;
@@ -108,6 +108,8 @@ public class PlayerController : Character
     [HideInInspector] public int animatorCatchingBool;
     [HideInInspector] public int animatorIdleBlend;
     [HideInInspector] public int animatorCatchBlend;
+    [HideInInspector] public int animatorFallingBool;
+    [HideInInspector] public int animatorGlidingBool;
 
     // [HideInInspector] public int animatorPushingBool;
     //public int animatorFallingBool;
@@ -282,6 +284,10 @@ public class PlayerController : Character
         animatorJumpTrigger = Animator.StringToHash("Jump");
         animatorClimbingBool = Animator.StringToHash("Climbing");
         animatorCatchingBool = Animator.StringToHash("Catching");
+
+        animatorFallingBool = Animator.StringToHash("Falling");
+        animatorGlidingBool = Animator.StringToHash("Gliding");
+
         animatorCatchBlend = Animator.StringToHash("CatchBlend");
         animatorIdleBlend = Animator.StringToHash("IdleBlend");
         //animatorWindBlend = Animator.StringToHash("WindBlend");
@@ -482,6 +488,15 @@ public class PlayerController : Character
 
     #endregion
 
+    private void LateUpdate()
+    {
+        if (catchedObject != null)
+        {
+            catchedObject.SetPosition(GetHandPosition());
+        }
+
+    }
+
 
     #region 밀기/잡기
     private void CheckCatch() //최적화가 필요함
@@ -492,8 +507,6 @@ public class PlayerController : Character
             if (catchedObject != null)
             {
                 isCatching = true;
-                catchedObject.SetPosition(GetHandPosition());
-
             }
             else
             {
@@ -570,6 +583,28 @@ public class PlayerController : Character
 
     #endregion
 
+
+    /// <summary>
+    /// 아무 스킬이 사용중이라면, true를 리턴합니다.
+    /// </summary>
+    /// <returns></returns>
+    public bool isOtherSkillUse()
+    {
+        if (isSkillUse_Lighting)
+        {
+            return true;
+        }
+        else if (isSkillUse_Water)
+        {
+            return true;
+        }
+        else if (isGliding)
+        {
+            return true;
+        }
+
+        return false;
+    }
     /// <summary>
     /// 플레이어가 땅에 닿았는지 체크합니다.
     /// </summary>
@@ -685,6 +720,12 @@ public class PlayerController : Character
 
             if (playerStateMachine.GetCurrentStateE() != eState.PLAYER_GLIDE)
             {
+                if (catchedObject != null)
+                {
+                    catchedObject.GoPutThis();
+                    catchedObject = null;
+                }
+
                 ChangeState(eState.PLAYER_GLIDE);
                 GlideCoroutine = playerSkillManager.skillWindGilde.ProcessGlideTimer();
                 StartCoroutine(GlideCoroutine);
@@ -1000,6 +1041,14 @@ public class PlayerController : Character
     public bool CanMove()
     {
         if (isDie)
+        {
+            return false;
+        }
+        else if(isSkillUse_Water)
+        {
+            return false;
+        }
+        else if (isSkillUse_Lighting)
         {
             return false;
         }

@@ -29,9 +29,9 @@ public class Skill_WindGlide : Skill
     #region È°°­
     private void CheckGlideInput()
     {
-        if (player.CanMove() && player.canGliding && (player.isFalling || player.isJumping))
+        if (player.canGliding && (player.isFalling || player.isJumping))
         {
-            if (InputManager.Instance.buttonMoveJump.wasPressedThisFrame)
+            if (InputManager.Instance.buttonMoveJump.wasPressedThisFrame && player.isOtherSkillUse() == false)
             {
                 player.isGliding = true;
             }
