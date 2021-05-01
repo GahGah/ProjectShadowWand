@@ -89,10 +89,10 @@ public class MovePlatform : MonoBehaviour
     {
         if (canMoving)
         {
-            gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, currentDestination, Time.fixedDeltaTime * moveSpeed);
+            gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, currentDestination, Time.deltaTime * moveSpeed);
         }
 
-        if (Vector2.Distance(gameObject.transform.position, currentDestination) <= 1f) //거리가 0.01라면
+        if (Vector2.Distance(gameObject.transform.position, currentDestination) <= 0.01f) //거리가 0.01라면
         {
             if (isLoop)
             {

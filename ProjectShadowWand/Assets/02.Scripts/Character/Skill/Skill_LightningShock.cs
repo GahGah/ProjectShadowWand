@@ -11,7 +11,6 @@ public class Skill_LightningShock : Skill
 
     RaycastHit2D[] hits;
 
-    public GameObject startPos;
     //[Header("판정 크기")]
     //public Vector2 size;
 
@@ -23,71 +22,63 @@ public class Skill_LightningShock : Skill
 
     public bool hit = false;
 
-    public int plantLayerMask;
+    public int machineLayerMask;
 
 
 
     public override void Init()
     {
-        if (player.waterActiveTime <= 0f)
+        if (player.lightningActiveTime <= 0f)
         {
-            player.waterActiveTime = 2f;
+            player.lightningActiveTime = 2f;
         }
-        startPos = player.gameObject;
-        // plantLayerMask = LayerMask.NameToLayer("Plant");
-        plantLayerMask = (1 << LayerMask.NameToLayer("Plant"));
+        machineLayerMask = (1 << LayerMask.NameToLayer("Machine"));
     }
     public override void Execute()
     {
-        UpdateWaterDirection();
-        if (InputManager.Instance.buttonSkillWater.wasPressedThisFrame
+        if (InputManager.Instance.buttonSkillLightning.wasPressedThisFrame
             && player.isOtherSkillUse() == false
             && player.playerStateMachine.GetCurrentStateE() == eState.PLAYER_DEFAULT)
         {
-            if (player.WaterCoroutine == null)
+            if (player.LightningCoroutine == null)
             {
-                player.WaterCoroutine = ProcessWater();
-                player.StartCoroutine(player.WaterCoroutine);
+                player.LightningCoroutine = ProcessLightning();
+                player.StartCoroutine(player.LightningCoroutine);
             }
         }
     }
 
-    public void UpdateWaterDirection()
-    {
-        if (player.isRight)
-        {
-            player.waterDirection = Vector2.right;
-        }
-        else
-        {
-            player.waterDirection = Vector2.left;
-        }
-    }
     public override void PhysicsExecute()
     {
     }
 
-    IEnumerator ProcessWater()
+    IEnumerator ProcessLightning()
     {
-        Debug.Log("StartWater");
-        player.isSkillUse_Water = true;
+
+        player.isSkillUse_Lightning = true;
         var timer = 0f;
-        while (timer < player.waterActiveTime)
+        while (timer < player.lightningActiveTime)
         {
             timer += Time.deltaTime;
 
-            hits = Physics2D.BoxCastAll(startPos.transform.position, player.waterSize, 0f, player.waterDirection, player.waterDistance, plantLayerMask);
 
+            yield return new WaitForFixedUpdate();
+        }
 
-            hit = false;
+        hits = Physics2D.CircleCastAll(player.lightningPosition.position, player.lightningRadius, Vector2.up, 0.1f, machineLayerMask);
+        //(player.lightningPosition.position, player.waterSize, 0f, player.waterDirection, player.waterDistance, machineLayerMask);
 
-            foreach (var item in hits)
+        hit = false;
+
+        foreach (var item in hits)
+        {
+            if (item.normal.y <= 0f) //반원
             {
-                var test = item.collider.GetComponent<GrowableObject>();
+                Debug.DrawRay(player.lightningPosition.position, item.collider.gameObject.transform.position, Color.red, 1f);
+                var test = item.collider.GetComponent<ElectricableObject>();
                 if (test != null)
                 {
-                    Debug.Log(test.name);
-                    test.OnWater();
+                    test.OnLightining();
                 }
                 if (item && hit == false)
                 {
@@ -95,10 +86,14 @@ public class Skill_LightningShock : Skill
                 }
 
             }
-            yield return new WaitForFixedUpdate();
+
+
         }
-        Debug.Log("End Water");
-        player.isSkillUse_Water = false;
-        player.WaterCoroutine = null;
+        yield return null;
+
+        Debug.Log("End L");
+        player.isSkillUse_Lightning = false;
+        player.LightningCoroutine = null;
     }
+
 }

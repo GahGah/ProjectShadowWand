@@ -11,14 +11,9 @@ public class PlayerController : Character
 
     #region 변수들
 
-    [Header("잡기 손 위치")]
-    public Vector2 handPosition_idle;
-    public Vector2 handPosition_walk;
-    public Vector2[] handPosition_jump;
-    public Vector2[] handPosition_landed;
+    [Header("사다리 이동 속도"), Tooltip("사다리 등을 올라가는 속도입니다.")]
+    public float climbSpeed;
 
-    public Vector2 currentHandPosition;
-    public Image glideGauge;
     [Tooltip("디버그모드입니다.")]
     public bool isDebug;
     readonly Quaternion flippedRotation = new Quaternion(0, 0, 1, 0);
@@ -27,6 +22,7 @@ public class PlayerController : Character
     public GameObject flipFX;
     public IEnumerator GlideCoroutine;
     public IEnumerator WaterCoroutine;
+    public IEnumerator LightningCoroutine;
 
     [Header("활강 관련")]
 
@@ -58,6 +54,8 @@ public class PlayerController : Character
 
     [Header("번개 관련")]
 
+    [Tooltip("번개의 중심점입니다.")]
+    public Transform lightningPosition;
     [Tooltip("번개의 원 크기입니다.")]
     public float lightningRadius;
 
@@ -85,7 +83,7 @@ public class PlayerController : Character
     [HideInInspector] public Rigidbody2D playerRigidbody;
 
     public bool isSkillUse_Water;
-    public bool isSkillUse_Lighting;
+    public bool isSkillUse_Lightning;
 
     [HideInInspector] public Collider2D playerCollider;
     private EdgeCollider2D playerSideCollider;
@@ -129,9 +127,6 @@ public class PlayerController : Character
     [HideInInspector] public InputManager inputManager;
 
     [HideInInspector] public float saveMoveInputX;
-
-    [Header("사다리 이동 속도"), Tooltip("사다리 등을 올라가는 속도입니다.")]
-    public float climbSpeed;
 
     [Tooltip("UpdateVelocity에서 들어갈 추가적인 힘입니다.")]
     private Vector2 extraForce;
@@ -228,6 +223,14 @@ public class PlayerController : Character
     public eWindDirection windDirection;
 
     public TestSceneChanger testSceneChanger;
+    [Header("잡기 손 위치")]
+    public Vector2 handPosition_idle;
+    public Vector2 handPosition_walk;
+    public Vector2[] handPosition_jump;
+    public Vector2[] handPosition_landed;
+
+    public Vector2 currentHandPosition;
+    public Image glideGauge;
     #endregion
 
     #endregion
@@ -598,7 +601,7 @@ public class PlayerController : Character
     /// <returns></returns>
     public bool isOtherSkillUse()
     {
-        if (isSkillUse_Lighting)
+        if (isSkillUse_Lightning)
         {
             return true;
         }
@@ -711,7 +714,7 @@ public class PlayerController : Character
         {//물능력
             ChangeState(eState.PLAYER_SKILL_WATER);
         }
-        else if (isSkillUse_Lighting)
+        else if (isSkillUse_Lightning)
         {//번개능력
             ChangeState(eState.PLAYER_SKILL_LIGHTNING);
         }
@@ -1064,7 +1067,7 @@ public class PlayerController : Character
         {
             return false;
         }
-        else if (isSkillUse_Lighting)
+        else if (isSkillUse_Lightning)
         {
             return false;
         }
@@ -1204,8 +1207,7 @@ public class PlayerController : Character
 
     void OnDrawGizmos()
     {
-
-
+        //Elec
         Gizmos.color = Color.cyan;
 
         Gizmos.DrawWireCube(transform.position, waterSize);
@@ -1213,6 +1215,15 @@ public class PlayerController : Character
         Gizmos.DrawRay(transform.position, waterDirection * waterDistance);
         //Draw a cube at the maximum distance
         Gizmos.DrawWireCube(transform.position + (Vector3)waterDirection * waterDistance, waterSize);
+
+
+        Gizmos.color = Color.magenta;
+
+        Gizmos.DrawWireSphere(lightningPosition.position, lightningRadius);
+        ////Draw a Ray forward from GameObject toward the maximum distance
+        //Gizmos.DrawRay(transform.position, waterDirection * waterDistance);
+        ////Draw a cube at the maximum distance
+        //Gizmos.DrawWireCube(transform.position + (Vector3)waterDirection * waterDistance, waterSize);
 
     }
     //private void OnDrawGizmos()
