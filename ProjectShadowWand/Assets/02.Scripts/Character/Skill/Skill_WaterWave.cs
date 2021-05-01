@@ -42,7 +42,9 @@ public class Skill_WaterWave : Skill
     public override void Execute()
     {
         UpdateWaterDirection();
-        if (InputManager.Instance.buttonSkillWater.wasPressedThisFrame)
+        if (InputManager.Instance.buttonSkillWater.wasPressedThisFrame
+            && player.isOtherSkillUse() == false
+            && player.playerStateMachine.GetCurrentStateE()==eState.PLAYER_DEFAULT)
         {
             if (player.WaterCoroutine == null)
             {
@@ -70,7 +72,7 @@ public class Skill_WaterWave : Skill
     IEnumerator ProcessWater()
     {
         Debug.Log("StartWater");
-
+        player.isSkillUse_Water = true;
         var timer = 0f;
         while (timer < player.waterActiveTime)
         {
@@ -98,6 +100,7 @@ public class Skill_WaterWave : Skill
             yield return new WaitForFixedUpdate();
         }
         Debug.Log("End Water");
+        player.isSkillUse_Water = false;
         player.WaterCoroutine = null;
     }
 

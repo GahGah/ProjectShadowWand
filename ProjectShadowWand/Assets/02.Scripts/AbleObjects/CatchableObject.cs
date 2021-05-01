@@ -20,6 +20,7 @@ public class CatchableObject : MonoBehaviour, ICatchable
     [Tooltip("이 오브젝트가 잡혀있는 상태인지 체크합니다.")]
     public bool isCatched;
 
+    public float positionFix;
     void Start()
     {
         Init();
@@ -104,6 +105,17 @@ public class CatchableObject : MonoBehaviour, ICatchable
     {
         rigidBody.bodyType = RigidbodyType2D.Kinematic;
         gameObject.transform.SetParent(PlayerController.Instance.transform);
+        if (PlayerController.Instance.isRight) //오른쪽을 보고있었다면
+        {
+            transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x), transform.localScale.y);
+            positionFix = 1f;
+        }
+        else
+        {
+            transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x), transform.localScale.y);
+            positionFix = 1f;
+        }
+
     }
 
     /// <summary>
@@ -112,7 +124,7 @@ public class CatchableObject : MonoBehaviour, ICatchable
     /// <param name="_pos"></param>
     public void SetPosition(Vector2 _pos)
     {
-        transform.localPosition = _pos;
+        transform.localPosition = new Vector2(_pos.x * positionFix , _pos.y);
     }
     public void GoPutThis()
     {
