@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &62780950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1666,11 +1666,11 @@ MonoBehaviour:
   glideSpeed: 3
   glideTime: 2
   waterSize: {x: 1, y: 1}
-  waterDistance: 1
+  waterDistance: 0
   waterActiveTime: 2
   waterDirection: {x: 1, y: 0}
   lightningPosition: {fileID: 667102822}
-  lightningRadius: 2.66
+  lightningRadius: 2
   lightningActiveTime: 0
   contactFilter_Ground:
     useTriggers: 0
@@ -1765,9 +1765,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windEffect: {fileID: 583821253}
-  unlockWind: 0
+  unlockWind: 1
   unlockLightning: 1
-  unlockWater: 0
+  unlockWater: 1
 --- !u!1 &866651299
 GameObject:
   m_ObjectHideFlags: 0
@@ -2842,7 +2842,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!61 &1566280814
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2910,7 +2910,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -5
   m_Sprite: {fileID: 7482667652216324306, guid: db750325989564987a34393247d883b4, type: 3}
-  m_Color: {r: 0.02922988, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.24959952, g: 0.745283, b: 0.5176585, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2928,8 +2928,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1566280812}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.34, y: -0.29, z: 0}
-  m_LocalScale: {x: 0.3359, y: 0.5212, z: 1}
+  m_LocalPosition: {x: 4.76, y: -0.6366, z: 0}
+  m_LocalScale: {x: 0.3359, y: 0.48805168, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 15
@@ -2947,7 +2947,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   growTime: 3
-  maxExtent: {x: 0, y: 0.79}
+  maxExtent: {x: 0, y: 2.2}
 --- !u!1 &1570940884
 GameObject:
   m_ObjectHideFlags: 0

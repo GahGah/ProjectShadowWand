@@ -9,6 +9,7 @@ public class TalkStarter : MonoBehaviour
 {
     [Tooltip("해당하는 대화의 파일 이름을 씁니다.")]
     public string talkFileName;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
 

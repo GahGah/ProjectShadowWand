@@ -117,7 +117,7 @@ public class TalkSystemManager : MonoBehaviour
 
     public IEnumerator ProcessStart()
     {
-        yield return StartCoroutine(GoReadTalkData("TalkData_Tutorial"));
+        yield return StartCoroutine(GoReadTalkData("TalkData_Stage_00"));
         yield return StartCoroutine(GoReadCharData("CharData"));
         Debug.Log("불러오기 완료.");
 

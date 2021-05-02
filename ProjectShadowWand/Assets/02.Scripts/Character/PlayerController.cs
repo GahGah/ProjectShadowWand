@@ -235,6 +235,7 @@ public class PlayerController : Character
 
     #endregion
 
+    [Tooltip("대화할 캐릭터의 토크 스타터")]
     public TalkStarter talkStater;
 
     public PlayerSkillManager playerSkillManager;
