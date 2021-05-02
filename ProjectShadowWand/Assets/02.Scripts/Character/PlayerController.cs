@@ -748,12 +748,18 @@ public class PlayerController : Character
         else if (isFalling && !isGliding && inLadder == false)
         {
             ChangeState(eState.PLAYER_FALL);
+
+
         }
         else if (!isGrounded && isJumping && !isGliding)
         {
             if (playerStateMachine.GetCurrentStateE() != eState.PLAYER_GLIDE)
             {
-                ChangeState(eState.PLAYER_JUMP);
+                if (playerStateMachine.GetCurrentStateE() != eState.PLAYER_FALL)
+                {
+
+                    ChangeState(eState.PLAYER_JUMP);
+                }
             }
 
         }
