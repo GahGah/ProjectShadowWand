@@ -53,6 +53,18 @@ public class TalkSystemManager : MonoBehaviour
 
     public Text spaceTest;
 
+
+    [HideInInspector]
+    public bool isTalkStart;
+    [HideInInspector]
+    public bool isTalkEnd;
+
+    public TalkStarter currentTalkStarter;
+
+    [Space(20)]
+
+    public GameObject talkUI;
+
     private static TalkSystemManager instance;
     public static TalkSystemManager Instance
     {
@@ -74,33 +86,34 @@ public class TalkSystemManager : MonoBehaviour
         }
         Init();
     }
-
-    void Start()
-    {
-        StartCoroutine(ProcessStart());
-        spaceTest.text = "다음으로~";
-    }
-
     public void Init()
     {
         if (talkText == null)
         {
             Debug.Log("토크텍스트가 널");
         }
+        currentTalkStarter = null;
 
-        SetTalkClose();
+        isTalkEnd = false;
+        isTalkStart = false;
+        talkUI.SetActive(false);
     }
 
+    void Start()
+    {
+        StartCoroutine(ProcessStart());
+        spaceTest.text = "다음";
+    }
 
     // Update is called once per frame
     void Update()
     {
         //if (PlayerController.Instance.isTalking)
         //{
-            if (InputManager.Instance.buttonTalkNext.wasPressedThisFrame)
-            {
-                SetTrueGoNext();
-            }
+        if (InputManager.Instance.buttonTalkNext.wasPressedThisFrame)
+        {
+            SetTrueGoNext();
+        }
         //}
     }
     public void StartGoTalk(int TALK_CODE)
@@ -120,8 +133,6 @@ public class TalkSystemManager : MonoBehaviour
         yield return StartCoroutine(GoReadTalkData("TalkData_Stage_00"));
         yield return StartCoroutine(GoReadCharData("CharData"));
         Debug.Log("불러오기 완료.");
-
-        StartGoTalk(0);
     }
 
     /// <summary>
@@ -148,26 +159,27 @@ public class TalkSystemManager : MonoBehaviour
         Debug.Log("OK?...");
         yield return null;
     }
-
-    //public void TalkDataLoad(string path)
-    //{
-    //    //selectButtonObj = new GameObject[3];
-    //    filePath = "TalkDataFiles/" + path;
-    //    talkData = CsvReader.Read(filePath);
-    //    Debug.Log("OK?...");
-    //}
-
     /// <summary>
     /// 대화를 종료시킵니다. 사실은 버튼, 캐릭터, 윈도우 등을 전부 비활성화 시킵니다. 또한,플레이어 컨트롤러의 isTalking을 false로 합니다.
     /// </summary>
     public void SetTalkClose()
     {
+        talkUI.SetActive(false);
         if (TalkCoroutine != null)
         {
             StopCoroutine(TalkCoroutine);
             TalkCoroutine = null;
         }
-        //PlayerController.Instance.isTalking = false;
+        isTalkEnd = true;
+        isTalkStart = false;
+
+        if (currentTalkStarter != null)
+        {
+            currentTalkStarter.isEnd = true;
+            currentTalkStarter.isStart = false;
+            currentTalkStarter = null;
+        }
+        PlayerController.Instance.isTalking = false;
     }
 
     /// <summary>
@@ -188,6 +200,16 @@ public class TalkSystemManager : MonoBehaviour
     IEnumerator ProcessTalk(int TALK_CODE)
     //int TALK_CODE_START, int TALK_CODE_END)
     {
+        talkUI.SetActive(true);
+        isTalkStart = true;
+        isTalkEnd = false;
+
+        if (currentTalkStarter != null)
+        {
+            currentTalkStarter.isStart = true;
+        }
+
+        PlayerController.Instance.isTalking = true;
         isNextPressed = false;
 
         currentTalkCode = (int)talkData[TALK_CODE]["TALK_CODE"];
@@ -203,7 +225,7 @@ public class TalkSystemManager : MonoBehaviour
 
         nameText.text = currentCharName;
 
-       // bool isSkip = false;
+        // bool isSkip = false;
         for (int s = 0; s < currentTalkText.Length + 1; s++)
         {
             talkText.text = currentTalkText.Substring(0, s);
@@ -212,7 +234,7 @@ public class TalkSystemManager : MonoBehaviour
             {
                 isNextPressed = false; // 일단 펄스로 바고
                 talkText.text = currentTalkText;
-               // isSkip = true;//스킵을 했다고 처리한다.
+                // isSkip = true;//스킵을 했다고 처리한다.
                 break; //for 벗어나기
             }
             yield return new WaitForSecondsRealtime(talkSpeed);

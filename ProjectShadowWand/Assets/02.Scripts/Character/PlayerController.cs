@@ -338,6 +338,7 @@ public class PlayerController : Character
 
     void Update()
     {
+        CheckTalkInput();
         CheckCatch();
         CheckMoveInput();
         CheckLadderInput();
@@ -374,6 +375,17 @@ public class PlayerController : Character
 
     }
 
+
+    private void CheckTalkInput()
+    {
+        if (InputManager.Instance.buttonInteraction.wasPressedThisFrame)
+        {
+            if (talkStater != null && isTalking == false)
+            {
+                talkStater.StartTalk();
+            }
+        }
+    }
     //TEST
     #region 이동, 점프, 사다리, 활강
     private void CheckMoveInput()
@@ -1074,7 +1086,7 @@ public class PlayerController : Character
         {
             return false;
         }
-        else if(isSkillUse_Water)
+        else if (isSkillUse_Water)
         {
             return false;
         }
