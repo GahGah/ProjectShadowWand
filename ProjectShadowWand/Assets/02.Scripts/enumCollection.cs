@@ -74,7 +74,7 @@ public enum eChildOption
 public enum eUItype
 {
     NONE, DIARY, SAVE, LOAD,
-    OPTION,
+    SETTINGS,
 }
 
 public enum eElectricableType

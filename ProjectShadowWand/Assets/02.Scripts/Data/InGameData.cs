@@ -8,6 +8,53 @@ public class InGameData
 }
 
 [System.Serializable]
+public class Data_Settings : InGameData
+{
+    public bool isFullScreenMode; //전체화면모드인가?
+    public string masterVolume;
+    public string sfxVolume; //
+    public string bgmVolume;
+    public string brightness;
+    public eResolutionData resolution;
+
+    /// <summary>
+    /// 디폴트 생성자. 기본값이 들어갑니다~~
+    /// </summary>
+    public Data_Settings() //생성자?
+    {
+        isFullScreenMode = true;
+        masterVolume = "1.0";
+        sfxVolume = "0.5";
+        bgmVolume = "0.5";
+        brightness = "0.5";
+        resolution = eResolutionData.HD;
+    }
+
+    /// <summary>
+    /// 데이터를 넣어서 생성합니다.
+    /// </summary>
+    /// <param name="data">이 데이터가 넣어집니다.</param>
+    public Data_Settings(Data_Settings data)
+    {
+        CopyFrom(data);
+    }
+
+    /// <summary>
+    /// 해당하는 데이터를 자신에게 복사해 넣습니다.
+    /// </summary>
+    /// <param name="data">복사되어서 넣어질 테이터</param>
+    public void CopyFrom(Data_Settings data)
+    {
+        this.isFullScreenMode = data.isFullScreenMode;
+        this.masterVolume = data.masterVolume;
+        this.bgmVolume = data.bgmVolume;
+        this.sfxVolume = data.sfxVolume;
+        this.brightness = data.brightness;
+        this.resolution = data.resolution;
+    }
+}
+
+[System.Serializable]
 public class Data_Player : InGameData
 {
     public int currentStage;

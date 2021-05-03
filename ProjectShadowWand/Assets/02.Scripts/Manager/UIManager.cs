@@ -74,7 +74,7 @@ public class UIManager : MonoBehaviour
     }
     public void OpenThis(UIBase _uiBase)
     {
-        if (_uiBase.Open() == true) //정상적으로 열령을 때만
+        if (_uiBase.Open() == true) //정상적으로 열렸을 때만
         {
 
             uiStack.Push(_uiBase);

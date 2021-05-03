@@ -5,16 +5,16 @@ using UnityEngine.Audio;
 public class SettingsManager : MonoBehaviour
 {
     public AudioMixer audioMixer;
-    private SettingsData currentSettingsData; //현재 세팅 데이터.
+    private Data_Settings currentSettingsData; //현재 세팅 데이터.
 
-    public void OnApply(SettingsData data)
+    public void OnApply(Data_Settings data)
     {
         //세팅을 확정하고...
         ApplySettings(data);
         StartCoroutine(SaveSettingsData());
         //ㄹㅇ 저장시킨다
     }
-    public void OnCancel(SettingsData data)
+    public void OnCancel(Data_Settings data)
     {
         ApplySettings(data);
         //확정은 아는데 저장은 안함ㅋㅋ
@@ -22,7 +22,7 @@ public class SettingsManager : MonoBehaviour
     }
 
 
-    private void ApplySettings(SettingsData data)
+    private void ApplySettings(Data_Settings data)
     {
 
         GameManager.Instance.settingsManager.audioMixer.SetFloat("bgmVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(data.bgmVolume))) * 20);
@@ -30,7 +30,7 @@ public class SettingsManager : MonoBehaviour
 
         //LocalizationManager.Instance.SetLocalizationLanguage(data.language);
         //LocalizationManager.Instance.UpdateLocalization();
-        currentSettingsData = new SettingsData(data);
+        currentSettingsData = new Data_Settings(data);
     }
 
     public IEnumerator SaveSettingsData()
@@ -52,7 +52,7 @@ public class SettingsManager : MonoBehaviour
         //}
         yield break;
     }
-    public SettingsData GetCurrentSettingsData()
+    public Data_Settings GetCurrentSettingsData()
     {
         if (currentSettingsData == null)
         {
@@ -61,9 +61,9 @@ public class SettingsManager : MonoBehaviour
         return currentSettingsData;
     }
 
-    public SettingsData GetDefaultSettingsData()
+    public Data_Settings GetDefaultSettingsData()
     {
-        currentSettingsData = new SettingsData();
+        currentSettingsData = new Data_Settings();
         return currentSettingsData;
     }
 }
