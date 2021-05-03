@@ -59,8 +59,10 @@ public class TalkSystemManager : MonoBehaviour
     [HideInInspector]
     public bool isTalkEnd;
 
-    public TalkStarter currentTalkStarter;
+    //public TalkStarter currentTalkStarter;
 
+
+    public NPC currentTalkNPC;
     [Space(20)]
 
     public GameObject talkUI;
@@ -92,8 +94,8 @@ public class TalkSystemManager : MonoBehaviour
         {
             Debug.Log("토크텍스트가 널");
         }
-        currentTalkStarter = null;
-
+        //currentTalkStarter = null;
+        currentTalkNPC = null;
         isTalkEnd = false;
         isTalkStart = false;
         talkUI.SetActive(false);
@@ -116,7 +118,29 @@ public class TalkSystemManager : MonoBehaviour
         }
         //}
     }
-    public void StartGoTalk(int TALK_CODE)
+    /// <summary>
+    /// 외부에서 호출하는 대화시작 함수입니다.
+    /// </summary>
+    /// <param name="TALK_CODE"></param>
+    /// <param name="_npc"></param>
+    public void StartGoTalk(int TALK_CODE, NPC _npc)
+    {
+        if (TalkCoroutine != null)
+        {
+            StopCoroutine(TalkCoroutine);
+            TalkCoroutine = null;
+        }
+        Debug.Log("TalkSystemManager에서 StartGoTalk(외부호출대화함수) 실행.");
+        QuestManager.Instance.QuestSystem_TalkStart(currentTalkNPC);
+        TalkCoroutine = StartCoroutine(ProcessTalk(TALK_CODE, _npc));
+    }
+
+    /// <summary>
+    /// 내부에서 사용하는 대화 시작 함수입니다.
+    /// </summary>
+    /// <param name="TALK_CODE"></param>
+    /// <param name="_npc"></param>
+    private void ProcessGoTalk(int TALK_CODE, NPC _npc)
     {
         //PlayerController.Instance.isTalking = true;
 
@@ -125,7 +149,7 @@ public class TalkSystemManager : MonoBehaviour
             StopCoroutine(TalkCoroutine);
             TalkCoroutine = null;
         }
-        TalkCoroutine = StartCoroutine(ProcessTalk(TALK_CODE));
+        TalkCoroutine = StartCoroutine(ProcessTalk(TALK_CODE, _npc));
     }
 
     public IEnumerator ProcessStart()
@@ -170,16 +194,22 @@ public class TalkSystemManager : MonoBehaviour
             StopCoroutine(TalkCoroutine);
             TalkCoroutine = null;
         }
-        isTalkEnd = true;
-        isTalkStart = false;
+        //isTalkEnd = true;
+        //isTalkStart = false;
 
-        if (currentTalkStarter != null)
+        //if (currentTalkStarter != null)
+        //{
+        //    currentTalkStarter.isEnd = true;
+        //    currentTalkStarter.isStart = false;
+        //    currentTalkStarter = null;
+        //}
+        if (currentTalkNPC != null)
         {
-            currentTalkStarter.isEnd = true;
-            currentTalkStarter.isStart = false;
-            currentTalkStarter = null;
+            QuestManager.Instance.QuestSystem_TalkEnd(currentTalkNPC);
         }
+
         PlayerController.Instance.isTalking = false;
+        currentTalkNPC = null;
     }
 
     /// <summary>
@@ -197,17 +227,20 @@ public class TalkSystemManager : MonoBehaviour
     /// </summary>
     /// <param name="TALK_CODE"></param>
     /// <returns></returns>
-    IEnumerator ProcessTalk(int TALK_CODE)
+    IEnumerator ProcessTalk(int TALK_CODE, NPC _npc)
     //int TALK_CODE_START, int TALK_CODE_END)
     {
         talkUI.SetActive(true);
-        isTalkStart = true;
-        isTalkEnd = false;
+        //isTalkStart = true;
+        //isTalkEnd = false;
 
-        if (currentTalkStarter != null)
-        {
-            currentTalkStarter.isStart = true;
-        }
+        currentTalkNPC = _npc;
+
+
+        //if (currentTalkStarter != null)
+        //{
+        //    currentTalkStarter.isStart = true;
+        //}
 
         PlayerController.Instance.isTalking = true;
         isNextPressed = false;
@@ -247,7 +280,7 @@ public class TalkSystemManager : MonoBehaviour
         switch (currentTalkMove)
         {
             case -1://다음으로 이동
-                StartGoTalk(TALK_CODE + 1);
+                ProcessGoTalk(TALK_CODE + 1, currentTalkNPC);
                 break;
             case -25: // 종료
                 SetTalkClose();

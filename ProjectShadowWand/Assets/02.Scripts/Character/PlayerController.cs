@@ -235,9 +235,11 @@ public class PlayerController : Character
 
     #endregion
 
-    [Tooltip("대화할 캐릭터의 토크 스타터")]
-    public TalkStarter talkStater;
+    //[Tooltip("대화할 캐릭터의 토크 스타터")]
+    //public TalkStarter talkStater;
 
+    [Tooltip("현재 대화중인/대화를 시작할 수 있는NPC")]
+    public NPC currentNPC;
     public PlayerSkillManager playerSkillManager;
 
     private static PlayerController instance;
@@ -266,6 +268,7 @@ public class PlayerController : Character
         ChangeState(eState.PLAYER_DEFAULT);
         playerSkillManager.Init();
         playerStateMachine.Start();
+
 
     }
     private void Init()
@@ -380,9 +383,11 @@ public class PlayerController : Character
     {
         if (InputManager.Instance.buttonInteraction.wasPressedThisFrame)
         {
-            if (talkStater != null && isTalking == false)
+            if (currentNPC != null && isTalking == false)
             {
-                talkStater.StartTalk();
+                TalkSystemManager.Instance.currentTalkNPC = currentNPC;
+                currentNPC.StartTalk();
+               // TalkSystemManager.Instance.StartGoTalk(currentNPC.currentTalkCode, currentNPC);
             }
         }
     }

@@ -19,6 +19,8 @@ public enum eMonsterType
 {
     A, B, C
 }
+
+
 public enum eState // 상태를 정의해놓습니다.
 {
     PLAYER_DEFAULT,
@@ -150,6 +152,14 @@ public enum eLayer
     TornadoBreakLayer = 23,
     Ladder = 24,
     Fire = 25,
+}
+
+public enum eQuestCode
+{
+    MOM_AND_BABY_01,
+    MOM_AND_BABY_02,
+    MOM_AND_BABY_03,
+
 }
 
 /// <summary>

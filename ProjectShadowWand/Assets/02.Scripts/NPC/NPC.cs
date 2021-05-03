@@ -4,15 +4,34 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public int currentTalkCode;
+
+    public virtual void StartTalk()
     {
-        
+
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            if (PlayerController.Instance.currentNPC == null)// 토크 스타터가 널일때만
+            {
+                PlayerController.Instance.currentNPC = this; //본인으로 설정
+            }
+        }
+
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        
+        if (collision.CompareTag("Player"))
+        {
+
+            if (PlayerController.Instance.currentNPC == this)//토크 스타터가 본인일때만
+            {
+                PlayerController.Instance.currentNPC = null;
+            }
+        }
     }
 }

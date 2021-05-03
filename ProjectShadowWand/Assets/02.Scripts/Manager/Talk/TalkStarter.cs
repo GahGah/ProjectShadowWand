@@ -23,26 +23,26 @@ public class TalkStarter : MonoBehaviour
     {
         if (TalkSystemManager.Instance.isTalkStart == false)
         {
-            TalkSystemManager.Instance.currentTalkStarter = this;
-            TalkSystemManager.Instance.StartGoTalk(talkCode);
+            ///TalkSystemManager.Instance.currentTalkStarter = this;
+            //TalkSystemManager.Instance.StartGoTalk(talkCode,);
 
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (PlayerController.Instance.talkStater == null)// 토크 스타터가 널일때만
-        {
-            PlayerController.Instance.talkStater = this; //본인으로 설정
-        }
+        //if (PlayerController.Instance.talkStater == null)// 토크 스타터가 널일때만
+        //{
+        //    PlayerController.Instance.talkStater = this; //본인으로 설정
+        //}
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
 
-        if (PlayerController.Instance.talkStater == this)//토크 스타터가 본인일때만
-        {
-            PlayerController.Instance.talkStater = null;
-        }
+        //if (PlayerController.Instance.talkStater == this)//토크 스타터가 본인일때만
+        //{
+        //    PlayerController.Instance.talkStater = null;
+        //}
     }
 }
