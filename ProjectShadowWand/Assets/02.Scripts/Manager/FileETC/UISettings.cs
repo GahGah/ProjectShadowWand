@@ -8,7 +8,7 @@ public class UISettings : UIBase
     [Header("소리")]
     public AudioMixer audioMixer;
     public Slider masterSlider;
-    public Slider soundEffectSlider;
+    public Slider sfxSlider;
     public Slider bgmSlider;
 
 
@@ -26,7 +26,6 @@ public class UISettings : UIBase
 
     public override void Init()
     {
-
         SetActive(false);
     }
 
@@ -48,20 +47,23 @@ public class UISettings : UIBase
         originalSettingsData = new Data_Settings(data);
 
         currentSettingsData = data;
-        masterSlider.value = GetFloat(this.currentSettingsData.masterVolume);
-        soundEffectSlider.value = GetFloat(this.currentSettingsData.sfxVolume);
-        bgmSlider.value = GetFloat(this.currentSettingsData.bgmVolume);
-        brightnessSlider.value = GetFloat(this.currentSettingsData.brightness);
+
+        UpdateValue(data);
+
+        ApplySettings(data);
+
+        //TODO :
+        //isFullScreen,  resolution...
         //languageSelector.SetIndex((int)this.settingsData.language);
     }
     public void SliderOnChangeMasterSlider()
     {
         audioMixer.SetFloat("masterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, masterSlider.value)) * 20);
     }
-    public void SliderOnChangeSoundEffectSlider()
+    public void SliderOnChangeSfxSlider()
     {
         // GameManager.Instance.settingsManager.
-        audioMixer.SetFloat("sfxVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, soundEffectSlider.value)) * 20);
+        audioMixer.SetFloat("sfxVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, sfxSlider.value)) * 20);
     }
 
     public void SliderOnChangeBGMSlider()
@@ -85,21 +87,53 @@ public class UISettings : UIBase
 
         // GameManager.Instance.settingsManager.
         OnApply(currentSettingsData);
+        canvasGroup.interactable = true;
         //Toggle(false);
     }
 
     public void ButtonOnCancel()
     {
         // GameManager.Instance.settingsManager.
-        OnApply(originalSettingsData);
+        //OnApply(originalSettingsData);
+
+        UpdateValue(originalSettingsData);
+        ApplySettings(originalSettingsData);
         //Toggle(false);
 
     }
 
+    /// <summary>
+    /// 기본값으로 초기화하는 버튼입니다.
+    /// </summary>
+    public void ButtonOnDefault()
+    {
+        canvasGroup.interactable = false;
+
+        // GameManager.Instance.settingsManager.
+        OnApply(GetDefaultSettingsData());
+        canvasGroup.interactable = true;
+    }
+
+    /// <summary>
+    /// UI에 보여지는 값들을 변경시킵니다.
+    /// </summary>
+    /// <param name="_data"></param>
+    private void UpdateValue(Data_Settings _data)
+    {
+        masterSlider.value = GetFloat(_data.masterVolume);
+        sfxSlider.value = GetFloat(_data.sfxVolume);
+        bgmSlider.value = GetFloat(_data.bgmVolume);
+        brightnessSlider.value = GetFloat(_data.brightness);
+    }
+
+    /// <summary>
+    /// UI에 보여지고 있는 값들을 data로 옮깁니다.
+    /// </summary>
+    /// <param name="data"></param>
     private void ApplySetting(Data_Settings data)
     {
         data.masterVolume = GetString(masterSlider.value);
-        data.sfxVolume = GetString(soundEffectSlider.value);
+        data.sfxVolume = GetString(sfxSlider.value);
         data.bgmVolume = GetString(bgmSlider.value);
         data.brightness = GetString(brightnessSlider.value);
 
@@ -109,6 +143,9 @@ public class UISettings : UIBase
         //data.language = (Language)languageSelector.GetCurrentIndex();
 
     }
+
+
+
     private string GetString(float input)
     {
         return input.ToString();
@@ -125,28 +162,30 @@ public class UISettings : UIBase
 
     //여기서부터 세팅 매니저에서 가져옴
     /// <summary>
-    /// 세팅데이터를 정말로 저장합니다. 
+    /// 세팅데이터를 정말로, SaveLoadManager를 통해 저장합니다. 
     /// </summary>
     /// <param name="data"></param>
     public void OnApply(Data_Settings data)
     {
         //세팅을 확정하고...
         ApplySettings(data);
-        if (data != originalSettingsData)
-        {
+        if (data != originalSettingsData) // 오리지널 데이터와 가져온 데이터가 다를 경우에만 저장
+        {//오리지널 데이터와 가져온 데이터가 같다는 것은, 그냥 변경점이 없다는 것이기 때문에...
             originalSettingsData = new Data_Settings(data);
             SaveLoadManager.Instance.SetCurrentData_Settings(data);
             StartCoroutine(SaveLoadManager.Instance.SaveData_Settings());
         }
+
+        UpdateValue(data);
 
         //StartCoroutine(SaveSettingsData());
         //ㄹㅇ 저장시킨다
     }
 
     /// <summary>
-    /// 현재 데이터를 변경된 세팅 데이터로 변경합니다.
+    /// data를 오디오 믹서 등 실제 설정에 반역하고, currentData를  data로 변경합니다.
     /// </summary>
-    /// <param name="data">변경된 세팅 데이터</param>
+    /// <param name="data">변경할 세팅 데이터</param>
     private void ApplySettings(Data_Settings data)
     {
         audioMixer.SetFloat("masterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(data.masterVolume))) * 20);

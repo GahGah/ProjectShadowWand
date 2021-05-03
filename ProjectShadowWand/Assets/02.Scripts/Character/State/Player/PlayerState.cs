@@ -20,15 +20,10 @@ public class PlayerState_Default : PlayerState
     public override void Enter()
     {
         eState tempState = player.playerStateMachine.GetPrevStateE();
-        if (tempState != eState.PLAYER_GLIDE)
-        {
-            player.landedFX.SetActive(true);
-        }
-        else if (tempState != eState.NONE)
+        if (tempState == eState.PLAYER_GLIDE)
         {
             player.flipFX.SetActive(true);
         }
-
 
         Log("Enter Default");
         ResetAnimatorSpeed();
@@ -186,6 +181,16 @@ public class PlayerState_Fall : PlayerState
     public override void Exit()
     {
         player.animator.SetBool(player.animatorFallingBool, false);
+
+        eState tempState = player.playerStateMachine.GetPrevStateE();
+        if (tempState == eState.PLAYER_JUMP)
+        {
+            player.landedFX.SetActive(true);
+        }
+        else if (tempState == eState.PLAYER_GLIDE)
+        {
+            player.flipFX.SetActive(true);
+        }
         // Play audio
         //audioPlayer.PlayLanding(blockType);
     }
