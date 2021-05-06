@@ -725,7 +725,11 @@ public class PlayerController : Character
 
     private void GroundGlide()
     {
-        glideGauge.fillAmount = 0f;
+
+        if (glideGauge != null)
+        {
+            glideGauge.fillAmount = 0f;
+        }
         isGliding = false;
         canGliding = true;
         if (GlideCoroutine != null)
