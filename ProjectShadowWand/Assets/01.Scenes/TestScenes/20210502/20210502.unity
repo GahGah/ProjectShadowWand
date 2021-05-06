@@ -9487,6 +9487,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8403324798081490452, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: d96bfb7f4eefcb944be2511281517667, type: 2}
     - target: {fileID: 8403324799475236884, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -9539,6 +9543,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8403324799475236889, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
+      propertyPath: unlockWind
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8403324799475236890, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
       propertyPath: m_Size.y
       value: 1.09
@@ -9550,6 +9558,10 @@ PrefabInstance:
     - target: {fileID: 8403324799475236893, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
       propertyPath: m_Name
       value: Teva(Player)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9133116460333454853, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
