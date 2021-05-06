@@ -281,8 +281,8 @@ public class PlayerController : Character
         animator = GetComponent<Animator>();
         puppet = gameObject.transform;
 
-        groundCheckMask = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Ground_Soft")) | (1 << LayerMask.NameToLayer("Ground_Hard"))
-             | (1 << LayerMask.NameToLayer("Default"));
+        groundCheckMask = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Ground_Soft")) | (1 << LayerMask.NameToLayer("Ground_Hard"));
+             //| (1 << LayerMask.NameToLayer("Default"));
         //  noPlayerMask = ~noPlayerMask;
 
         playerMask = LayerMask.NameToLayer("Player");
@@ -366,9 +366,9 @@ public class PlayerController : Character
     }
     void FixedUpdate()
     {
-        //GroundCheck();
-        // UpdateGroundCheck_Cast();
-        UpdateGroundCheck_Touch_Cast();
+        GroundCheck();
+        //UpdateGroundCheck_Cast();
+       // UpdateGroundCheck_Touch_Cast();
         UpdateMoveVelocity();
         UpdateJumpVelocity();
 
