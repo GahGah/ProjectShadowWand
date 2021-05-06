@@ -413,9 +413,13 @@ public class PlayerController : Character
                 }
                 else //아니라면
                 {
-                    catchedObject.GoPutThis();
+                    if (!ReferenceEquals(catchedObject, null))
+                    {
+                        catchedObject.GoPutThis();
 
-                    catchedObject = null;
+                        catchedObject = null;
+                    }
+  
                 }
 
             }

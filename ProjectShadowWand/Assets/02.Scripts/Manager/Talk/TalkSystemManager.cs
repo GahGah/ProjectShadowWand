@@ -11,6 +11,9 @@ public class TalkSystemManager : MonoBehaviour
     [Tooltip("CSV로 불러온 이름 파일의 내용이 담겨있는 딕셔너리 리스트입니다.")]
     public List<Dictionary<string, object>> charData;
 
+    [Tooltip("CSV로 불러온 사념 파일의 내용이 담겨있는 딕셔너리 리스트입니다.")]
+    public List<Dictionary<string, object>> soulMemoryData;
+
     [Header("이름")]
     [Tooltip("이름이 표시될 Text")]
     public Text nameText;

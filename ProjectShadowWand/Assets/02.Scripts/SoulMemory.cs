@@ -5,6 +5,9 @@ using UnityEngine;
 public class SoulMemory : MonoBehaviour
 {
     private StageManager stageManager;
+
+    [Tooltip("UI°¡ ´ÝÇû´Â°¡?")]
+    public bool isEnd;
     private void Start()
     {
         stageManager = StageManager.Instance;
