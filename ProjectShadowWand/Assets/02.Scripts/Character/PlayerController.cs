@@ -119,6 +119,7 @@ public class PlayerController : Character
     [HideInInspector] public int animatorGlidingBool;
     [HideInInspector] public int animatorLightningBool;
     [HideInInspector] public int animatorWaterBool;
+    [HideInInspector] public int animatorJumpingBool;
 
     // [HideInInspector] public int animatorPushingBool;
     //public int animatorFallingBool;
@@ -308,6 +309,7 @@ public class PlayerController : Character
         //animatorWindBlend = Animator.StringToHash("WindBlend");
         //animatorPushingBool = Animator.StringToHash("Pushing");
         animatorDieBool = Animator.StringToHash("Die");
+        animatorJumpingBool = Animator.StringToHash("Jumping");
 
         isRight = true;
         isWater = false;
@@ -365,7 +367,8 @@ public class PlayerController : Character
     void FixedUpdate()
     {
         //GroundCheck();
-        UpdateGroundCheck_Cast();
+        // UpdateGroundCheck_Cast();
+        UpdateGroundCheck_Touch_Cast();
         UpdateMoveVelocity();
         UpdateJumpVelocity();
 
@@ -723,6 +726,69 @@ public class PlayerController : Character
         //isGrounded = groundHit;
     }
 
+    /// <summary>
+    /// 터칭레이어가 false면, 박스캐스트로 땅 체크를 합니다.
+    /// </summary>
+    private void UpdateGroundCheck_Touch_Cast()
+    {
+        groundCheckDistance = 0.1f;
+
+        groundHit = Physics2D.BoxCast(playerRigidbody.position, playerCollider.size, 0f, Vector2.down, groundCheckDistance, groundCheckMask);
+
+        if (playerCollider.IsTouching(contactFilter_Ground))
+        {
+            if (playerRigidbody.velocity.y > 0f)
+            {
+                //isJumping = false;
+            }
+            else
+            {
+                isGrounded = true;
+                GroundGlide();
+                isJumping = false;
+
+                animator.SetBool(animatorGroundedBool, isGrounded);
+
+                //ChangeState(eState.PLAYER_DEFAULT);
+            }
+
+        }
+        else if(groundHit == true) //TODO : 노말값 추가해서 원웨이 콜라이더를 거르기.
+        {
+                if (playerRigidbody.velocity.y > 0f)
+                {
+                    //isJumping = false;
+                }
+                else
+                {
+                    isGrounded = true;
+                    GroundGlide();
+                    isJumping = false;
+
+                    animator.SetBool(animatorGroundedBool, isGrounded);
+
+                    //ChangeState(eState.PLAYER_DEFAULT);
+                }
+ 
+        }
+        else if (isWater == true) // 아니면 물 속?
+        {
+            isGrounded = true;
+
+            GroundGlide();
+            isJumping = false;
+
+            animator.SetBool(animatorGroundedBool, isGrounded);
+        }
+        else
+        {
+            isGrounded = false;
+            animator.SetBool(animatorGroundedBool, isGrounded);
+        }
+
+
+
+    }
     private void GroundGlide()
     {
 
