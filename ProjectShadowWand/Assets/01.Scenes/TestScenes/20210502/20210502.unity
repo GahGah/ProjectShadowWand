@@ -541,10 +541,10 @@ TilemapCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 1
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
+  m_ExtrusionFactor: 0
 --- !u!483693784 &93613675
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -6010,15 +6010,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 8863583654180269368, guid: 70108f62855f8a4419c8a45c1d0d25a5, type: 3}
+  m_Sprite: {fileID: 768105991003282439, guid: 785b8341be492344e925ba03d42052a6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.73, y: 0.45}
+  m_Size: {x: 0.96, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &1051076679
@@ -6059,8 +6059,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.75, y: 0.45}
-    newSize: {x: 0.73, y: 0.45}
+    oldSize: {x: 0.96, y: 0.64}
+    newSize: {x: 0.96, y: 0.64}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -6908,7 +6908,7 @@ MonoBehaviour:
   windEffect: {fileID: 1585749126}
   unlockWind: 0
   unlockLightning: 0
-  unlockWater: 0
+  unlockWater: 1
 --- !u!114 &1311367528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6930,7 +6930,7 @@ MonoBehaviour:
   minFlipSpeed: 0.1
   isFlipped: 0
   climbSpeed: 3
-  isDebug: 0
+  isDebug: 1
   landedFX: {fileID: 1068445275}
   flipFX: {fileID: 823414608}
   glideAngle: 3
@@ -7695,7 +7695,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1473252575
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9295,8 +9295,8 @@ PlatformEffector2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2014363494}
-  m_Enabled: 1
-  m_UseColliderMask: 1
+  m_Enabled: 0
+  m_UseColliderMask: 0
   m_ColliderMask:
     serializedVersion: 2
     m_Bits: 4294967295

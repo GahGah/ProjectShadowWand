@@ -949,6 +949,14 @@ public class PlayerController : Character
     //    }
 
     //}
+
+    /// <summary>
+    /// 박스캐스트로 땅 체크를 합니다.
+    /// </summary>
+    private void UpdateGroundCheck_Cast()
+    {
+
+    }
     private void UpdateDirection()
     {
         //스케일 변경으로 flip

@@ -285,7 +285,7 @@ public class PlayerState_Skill_Water : PlayerState
 
     public override void Enter()
     {
-        //player.animator
+        player.animator.SetBool(player.animatorWaterBool, true);
     }
 
     public override void Execute()
@@ -295,6 +295,7 @@ public class PlayerState_Skill_Water : PlayerState
 
     public override void Exit()
     {
+        player.animator.SetBool(player.animatorWaterBool, false);
 
     }
 
