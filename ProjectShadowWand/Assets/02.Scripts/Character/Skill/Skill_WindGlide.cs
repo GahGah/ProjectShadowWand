@@ -47,7 +47,11 @@ public class Skill_WindGlide : Skill
             if (InputManager.Instance.buttonMoveJump.wasReleasedThisFrame)
             {
                 player.isGliding = false;
-                player.glideGauge.fillAmount = 0f;
+                if (player.glideGauge != null)
+                {
+                    player.glideGauge.fillAmount = 0f;
+
+                }
                 if (player.GlideCoroutine != null)
                 {
                     player.StopCoroutine(player.GlideCoroutine);
@@ -61,7 +65,11 @@ public class Skill_WindGlide : Skill
             if (InputManager.Instance.buttonMoveJump.isPressed == false)
             {
                 player.isGliding = false;
-                player.glideGauge.fillAmount = 0f;
+                if (player.glideGauge != null)
+                {
+                    player.glideGauge.fillAmount = 0f;
+
+                }
                 if (player.GlideCoroutine != null)
                 {
                     player.StopCoroutine(player.GlideCoroutine);
@@ -86,18 +94,31 @@ public class Skill_WindGlide : Skill
     {
         float one = 1f;
         float timer = 0f;
-        player.glideGauge.fillAmount = 1f;
+        if (player.glideGauge != null)
+        {
+            player.glideGauge.fillAmount = 1f;
+
+        }
+
         windEffect.SetActive(true);
         windAnimator.SetFloat(windAnimatorTornadoBlend, 1.5f);
 
 
         while (timer < player.glideTime)
         {
-            player.glideGauge.fillAmount = one - timer / player.glideTime;
+            if (player.glideGauge != null)
+            {
+                player.glideGauge.fillAmount = one - timer / player.glideTime;
+
+            }
             timer += Time.deltaTime;
             yield return new WaitForFixedUpdate();
         }
-        player.glideGauge.fillAmount = 0f;
+
+        if (player.glideGauge != null)
+        {
+            player.glideGauge.fillAmount = 0f;
+        }
         windAnimator.SetFloat(windAnimatorTornadoBlend, 3f);
         player.isGliding = false;
     }
