@@ -32,7 +32,6 @@ public class QuestManager : MonoBehaviour
     }
     private void Awake()
     {
-
         if (Instance == null)
         {
             instance = this;
@@ -52,7 +51,6 @@ public class QuestManager : MonoBehaviour
 
     public void QuestSystem_TalkStart(NPC _npc)
     {
-        
         if (questList.Count != 0)
         {
             var index = questList.Count;
@@ -90,6 +88,10 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 해당 퀘스트트 End하고, 퀘스트 목록에서 해당 퀘스트를 삭제합니다.
+    /// </summary>
+    /// <param name="_quest"></param>
     public void QuestSystem_RemoveQuest(Quest _quest)
     {
         _quest.EndQuest();

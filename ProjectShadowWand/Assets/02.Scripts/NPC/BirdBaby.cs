@@ -71,7 +71,7 @@ public class BirdBaby : NPC
     public Transform momTogetherPos;
 
     [HideInInspector]
-    public Collider2D collider;
+    public Collider2D birdCollider;
 
     private void Start()
     {
@@ -80,7 +80,7 @@ public class BirdBaby : NPC
     public void Init()
     {
         currentTalkCode = 5;
-        collider = GetComponent<Collider2D>();
+        birdCollider = GetComponent<Collider2D>();
     }
     public override void StartTalk()
     {

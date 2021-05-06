@@ -127,7 +127,7 @@ public class InputManager : MonoBehaviour
         buttonScroll = Mouse.current.scroll;
 
         buttonEscape = Keyboard.current.escapeKey;
-        buttonCatch = Keyboard.current.vKey;
+        buttonCatch = Keyboard.current.fKey;
         buttonSkillWater = Keyboard.current.aKey;
         buttonSkillLightning = Keyboard.current.sKey;
 

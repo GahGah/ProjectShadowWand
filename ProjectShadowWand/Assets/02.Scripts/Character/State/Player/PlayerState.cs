@@ -136,8 +136,10 @@ public class PlayerState_Glide : PlayerState // = wind
 
     public override void Enter()
     {
+
         player.animator.SetBool(player.animatorFallingBool, false);
         player.animator.SetBool(player.animatorGlidingBool, true);
+        player.ResetWindStart();
     }
 
     public override void Execute()
@@ -147,6 +149,13 @@ public class PlayerState_Glide : PlayerState // = wind
     public override void Exit()
     {
         player.animator.SetBool(player.animatorGlidingBool, false);
+        if (player.GlideCoroutine != null)
+        {
+            player.StopCoroutine(player.GlideCoroutine);
+
+        }
+
+        player.ResetWindEnd();
     }
 
     public override void HandleInput()

@@ -344,7 +344,7 @@ public class CameraManager : MonoBehaviour
         float clampX = Mathf.Clamp(currentCamera.transform.position.x, -localX + confinePos.x, localX + confinePos.x);
         float clampY = Mathf.Clamp(currentCamera.transform.position.y, -localY + confinePos.y, localY + confinePos.y);
 
-        Vector3 centerBottom = Camera.main.ViewportToWorldPoint(new Vector2(0.5f, 0f));
+        Vector3 centerBottom = currentCamera.ViewportToWorldPoint(new Vector2(0.5f, 0f));
         //가운데 아래의 좌표를 얻어야함....
 
         //float clampX = Mathf.Clamp(centerBottom.x, -localX + confinePos.x, localX + confinePos.x);
@@ -405,7 +405,7 @@ public class CameraManager : MonoBehaviour
     public bool CheckThisObjectInScreen(GameObject _object)
     {
 
-        Vector3 screenPoint = Camera.main.WorldToViewportPoint(_object.transform.position);
+        Vector3 screenPoint = currentCamera.WorldToViewportPoint(_object.transform.position);
         bool inScreen = screenPoint.z > 0 && screenPoint.x > 0 && screenPoint.x < 1 && screenPoint.y > 0 && screenPoint.y < 1;
 
         return inScreen;

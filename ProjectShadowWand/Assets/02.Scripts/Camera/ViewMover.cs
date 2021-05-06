@@ -13,31 +13,49 @@ public class ViewMover : MonoBehaviour
     public float moveValue;
 
     private new Renderer renderer;
-    private float offset;
+    //private float offset;
 
     private float prevTargetX;
-    private void Awake()
+
+    private string mainTex;
+
+    //private Transform _moverTransform;
+    //public Transform moverTransform
+    //{
+    //    get
+    //    {
+    //        if (object.ReferenceEquals(_moverTransform, null)) //최적화를 위해 레퍼런스이퀄 사용
+    //        {
+    //            _moverTransform = transform;
+    //        }
+    //        return _moverTransform;
+    //    }
+    //}
+
+    private Transform moverTransform;
+    private void Start()
     {
         Init();
     }
     public void Init()
     {
-        offset = 0f;
         renderer = GetComponent<Renderer>();
-        if (target == null)
+        if (target == null) //null일 경우
         {
             target = CameraManager.Instance.currentCamera.transform;
         }
+
+        moverTransform = gameObject.transform;
         prevTargetX = target.transform.position.x;
+        mainTex = "_MainTex";
 
     }
     private void Update()
     {
-        gameObject.transform.position = new Vector2(target.position.x, gameObject.transform.position.y);
+        moverTransform.position = new Vector2(target.position.x, moverTransform.position.y);
         if (prevTargetX != target.position.x)
         {
-            renderer.material.SetTextureOffset("_MainTex", new Vector2(target.position.x * moveValue, 0f));
-            Debug.Log("무버 업데이트");
+            renderer.material.SetTextureOffset(mainTex, new Vector2(target.position.x * moveValue, 0f));
         }
 
     }

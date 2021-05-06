@@ -281,8 +281,10 @@ public class PlayerController : Character
         animator = GetComponent<Animator>();
         puppet = gameObject.transform;
 
+        groundCheckDistance = 0.5f;
+
         groundCheckMask = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Ground_Soft")) | (1 << LayerMask.NameToLayer("Ground_Hard"));
-             //| (1 << LayerMask.NameToLayer("Default"));
+        //| (1 << LayerMask.NameToLayer("Default"));
         //  noPlayerMask = ~noPlayerMask;
 
         playerMask = LayerMask.NameToLayer("Player");
@@ -315,6 +317,7 @@ public class PlayerController : Character
         isWater = false;
         isInputCatchKey = false;
 
+        currentNPC = null;
         catchedObject = null;
         //pushedObject = null;
         touchedObject = null;
@@ -368,7 +371,7 @@ public class PlayerController : Character
     {
         GroundCheck();
         //UpdateGroundCheck_Cast();
-       // UpdateGroundCheck_Touch_Cast();
+        // UpdateGroundCheck_Touch_Cast();
         UpdateMoveVelocity();
         UpdateJumpVelocity();
 
@@ -387,7 +390,9 @@ public class PlayerController : Character
     {
         if (InputManager.Instance.buttonInteraction.wasPressedThisFrame)
         {
-            if (currentNPC != null && isTalking == false)
+            if (!ReferenceEquals(currentNPC, null) && isTalking == false)
+
+            // if (currentNPC != null && isTalking == false)
             {
                 TalkSystemManager.Instance.currentTalkNPC = currentNPC;
                 currentNPC.StartTalk();
@@ -523,7 +528,10 @@ public class PlayerController : Character
 
     private void LateUpdate()
     {
-        if (catchedObject != null)
+        if (!ReferenceEquals(catchedObject, null)) //널이 아닐 경우
+
+
+        //if (catchedObject != null)
         {
             catchedObject.SetPosition(GetHandPosition());
         }
@@ -536,8 +544,8 @@ public class PlayerController : Character
     {
         if (CanMove())
         {
-
-            if (catchedObject != null)
+            if (!ReferenceEquals(catchedObject, null)) //널이 아닐 경우
+            //if (catchedObject != null)
             {
                 isCatching = true;
             }
@@ -557,13 +565,15 @@ public class PlayerController : Character
             var tempObj = _obj;
 
             if (InputManager.Instance.buttonCatch.wasPressedThisFrame)// 키 누르기
-            {
-                if (catchedObject == null) //잡아야 할 경우
+            {    
+                if (ReferenceEquals(catchedObject, null))
+             //   if (catchedObject == null) //잡아야 할 경우
                 {
-                    if (touchedObject != null)
+                    if (!ReferenceEquals(touchedObject,null))
+                 //   if (touchedObject != null)
                     {
                         SetCatchedObject(tempObj);
-                        if (catchedObject != null)
+                        if (!ReferenceEquals(catchedObject, null))
                         {
                             catchedObject.GoCatchThis();
                         }
@@ -683,7 +693,6 @@ public class PlayerController : Character
     /// </summary>
     private void UpdateGroundCheck_Cast()
     {
-        groundCheckDistance = 0.1f;
 
         groundHit = Physics2D.BoxCast(playerRigidbody.position, playerCollider.size, 0f, Vector2.down, groundCheckDistance, groundCheckMask);
 
@@ -731,7 +740,6 @@ public class PlayerController : Character
     /// </summary>
     private void UpdateGroundCheck_Touch_Cast()
     {
-        groundCheckDistance = 0.1f;
 
         groundHit = Physics2D.BoxCast(playerRigidbody.position, playerCollider.size, 0f, Vector2.down, groundCheckDistance, groundCheckMask);
 
@@ -753,23 +761,23 @@ public class PlayerController : Character
             }
 
         }
-        else if(groundHit == true) //TODO : 노말값 추가해서 원웨이 콜라이더를 거르기.
+        else if (groundHit == true) //TODO : 노말값 추가해서 원웨이 콜라이더를 거르기.
         {
-                if (playerRigidbody.velocity.y > 0f)
-                {
-                    //isJumping = false;
-                }
-                else
-                {
-                    isGrounded = true;
-                    GroundGlide();
-                    isJumping = false;
+            if (playerRigidbody.velocity.y > 0f)
+            {
+                //isJumping = false;
+            }
+            else
+            {
+                isGrounded = true;
+                GroundGlide();
+                isJumping = false;
 
-                    animator.SetBool(animatorGroundedBool, isGrounded);
+                animator.SetBool(animatorGroundedBool, isGrounded);
 
-                    //ChangeState(eState.PLAYER_DEFAULT);
-                }
- 
+                //ChangeState(eState.PLAYER_DEFAULT);
+            }
+
         }
         else if (isWater == true) // 아니면 물 속?
         {
@@ -1256,6 +1264,27 @@ public class PlayerController : Character
     {
         currentHandPosition = handPosition_landed[_index];
     }
+
+    /// <summary>
+    /// 바람이펙트를 킵니다.
+    /// </summary>
+    public void ResetWindStart()
+    {
+        playerSkillManager.skillWindGilde.windEffect.SetActive(true);
+        playerSkillManager.skillWindGilde.windAnimator.SetFloat(playerSkillManager.skillWindGilde.windAnimatorTornadoBlend, 1.5f);
+    }
+    /// <summary>
+    /// 바람 이펙트를 끕니다.
+    /// </summary>
+    public void ResetWindEnd()
+    {
+        if (glideGauge != null)
+        {
+            glideGauge.fillAmount = 0f;
+        }
+        playerSkillManager.skillWindGilde.windAnimator.SetFloat(playerSkillManager.skillWindGilde.windAnimatorTornadoBlend, 3f);
+        isGliding = false;
+    }
     //public GameObject GetCatchingObject()
     //{
     //    return catchingObject;
@@ -1363,7 +1392,7 @@ public class PlayerController : Character
 
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.green;
+        Gizmos.color = Color.magenta;
 
         Gizmos.DrawWireCube(transform.position + (Vector3)Vector2.down * groundCheckDistance, playerCollider.size);
 
@@ -1376,7 +1405,7 @@ public class PlayerController : Character
         Gizmos.DrawWireCube(transform.position + (Vector3)waterDirection * waterDistance, waterSize);
 
 
-        Gizmos.color = Color.magenta;
+        Gizmos.color = Color.yellow;
 
         Gizmos.DrawWireSphere(lightningPosition.position, lightningRadius);
         ////Draw a Ray forward from GameObject toward the maximum distance

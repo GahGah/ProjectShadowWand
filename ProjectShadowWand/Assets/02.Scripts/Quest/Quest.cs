@@ -112,7 +112,7 @@ public class Quest_MomAndBaby_02 : Quest
             QuestManager.Instance.QuestSystem_RemoveQuest(this);
             mom.currentTalkCode = 12;
             baby.currentTalkCode = -1;
-            baby.collider.enabled = false;
+            baby.birdCollider.enabled = false;
         }
     }
 }

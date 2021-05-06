@@ -15,7 +15,7 @@ public class NPC : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if (PlayerController.Instance.currentNPC == null)// 토크 스타터가 널일때만
+            if (ReferenceEquals(PlayerController.Instance.currentNPC, null))// NPC가 널일때만
             {
                 PlayerController.Instance.currentNPC = this; //본인으로 설정
             }
