@@ -77,6 +77,7 @@ public class PlayerState_Jump : PlayerState
         Log("Enter Jump");
         ResetAnimatorSpeed();
         isJumped = false;
+        player.animator.SetBool(player.animatorJumpingBool, true);
         player.animator.SetTrigger(player.animatorJumpTrigger);
         player.animator.SetBool(player.animatorGroundedBool, false);
 
@@ -95,7 +96,7 @@ public class PlayerState_Jump : PlayerState
         {
             Log("PE Jump");
             isJumped = true;
-
+            player.animator.SetBool(player.animatorJumpingBool, true);
             //점프 트리거 온
             player.animator.SetTrigger(player.animatorJumpTrigger);
 
@@ -116,6 +117,7 @@ public class PlayerState_Jump : PlayerState
     }
     public override void Exit()
     {
+        player.animator.SetBool(player.animatorJumpingBool, false);
 
     }
 
