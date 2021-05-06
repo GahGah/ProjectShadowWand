@@ -1,54 +1,72 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TalkSystemManager : MonoBehaviour
 {
-    [Tooltip("CSV·Î ºÒ·¯¿Â ´ëÈ­ ÆÄÀÏÀÇ ³»¿ëÀÌ ´ã°ÜÀÖ´Â µñ¼Å³Ê¸® ¸®½ºÆ®ÀÔ´Ï´Ù.")]
+    [Tooltip("CSVë¡œ ë¶ˆëŸ¬ì˜¨ ëŒ€í™” íŒŒì¼ì˜ ë‚´ìš©ì´ ë‹´ê²¨ìˆëŠ” ë”•ì…”ë„ˆë¦¬ ë¦¬ìŠ¤íŠ¸ì…ë‹ˆë‹¤.")]
     public List<Dictionary<string, object>> talkData;
 
-    [Tooltip("CSV·Î ºÒ·¯¿Â ÀÌ¸§ ÆÄÀÏÀÇ ³»¿ëÀÌ ´ã°ÜÀÖ´Â µñ¼Å³Ê¸® ¸®½ºÆ®ÀÔ´Ï´Ù.")]
+    [Tooltip("CSVë¡œ ë¶ˆëŸ¬ì˜¨ ì´ë¦„ íŒŒì¼ì˜ ë‚´ìš©ì´ ë‹´ê²¨ìˆëŠ” ë”•ì…”ë„ˆë¦¬ ë¦¬ìŠ¤íŠ¸ì…ë‹ˆë‹¤.")]
     public List<Dictionary<string, object>> charData;
 
-    [Tooltip("ÀÌ¸§ÀÌ Ç¥½ÃµÉ Text")]
+    [Header("ì´ë¦„")]
+    [Tooltip("ì´ë¦„ì´ í‘œì‹œë  Text")]
     public Text nameText;
 
-    [Tooltip("±ÛÀÚ°¡ Ç¥½ÃµÉ Text")]
+    [Header("ëŒ€í™” ë‚´ìš©")]
+    [Tooltip("ê¸€ìê°€ í‘œì‹œë  Text")]
     public Text talkText;
 
-    public GameObject nextButton;
+    [Header("ìŠ¤í‚µ ë²„íŠ¼")]
+    public Button nextButton;
 
-    [Tooltip("´ÙÀ½À¸·Î °¡´Â ¹öÆ°À» ´­·¶´Â°¡?")]
-    public bool isNextPressed;//´ÙÀ½À¸·Î °¡´Â ¹öÆ°ÀÌ ´­·È´Â°¡?
+    [Tooltip("ë‹¤ìŒìœ¼ë¡œ ê°€ëŠ” ë²„íŠ¼ì„ ëˆŒë €ëŠ”ê°€?")]
+    public bool isNextPressed;//ë‹¤ìŒìœ¼ë¡œ ê°€ëŠ” ë²„íŠ¼ì´ ëˆŒë ¸ëŠ”ê°€?
 
-    [Tooltip("ÇÑ ±ÛÀÚ°¡ Ãâ·ÂµÇ´Â ¼ÓµµÀÔ´Ï´Ù.")]
+    [Tooltip("í•œ ê¸€ìê°€ ì¶œë ¥ë˜ëŠ” ì†ë„ì…ë‹ˆë‹¤.")]
     public float talkSpeed;
 
     public Coroutine TalkCoroutine;
 
     private string filePath;
 
-    [Tooltip("ÇöÀç Ä³¸¯ÅÍ ÄÚµå")]
+    [Tooltip("í˜„ì¬ ìºë¦­í„° ì½”ë“œ")]
     private int currentCharCode;
 
-    [Tooltip("ÇöÀç Ä³¸¯ÅÍ ÀÌ¸§")]
+    [Tooltip("í˜„ì¬ ìºë¦­í„° ì´ë¦„")]
     private string currentCharName;
 
-    [Tooltip("ÇöÀç ÅäÅ© ÄÚµå")]
+    [Tooltip("í˜„ì¬ í† í¬ ì½”ë“œ")]
     private int currentTalkCode;
 
 
-    [Tooltip("ÇöÀç ÅäÅ© ³»¿ë.")]
+    [Tooltip("í˜„ì¬ í† í¬ ë‚´ìš©.")]
     private string currentTalkText;
 
-    [Tooltip("ÇöÀç ÅäÅ© ¹«ºê")]
+    [Tooltip("í˜„ì¬ í† í¬ ë¬´ë¸Œ")]
     private int currentTalkMove;
 
-    //[Tooltip("ÇöÀç ÅäÅ© ÆäÀÌ½º. ¿ì¼±Àº ¾²ÀÌÁö ¾Ê½À´Ï´Ù.")]
+    //[Tooltip("í˜„ì¬ í† í¬ í˜ì´ìŠ¤. ìš°ì„ ì€ ì“°ì´ì§€ ì•ŠìŠµë‹ˆë‹¤.")]
     //private int currentTalkFace;
 
     public Text spaceTest;
+
+
+    [HideInInspector]
+    public bool isTalkStart;
+    [HideInInspector]
+    public bool isTalkEnd;
+
+    //public TalkStarter currentTalkStarter;
+
+
+    public NPC currentTalkNPC;
+    [Space(20)]
+
+    public GameObject talkUI;
+
     private static TalkSystemManager instance;
     public static TalkSystemManager Instance
     {
@@ -70,37 +88,59 @@ public class TalkSystemManager : MonoBehaviour
         }
         Init();
     }
+    public void Init()
+    {
+        if (talkText == null)
+        {
+            Debug.Log("í† í¬í…ìŠ¤íŠ¸ê°€ ë„");
+        }
+        //currentTalkStarter = null;
+        currentTalkNPC = null;
+        isTalkEnd = false;
+        isTalkStart = false;
+        talkUI.SetActive(false);
+    }
 
     void Start()
     {
         StartCoroutine(ProcessStart());
-        spaceTest.text = "´ÙÀ½À¸·Î~";
+        spaceTest.text = "ë‹¤ìŒ";
     }
-
-    public void Init()
-    {
-
-        if (talkText == null)
-        {
-            Debug.Log("ÅäÅ©ÅØ½ºÆ®°¡ ³Î");
-        }
-
-        SetTalkClose();
-    }
-
 
     // Update is called once per frame
     void Update()
     {
         //if (PlayerController.Instance.isTalking)
         //{
-            if (InputManager.Instance.buttonTalkNext.wasPressedThisFrame)
-            {
-                SetTrueGoNext();
-            }
+        if (InputManager.Instance.buttonTalkNext.wasPressedThisFrame)
+        {
+            SetTrueGoNext();
+        }
         //}
     }
-    public void StartGoTalk(int TALK_CODE)
+    /// <summary>
+    /// ì™¸ë¶€ì—ì„œ í˜¸ì¶œí•˜ëŠ” ëŒ€í™”ì‹œì‘ í•¨ìˆ˜ì…ë‹ˆë‹¤.
+    /// </summary>
+    /// <param name="TALK_CODE"></param>
+    /// <param name="_npc"></param>
+    public void StartGoTalk(int TALK_CODE, NPC _npc)
+    {
+        if (TalkCoroutine != null)
+        {
+            StopCoroutine(TalkCoroutine);
+            TalkCoroutine = null;
+        }
+        Debug.Log("TalkSystemManagerì—ì„œ StartGoTalk(ì™¸ë¶€í˜¸ì¶œëŒ€í™”í•¨ìˆ˜) ì‹¤í–‰.");
+        QuestManager.Instance.QuestSystem_TalkStart(currentTalkNPC);
+        TalkCoroutine = StartCoroutine(ProcessTalk(TALK_CODE, _npc));
+    }
+
+    /// <summary>
+    /// ë‚´ë¶€ì—ì„œ ì‚¬ìš©í•˜ëŠ” ëŒ€í™” ì‹œì‘ í•¨ìˆ˜ì…ë‹ˆë‹¤.
+    /// </summary>
+    /// <param name="TALK_CODE"></param>
+    /// <param name="_npc"></param>
+    private void ProcessGoTalk(int TALK_CODE, NPC _npc)
     {
         //PlayerController.Instance.isTalking = true;
 
@@ -109,22 +149,20 @@ public class TalkSystemManager : MonoBehaviour
             StopCoroutine(TalkCoroutine);
             TalkCoroutine = null;
         }
-        TalkCoroutine = StartCoroutine(ProcessTalk(TALK_CODE));
+        TalkCoroutine = StartCoroutine(ProcessTalk(TALK_CODE, _npc));
     }
 
     public IEnumerator ProcessStart()
     {
-        yield return StartCoroutine(GoReadTalkData("TalkData_Tutorial"));
+        yield return StartCoroutine(GoReadTalkData("TalkData_Stage_00"));
         yield return StartCoroutine(GoReadCharData("CharData"));
-        Debug.Log("ºÒ·¯¿À±â ¿Ï·á.");
-
-        StartGoTalk(0);
+        Debug.Log("ë¶ˆëŸ¬ì˜¤ê¸° ì™„ë£Œ.");
     }
 
     /// <summary>
-    /// Resources.Load¸¦ ÀÌ¿ëÇÏ¿© ´ëÈ­ ÆÄÀÏÀ» ºÒ·¯¿É´Ï´Ù.
+    /// Resources.Loadë¥¼ ì´ìš©í•˜ì—¬ ëŒ€í™” íŒŒì¼ì„ ë¶ˆëŸ¬ì˜µë‹ˆë‹¤.
     /// </summary>
-    /// <param name="path">ºÒ·¯¿Ã ÆÄÀÏ ÀÌ¸§À» Àû¾îÁÖ½Ã¸é µË´Ï´Ù.</param>
+    /// <param name="path">ë¶ˆëŸ¬ì˜¬ íŒŒì¼ ì´ë¦„ì„ ì ì–´ì£¼ì‹œë©´ ë©ë‹ˆë‹¤.</param>
     public IEnumerator GoReadTalkData(string path)
     {
         filePath = "TalkDataFiles/" + path;
@@ -134,7 +172,7 @@ public class TalkSystemManager : MonoBehaviour
     }
 
     /// <summary>
-    ///  Resources.Load¸¦ ÀÌ¿ëÇÏ¿© Ä³¸¯ÅÍ ÀÌ¸§ ÆÄÀÏÀ» ºÒ·¯¿É´Ï´Ù.
+    ///  Resources.Loadë¥¼ ì´ìš©í•˜ì—¬ ìºë¦­í„° ì´ë¦„ íŒŒì¼ì„ ë¶ˆëŸ¬ì˜µë‹ˆë‹¤.
     /// </summary>
     /// <param name="path"></param>
     /// <returns></returns>
@@ -145,30 +183,37 @@ public class TalkSystemManager : MonoBehaviour
         Debug.Log("OK?...");
         yield return null;
     }
-
-    //public void TalkDataLoad(string path)
-    //{
-    //    //selectButtonObj = new GameObject[3];
-    //    filePath = "TalkDataFiles/" + path;
-    //    talkData = CsvReader.Read(filePath);
-    //    Debug.Log("OK?...");
-    //}
-
     /// <summary>
-    /// ´ëÈ­¸¦ Á¾·á½ÃÅµ´Ï´Ù. »ç½ÇÀº ¹öÆ°, Ä³¸¯ÅÍ, À©µµ¿ì µîÀ» ÀüºÎ ºñÈ°¼ºÈ­ ½ÃÅµ´Ï´Ù. ¶ÇÇÑ,ÇÃ·¹ÀÌ¾î ÄÁÆ®·Ñ·¯ÀÇ isTalkingÀ» false·Î ÇÕ´Ï´Ù.
+    /// ëŒ€í™”ë¥¼ ì¢…ë£Œì‹œí‚µë‹ˆë‹¤. ì‚¬ì‹¤ì€ ë²„íŠ¼, ìºë¦­í„°, ìœˆë„ìš° ë“±ì„ ì „ë¶€ ë¹„í™œì„±í™” ì‹œí‚µë‹ˆë‹¤. ë˜í•œ,í”Œë ˆì´ì–´ ì»¨íŠ¸ë¡¤ëŸ¬ì˜ isTalkingì„ falseë¡œ í•©ë‹ˆë‹¤.
     /// </summary>
     public void SetTalkClose()
     {
+        talkUI.SetActive(false);
         if (TalkCoroutine != null)
         {
             StopCoroutine(TalkCoroutine);
             TalkCoroutine = null;
         }
-        //PlayerController.Instance.isTalking = false;
+        //isTalkEnd = true;
+        //isTalkStart = false;
+
+        //if (currentTalkStarter != null)
+        //{
+        //    currentTalkStarter.isEnd = true;
+        //    currentTalkStarter.isStart = false;
+        //    currentTalkStarter = null;
+        //}
+        if (currentTalkNPC != null)
+        {
+            QuestManager.Instance.QuestSystem_TalkEnd(currentTalkNPC);
+        }
+
+        PlayerController.Instance.isTalking = false;
+        currentTalkNPC = null;
     }
 
     /// <summary>
-    /// goNext¸¦ Æ®·ç·Î ¼³Á¤ÇÕ´Ï´Ù. goNext´Â ÁöÁ¤µÈ ÅØ½ºÆ®°¡ Ãâ·ÂµÇ¸é, GoTalkÄÚ·çÆ¾¿¡¼­ ÀÚµ¿À¸·Î false°¡ µË´Ï´Ù.
+    /// goNextë¥¼ íŠ¸ë£¨ë¡œ ì„¤ì •í•©ë‹ˆë‹¤. goNextëŠ” ì§€ì •ëœ í…ìŠ¤íŠ¸ê°€ ì¶œë ¥ë˜ë©´, GoTalkì½”ë£¨í‹´ì—ì„œ ìë™ìœ¼ë¡œ falseê°€ ë©ë‹ˆë‹¤.
     /// </summary>
     public void SetTrueGoNext()
     {
@@ -178,13 +223,26 @@ public class TalkSystemManager : MonoBehaviour
 
 
     /// <summary>
-    /// ÇÑ ´ëÈ­(ÇÑ Ã¢¿¡ ³ª¿À´Â...)¸¦ ½ÃÀÛÇÕ´Ï´Ù.
+    /// í•œ ëŒ€í™”(í•œ ì°½ì— ë‚˜ì˜¤ëŠ”...)ë¥¼ ì‹œì‘í•©ë‹ˆë‹¤.
     /// </summary>
     /// <param name="TALK_CODE"></param>
     /// <returns></returns>
-    IEnumerator ProcessTalk(int TALK_CODE)
+    IEnumerator ProcessTalk(int TALK_CODE, NPC _npc)
     //int TALK_CODE_START, int TALK_CODE_END)
     {
+        talkUI.SetActive(true);
+        //isTalkStart = true;
+        //isTalkEnd = false;
+
+        currentTalkNPC = _npc;
+
+
+        //if (currentTalkStarter != null)
+        //{
+        //    currentTalkStarter.isStart = true;
+        //}
+
+        PlayerController.Instance.isTalking = true;
         isNextPressed = false;
 
         currentTalkCode = (int)talkData[TALK_CODE]["TALK_CODE"];
@@ -200,31 +258,31 @@ public class TalkSystemManager : MonoBehaviour
 
         nameText.text = currentCharName;
 
-       // bool isSkip = false;
+        // bool isSkip = false;
         for (int s = 0; s < currentTalkText.Length + 1; s++)
         {
             talkText.text = currentTalkText.Substring(0, s);
 
-            if (isNextPressed) //¾ÆÁ÷ ÅØ½ºÆ®°¡ ´Ù ³ª¿ÀÁöµµ ¾Ê¾Ò´Âµ¥ ´ÙÀ½ ¹öÆ°ÀÌ ´­·È´Ù¸é 
+            if (isNextPressed) //ì•„ì§ í…ìŠ¤íŠ¸ê°€ ë‹¤ ë‚˜ì˜¤ì§€ë„ ì•Šì•˜ëŠ”ë° ë‹¤ìŒ ë²„íŠ¼ì´ ëˆŒë ¸ë‹¤ë©´ 
             {
-                isNextPressed = false; // ÀÏ´Ü ÆŞ½º·Î ¹Ù°í
+                isNextPressed = false; // ì¼ë‹¨ í„ìŠ¤ë¡œ ë°”ê³ 
                 talkText.text = currentTalkText;
-               // isSkip = true;//½ºÅµÀ» Çß´Ù°í Ã³¸®ÇÑ´Ù.
-                break; //for ¹ş¾î³ª±â
+                // isSkip = true;//ìŠ¤í‚µì„ í–ˆë‹¤ê³  ì²˜ë¦¬í•œë‹¤.
+                break; //for ë²—ì–´ë‚˜ê¸°
             }
             yield return new WaitForSecondsRealtime(talkSpeed);
         }
 
-        yield return new WaitUntil(() => isNextPressed); //TRUEÀÏ¶§±îÁö ´ë±â
+        yield return new WaitUntil(() => isNextPressed); //TRUEì¼ë•Œê¹Œì§€ ëŒ€ê¸°
 
-        isNextPressed = false;//Áö³ª°¬À¸¸é ºĞ¸í trueÀÎ »óÅÂÀÏÅ×´Ï±î, false·Î º¯°æ
+        isNextPressed = false;//ì§€ë‚˜ê°”ìœ¼ë©´ ë¶„ëª… trueì¸ ìƒíƒœì¼í…Œë‹ˆê¹Œ, falseë¡œ ë³€ê²½
 
         switch (currentTalkMove)
         {
-            case -1://´ÙÀ½À¸·Î ÀÌµ¿
-                StartGoTalk(TALK_CODE + 1);
+            case -1://ë‹¤ìŒìœ¼ë¡œ ì´ë™
+                ProcessGoTalk(TALK_CODE + 1, currentTalkNPC);
                 break;
-            case -25: // Á¾·á
+            case -25: // ì¢…ë£Œ
                 SetTalkClose();
                 break;
         }

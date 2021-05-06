@@ -5,6 +5,13 @@ using UnityEngine;
 public class Skill_WindGlide : Skill
 {
     public IEnumerator GlideCoroutine;
+
+    public GameObject windEffect;
+    public Animator windAnimator;
+
+
+    public int windAnimatorTornadoBlend;
+
     public Skill_WindGlide(PlayerController _p)
     {
         player = _p;
@@ -13,6 +20,7 @@ public class Skill_WindGlide : Skill
     public override void Init()
     {
         GlideCoroutine = ProcessGlideTimer();
+        windEffect.SetActive(false);
     }
 
     public override void Execute()
@@ -43,6 +51,7 @@ public class Skill_WindGlide : Skill
                 if (player.GlideCoroutine != null)
                 {
                     player.StopCoroutine(player.GlideCoroutine);
+                    windAnimator.SetFloat(windAnimatorTornadoBlend, 3f);
                     player.GlideCoroutine = null;
                 }
             }
@@ -56,6 +65,7 @@ public class Skill_WindGlide : Skill
                 if (player.GlideCoroutine != null)
                 {
                     player.StopCoroutine(player.GlideCoroutine);
+                    windAnimator.SetFloat(windAnimatorTornadoBlend, 3f);
                     player.GlideCoroutine = null;
                 }
 
@@ -77,6 +87,9 @@ public class Skill_WindGlide : Skill
         float one = 1f;
         float timer = 0f;
         player.glideGauge.fillAmount = 1f;
+        windEffect.SetActive(true);
+        windAnimator.SetFloat(windAnimatorTornadoBlend, 1.5f);
+
 
         while (timer < player.glideTime)
         {
@@ -85,6 +98,7 @@ public class Skill_WindGlide : Skill
             yield return new WaitForFixedUpdate();
         }
         player.glideGauge.fillAmount = 0f;
+        windAnimator.SetFloat(windAnimatorTornadoBlend, 3f);
         player.isGliding = false;
     }
     #endregion

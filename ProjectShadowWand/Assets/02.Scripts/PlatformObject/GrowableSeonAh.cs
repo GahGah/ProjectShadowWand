@@ -100,8 +100,6 @@ public class GrowableSeonAh : MonoBehaviour
         transform.localScale = new Vector2(originalScale.x + _extent.x, originalScale.y + _extent.y);
 
         transform.position = new Vector2(originalPosition.x + (_extent.x / 2), (originalPosition.y + (_extent.y / 2)));
-
-
     }
 
     private void OnDrawGizmosSelected()

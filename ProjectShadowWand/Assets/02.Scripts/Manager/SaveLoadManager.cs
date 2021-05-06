@@ -12,7 +12,7 @@ using UnityEditor;
 
 public enum eDataType
 {
-    PLAYER, CHILD
+    PLAYER, CHILD, SETTINGS,
     //etc...
 }
 /// <summary>
@@ -27,6 +27,8 @@ public class SaveLoadManager : MonoBehaviour
     public Data_Player currentData_Player;
     public Data_Child currentData_Child;
 
+    public Data_Settings currentData_Settings;
+
     [SerializeField] public Data_ChildList currentData_ChildList;
 
     public Dictionary<eChildType, Data_Child> currentData_ChildDict;
@@ -40,6 +42,10 @@ public class SaveLoadManager : MonoBehaviour
 
     [HideInInspector]
     public string childFileName = "Data_Childs.dat";
+
+    [HideInInspector]
+    public string settingsFileName = "Data_Settings.dat";
+
 
     private void Awake()
     {
@@ -60,6 +66,8 @@ public class SaveLoadManager : MonoBehaviour
         //string[] splitPath = path.Split(new string[] { "Assets" }, System.StringSplitOptions.RemoveEmptyEntries);
         //path = splitPath[0];
         //Debug.Log("Assets를 없앤 데이터 패스 : " + path);
+
+        StartCoroutine(LoadData_Settings());
     }
 
     /// <summary>
@@ -84,7 +92,9 @@ public class SaveLoadManager : MonoBehaviour
             case eDataType.CHILD:
                 tempName = childFileName;
                 break;
-
+            case eDataType.SETTINGS:
+                tempName = settingsFileName;
+                break;
             default:
                 break;
         }
@@ -150,6 +160,46 @@ public class SaveLoadManager : MonoBehaviour
 
     #endregion
 
+    #region Data_Settings
+
+    public void SetCurrentData_Settings(Data_Settings _d)
+    {
+        currentData_Settings = new Data_Settings(_d);
+    }
+    public IEnumerator SaveData_Settings()
+    {
+        yield return StartCoroutine(CreatePath(eDataType.SETTINGS, currentDataSlot));
+
+        string path = currentFilePath; //파일 경로를 가지고...
+        string data = JsonUtility.ToJson(currentData_Settings, true); // Json 형식으로 변경
+
+        yield return StartCoroutine(fileManager.WriteText(settingsFileName, data, path)); // 글 쓰기
+        Debug.Log("세팅 데이터 저장 완료");
+    }
+
+    public IEnumerator LoadData_Settings()
+    {
+        yield return StartCoroutine(CreatePath(eDataType.SETTINGS, currentDataSlot));
+
+        string path = currentFilePath;
+
+        yield return StartCoroutine(fileManager.ReadText(settingsFileName, path));
+
+        if (!string.IsNullOrEmpty(fileManager.readText_Result))
+        {
+            var loadedData = JsonUtility.FromJson<Data_Settings>(fileManager.readText_Result);
+            currentData_Settings = loadedData;
+        }
+        else // 없을 경우
+        {
+            Debug.Log("세팅 데이터 파일이 없습니다. 기본 데이터 파일을 생성합니다.");
+            var defaultData = new Data_Settings();
+            currentData_Settings = defaultData;
+            StartCoroutine(SaveData_Settings());
+        }
+
+    }
+    #endregion
 
     #region Data_Child
     public void SetCurrentData_ChildList(List<Data_Child> _d)

@@ -29,13 +29,16 @@ public class SpineAnimationBehavior : StateMachineBehaviour //스테이트머신 비헤�
     private Spine.AnimationState spineAnimationState;
     private Spine.TrackEntry trackEntry;
 
+
     private void Awake()
     {
-        //어웨이크에서 쓰지 않아도 될 것 같지만 
+        AnimationClipToString(_animationClip);
+        
+    }
+    private void OnEnable()
+    {
         AnimationClipToString(_animationClip);
     }
-
-
     private void AnimationClipToString(AnimationClip _ac)
     {
 
@@ -56,7 +59,7 @@ public class SpineAnimationBehavior : StateMachineBehaviour //스테이트머신 비헤�
 
         if (animationClip == null)
         {
-   
+            Debug.Log("애니메이션 클립을 넣어줘");
         }
         if (skeletonAnimation == null) //스켈레톤애니메이션이 없다면
         {

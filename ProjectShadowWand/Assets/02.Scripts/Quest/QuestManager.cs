@@ -1,0 +1,106 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+/// <summary>
+/// 일단은 대화로 퀘스트를 완료/ 끝내는 그런 시스템.
+/// </summary>
+public class QuestManager : MonoBehaviour
+{
+
+    /// <summary>
+    /// 일단은 대화로 퀘스트를 완료/ 끝내는 그런 시스템.
+    /// </summary>
+    //Dictionary<eQuestCode, Quest> questDict;
+
+
+    List<Quest> questList;
+
+    public NPC currentNPC;
+    private static QuestManager instance;
+    public static QuestManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<QuestManager>();
+            }
+            return instance;
+        }
+    }
+    private void Awake()
+    {
+
+        if (Instance == null)
+        {
+            instance = this;
+        }
+        Init();
+    }
+
+    public void Init()
+    {
+        //questDict = new Dictionary<eQuestCode, Quest>();
+        
+        questList = new List<Quest>();
+
+    }
+
+
+
+    public void QuestSystem_TalkStart(NPC _npc)
+    {
+        
+        if (questList.Count != 0)
+        {
+            var index = questList.Count;
+            for (int i = 0; i < index; i++)
+            {
+                Debug.Log(questList[i].GetType() + "에게 " + _npc.GetType() + "전달합니다. ");
+                questList[i].StartTalk(_npc);
+            }
+        }
+    }
+
+    public void QuestSystem_TalkEnd(NPC _npc)
+    {
+        if (questList.Count != 0)
+        {
+            var index = questList.Count;
+            for (int i = 0; i < index; i++)
+            {
+                questList[i].EndTalk(_npc);
+            }
+        }
+    }
+
+    public void QuestSystem_AddQuest(Quest _quest)
+    {
+        _quest.StartQuest();
+        if (questList.Contains(_quest) == false)//없을 경우에만
+        {
+            Debug.Log("퀘스트 등록 : " + _quest.GetType());
+            questList.Add(_quest);
+        }
+        else
+        {
+            Debug.Log("퀘스트 등록에 실패했습니다. 리스트에 이미 같은 퀘스트가 존재합니다  : " + _quest.GetType());
+        }
+    }
+
+    public void QuestSystem_RemoveQuest(Quest _quest)
+    {
+        _quest.EndQuest();
+        if (questList.Contains(_quest) == true) //있을 경우에만
+        {
+            Debug.Log("퀘스트 삭제 : " + _quest.GetType());
+            questList.Remove(_quest);
+        }
+        else
+        {
+            Debug.Log("퀘스트 삭제에 실패했습니다. 리스트에 존재하지 않는 퀘스트입니다. : " + _quest.GetType());
+        }
+    }
+}

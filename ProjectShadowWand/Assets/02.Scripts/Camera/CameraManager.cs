@@ -388,20 +388,12 @@ public class CameraManager : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (isConfine)
-        {
+        //if (isConfine)
+        //{
             Gizmos.color = Color.red;
             Gizmos.DrawWireCube(confinePos, confineSize);
 
-            //Gizmos.color = Color.cyan;
-            //Gizmos.DrawSphere(limitTest, 3f); 
-
-            //Gizmos.color = Color.blue;
-            //Gizmos.DrawSphere(currentConfinePos, 3f);
-
-            //Gizmos.color = Color.yellow;
-            //Gizmos.DrawSphere(currentConfinePos, 3f);
-        }
+        //}
 
     }
 

@@ -19,9 +19,11 @@ public class ElectricableObject : MonoBehaviour, IElectricable
     /// </summary>
     public void OnLightining()
     {
+ 
         if (isShocked == false)
         {
             isShocked = true;
+            Debug.Log("찌리릿!!! : " + name);
         }
     }
 }

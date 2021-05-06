@@ -11,14 +11,9 @@ public class PlayerController : Character
 
     #region 변수들
 
-    [Header("잡기 손 위치")]
-    public Vector2 handPosition_idle;
-    public Vector2 handPosition_walk;
-    public Vector2[] handPosition_jump;
-    public Vector2[] handPosition_landed;
+    [Header("사다리 이동 속도"), Tooltip("사다리 등을 올라가는 속도입니다.")]
+    public float climbSpeed;
 
-    public Vector2 currentHandPosition;
-    public Image glideGauge;
     [Tooltip("디버그모드입니다.")]
     public bool isDebug;
     readonly Quaternion flippedRotation = new Quaternion(0, 0, 1, 0);
@@ -27,6 +22,7 @@ public class PlayerController : Character
     public GameObject flipFX;
     public IEnumerator GlideCoroutine;
     public IEnumerator WaterCoroutine;
+    public IEnumerator LightningCoroutine;
 
     [Header("활강 관련")]
 
@@ -42,6 +38,7 @@ public class PlayerController : Character
 
 
     [Header("물 관련")]
+
     [Tooltip("물 한 칸(?)의 크기입니다.")]
     public Vector2 waterSize;
 
@@ -51,9 +48,19 @@ public class PlayerController : Character
     [Tooltip("물의 지속 시간입니다.")]
     public float waterActiveTime;
 
-
     [Tooltip("물의 방향입니다.")]
     public Vector2 waterDirection = Vector2.right;
+
+
+    [Header("번개 관련")]
+
+    [Tooltip("번개의 중심점입니다.")]
+    public Transform lightningPosition;
+    [Tooltip("번개의 원 크기입니다.")]
+    public float lightningRadius;
+
+    [Tooltip("번개의 지속 시간입니다.")]
+    public float lightningActiveTime;
 
     ////[SerializeField] CharacterAudio audioPlayer = null;
 
@@ -76,9 +83,9 @@ public class PlayerController : Character
     [HideInInspector] public Rigidbody2D playerRigidbody;
 
     public bool isSkillUse_Water;
-    public bool isSkillUse_Lighting;
+    public bool isSkillUse_Lightning;
 
-    [HideInInspector] public Collider2D playerCollider;
+    public BoxCollider2D playerCollider;
     private EdgeCollider2D playerSideCollider;
 
 
@@ -120,9 +127,6 @@ public class PlayerController : Character
     [HideInInspector] public InputManager inputManager;
 
     [HideInInspector] public float saveMoveInputX;
-
-    [Header("사다리 이동 속도"), Tooltip("사다리 등을 올라가는 속도입니다.")]
-    public float climbSpeed;
 
     [Tooltip("UpdateVelocity에서 들어갈 추가적인 힘입니다.")]
     private Vector2 extraForce;
@@ -188,27 +192,14 @@ public class PlayerController : Character
     [Tooltip("테스트용 idle 모션입니다.")]
     public Motion[] testIdleMotions;
 
-    //  private Joint2D currentCatchJoint = null;
-
-
-    // [Header("밀기 시 이동속도")]
-    // public float pushMoveSpeed;
 
     [Tooltip("잡기 키를 눌렀는가?")]
     [HideInInspector] public bool isInputCatchKey = false;
 
-    // [Tooltip("밀기 키를 눌렀는가?")]
-    // [HideInInspector] public bool isInputPushKey = false;
-
-    // [Header("밀기/잡기 시 손의 위치"), Space(10)]
-    // public GameObject handPosition_Push;
-    //public GameObject handPosition_Catch;
-
     [SerializeField]
     //[HideInInspector] 
     private CatchableObject catchedObject = null;
-    // [SerializeField]
-    // [HideInInspector] private PushableObject pushedObject = null;
+
     [SerializeField]
     //[HideInInspector]
     public GameObject touchedObject = null;
@@ -219,11 +210,32 @@ public class PlayerController : Character
     public eWindDirection windDirection;
 
     public TestSceneChanger testSceneChanger;
+    [Header("잡기 손 위치")]
+    public Vector2 handPosition_idle;
+    public Vector2 handPosition_walk;
+    public Vector2[] handPosition_jump;
+    public Vector2[] handPosition_landed;
+
+    public Vector2 currentHandPosition;
+    public Image glideGauge;
+
+
+    [Tooltip("땅 체크에 쓰일 hit")]
+    private RaycastHit2D groundHit;
+
+    [Tooltip("일단 밟을 수 있으면 다 해볼 생각")]
+    private int groundCheckMask;
+
+    private float groundCheckDistance;
     #endregion
 
     #endregion
 
+    //[Tooltip("대화할 캐릭터의 토크 스타터")]
+    //public TalkStarter talkStater;
 
+    [Tooltip("현재 대화중인/대화를 시작할 수 있는NPC")]
+    public NPC currentNPC;
     public PlayerSkillManager playerSkillManager;
 
     private static PlayerController instance;
@@ -253,6 +265,7 @@ public class PlayerController : Character
         playerSkillManager.Init();
         playerStateMachine.Start();
 
+
     }
     private void Init()
     {
@@ -263,9 +276,13 @@ public class PlayerController : Character
 
         }
         playerRigidbody = GetComponent<Rigidbody2D>();
-        playerCollider = GetComponent<Collider2D>();
+        playerCollider = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
         puppet = gameObject.transform;
+
+        groundCheckMask = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Ground_Soft")) | (1 << LayerMask.NameToLayer("Ground_Hard"))
+             | (1 << LayerMask.NameToLayer("Default"));
+        //  noPlayerMask = ~noPlayerMask;
 
         playerMask = LayerMask.NameToLayer("Player");
         groundMask = LayerMask.NameToLayer("Ground");// LayerMask.NameToLayer("Ground_Soft") LayerMask.NameToLayer("Ground_Hard");
@@ -324,6 +341,7 @@ public class PlayerController : Character
 
     void Update()
     {
+        CheckTalkInput();
         CheckCatch();
         CheckMoveInput();
         CheckLadderInput();
@@ -346,7 +364,8 @@ public class PlayerController : Character
     }
     void FixedUpdate()
     {
-        GroundCheck();
+        //GroundCheck();
+        UpdateGroundCheck_Cast();
         UpdateMoveVelocity();
         UpdateJumpVelocity();
 
@@ -360,6 +379,19 @@ public class PlayerController : Character
 
     }
 
+
+    private void CheckTalkInput()
+    {
+        if (InputManager.Instance.buttonInteraction.wasPressedThisFrame)
+        {
+            if (currentNPC != null && isTalking == false)
+            {
+                TalkSystemManager.Instance.currentTalkNPC = currentNPC;
+                currentNPC.StartTalk();
+                // TalkSystemManager.Instance.StartGoTalk(currentNPC.currentTalkCode, currentNPC);
+            }
+        }
+    }
     //TEST
     #region 이동, 점프, 사다리, 활강
     private void CheckMoveInput()
@@ -588,7 +620,7 @@ public class PlayerController : Character
     /// <returns></returns>
     public bool isOtherSkillUse()
     {
-        if (isSkillUse_Lighting)
+        if (isSkillUse_Lightning)
         {
             return true;
         }
@@ -603,6 +635,8 @@ public class PlayerController : Character
 
         return false;
     }
+
+
     /// <summary>
     /// 플레이어가 땅에 닿았는지 체크합니다.
     /// </summary>
@@ -641,9 +675,61 @@ public class PlayerController : Character
         }
     }
 
+    /// <summary>
+    /// 박스캐스트로 땅 체크를 합니다.
+    /// </summary>
+    private void UpdateGroundCheck_Cast()
+    {
+        groundCheckDistance = 0.1f;
+
+        groundHit = Physics2D.BoxCast(playerRigidbody.position, playerCollider.size, 0f, Vector2.down, groundCheckDistance, groundCheckMask);
+
+        if (groundHit == true)
+        {
+            if (playerRigidbody.velocity.y > 0f)
+            {
+                //isJumping = false;
+            }
+            else
+            {
+                isGrounded = true;
+                GroundGlide();
+                isJumping = false;
+
+                animator.SetBool(animatorGroundedBool, isGrounded);
+
+                //ChangeState(eState.PLAYER_DEFAULT);
+            }
+        }
+        else if (isWater == true) // 아니면 물 속?
+        {
+            isGrounded = true;
+
+            GroundGlide();
+            isJumping = false;
+
+            animator.SetBool(animatorGroundedBool, isGrounded);
+        }
+        else
+        {
+            isGrounded = false;
+            animator.SetBool(animatorGroundedBool, isGrounded);
+        }
+
+        ////if (groundHit.normal)
+        ////{
+
+        ////}
+        //isGrounded = groundHit;
+    }
+
     private void GroundGlide()
     {
-        glideGauge.fillAmount = 0f;
+
+        if (glideGauge != null)
+        {
+            glideGauge.fillAmount = 0f;
+        }
         isGliding = false;
         canGliding = true;
         if (GlideCoroutine != null)
@@ -699,10 +785,20 @@ public class PlayerController : Character
         }
         else if (isSkillUse_Water)
         {//물능력
+            if (catchedObject != null)
+            {
+                catchedObject.GoPutThis();
+                catchedObject = null;
+            }
             ChangeState(eState.PLAYER_SKILL_WATER);
         }
-        else if (isSkillUse_Lighting)
+        else if (isSkillUse_Lightning)
         {//번개능력
+            if (catchedObject != null)
+            {
+                catchedObject.GoPutThis();
+                catchedObject = null;
+            }
             ChangeState(eState.PLAYER_SKILL_LIGHTNING);
         }
         else if (isGrounded && !isJumping && !isGliding)
@@ -712,12 +808,18 @@ public class PlayerController : Character
         else if (isFalling && !isGliding && inLadder == false)
         {
             ChangeState(eState.PLAYER_FALL);
+
+
         }
         else if (!isGrounded && isJumping && !isGliding)
         {
             if (playerStateMachine.GetCurrentStateE() != eState.PLAYER_GLIDE)
             {
-                ChangeState(eState.PLAYER_JUMP);
+                if (playerStateMachine.GetCurrentStateE() != eState.PLAYER_FALL)
+                {
+
+                    ChangeState(eState.PLAYER_JUMP);
+                }
             }
 
         }
@@ -839,7 +941,6 @@ public class PlayerController : Character
         }
     }
 
-
     private void UpdateGravityScale()
     {
         if (isClimbLadder)
@@ -902,6 +1003,8 @@ public class PlayerController : Character
     //    }
 
     //}
+
+
     private void UpdateDirection()
     {
         //스케일 변경으로 flip
@@ -1050,11 +1153,11 @@ public class PlayerController : Character
         {
             return false;
         }
-        else if(isSkillUse_Water)
+        else if (isSkillUse_Water)
         {
             return false;
         }
-        else if (isSkillUse_Lighting)
+        else if (isSkillUse_Lightning)
         {
             return false;
         }
@@ -1194,7 +1297,9 @@ public class PlayerController : Character
 
     void OnDrawGizmos()
     {
+        Gizmos.color = Color.green;
 
+        Gizmos.DrawWireCube(transform.position + (Vector3)Vector2.down * groundCheckDistance, playerCollider.size);
 
         Gizmos.color = Color.cyan;
 
@@ -1203,6 +1308,15 @@ public class PlayerController : Character
         Gizmos.DrawRay(transform.position, waterDirection * waterDistance);
         //Draw a cube at the maximum distance
         Gizmos.DrawWireCube(transform.position + (Vector3)waterDirection * waterDistance, waterSize);
+
+
+        Gizmos.color = Color.magenta;
+
+        Gizmos.DrawWireSphere(lightningPosition.position, lightningRadius);
+        ////Draw a Ray forward from GameObject toward the maximum distance
+        //Gizmos.DrawRay(transform.position, waterDirection * waterDistance);
+        ////Draw a cube at the maximum distance
+        //Gizmos.DrawWireCube(transform.position + (Vector3)waterDirection * waterDistance, waterSize);
 
     }
     //private void OnDrawGizmos()

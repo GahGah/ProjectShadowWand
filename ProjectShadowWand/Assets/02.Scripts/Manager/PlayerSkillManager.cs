@@ -8,6 +8,9 @@ public class PlayerSkillManager : MonoBehaviour
     public Skill_LightningShock skillLightningShock;
     public Skill_WaterWave skillWaterWave;
 
+    public GameObject windEffect;
+
+
     List<Skill> skillList = null;
 
     public bool unlockWind;
@@ -23,8 +26,16 @@ public class PlayerSkillManager : MonoBehaviour
                 skillList[i].Init();
             }
         }
+        windEffect.SetActive(false);
     }
 
+
+    public void WindInit()
+    {
+        skillWindGilde.windEffect = windEffect;
+        skillWindGilde.windAnimator =  windEffect.GetComponent<Animator>();
+        skillWindGilde.windAnimatorTornadoBlend = Animator.StringToHash("TornadoBlend");
+    }
     /// <summary>
     /// unlock 여부에 따라 리스트에 스킬을 추가합니다.
     /// </summary>
@@ -40,6 +51,9 @@ public class PlayerSkillManager : MonoBehaviour
         if (unlockWind == true)
         {
             skillWindGilde = new Skill_WindGlide(PlayerController.Instance);
+
+            WindInit();
+
             skillList.Add(skillWindGilde);
         }
         if (unlockWater ==true)
@@ -105,6 +119,8 @@ public class PlayerSkillManager : MonoBehaviour
                 {
                     unlockWind = true;
                     skillWindGilde = new Skill_WindGlide(PlayerController.Instance);
+
+                    WindInit();
                     skillList.Add(skillWindGilde);
                 }
                 break;
