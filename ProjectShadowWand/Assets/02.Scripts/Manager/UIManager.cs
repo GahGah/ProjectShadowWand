@@ -11,7 +11,7 @@ public class UIManager : MonoBehaviour
     public Dictionary<eUItype, UIBase> uiDicitonary = new Dictionary<eUItype, UIBase>();
 
     public UIDiary uiDiary;
-    public Stack<UIBase> uiStack = new Stack<UIBase>();
+    public Stack<UIBase> uiStack;
 
 
     private static UIManager instance;
@@ -42,6 +42,7 @@ public class UIManager : MonoBehaviour
 
     public void Init()
     {
+        uiStack = new Stack<UIBase>();
         uiStack.Clear();
     }
 

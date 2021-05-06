@@ -1,17 +1,14 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 /// <summary>
-/// ÀÏ´ÜÀº ´ëÈ­·Î Äù½ºÆ®¸¦ ¿Ï·á/ ³¡³»´Â ±×·± ½Ã½ºÅÛ.
+/// ì¼ë‹¨ì€ ëŒ€í™”ë¡œ í€˜ìŠ¤íŠ¸ë¥¼ ì™„ë£Œ/ ëë‚´ëŠ” ê·¸ëŸ° ì‹œìŠ¤í…œ.
 /// </summary>
 public class QuestManager : MonoBehaviour
 {
 
-    /// <summary>
-    /// ÀÏ´ÜÀº ´ëÈ­·Î Äù½ºÆ®¸¦ ¿Ï·á/ ³¡³»´Â ±×·± ½Ã½ºÅÛ.
-    /// </summary>
     //Dictionary<eQuestCode, Quest> questDict;
 
 
@@ -48,7 +45,10 @@ public class QuestManager : MonoBehaviour
     }
 
 
-
+    /// <summary>
+    /// í€˜ìŠ¤íŠ¸ ëª©ë¡ì— ìˆëŠ” ëª¨ë“  Questì˜ StartTalk(ì „ë‹¬í•  NPC)í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•©ë‹ˆë‹¤.
+    /// </summary>
+    /// <param name="_npc">ì „ë‹¬í•  NPC</param>
     public void QuestSystem_TalkStart(NPC _npc)
     {
         if (questList.Count != 0)
@@ -56,12 +56,16 @@ public class QuestManager : MonoBehaviour
             var index = questList.Count;
             for (int i = 0; i < index; i++)
             {
-                Debug.Log(questList[i].GetType() + "¿¡°Ô " + _npc.GetType() + "Àü´ŞÇÕ´Ï´Ù. ");
+                Debug.Log(questList[i].GetType() + "ì—ê²Œ " + _npc.GetType() + "ì „ë‹¬í•©ë‹ˆë‹¤. ");
                 questList[i].StartTalk(_npc);
             }
         }
     }
 
+    /// <summary>
+    /// í€˜ìŠ¤íŠ¸ ëª©ë¡ì— ìˆëŠ” ëª¨ë“  Questì˜ EndTalk(ì „ë‹¬í•  NPC)í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•©ë‹ˆë‹¤.
+    /// </summary>
+    /// <param name="_npc"></param>
     public void QuestSystem_TalkEnd(NPC _npc)
     {
         if (questList.Count != 0)
@@ -74,35 +78,39 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// í•´ë‹¹ í€˜ìŠ¤íŠ¸ì˜ StartQuest()ë¥¼ í˜¸ì¶œí•˜ê³ , í€˜ìŠ¤íŠ¸ ëª©ë¡ì—ì„œ í•´ë‹¹ í€˜ìŠ¤íŠ¸ë¥¼ ì‚­ì œí•©ë‹ˆë‹¤.
+    /// </summary>
+    /// <param name="_quest"></param>
     public void QuestSystem_AddQuest(Quest _quest)
     {
         _quest.StartQuest();
-        if (questList.Contains(_quest) == false)//¾øÀ» °æ¿ì¿¡¸¸
+        if (questList.Contains(_quest) == false)//ì—†ì„ ê²½ìš°ì—ë§Œ
         {
-            Debug.Log("Äù½ºÆ® µî·Ï : " + _quest.GetType());
+            Debug.Log("í€˜ìŠ¤íŠ¸ ë“±ë¡ : " + _quest.GetType());
             questList.Add(_quest);
         }
         else
         {
-            Debug.Log("Äù½ºÆ® µî·Ï¿¡ ½ÇÆĞÇß½À´Ï´Ù. ¸®½ºÆ®¿¡ ÀÌ¹Ì °°Àº Äù½ºÆ®°¡ Á¸ÀçÇÕ´Ï´Ù  : " + _quest.GetType());
+            Debug.Log("í€˜ìŠ¤íŠ¸ ë“±ë¡ì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤. ë¦¬ìŠ¤íŠ¸ì— ì´ë¯¸ ê°™ì€ í€˜ìŠ¤íŠ¸ê°€ ì¡´ì¬í•©ë‹ˆë‹¤  : " + _quest.GetType());
         }
     }
 
     /// <summary>
-    /// ÇØ´ç Äù½ºÆ®Æ® EndÇÏ°í, Äù½ºÆ® ¸ñ·Ï¿¡¼­ ÇØ´ç Äù½ºÆ®¸¦ »èÁ¦ÇÕ´Ï´Ù.
+    /// í•´ë‹¹ í€˜ìŠ¤íŠ¸ì˜ EndQuest()ë¥¼ í˜¸ì¶œí•˜ê³ , í€˜ìŠ¤íŠ¸ ëª©ë¡ì—ì„œ í•´ë‹¹ í€˜ìŠ¤íŠ¸ë¥¼ ì‚­ì œí•©ë‹ˆë‹¤.
     /// </summary>
     /// <param name="_quest"></param>
     public void QuestSystem_RemoveQuest(Quest _quest)
     {
         _quest.EndQuest();
-        if (questList.Contains(_quest) == true) //ÀÖÀ» °æ¿ì¿¡¸¸
+        if (questList.Contains(_quest) == true) //ìˆì„ ê²½ìš°ì—ë§Œ
         {
-            Debug.Log("Äù½ºÆ® »èÁ¦ : " + _quest.GetType());
+            Debug.Log("í€˜ìŠ¤íŠ¸ ì‚­ì œ : " + _quest.GetType());
             questList.Remove(_quest);
         }
         else
         {
-            Debug.Log("Äù½ºÆ® »èÁ¦¿¡ ½ÇÆĞÇß½À´Ï´Ù. ¸®½ºÆ®¿¡ Á¸ÀçÇÏÁö ¾Ê´Â Äù½ºÆ®ÀÔ´Ï´Ù. : " + _quest.GetType());
+            Debug.Log("í€˜ìŠ¤íŠ¸ ì‚­ì œì— ì‹¤íŒ¨í–ˆìŠµë‹ˆë‹¤. ë¦¬ìŠ¤íŠ¸ì— ì¡´ì¬í•˜ì§€ ì•ŠëŠ” í€˜ìŠ¤íŠ¸ì…ë‹ˆë‹¤. : " + _quest.GetType());
         }
     }
 }

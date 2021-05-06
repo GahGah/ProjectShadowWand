@@ -1,30 +1,48 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Quest
 {
-    [Tooltip("�ش� ����Ʈ�� �ڵ�.")]
+    [Tooltip("해당 퀘스트의 코드.")]
     public eQuestCode questCode;
 
-    [Tooltip("�ش� ����Ʈ�� ������ �ִ� NPC�Դϴ�.")]
+    [Tooltip("해당 퀘스트를 가지고 있는 NPC입니다.")]
     public NPC npc;
 
+    /// <summary>
+    /// 토크 매니저에서 대화를 시작할 때 호출됩니다.
+    /// </summary>
     public virtual void StartTalk(NPC _npc)
     {
         if (_npc != null)
         {
-            Debug.Log("Start Talk ����Ʈ npc �̸� : " + _npc.GetType());
+            Debug.Log("Start Talk 퀘스트 npc 이름 : " + _npc.GetType());
         }
     }
+    /// <summary>
+    /// 퀘스트가 추가될 때 자동으로 호출되는 함수입니다.
+    /// </summary>
     public virtual void StartQuest() { }
+
+    /// <summary>
+    /// 퀘스트가 실행되고 있는 도중 호출되는 함수입니다만, 실제로 사용되어지지 않았습니다.
+    /// </summary>
     public virtual void ExecuteQuest() { }
+
+    /// <summary>
+    /// 퀘스트가 끝날 때 자동으로 호출되는 함수입니다.
+    /// </summary>
     public virtual void EndQuest() { }
+
+    /// <summary>
+    /// 토크 매니저에서 대화를 시작할 때 호출됩니다.
+    /// </summary>
     public virtual void EndTalk(NPC _npc)
     {
         if (_npc != null)
         {
-            Debug.Log("End Talk npc �̸� : " + _npc.GetType());
+            Debug.Log("End Talk npc 이름 : " + _npc.GetType());
         }
 
     }
@@ -62,7 +80,7 @@ public class Quest_MomAndBaby_01 : Quest
     {
         base.EndTalk(_npc);
 
-        if (_npc == baby) //���̿� ���� �ߴٸ�
+        if (_npc == baby) //아이와 말을 했다면
         {
             QuestManager.Instance.QuestSystem_RemoveQuest(this);
             QuestManager.Instance.QuestSystem_AddQuest(new Quest_MomAndBaby_02(baby, mom));
@@ -85,7 +103,7 @@ public class Quest_MomAndBaby_02 : Quest
     public override void StartTalk(NPC _npc)
     {
         base.StartTalk(_npc);
-        if (_npc == mom) //��...�̶��
+        if (_npc == mom) //맘...이라면
         {
             baby.gameObject.SetActive(true);
             baby.gameObject.transform.position = baby.momTogetherPos.position;

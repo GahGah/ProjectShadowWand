@@ -261,12 +261,9 @@ public class PlayerController : Character
     }
     private void Start()
     {
-
         ChangeState(eState.PLAYER_DEFAULT);
         playerSkillManager.Init();
         playerStateMachine.Start();
-
-
     }
     private void Init()
     {
