@@ -138,6 +138,9 @@ public class PlayerController : Character
 
     [HideInInspector] public bool isJumping;
 
+    [Tooltip("잡기 오브젝트와 NPC가 동시에 존재할 때 잡기를 수행하기 위해 만듬")]
+    private bool isTalkReady;
+
     //[HideInInspector] 
     public bool isGrounded;
 
@@ -173,14 +176,18 @@ public class PlayerController : Character
     // [HideInInspector] 
     public bool isClimbLadder = false;
 
-    [Tooltip("미는 중인가?")]
-    public bool isPushing = false;
+    //[Tooltip("물건에 닿았나? - 물건을 잡으면 false가 되어야한다.")]
+    //public bool isTouching = false;
 
     [Tooltip("물건을 잡았나?")]
     public bool isCatching = false;
 
     [Tooltip("활강 중인가?")]
     public bool isGliding;
+
+
+    [HideInInspector] public bool isTalking = false;
+
     #region 추가된 것
 
 
@@ -203,7 +210,7 @@ public class PlayerController : Character
 
     [SerializeField]
     //[HideInInspector]
-    public GameObject touchedObject = null;
+    public CatchableObject touchedObject = null;
 
     [HideInInspector] public Rigidbody2D catchBody;
 
@@ -313,6 +320,7 @@ public class PlayerController : Character
         isRight = true;
         isWater = false;
         isInputCatchKey = false;
+        isTalkReady = false;
 
         currentNPC = null;
         catchedObject = null;
@@ -323,13 +331,6 @@ public class PlayerController : Character
         //animator.SetFloat("WindBlend", 0);
         isGliding = false;
         currentGlideAngle = glideAngle + 90f;
-        if (isDebug)
-        {
-            if (stateTextMesh == null)
-            {
-                CreateStateTextMesh();
-            }
-        }
 
         Init_ContactFilter();
     }
@@ -343,8 +344,9 @@ public class PlayerController : Character
 
     void Update()
     {
-        CheckTalkInput();
+        CheckInteractInput();
         CheckCatch();
+        //CheckTalkInput();
         CheckMoveInput();
         CheckLadderInput();
         CheckJumpInput();
@@ -356,12 +358,6 @@ public class PlayerController : Character
         CheckFalling();
 
         playerStateMachine.Update();
-
-        if (isDebug)
-        {
-            UpdateStateTextMesh();
-        }
-
 
     }
     void FixedUpdate()
@@ -382,22 +378,54 @@ public class PlayerController : Character
 
     }
 
+    //private void CheckCatch()
+    //{
+    //    if (ReferenceEquals(touchedObject, null))
+    //    {
 
-    private void CheckTalkInput()
+    //    }
+    //}
+
+    private void CheckInteractInput()
     {
-        if (InputManager.Instance.buttonInteraction.wasPressedThisFrame)
-        {
-            if (!ReferenceEquals(currentNPC, null) && isTalking == false)
 
-            // if (currentNPC != null && isTalking == false)
+        if (InputManager.Instance.buttonCatch.wasPressedThisFrame)// 키 누르기
+        {
+            if (ReferenceEquals(catchedObject, null) && !ReferenceEquals(touchedObject, null))
+            //   if (catchedObject == null) //잡아야 할 경우
             {
-                TalkSystemManager.Instance.currentTalkNPC = currentNPC;
-                currentNPC.StartTalk();
-                // TalkSystemManager.Instance.StartGoTalk(currentNPC.currentTalkCode, currentNPC);
+                SetCatchedObject(touchedObject);
+
+                if (!ReferenceEquals(catchedObject, null))
+                {
+                    catchedObject.GoCatchThis();
+                }
+
+            }
+            else //잡아야할 오브젝트가 없을 경우
+            {
+                if (!ReferenceEquals(currentNPC, null) && isTalking == false) //대화를 해야한다면
+                {
+
+                    TalkSystemManager.Instance.currentTalkNPC = currentNPC;
+                    currentNPC.StartTalk();
+                    // TalkSystemManager.Instance.StartGoTalk(currentNPC.currentTalkCode, currentNPC);
+                }
+                else //아니라면
+                {
+                    catchedObject.GoPutThis();
+
+                    catchedObject = null;
+                }
+
             }
         }
+
+        if (InputManager.Instance.buttonInteract.wasPressedThisFrame)
+        {
+
+        }
     }
-    //TEST
     #region 이동, 점프, 사다리, 활강
     private void CheckMoveInput()
     {
@@ -430,7 +458,6 @@ public class PlayerController : Character
         }
 
     }
-
 
     private void CheckLadderInput()
     {
@@ -520,7 +547,6 @@ public class PlayerController : Character
         //}
         #endregion
     }
-
     #endregion
 
     private void LateUpdate()
@@ -534,7 +560,6 @@ public class PlayerController : Character
         }
 
     }
-
 
     #region 밀기/잡기
     private void CheckCatch() //최적화가 필요함
@@ -555,52 +580,6 @@ public class PlayerController : Character
 
 
     }
-    public void CheckCatchInput(CatchableObject _obj)
-    {
-        if (CanMove())
-        {
-            var tempObj = _obj;
-
-            if (InputManager.Instance.buttonCatch.wasPressedThisFrame)// 키 누르기
-            {    
-                if (ReferenceEquals(catchedObject, null))
-             //   if (catchedObject == null) //잡아야 할 경우
-                {
-                    if (!ReferenceEquals(touchedObject,null))
-                 //   if (touchedObject != null)
-                    {
-                        SetCatchedObject(tempObj);
-                        if (!ReferenceEquals(catchedObject, null))
-                        {
-                            catchedObject.GoCatchThis();
-                        }
-                    }
-
-                }
-                else //놓아야 함
-                {
-                    catchedObject.GoPutThis();
-
-                    catchedObject = null;
-                }
-            }
-            else
-            {
-
-                if (InputManager.Instance.buttonCatch.isPressed) //키 계속 누르기 
-                {
-                    //딱히...?
-                }
-
-                if (InputManager.Instance.buttonCatch.wasReleasedThisFrame) // 키 떼기
-                {
-                    //얘도 딱히...
-                }
-            }
-        }
-
-    }
-
 
     public void SetCatchedObject(CatchableObject _co)
     {
@@ -612,39 +591,17 @@ public class PlayerController : Character
         return catchedObject;
     }
 
-    public void SetTouchedObject(GameObject _go)
+    public void SetTouchedObject(CatchableObject _go)
     {
         touchedObject = _go;
     }
-    public GameObject GetTouchedObject()
+    public CatchableObject GetTouchedObject()
     {
         return touchedObject;
     }
 
     #endregion
 
-
-    /// <summary>
-    /// 아무 스킬이 사용중이라면, true를 리턴합니다.
-    /// </summary>
-    /// <returns></returns>
-    public bool isOtherSkillUse()
-    {
-        if (isSkillUse_Lightning)
-        {
-            return true;
-        }
-        else if (isSkillUse_Water)
-        {
-            return true;
-        }
-        else if (isGliding)
-        {
-            return true;
-        }
-
-        return false;
-    }
 
 
     /// <summary>
@@ -916,6 +873,8 @@ public class PlayerController : Character
             ChangeState(eState.PLAYER_DEFAULT);
         }
     }
+
+    //TEST
     private void ChangeState(eState _state)
     {
         if (playerStateMachine.GetCurrentStateE() != _state)
@@ -1041,41 +1000,6 @@ public class PlayerController : Character
         }
 
     }
-
-    private void OnParticleCollision(GameObject other)
-    {
-        //if (other.layer == (int)eLayer.WeatherFx_withOpaqueTex && canMove == true)
-        //{
-        //    ProcessDie();
-        //}
-        //else
-        //{
-
-        //}
-    }
-
-    public IEnumerator ProcessDie()
-    {
-        if (isDie)
-        {
-
-        }
-
-        yield return new WaitForFixedUpdate();
-    }
-    //public void ProcessDie()
-    //{
-    //    if (isDie == false)
-    //    {
-    //        transform.rotation = Quaternion.Euler(0, 0, 90);
-    //        canMove = false;
-    //        //SiyeonManager.Instance.SetActiveTrueRestartUI();
-    //        Time.timeScale = 0f;
-    //    }
-
-    //}
-
-
     private void UpdateDirection()
     {
         //스케일 변경으로 flip
@@ -1102,6 +1026,61 @@ public class PlayerController : Character
             //}
         }
 
+    }
+
+
+    public IEnumerator ProcessDie()
+    {
+        if (isDie)
+        {
+
+        }
+
+        yield return new WaitForFixedUpdate();
+    }
+
+
+    /// <summary>
+    /// 아무 스킬이 사용중이라면, true를 리턴합니다.
+    /// </summary>
+    /// <returns></returns>
+    public bool isOtherSkillUse()
+    {
+        if (isSkillUse_Lightning)
+        {
+            return true;
+        }
+        else if (isSkillUse_Water)
+        {
+            return true;
+        }
+        else if (isGliding)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool CanMove()
+    {
+        if (isDie)
+        {
+            return false;
+        }
+        else if (isSkillUse_Water)
+        {
+            return false;
+        }
+        else if (isSkillUse_Lightning)
+        {
+            return false;
+        }
+        else if (isTalking)
+        {
+            return false;
+        }
+        return true;
     }
 
     public void ProcessRaise()
@@ -1159,85 +1138,7 @@ public class PlayerController : Character
         isWater = _isWater;
     }
 
-    private void UpdateGroundCheck()
-    {
-        if (playerCollider.IsTouching(contactFilter_Ground))
-        {
-            isGrounded = true;
-            blockType = eBlockType.GROUND;
-        }
-        else
-        {
-            isGrounded = false;
-            blockType = eBlockType.NONE;
-        }
 
-        animator.SetBool(animatorGroundedBool, isGrounded);
-    }
-
-    /// <summary>
-    /// 스테이트 제대로 돌아가는지 테스트용의 텍스트 메쉬
-    /// </summary>
-    private TextMesh stateTextMesh = null;
-    private void CreateStateTextMesh()
-    {
-        GameObject tempObject = new GameObject("stateTextMesh(Created)");
-        tempObject.transform.localScale = new Vector3(0.3f, 0.3f);
-        tempObject.transform.position = new Vector3(0f, 0f, -9f);
-
-        stateTextMesh = tempObject.AddComponent<TextMesh>();
-
-        stateTextMesh.fontSize = 20;
-        stateTextMesh.characterSize = 0.5f;
-
-        stateTextMesh.anchor = TextAnchor.MiddleCenter;
-        stateTextMesh.alignment = TextAlignment.Center;
-        stateTextMesh.color = Color.white;
-
-    }
-    private void UpdateStateTextMesh()
-    {
-        stateTextMesh.gameObject.transform.position = new Vector3(playerRigidbody.position.x, playerRigidbody.position.y + 0.8f, -9f);
-        var _text = playerStateMachine.GetCurrentStateName();
-        stateTextMesh.text = _text;
-    }
-
-    ///// <summary>
-    ///// 잡을 수 있는 오브젝트의 FixedJoint를 설정합니다.
-    ///// </summary>
-    ///// <param name="_fixedJoint">이걸로 설정합니다.</param>
-    //public void SetCurrentJointThis(Joint2D _fixedJoint)
-    //{
-    //    currentCatchJoint = _fixedJoint;
-    //}
-
-
-    //public Joint2D GetCurrentCatchJoint()
-    //{
-    //    return currentCatchJoint;
-    //}
-
-    [HideInInspector] public bool isTalking = false;
-    public bool CanMove()
-    {
-        if (isDie)
-        {
-            return false;
-        }
-        else if (isSkillUse_Water)
-        {
-            return false;
-        }
-        else if (isSkillUse_Lightning)
-        {
-            return false;
-        }
-        else if (isTalking)
-        {
-            return false;
-        }
-        return true;
-    }
 
     public Vector2 GetHandPosition()
     {
@@ -1282,6 +1183,64 @@ public class PlayerController : Character
         playerSkillManager.skillWindGilde.windAnimator.SetFloat(playerSkillManager.skillWindGilde.windAnimatorTornadoBlend, 3f);
         isGliding = false;
     }
+    private void OnParticleCollision(GameObject other)
+    {
+        //if (other.layer == (int)eLayer.WeatherFx_withOpaqueTex && canMove == true)
+        //{
+        //    ProcessDie();
+        //}
+        //else
+        //{
+
+        //}
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //WeatherInteractionObject tempObject = collision.gameObject.GetComponent<WeatherInteractionObject>();
+        //if (collision is ICatchable)
+        //{
+
+        //}
+    }
+    #region 구버전
+
+    //public void CheckCatchInput(CatchableObject _obj)
+    //{
+    //    if (CanMove())
+    //    {
+    //        var tempObj = _obj;
+
+    //        if (InputManager.Instance.buttonCatch.wasPressedThisFrame)// 키 누르기
+    //        {
+    //            if (ReferenceEquals(catchedObject, null))
+    //            //   if (catchedObject == null) //잡아야 할 경우
+    //            {
+    //                if (!ReferenceEquals(touchedObject, null))
+    //                //   if (touchedObject != null)
+    //                {
+    //                    SetCatchedObject(tempObj);
+    //                    if (!ReferenceEquals(catchedObject, null))
+    //                    {
+    //                        catchedObject.GoCatchThis();
+    //                    }
+    //                }
+
+    //            }
+    //            else //놓아야 함
+    //            {
+    //                catchedObject.GoPutThis();
+
+    //                catchedObject = null;
+    //            }
+    //        }
+
+    //    }
+
+    //}
+
+
+
     //public GameObject GetCatchingObject()
     //{
     //    return catchingObject;
@@ -1297,16 +1256,67 @@ public class PlayerController : Character
     //public void CatchCurrentJoint()
     //{
     //}
+    //private void UpdateGroundCheck()
+    //{
+    //    if (playerCollider.IsTouching(contactFilter_Ground))
+    //    {
+    //        isGrounded = true;
+    //        blockType = eBlockType.GROUND;
+    //    }
+    //    else
+    //    {
+    //        isGrounded = false;
+    //        blockType = eBlockType.NONE;
+    //    }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        //WeatherInteractionObject tempObject = collision.gameObject.GetComponent<WeatherInteractionObject>();
-        //if (collision is ICatchable)
-        //{
+    //    animator.SetBool(animatorGroundedBool, isGrounded);
+    //}
 
-        //}
-    }
-    #region 구버전
+
+    ///// <summary>
+    ///// 잡을 수 있는 오브젝트의 FixedJoint를 설정합니다.
+    ///// </summary>
+    ///// <param name="_fixedJoint">이걸로 설정합니다.</param>
+    //public void SetCurrentJointThis(Joint2D _fixedJoint)
+    //{
+    //    currentCatchJoint = _fixedJoint;
+    //}
+
+
+    //public Joint2D GetCurrentCatchJoint()
+    //{
+    //    return currentCatchJoint;
+    //}
+
+
+
+    //private void CheckTalkInput()
+    //{
+    //    if (InputManager.Instance.buttonInteract.wasPressedThisFrame)
+    //    {
+    //        if (!ReferenceEquals(currentNPC, null) && isTalking == false)
+    //        {
+
+    //            if (!ReferenceEquals(touchedObject, null)) //닿고 있는 게 있을 경우...즉, 잡아야 할 경우
+    //            {
+    //                if (isCatching == false) //잡고있지 않을 경우 
+    //                {
+    //                    CheckCatchInput(touchedObject);
+    //                }
+    //                else
+    //                {
+    //                    TalkSystemManager.Instance.currentTalkNPC = currentNPC;
+    //                    currentNPC.StartTalk();
+    //                }
+
+    //            }
+
+    //            // TalkSystemManager.Instance.StartGoTalk(currentNPC.currentTalkCode, currentNPC);
+    //        }
+    //    }
+    //}
+
+
     //private void UpdateVelocity()
     //{
     //    updatingVelocity = playerRigidbody.velocity;

@@ -62,7 +62,7 @@ public class StateMachine
             currentState = stateDict[_state];
             currentStateE = _state;
             currentState.Enter();
-            Debug.Log("현재 상태 : " + GetCurrentStateName());
+            //Debug.Log("현재 상태 : " + GetCurrentStateName());
         }
         else
         {

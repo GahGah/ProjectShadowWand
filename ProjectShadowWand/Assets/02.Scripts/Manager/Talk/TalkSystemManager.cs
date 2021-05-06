@@ -98,11 +98,12 @@ public class TalkSystemManager : MonoBehaviour
         currentTalkNPC = null;
         isTalkEnd = false;
         isTalkStart = false;
-        talkUI.SetActive(false);
+
     }
 
     void Start()
     {
+        talkUI.SetActive(false);
         StartCoroutine(ProcessStart());
         spaceTest.text = "다음";
     }
@@ -155,8 +156,8 @@ public class TalkSystemManager : MonoBehaviour
     public IEnumerator ProcessStart()
     {
         yield return StartCoroutine(GoReadTalkData("TalkData_Stage_00"));
+
         yield return StartCoroutine(GoReadCharData("CharData"));
-        Debug.Log("불러오기 완료.");
     }
 
     /// <summary>
@@ -167,7 +168,7 @@ public class TalkSystemManager : MonoBehaviour
     {
         filePath = "TalkDataFiles/" + path;
         talkData = CsvReader.Read(filePath);
-        Debug.Log("OK?...");
+        Debug.Log(path + "을 불러왔습니다.");
         yield return null;
     }
 
@@ -180,7 +181,7 @@ public class TalkSystemManager : MonoBehaviour
     {
         filePath = "TalkDataFiles/" + path;
         charData = CsvReader.Read(filePath);
-        Debug.Log("OK?...");
+        Debug.Log(path + "을 불러왔습니다.");
         yield return null;
     }
     /// <summary>

@@ -7,10 +7,31 @@ using UnityEngine;
 /// </summary>
 public class StageManager : MonoBehaviour
 {
-    private List<SoulMemory> soulMemoryList;
+    public List<SoulMemory> soulMemoryList;
+
+    [Tooltip("")]
+    public bool isClear_Quest;
+    public bool isClear_SoulMemory;
+
+    private static StageManager instance;
+    public static StageManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<StageManager>();
+            }
+            return instance;
+        }
+    }
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            instance = this;
+        }
         InitSoulMemoryList();
     }
 
@@ -39,4 +60,16 @@ public class StageManager : MonoBehaviour
     {
 
     }
+
+    //public void SetStageClear_SoulMemory()
+    //{
+
+    //}
+
+    //public void SetStageClear_LastQuest()
+    //{
+
+    //}
+
+
 }

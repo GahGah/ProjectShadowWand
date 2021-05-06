@@ -75,6 +75,7 @@ public enum eUItype
 {
     NONE, DIARY, SAVE, LOAD,
     SETTINGS,
+    SOULMEMORY_01, SOULMEMORY_02, SOULMEMORY_03,
 }
 
 public enum eElectricableType

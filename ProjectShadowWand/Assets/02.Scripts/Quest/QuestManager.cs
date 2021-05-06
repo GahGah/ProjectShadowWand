@@ -39,11 +39,10 @@ public class QuestManager : MonoBehaviour
     public void Init()
     {
         //questDict = new Dictionary<eQuestCode, Quest>();
-        
+
         questList = new List<Quest>();
 
     }
-
 
     /// <summary>
     /// 퀘스트 목록에 있는 모든 Quest의 StartTalk(전달할 NPC)함수를 호출합니다.
@@ -107,6 +106,10 @@ public class QuestManager : MonoBehaviour
         {
             Debug.Log("퀘스트 삭제 : " + _quest.GetType());
             questList.Remove(_quest);
+            if (_quest != null)
+            {
+
+            }
         }
         else
         {

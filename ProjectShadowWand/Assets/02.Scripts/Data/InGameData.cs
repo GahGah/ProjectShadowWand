@@ -54,6 +54,23 @@ public class Data_Settings : InGameData
     }
 }
 
+public class Data_Stage : InGameData
+{
+    public string stageNumber;
+    public Data_Stage(){ }
+    /// <summary>
+    /// 스테이지 넘버를 미리 가진 채로 생성합니다.
+    /// </summary>
+    /// <param name="_stageNumber"></param>
+    public Data_Stage(string _stageNumber)
+    {
+
+        stageNumber = _stageNumber;
+    }
+
+
+}
+
 [System.Serializable]
 public class Data_Player : InGameData
 {

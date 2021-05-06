@@ -62,17 +62,19 @@ public class CatchableObject : MonoBehaviour, ICatchable
 
     }
 
-    private void Update()
-    {
-        if (PlayerController.Instance.GetTouchedObject() == gameObject)
-        {
-            PlayerController.Instance.CheckCatchInput(this);
-        }
-        else if(PlayerController.Instance.GetCatchedObject() == this)
-        {
-            PlayerController.Instance.CheckCatchInput(this);
-        }
-    }
+    //private void Update()
+    //{
+    //    if (PlayerController.Instance.GetTouchedObject() == gameObject)
+    //    {
+    //        PlayerController.Instance.CheckCatchInput(this);
+    //    }
+    //    else if(PlayerController.Instance.GetCatchedObject() == this)
+    //    {
+    //        PlayerController.Instance.CheckCatchInput(this);
+    //    }
+    //}
+
+
     //private void Update()
     //{
     //isTouched = (PlayerController.Instance.GetCurrentCatchJoint() == fixedJoint);
@@ -140,13 +142,11 @@ public class CatchableObject : MonoBehaviour, ICatchable
     /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Player");
         if (collision.CompareTag("Player"))
         {
-            //닿았다면 터지 오브젝트를 자신으로
-            PlayerController.Instance.SetTouchedObject(gameObject);
+            //닿았다면 터치 오브젝트를 자신으로
+            PlayerController.Instance.SetTouchedObject(this);
             isTouched = true;
-            Debug.Log(gameObject.name + "와 닿았다.");
         }
     }
 
@@ -155,7 +155,7 @@ public class CatchableObject : MonoBehaviour, ICatchable
         if (collision.CompareTag("Player"))
         {
             //자신이 터치 오브젝트일 경우(다른 오브젝트에 닿지 않은 경우)
-            if (PlayerController.Instance.GetTouchedObject() == gameObject)
+            if (PlayerController.Instance.GetTouchedObject() == this)
             {
                 //터치 오브젝트를 null로
                 PlayerController.Instance.SetTouchedObject(null);

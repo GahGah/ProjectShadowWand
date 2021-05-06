@@ -32,7 +32,7 @@ public class InputManager : MonoBehaviour
 
     public ButtonControl buttonTalkNext;
 
-    public ButtonControl buttonInteraction;
+    public ButtonControl buttonInteract;
 
     public Keyboard keyboard;
     public bool isDebugMode;
@@ -133,7 +133,7 @@ public class InputManager : MonoBehaviour
 
         buttonTalkNext = Keyboard.current.spaceKey;
 
-        buttonInteraction = Keyboard.current.fKey;
+        buttonInteract = Keyboard.current.fKey;
 
         //이 밑 키들은 아마도 안씀
         buttonPush = Keyboard.current.cKey;
