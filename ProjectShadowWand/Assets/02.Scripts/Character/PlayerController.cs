@@ -85,7 +85,7 @@ public class PlayerController : Character
     public bool isSkillUse_Water;
     public bool isSkillUse_Lightning;
 
-    [HideInInspector] public Collider2D playerCollider;
+    public BoxCollider2D playerCollider;
     private EdgeCollider2D playerSideCollider;
 
 
@@ -192,27 +192,14 @@ public class PlayerController : Character
     [Tooltip("테스트용 idle 모션입니다.")]
     public Motion[] testIdleMotions;
 
-    //  private Joint2D currentCatchJoint = null;
-
-
-    // [Header("밀기 시 이동속도")]
-    // public float pushMoveSpeed;
 
     [Tooltip("잡기 키를 눌렀는가?")]
     [HideInInspector] public bool isInputCatchKey = false;
 
-    // [Tooltip("밀기 키를 눌렀는가?")]
-    // [HideInInspector] public bool isInputPushKey = false;
-
-    // [Header("밀기/잡기 시 손의 위치"), Space(10)]
-    // public GameObject handPosition_Push;
-    //public GameObject handPosition_Catch;
-
     [SerializeField]
     //[HideInInspector] 
     private CatchableObject catchedObject = null;
-    // [SerializeField]
-    // [HideInInspector] private PushableObject pushedObject = null;
+
     [SerializeField]
     //[HideInInspector]
     public GameObject touchedObject = null;
@@ -231,6 +218,15 @@ public class PlayerController : Character
 
     public Vector2 currentHandPosition;
     public Image glideGauge;
+
+
+    [Tooltip("땅 체크에 쓰일 hit")]
+    private RaycastHit2D groundHit;
+
+    [Tooltip("일단 밟을 수 있으면 다 해볼 생각")]
+    private int groundCheckMask;
+
+    private float groundCheckDistance;
     #endregion
 
     #endregion
@@ -280,9 +276,13 @@ public class PlayerController : Character
 
         }
         playerRigidbody = GetComponent<Rigidbody2D>();
-        playerCollider = GetComponent<Collider2D>();
+        playerCollider = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
         puppet = gameObject.transform;
+
+        groundCheckMask = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Ground_Soft")) | (1 << LayerMask.NameToLayer("Ground_Hard"))
+             | (1 << LayerMask.NameToLayer("Default"));
+        //  noPlayerMask = ~noPlayerMask;
 
         playerMask = LayerMask.NameToLayer("Player");
         groundMask = LayerMask.NameToLayer("Ground");// LayerMask.NameToLayer("Ground_Soft") LayerMask.NameToLayer("Ground_Hard");
@@ -364,7 +364,8 @@ public class PlayerController : Character
     }
     void FixedUpdate()
     {
-        GroundCheck();
+        //GroundCheck();
+        UpdateGroundCheck_Cast();
         UpdateMoveVelocity();
         UpdateJumpVelocity();
 
@@ -387,7 +388,7 @@ public class PlayerController : Character
             {
                 TalkSystemManager.Instance.currentTalkNPC = currentNPC;
                 currentNPC.StartTalk();
-               // TalkSystemManager.Instance.StartGoTalk(currentNPC.currentTalkCode, currentNPC);
+                // TalkSystemManager.Instance.StartGoTalk(currentNPC.currentTalkCode, currentNPC);
             }
         }
     }
@@ -634,6 +635,8 @@ public class PlayerController : Character
 
         return false;
     }
+
+
     /// <summary>
     /// 플레이어가 땅에 닿았는지 체크합니다.
     /// </summary>
@@ -670,6 +673,54 @@ public class PlayerController : Character
             isGrounded = false;
             animator.SetBool(animatorGroundedBool, isGrounded);
         }
+    }
+
+    /// <summary>
+    /// 박스캐스트로 땅 체크를 합니다.
+    /// </summary>
+    private void UpdateGroundCheck_Cast()
+    {
+        groundCheckDistance = 0.1f;
+
+        groundHit = Physics2D.BoxCast(playerRigidbody.position, playerCollider.size, 0f, Vector2.down, groundCheckDistance, groundCheckMask);
+
+        if (groundHit == true)
+        {
+            if (playerRigidbody.velocity.y > 0f)
+            {
+                //isJumping = false;
+            }
+            else
+            {
+                isGrounded = true;
+                GroundGlide();
+                isJumping = false;
+
+                animator.SetBool(animatorGroundedBool, isGrounded);
+
+                //ChangeState(eState.PLAYER_DEFAULT);
+            }
+        }
+        else if (isWater == true) // 아니면 물 속?
+        {
+            isGrounded = true;
+
+            GroundGlide();
+            isJumping = false;
+
+            animator.SetBool(animatorGroundedBool, isGrounded);
+        }
+        else
+        {
+            isGrounded = false;
+            animator.SetBool(animatorGroundedBool, isGrounded);
+        }
+
+        ////if (groundHit.normal)
+        ////{
+
+        ////}
+        //isGrounded = groundHit;
     }
 
     private void GroundGlide()
@@ -886,7 +937,6 @@ public class PlayerController : Character
         }
     }
 
-
     private void UpdateGravityScale()
     {
         if (isClimbLadder)
@@ -950,13 +1000,7 @@ public class PlayerController : Character
 
     //}
 
-    /// <summary>
-    /// 박스캐스트로 땅 체크를 합니다.
-    /// </summary>
-    private void UpdateGroundCheck_Cast()
-    {
 
-    }
     private void UpdateDirection()
     {
         //스케일 변경으로 flip
@@ -1249,7 +1293,10 @@ public class PlayerController : Character
 
     void OnDrawGizmos()
     {
-        //Elec
+        Gizmos.color = Color.green;
+
+        Gizmos.DrawWireCube(transform.position + (Vector3)Vector2.down * groundCheckDistance, playerCollider.size);
+
         Gizmos.color = Color.cyan;
 
         Gizmos.DrawWireCube(transform.position, waterSize);
