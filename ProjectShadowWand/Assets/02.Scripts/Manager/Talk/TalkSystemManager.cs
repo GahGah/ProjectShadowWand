@@ -11,6 +11,9 @@ public class TalkSystemManager : MonoBehaviour
     [Tooltip("CSV로 불러온 이름 파일의 내용이 담겨있는 딕셔너리 리스트입니다.")]
     public List<Dictionary<string, object>> charData;
 
+    [Tooltip("charData를 가공한 딕셔너리입니다.")]
+    public Dictionary<int, string> charDict;
+
     [Tooltip("CSV로 불러온 사념 파일의 내용이 담겨있는 딕셔너리 리스트입니다.")]
     public List<Dictionary<string, object>> soulMemoryData;
 
@@ -239,6 +242,18 @@ public class TalkSystemManager : MonoBehaviour
         filePath = "DataFiles/TalkData/" + path;
         charData = CsvReader.Read(filePath);
         Debug.Log(path + "을 불러왔습니다.");
+
+        charDict = new Dictionary<int, string>();
+
+        for (int i = 0; i < charData.Count; i++)
+        {
+            var code = (int)charData[i]["CHAR_CODE"];
+            var name = charData[i]["CHAR_NAME"] as string;
+
+            charDict.Add(code, name);
+        }
+
+
         yield return null;
     }
 
@@ -267,15 +282,7 @@ public class TalkSystemManager : MonoBehaviour
             StopCoroutine(TalkCoroutine);
             TalkCoroutine = null;
         }
-        //isTalkEnd = true;
-        //isTalkStart = false;
 
-        //if (currentTalkStarter != null)
-        //{
-        //    currentTalkStarter.isEnd = true;
-        //    currentTalkStarter.isStart = false;
-        //    currentTalkStarter = null;
-        //}
         if (currentTalkNPC != null)
         {
             QuestManager.Instance.QuestSystem_TalkEnd(currentTalkNPC);
@@ -288,7 +295,7 @@ public class TalkSystemManager : MonoBehaviour
 
     public void SetSoulMemoryClose()
     {
-        //talkUI.SetActive(false);
+        talkUI.SetActive(false);
         if (ReadSoulMemoryCoroutine != null)
         {
             StopCoroutine(ReadSoulMemoryCoroutine);
@@ -304,7 +311,7 @@ public class TalkSystemManager : MonoBehaviour
         PlayerController.Instance.isInteractingSoulMemory = false;
         currentSoulMemory.DisappearSoulMemory();
         currentSoulMemory = null;
-        StageManager.Instance.CheckClearCondition_SoulMemory();
+
     }
     /// <summary>
     /// goNext를 트루로 설정합니다. goNext는 지정된 텍스트가 출력되면, GoTalk코루틴에서 자동으로 false가 됩니다.
@@ -322,19 +329,11 @@ public class TalkSystemManager : MonoBehaviour
     /// <param name="TALK_CODE"></param>
     /// <returns></returns>
     IEnumerator ProcessTalk(int TALK_CODE, NPC _npc)
-    //int TALK_CODE_START, int TALK_CODE_END)
     {
         talkUI.SetActive(true);
-        //isTalkStart = true;
-        //isTalkEnd = false;
 
         currentTalkNPC = _npc;
 
-
-        //if (currentTalkStarter != null)
-        //{
-        //    currentTalkStarter.isStart = true;
-        //}
 
         PlayerController.Instance.isTalking = true;
         isNextPressed = false;
@@ -343,9 +342,7 @@ public class TalkSystemManager : MonoBehaviour
         currentCharCode = (int)talkData[TALK_CODE]["TALK_CHAR_NAME"];
         currentTalkMove = (int)talkData[TALK_CODE]["TALK_MOVE"];
 
-        //currentTalkFace = (int)talkData[TALK_CODE]["TALK_FACE"];
-
-        currentCharName = charData[currentCharCode]["CHAR_NAME"] as string;
+        currentCharName = charDict[currentCharCode];
         currentTalkText = talkData[TALK_CODE]["TALK_NAEYONG"] as string;
 
         //talkWindow.SetActive(true);
@@ -383,77 +380,6 @@ public class TalkSystemManager : MonoBehaviour
     }
 
 
-    ///// <summary>
-    ///// 소울 메모리 데이터를 읽습니다.
-    ///// </summary>
-    ///// <param name="TALK_CODE"></param>
-    ///// <param name="_soulMemory"></param>
-    ///// <returns></returns>
-    //IEnumerator ProcessSoulMemory(int TALK_CODE, SoulMemory _soulMemory)
-    //{
-    //    Debug.Log("Go");
-    //    talkUI.SetActive(true);
-
-    //    currentSoulMemory = _soulMemory;
-
-    //    PlayerController.Instance.isInteractingSoulMemory = true;
-    //    isNextPressed = false;
-
-    //    currentTalkCode = (int)soulMemoryData[TALK_CODE]["TALK_CODE"];
-    //    Debug.Log(currentTalkCode);
-
-    //    currentCharCode = (int)soulMemoryData[TALK_CODE]["TALK_CHAR_NAME"]; //코드
-    //    Debug.Log(currentCharCode);
-
-    //    currentCharName = charData[currentCharCode]["CHAR_NAME"] as string;
-    //    Debug.Log(currentCharName);
-
-    //    currentTalkMove = (int)soulMemoryData[TALK_CODE]["TALK_MOVE"];
-    //    Debug.Log(currentTalkMove);
-
-    //    //currentTalkFace = (int)talkData[TALK_CODE]["TALK_FACE"];
-
-
-    //    currentTalkText = soulMemoryData[TALK_CODE]["TALK_NAEYONG"] as string;
-
-    //    //talkWindow.SetActive(true);
-
-    //    nameText.text = currentCharName;
-
-
-    //    // bool isSkip = false;
-    //    for (int s = 0; s < currentTalkText.Length + 1; s++)
-    //    {
-    //        talkText.text = currentTalkText.Substring(0, s);
-
-    //        if (isNextPressed) //아직 텍스트가 다 나오지도 않았는데 다음 버튼이 눌렸다면 
-    //        {
-    //            isNextPressed = false; // 일단 펄스로 바고
-    //            talkText.text = currentTalkText;
-    //            // isSkip = true;//스킵을 했다고 처리한다.
-    //            break; //for 벗어나기
-    //        }
-    //        yield return new WaitForSecondsRealtime(talkSpeed);
-    //    }
-
-    //    yield return new WaitUntil(() => isNextPressed); //TRUE일때까지 대기
-
-    //    isNextPressed = false;//지나갔으면 분명 true인 상태일테니까, false로 변경
-
-    //    switch (currentTalkMove)
-    //    {
-    //        case -1://다음으로 이동
-    //            ProcessGoSoulMemory(TALK_CODE + 1, currentSoulMemory);
-    //            break;
-    //        case -25: // 종료
-    //            SetSoulMemoryClose();
-    //            break;
-    //        default:
-    //            Debug.Log("알수없는 숫자");
-    //            break;
-    //    }
-
-    //}
 
     /// <summary>
     /// 소울 메모리 데이터를 읽습니다.
@@ -477,15 +403,10 @@ public class TalkSystemManager : MonoBehaviour
         currentTalkCode = (int)soulMemoryData[TALK_CODE]["TALK_CODE"];
         currentCharCode = (int)soulMemoryData[TALK_CODE]["TALK_CHAR_NAME"];
 
-        
+
         currentTalkMove = (int)soulMemoryData[TALK_CODE]["TALK_MOVE"];
 
-        Debug.Log(currentTalkMove);
-        //currentTalkFace = (int)talkData[TALK_CODE]["TALK_FACE"];
-
-
-        Debug.Log(charData[5]["CHAR_CODE"]);
-        currentCharName = charData[currentCharCode]["CHAR_NAME"] as string;
+        currentCharName = charDict[currentCharCode];
 
         currentTalkText = soulMemoryData[TALK_CODE]["TALK_NAEYONG"] as string;
 

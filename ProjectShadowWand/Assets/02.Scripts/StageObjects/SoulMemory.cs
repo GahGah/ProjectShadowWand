@@ -48,6 +48,8 @@ public class SoulMemory : MonoBehaviour
     /// </summary>
     public void DisappearSoulMemory()
     {
+        isEnd = true;
+        StageManager.Instance.CheckClearCondition_SoulMemory();
         gameObject.SetActive(false);
         //stageManager.CheckClearCondition_SoulMemory();
     }
