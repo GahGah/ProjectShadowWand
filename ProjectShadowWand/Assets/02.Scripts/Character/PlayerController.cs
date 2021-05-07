@@ -7,9 +7,9 @@ using UnityEngine.Animations;
 using UnityEngine.UI;
 
 public class PlayerController : Character
-{//거리 속도 각도 뺴기
+{
 
-    #region 변수들
+    #region 변수 짱 많아
 
     [Header("사다리 이동 속도"), Tooltip("사다리 등을 올라가는 속도입니다.")]
     public float climbSpeed;
@@ -147,6 +147,10 @@ public class PlayerController : Character
     [HideInInspector]
     public bool isFalling;
 
+    [HideInInspector]
+    public bool isInteractingSoulMemory;
+
+    [HideInInspector]
     public bool isDie = false;
 
     [Tooltip("활강상태로 진입할 수 있는지 여부입니다.")]
@@ -189,8 +193,6 @@ public class PlayerController : Character
 
     [HideInInspector] public bool isTalking = false;
 
-    #region 추가된 것
-
 
     [Tooltip("현재 타고있는 사다리의 위치.")]
     [HideInInspector] public Vector2 ladderPosition = Vector2.zero;
@@ -226,8 +228,6 @@ public class PlayerController : Character
     public Vector2[] handPosition_landed;
 
     public Vector2 currentHandPosition;
-    public Image glideGauge;
-
 
     [Tooltip("땅 체크에 쓰일 hit")]
     private RaycastHit2D groundHit;
@@ -236,16 +236,23 @@ public class PlayerController : Character
     private int groundCheckMask;
 
     private float groundCheckDistance;
-    #endregion
+
+    [HideInInspector]
+    [Tooltip("현재 대화중인/대화를 시작할 수 있는NPC")]
+    public NPC currentNPC;
+
+    [HideInInspector]
+    [Tooltip("현재 상호작용 할 수 있는/ 하는 중인 사념")]
+    public SoulMemory currentSoulMemory;
+
+    [HideInInspector]
+    public PlayerSkillManager playerSkillManager;
 
     #endregion
 
     //[Tooltip("대화할 캐릭터의 토크 스타터")]
     //public TalkStarter talkStater;
 
-    [Tooltip("현재 대화중인/대화를 시작할 수 있는NPC")]
-    public NPC currentNPC;
-    public PlayerSkillManager playerSkillManager;
 
     private static PlayerController instance;
     public static PlayerController Instance
@@ -273,7 +280,7 @@ public class PlayerController : Character
         playerSkillManager.Init();
         playerStateMachine.Start();
     }
-    private void Init()
+    public void Init()
     {
         playerStateMachine = new PlayerStateMachine(this);
         if (playerSkillManager == null)
@@ -322,15 +329,18 @@ public class PlayerController : Character
         isWater = false;
         isInputCatchKey = false;
         isTalkReady = false;
+        isGliding = false;
+
+        isInteractingSoulMemory = false;
 
         currentNPC = null;
         catchedObject = null;
         //pushedObject = null;
         touchedObject = null;
+        currentSoulMemory = null;
 
         originalMoveSpeed = movementSpeed;
         //animator.SetFloat("WindBlend", 0);
-        isGliding = false;
         currentGlideAngle = glideAngle + 90f;
 
         Init_ContactFilter();
@@ -391,7 +401,20 @@ public class PlayerController : Character
     {
         if (InputManager.Instance.buttonInteract.wasPressedThisFrame)// 키 누르기
         {
-            if (ReferenceEquals(catchedObject, null) && !ReferenceEquals(touchedObject, null))
+            if (CanMove() == false)
+            {
+                return;
+            }
+
+            if (!ReferenceEquals(currentSoulMemory, null))
+            {
+                if (currentSoulMemory.isTake == false) //상호작용한 적 없는 소울 메모리라면
+                {
+                    currentSoulMemory.isTake = true;
+                    currentSoulMemory.TakeSoulMemory();
+                }
+            }
+            else if (ReferenceEquals(catchedObject, null) && !ReferenceEquals(touchedObject, null))
             //   if (catchedObject == null) //잡아야 할 경우
             {
                 SetCatchedObject(touchedObject);
@@ -424,7 +447,6 @@ public class PlayerController : Character
 
             }
         }
-
     }
     #region 이동, 점프, 사다리, 활강
     private void CheckMoveInput()
@@ -776,10 +798,10 @@ public class PlayerController : Character
     private void GroundGlide()
     {
 
-        if (glideGauge != null)
-        {
-            glideGauge.fillAmount = 0f;
-        }
+        //if (glideGauge != null)
+        //{
+        //    glideGauge.fillAmount = 0f;
+        //}
         isGliding = false;
         canGliding = true;
         if (GlideCoroutine != null)
@@ -1086,6 +1108,8 @@ public class PlayerController : Character
 
     public bool CanMove()
     {
+
+
         if (isDie)
         {
             return false;
@@ -1099,6 +1123,10 @@ public class PlayerController : Character
             return false;
         }
         else if (isTalking)
+        {
+            return false;
+        }
+        else if (isInteractingSoulMemory)
         {
             return false;
         }
@@ -1198,10 +1226,10 @@ public class PlayerController : Character
     /// </summary>
     public void ResetWindEnd()
     {
-        if (glideGauge != null)
-        {
-            glideGauge.fillAmount = 0f;
-        }
+        //if (glideGauge != null)
+        //{
+        //    glideGauge.fillAmount = 0f;
+        //}
         playerSkillManager.skillWindGilde.windAnimator.SetFloat(playerSkillManager.skillWindGilde.windAnimatorTornadoBlend, 3f);
         isGliding = false;
     }

@@ -32,6 +32,9 @@ public class TalkSystemManager : MonoBehaviour
     public float talkSpeed;
 
     public Coroutine TalkCoroutine;
+    public Coroutine ReadSoulMemoryCoroutine;
+
+    //public
 
     private string filePath;
 
@@ -40,6 +43,8 @@ public class TalkSystemManager : MonoBehaviour
 
     [Tooltip("현재 캐릭터 이름")]
     private string currentCharName;
+
+
 
     [Tooltip("현재 토크 코드")]
     private int currentTalkCode;
@@ -66,6 +71,10 @@ public class TalkSystemManager : MonoBehaviour
 
 
     public NPC currentTalkNPC;
+
+    [Tooltip("현재 소울메모리")]
+    private SoulMemory currentSoulMemory;
+
     [Space(20)]
 
     public GameObject talkUI;
@@ -99,6 +108,7 @@ public class TalkSystemManager : MonoBehaviour
         }
         //currentTalkStarter = null;
         currentTalkNPC = null;
+        currentSoulMemory = null;
         isTalkEnd = false;
         isTalkStart = false;
 
@@ -140,6 +150,24 @@ public class TalkSystemManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 외부에서 호출하는 사념 읽기 시작 함수입니다.
+    /// </summary>
+    /// <param name="TALK_CODE"></param>
+    /// <param name="_npc"></param>
+    public void StartReadSoulMemory(int TALK_CODE, SoulMemory _soulMemory)
+    {
+        if (ReadSoulMemoryCoroutine != null)
+        {
+            StopCoroutine(ReadSoulMemoryCoroutine);
+            ReadSoulMemoryCoroutine = null;
+        }
+
+        ReadSoulMemoryCoroutine = StartCoroutine(ProcessSoulMemory(TALK_CODE, _soulMemory));
+    }
+
+
+
+    /// <summary>
     /// 내부에서 사용하는 대화 시작 함수입니다.
     /// </summary>
     /// <param name="TALK_CODE"></param>
@@ -156,11 +184,33 @@ public class TalkSystemManager : MonoBehaviour
         TalkCoroutine = StartCoroutine(ProcessTalk(TALK_CODE, _npc));
     }
 
+
+    /// <summary>
+    /// 내부에서 사용하는 소울메모리 읽기 시작 함수입니다.
+    /// </summary>
+    /// <param name="TALK_CODE"></param>
+    /// <param name="_npc"></param>
+    private void ProcessGoSoulMemory(int TALK_CODE, SoulMemory _soulMemory)
+    {
+        //PlayerController.Instance.isTalking = true;
+
+        if (ReadSoulMemoryCoroutine != null)
+        {
+            StopCoroutine(ReadSoulMemoryCoroutine);
+
+
+            ReadSoulMemoryCoroutine = null;
+        }
+        ReadSoulMemoryCoroutine = StartCoroutine(ProcessSoulMemory(TALK_CODE, _soulMemory));
+    }
+
+
     public IEnumerator ProcessStart()
     {
+        yield return StartCoroutine(GoReadCharData("CharData"));
         yield return StartCoroutine(GoReadTalkData("TalkData_Stage_00"));
 
-        yield return StartCoroutine(GoReadCharData("CharData"));
+        yield return StartCoroutine(GoReadSoulMemoryData("SoulMemoryData_Stage_01"));
     }
 
     /// <summary>
@@ -169,7 +219,7 @@ public class TalkSystemManager : MonoBehaviour
     /// <param name="path">불러올 파일 이름을 적어주시면 됩니다.</param>
     public IEnumerator GoReadTalkData(string path)
     {
-        filePath = "TalkDataFiles/" + path;
+        filePath = "DataFiles/TalkData/" + path;
         talkData = CsvReader.Read(filePath);
         Debug.Log(path + "을 불러왔습니다.");
         yield return null;
@@ -182,11 +232,26 @@ public class TalkSystemManager : MonoBehaviour
     /// <returns></returns>
     public IEnumerator GoReadCharData(string path)
     {
-        filePath = "TalkDataFiles/" + path;
+        filePath = "DataFiles/TalkData/" + path;
         charData = CsvReader.Read(filePath);
         Debug.Log(path + "을 불러왔습니다.");
         yield return null;
     }
+
+    /// <summary>
+    ///  Resources.Load를 이용하여 사념 파일을 불러옵니다.
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    public IEnumerator GoReadSoulMemoryData(string path)
+    {
+        filePath = "DataFiles/SoulMemoryData/" + path;
+        soulMemoryData = CsvReader.Read(filePath);
+        Debug.Log(path + "을 불러왔습니다.");
+        yield return null;
+    }
+
+
     /// <summary>
     /// 대화를 종료시킵니다. 사실은 버튼, 캐릭터, 윈도우 등을 전부 비활성화 시킵니다. 또한,플레이어 컨트롤러의 isTalking을 false로 합니다.
     /// </summary>
@@ -216,6 +281,27 @@ public class TalkSystemManager : MonoBehaviour
         currentTalkNPC = null;
     }
 
+
+    public void SetSoulMemoryClose()
+    {
+        //talkUI.SetActive(false);
+        if (ReadSoulMemoryCoroutine != null)
+        {
+            StopCoroutine(ReadSoulMemoryCoroutine);
+            ReadSoulMemoryCoroutine = null;
+        }
+
+        if (currentSoulMemory != null)
+        {
+            //TODO : UI에 추가라던가 그런걸 해야함...혹은 그냥 end만 하던가?
+            currentSoulMemory.isEnd = true;
+        }
+
+        PlayerController.Instance.isInteractingSoulMemory = false;
+        currentSoulMemory.DisappearSoulMemory();
+        currentSoulMemory = null;
+        StageManager.Instance.CheckClearCondition_SoulMemory();
+    }
     /// <summary>
     /// goNext를 트루로 설정합니다. goNext는 지정된 텍스트가 출력되면, GoTalk코루틴에서 자동으로 false가 됩니다.
     /// </summary>
@@ -291,4 +377,68 @@ public class TalkSystemManager : MonoBehaviour
                 break;
         }
     }
+    /// <summary>
+    /// 소울 메모리 데이터를 읽습니다.
+    /// </summary>
+    /// <param name="TALK_CODE"></param>
+    /// <param name="_soulMemory"></param>
+    /// <returns></returns>
+    IEnumerator ProcessSoulMemory(int TALK_CODE, SoulMemory _soulMemory)
+    {
+        talkUI.SetActive(true);
+
+        currentSoulMemory = _soulMemory;
+
+        PlayerController.Instance.isInteractingSoulMemory = true;
+        isNextPressed = false;
+
+        currentTalkCode = (int)soulMemoryData[TALK_CODE]["TALK_CODE"];
+        currentCharCode = (int)soulMemoryData[TALK_CODE]["TALK_CHAR_NAME"];
+        currentTalkMove = (int)soulMemoryData[TALK_CODE]["TALK_MOVE"];
+
+        //currentTalkFace = (int)talkData[TALK_CODE]["TALK_FACE"];
+
+        currentCharName = charData[currentCharCode]["CHAR_NAME"] as string;
+        currentTalkText = soulMemoryData[TALK_CODE]["TALK_NAEYONG"] as string;
+
+        //talkWindow.SetActive(true);
+
+        nameText.text = currentCharName;
+
+        // bool isSkip = false;
+        for (int s = 0; s < currentTalkText.Length + 1; s++)
+        {
+            talkText.text = currentTalkText.Substring(0, s);
+
+            if (isNextPressed) //아직 텍스트가 다 나오지도 않았는데 다음 버튼이 눌렸다면 
+            {
+                isNextPressed = false; // 일단 펄스로 바고
+                talkText.text = currentTalkText;
+                // isSkip = true;//스킵을 했다고 처리한다.
+                break; //for 벗어나기
+            }
+            yield return new WaitForSecondsRealtime(talkSpeed);
+        }
+
+        yield return new WaitUntil(() => isNextPressed); //TRUE일때까지 대기
+
+        isNextPressed = false;//지나갔으면 분명 true인 상태일테니까, false로 변경
+
+        switch (currentTalkMove)
+        {
+            case -1://다음으로 이동
+                ProcessGoSoulMemory(TALK_CODE + 1, currentSoulMemory);
+                break;
+            case -25: // 종료
+                SetSoulMemoryClose();
+                break;
+        }
+    }
+
+
+
+
+
+
+
 }

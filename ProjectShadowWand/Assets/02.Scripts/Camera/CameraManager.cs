@@ -27,6 +27,10 @@ public class CameraManager : MonoBehaviour
     private Vector3 scObjVel = Vector3.zero;
 
     [Header("기본 설정")]
+
+    [Tooltip("줌인/줌아웃을 사용하는가?")]
+    public bool useZoom;
+
     [Tooltip("카메라의 기본 z값 입니다. 줌과는 관련 없습니다.")]
     public float cameraDefaultPositionZ = -10f;
 
@@ -147,29 +151,22 @@ public class CameraManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(CameraControl());
-    }
-
-    private void Update()
-    {
-        //zoomSpeed가 변할...수도 있기 때문에.
-        currentZoomSpeed = 1f / zoomSpeed;
-
-        if (InputManager.Instance.buttonScroll.ReadValue().y > 0)
+        if (useZoom == true)
         {
+            StartCoroutine(CameraZoom());
+            StartCoroutine(CameraControl());
 
-            cameraState = ECameraState.ZOOMIN;
         }
 
-        if (InputManager.Instance.buttonScroll.ReadValue().y < 0)
-        {
-
-            cameraState = ECameraState.ZOOMOUT;
-        }
-
-
-
     }
+
+    //private void Update()
+    //{
+    //    //zoomSpeed가 변할...수도 있기 때문에.
+
+
+
+    //}
 
     private void FixedUpdate()
     {
@@ -192,7 +189,27 @@ public class CameraManager : MonoBehaviour
         }
 
     }
+    private IEnumerator CameraZoom()
+    {
+        while (true)
+        {
+            currentZoomSpeed = 1f / zoomSpeed;
 
+            if (InputManager.Instance.buttonScroll.ReadValue().y > 0)
+            {
+
+                cameraState = ECameraState.ZOOMIN;
+            }
+
+            if (InputManager.Instance.buttonScroll.ReadValue().y < 0)
+            {
+
+                cameraState = ECameraState.ZOOMOUT;
+            }
+            yield return null;
+        }
+
+    }
     private IEnumerator CameraControl()
     {
         while (true)
@@ -390,8 +407,8 @@ public class CameraManager : MonoBehaviour
     {
         //if (isConfine)
         //{
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(confinePos, confineSize);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(confinePos, confineSize);
 
         //}
 
@@ -413,6 +430,6 @@ public class CameraManager : MonoBehaviour
 
     public void SetWhiteScreen(bool _b)
     {
-        whiteScreen.SetActive(_b);   
+        whiteScreen.SetActive(_b);
     }
 }

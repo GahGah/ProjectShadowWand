@@ -55,7 +55,7 @@ public class QuestManager : MonoBehaviour
             var index = questList.Count;
             for (int i = 0; i < index; i++)
             {
-                Debug.Log(questList[i].GetType() + "에게 " + _npc.GetType() + "전달합니다. ");
+                //Debug.Log(questList[i].GetType() + "에게 " + _npc.GetType() + "전달합니다. ");
                 questList[i].StartTalk(_npc);
             }
         }
@@ -67,11 +67,17 @@ public class QuestManager : MonoBehaviour
     /// <param name="_npc"></param>
     public void QuestSystem_TalkEnd(NPC _npc)
     {
+        Quest prevQuest = new Quest();
         if (questList.Count != 0)
         {
             var index = questList.Count;
             for (int i = 0; i < index; i++)
             {
+                if (prevQuest == questList[i])
+                {
+                    Debug.LogWarning("어째서 이전 퀘스트와 현재 퀘스트가 같은 것인가?");
+                }
+                prevQuest = questList[i];
                 questList[i].EndTalk(_npc);
             }
         }
@@ -98,18 +104,22 @@ public class QuestManager : MonoBehaviour
     /// <summary>
     /// 해당 퀘스트의 EndQuest()를 호출하고, 퀘스트 목록에서 해당 퀘스트를 삭제합니다.
     /// </summary>
-    /// <param name="_quest"></param>
-    public void QuestSystem_RemoveQuest(Quest _quest)
+    /// <param name="_quest"> 삭제할 퀘스트입니다.</param>
+    /// <param name="_callEnd">true일 때만 EndQuest() 함수를 호출합니다.</param>
+    public void QuestSystem_RemoveQuest(Quest _quest, bool _callEnd)
     {
-        _quest.EndQuest();
+        if (_callEnd)
+        {
+            _quest.EndQuest();
+        }
         if (questList.Contains(_quest) == true) //있을 경우에만
         {
             Debug.Log("퀘스트 삭제 : " + _quest.GetType());
             questList.Remove(_quest);
-            if (_quest != null)
-            {
+            //if (_quest != null)
+            //{
 
-            }
+            //}
         }
         else
         {

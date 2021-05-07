@@ -15,10 +15,10 @@ public class Quest
     /// </summary>
     public virtual void StartTalk(NPC _npc)
     {
-        if (_npc != null)
-        {
-            Debug.Log("Start Talk 퀘스트 npc 이름 : " + _npc.GetType());
-        }
+        //if (_npc != null)
+        //{
+        //    Debug.Log("Start Talk 퀘스트 npc 이름 : " + _npc.GetType());
+        //}
     }
     /// <summary>
     /// 퀘스트가 추가될 때 자동으로 호출되는 함수입니다.
@@ -33,17 +33,20 @@ public class Quest
     /// <summary>
     /// 퀘스트가 끝날 때 자동으로 호출되는 함수입니다.
     /// </summary>
-    public virtual void EndQuest() { }
+    public virtual void EndQuest()
+    {
+        Debug.Log("퀘스트 완료! : " + this.GetType());
+    }
 
     /// <summary>
     /// 토크 매니저에서 대화를 시작할 때 호출됩니다.
     /// </summary>
     public virtual void EndTalk(NPC _npc)
     {
-        if (_npc != null)
-        {
-            Debug.Log("End Talk npc 이름 : " + _npc.GetType());
-        }
+        //if (_npc != null)
+        //{
+        //    Debug.Log("End Talk npc 이름 : " + _npc.GetType());
+        //}
 
     }
 }
@@ -73,6 +76,7 @@ public class Quest_MomAndBaby_01 : Quest
 
     public override void EndQuest()
     {
+        base.EndQuest();
         baby.gameObject.SetActive(false);
     }
 
@@ -82,7 +86,7 @@ public class Quest_MomAndBaby_01 : Quest
 
         if (_npc == baby) //아이와 말을 했다면
         {
-            QuestManager.Instance.QuestSystem_RemoveQuest(this);
+            QuestManager.Instance.QuestSystem_RemoveQuest(this, true);
             QuestManager.Instance.QuestSystem_AddQuest(new Quest_MomAndBaby_02(baby, mom));
             mom.currentTalkCode = 8;
             PlayerController.Instance.playerSkillManager.UnlockWind();
@@ -121,13 +125,15 @@ public class Quest_MomAndBaby_02 : Quest
 
     public override void EndQuest()
     {
+        base.EndQuest();
+        StageManager.Instance.SetLastQuestClear(true);
     }
     public override void EndTalk(NPC _npc)
     {
         base.EndTalk(_npc);
         if (_npc == mom)
         {
-            QuestManager.Instance.QuestSystem_RemoveQuest(this);
+            QuestManager.Instance.QuestSystem_RemoveQuest(this, true);
             mom.currentTalkCode = 12;
             baby.currentTalkCode = -1;
             baby.birdCollider.enabled = false;

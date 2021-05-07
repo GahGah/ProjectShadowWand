@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 /// <summary>
 /// 현재 스테이지 정보를 가지고 노는 매니저 클래스.
 /// </summary>
 public class StageManager : MonoBehaviour
 {
+    [Tooltip("다음 스테이지로 향하는 문")]
+    public StageDoor stageDoor;
     public List<SoulMemory> soulMemoryList;
 
     [Header("특정 퀘스트를 클리어해야할 경우 체크")]
@@ -58,10 +61,10 @@ public class StageManager : MonoBehaviour
         }
 
     }
-    private void Start()
-    {
+    //private void Start()
+    //{
 
-    }
+    //}
 
     public void InitSoulMemoryList()
     {
@@ -72,7 +75,7 @@ public class StageManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 소울메모리 리스트에 추가합니다.
+    /// 소울메모리 리스트에 추가합니다. 그리고, 상태를 체크합니다.
     /// </summary>
     public void AddSoulMemory(SoulMemory _soulMemory)
     {
@@ -80,7 +83,6 @@ public class StageManager : MonoBehaviour
         CheckClearCondition_SoulMemory();
 
     }
-
 
     /// <summary>
     /// 스테이지 클리어까지 기다리다가 함수를 호출합니다.
@@ -91,12 +93,23 @@ public class StageManager : MonoBehaviour
         yield return new WaitUntil(() => isStageClear);
         //스테이지 클리어가 true일 때 까지 대기
         Debug.Log("클리어 조건 만족!");
+        //var currentTime = 0f;
+        //var allTime = 4f;
+        //var currentPer = 0f;
+
+        //while (currentTime < 1f)
+        //{
+        //    currentTime += Time.deltaTime / allTime;
+
+        //    currentPer = Mathf.Lerp(0f, 1f, currentTime);
+        //    yield return YieldInstructionCache.WaitForFixedUpdate;
+        //}
 
 
     }
 
     /// <summary>
-    /// 소울 메모리들의 상태를 보고 클리어 조건을 만족했는지를 체크합니다.
+    /// 소울 메모리들의 상태를 보고 클리어 조건을 만족했는지를 체크합니다. 만족했다면, IsStageClear()함수를 호출합니다.
     /// </summary>
     public bool CheckClearCondition_SoulMemory()
     {
@@ -115,6 +128,7 @@ public class StageManager : MonoBehaviour
         if (isEnd_All)
         {
             isClear_SoulMemory = true;
+            IsStageClear();
         }
         else
         {
@@ -133,10 +147,7 @@ public class StageManager : MonoBehaviour
         isClear_Quest = _b;
         IsStageClear();
     }
-    //public void CheckClearCondition_Quest()
-    //{
 
-    //}
 
     /// <summary>
     /// 퀘스트와 사념 상태에 따라 isStageClear를 업데이트합니다.
@@ -144,26 +155,37 @@ public class StageManager : MonoBehaviour
     /// <returns> 클리어 조건을 만족했다면 true, 만족하지 않았다면 false를 반환합니다.</returns>
     public bool IsStageClear()
     {
-        var clearQ = false;
-        var clearS = false;
-        if (isQuestExist == true)//클리어 조건에 퀘스트가 있다면
-        {
+        //bool clearQ = false;
+        //bool clearS = false;
 
-            clearQ = isClear_Quest;
-        }
-        else //퀘스트가 없다면
-        { //무조건 완료로
-            clearQ = true;
-        }
+        bool clearQ = isQuestExist == true ? isClear_Quest : true;
 
-        if (isSoulMemoryExist == true) //클리어 조건에 사념이 있다면
-        {
-            clearS = isClear_SoulMemory;
-        }
-        else
-        {
-            clearS = true;
-        }
+        bool clearS = isSoulMemoryExist == true ? isClear_SoulMemory : true;
+
+        //switch (isQuestExist) 
+        //{
+
+        //    case true:// 클리어 조건에 퀘스트가 있다면
+        //        clearQ = isClear_Quest;
+        //        break;
+
+        //    case false: // 없으면 그냥 클리어한 것으로 간주
+        //        clearQ = true;
+        //        break;
+        //}
+
+        //switch (isSoulMemoryExist)
+        //{
+
+        //    case true:// 클리어 조건에 사념이 있다면
+        //        clearS = isClear_SoulMemory;
+        //        break;
+
+        //    case false: // 없으면 그냥 클리어한 것으로 간주
+        //        clearS = true;
+        //        break;
+        //}
+
 
 
         isStageClear = clearQ && clearS;
