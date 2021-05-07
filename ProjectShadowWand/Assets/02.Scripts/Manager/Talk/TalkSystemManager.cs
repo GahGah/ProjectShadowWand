@@ -31,8 +31,8 @@ public class TalkSystemManager : MonoBehaviour
     [Tooltip("한 글자가 출력되는 속도입니다.")]
     public float talkSpeed;
 
-    public Coroutine TalkCoroutine;
-    public Coroutine ReadSoulMemoryCoroutine;
+    public IEnumerator TalkCoroutine;
+    public IEnumerator ReadSoulMemoryCoroutine;
 
     //public
 
@@ -146,7 +146,8 @@ public class TalkSystemManager : MonoBehaviour
         }
         Debug.Log("TalkSystemManager에서 StartGoTalk(외부호출대화함수) 실행.");
         QuestManager.Instance.QuestSystem_TalkStart(currentTalkNPC);
-        TalkCoroutine = StartCoroutine(ProcessTalk(TALK_CODE, _npc));
+        TalkCoroutine = ProcessTalk(TALK_CODE, _npc);
+        StartCoroutine(TalkCoroutine);
     }
 
     /// <summary>
@@ -158,11 +159,14 @@ public class TalkSystemManager : MonoBehaviour
     {
         if (ReadSoulMemoryCoroutine != null)
         {
+            Debug.Log("이상함");
             StopCoroutine(ReadSoulMemoryCoroutine);
             ReadSoulMemoryCoroutine = null;
         }
 
-        ReadSoulMemoryCoroutine = StartCoroutine(ProcessSoulMemory(TALK_CODE, _soulMemory));
+        ReadSoulMemoryCoroutine = ProcessSoulMemory(TALK_CODE, _soulMemory);
+
+        StartCoroutine(ReadSoulMemoryCoroutine);
     }
 
 
@@ -181,7 +185,8 @@ public class TalkSystemManager : MonoBehaviour
             StopCoroutine(TalkCoroutine);
             TalkCoroutine = null;
         }
-        TalkCoroutine = StartCoroutine(ProcessTalk(TALK_CODE, _npc));
+        TalkCoroutine = ProcessTalk(TALK_CODE, _npc);
+        StartCoroutine(TalkCoroutine);
     }
 
 
@@ -197,11 +202,10 @@ public class TalkSystemManager : MonoBehaviour
         if (ReadSoulMemoryCoroutine != null)
         {
             StopCoroutine(ReadSoulMemoryCoroutine);
-
-
             ReadSoulMemoryCoroutine = null;
         }
-        ReadSoulMemoryCoroutine = StartCoroutine(ProcessSoulMemory(TALK_CODE, _soulMemory));
+        ReadSoulMemoryCoroutine = ProcessSoulMemory(TALK_CODE, _soulMemory);
+        StartCoroutine(ReadSoulMemoryCoroutine);
     }
 
 
@@ -377,6 +381,80 @@ public class TalkSystemManager : MonoBehaviour
                 break;
         }
     }
+
+
+    ///// <summary>
+    ///// 소울 메모리 데이터를 읽습니다.
+    ///// </summary>
+    ///// <param name="TALK_CODE"></param>
+    ///// <param name="_soulMemory"></param>
+    ///// <returns></returns>
+    //IEnumerator ProcessSoulMemory(int TALK_CODE, SoulMemory _soulMemory)
+    //{
+    //    Debug.Log("Go");
+    //    talkUI.SetActive(true);
+
+    //    currentSoulMemory = _soulMemory;
+
+    //    PlayerController.Instance.isInteractingSoulMemory = true;
+    //    isNextPressed = false;
+
+    //    currentTalkCode = (int)soulMemoryData[TALK_CODE]["TALK_CODE"];
+    //    Debug.Log(currentTalkCode);
+
+    //    currentCharCode = (int)soulMemoryData[TALK_CODE]["TALK_CHAR_NAME"]; //코드
+    //    Debug.Log(currentCharCode);
+
+    //    currentCharName = charData[currentCharCode]["CHAR_NAME"] as string;
+    //    Debug.Log(currentCharName);
+
+    //    currentTalkMove = (int)soulMemoryData[TALK_CODE]["TALK_MOVE"];
+    //    Debug.Log(currentTalkMove);
+
+    //    //currentTalkFace = (int)talkData[TALK_CODE]["TALK_FACE"];
+
+
+    //    currentTalkText = soulMemoryData[TALK_CODE]["TALK_NAEYONG"] as string;
+
+    //    //talkWindow.SetActive(true);
+
+    //    nameText.text = currentCharName;
+
+
+    //    // bool isSkip = false;
+    //    for (int s = 0; s < currentTalkText.Length + 1; s++)
+    //    {
+    //        talkText.text = currentTalkText.Substring(0, s);
+
+    //        if (isNextPressed) //아직 텍스트가 다 나오지도 않았는데 다음 버튼이 눌렸다면 
+    //        {
+    //            isNextPressed = false; // 일단 펄스로 바고
+    //            talkText.text = currentTalkText;
+    //            // isSkip = true;//스킵을 했다고 처리한다.
+    //            break; //for 벗어나기
+    //        }
+    //        yield return new WaitForSecondsRealtime(talkSpeed);
+    //    }
+
+    //    yield return new WaitUntil(() => isNextPressed); //TRUE일때까지 대기
+
+    //    isNextPressed = false;//지나갔으면 분명 true인 상태일테니까, false로 변경
+
+    //    switch (currentTalkMove)
+    //    {
+    //        case -1://다음으로 이동
+    //            ProcessGoSoulMemory(TALK_CODE + 1, currentSoulMemory);
+    //            break;
+    //        case -25: // 종료
+    //            SetSoulMemoryClose();
+    //            break;
+    //        default:
+    //            Debug.Log("알수없는 숫자");
+    //            break;
+    //    }
+
+    //}
+
     /// <summary>
     /// 소울 메모리 데이터를 읽습니다.
     /// </summary>
@@ -386,19 +464,29 @@ public class TalkSystemManager : MonoBehaviour
     IEnumerator ProcessSoulMemory(int TALK_CODE, SoulMemory _soulMemory)
     {
         talkUI.SetActive(true);
+        //isTalkStart = true;
+        //isTalkEnd = false;
+
 
         currentSoulMemory = _soulMemory;
+
 
         PlayerController.Instance.isInteractingSoulMemory = true;
         isNextPressed = false;
 
         currentTalkCode = (int)soulMemoryData[TALK_CODE]["TALK_CODE"];
         currentCharCode = (int)soulMemoryData[TALK_CODE]["TALK_CHAR_NAME"];
+
+        
         currentTalkMove = (int)soulMemoryData[TALK_CODE]["TALK_MOVE"];
 
+        Debug.Log(currentTalkMove);
         //currentTalkFace = (int)talkData[TALK_CODE]["TALK_FACE"];
 
+
+        Debug.Log(charData[5]["CHAR_CODE"]);
         currentCharName = charData[currentCharCode]["CHAR_NAME"] as string;
+
         currentTalkText = soulMemoryData[TALK_CODE]["TALK_NAEYONG"] as string;
 
         //talkWindow.SetActive(true);
@@ -433,12 +521,7 @@ public class TalkSystemManager : MonoBehaviour
                 SetSoulMemoryClose();
                 break;
         }
+
     }
-
-
-
-
-
-
-
 }
+

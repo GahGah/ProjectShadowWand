@@ -36,6 +36,7 @@ public class SoulMemory : MonoBehaviour
     public void TakeSoulMemory()
     {
         isTake = true;
+
         TalkSystemManager.Instance.StartReadSoulMemory(currentTalkCode, this);
         //gameObject.SetActive(false);
         //isEnd = true;
