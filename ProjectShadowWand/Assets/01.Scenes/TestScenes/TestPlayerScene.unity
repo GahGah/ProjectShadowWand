@@ -1359,6 +1359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d05665065a6776a4098a7092a72560f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  windEffect: {fileID: 0}
   unlockWind: 1
   unlockLightning: 0
   unlockWater: 0
@@ -1382,12 +1383,7 @@ MonoBehaviour:
   jumpForce: 8.5
   minFlipSpeed: 0.1
   isFlipped: 0
-  handPosition_idle: {x: 0, y: 0}
-  handPosition_walk: {x: 0, y: 0}
-  handPosition_jump: []
-  handPosition_landed: []
-  currentHandPosition: {x: 0, y: 0}
-  glideGauge: {fileID: 1393432680}
+  climbSpeed: 3
   isDebug: 1
   landedFX: {fileID: 712515146}
   flipFX: {fileID: 2129101655}
@@ -1398,6 +1394,9 @@ MonoBehaviour:
   waterDistance: 0
   waterActiveTime: 0
   waterDirection: {x: 1, y: 0}
+  lightningPosition: {fileID: 0}
+  lightningRadius: 0
+  lightningActiveTime: 0
   contactFilter_Ground:
     useTriggers: 0
     useLayerMask: 0
@@ -1416,7 +1415,7 @@ MonoBehaviour:
   resetSpeedOnLand: 0
   playerRigidbody: {fileID: 0}
   isSkillUse_Water: 0
-  isSkillUse_Lighting: 0
+  isSkillUse_Lightning: 0
   playerCollider: {fileID: 0}
   blockType: 0
   prevVelocity: {x: 0, y: 0}
@@ -1433,13 +1432,14 @@ MonoBehaviour:
   animatorGlidingBool: 0
   animatorLightningBool: 0
   animatorWaterBool: 0
+  animatorJumpingBool: 0
   inputManager: {fileID: 0}
   saveMoveInputX: 0
-  climbSpeed: 3
   canMove: 1
   isJumping: 0
   isGrounded: 0
   isFalling: 0
+  isInteractingSoulMemory: 0
   isDie: 0
   canGliding: 0
   isRight: 0
@@ -1447,19 +1447,25 @@ MonoBehaviour:
   onLadder: 0
   onLadderJump: 0
   isClimbLadder: 0
-  isPushing: 0
   isCatching: 0
   isGliding: 0
+  isTalking: 0
   ladderPosition: {x: 0, y: 0}
   prevPosition: {x: 0, y: 0}
   originalMoveSpeed: 0
   testIdleMotions: []
   isInputCatchKey: 0
-  catchedObject: {fileID: 0}
   touchedObject: {fileID: 0}
   catchBody: {fileID: 0}
   windDirection: 0
   testSceneChanger: {fileID: 0}
+  handPosition_idle: {x: 0, y: 0}
+  handPosition_walk: {x: 0, y: 0}
+  handPosition_jump: []
+  handPosition_landed: []
+  currentHandPosition: {x: 0, y: 0}
+  currentNPC: {fileID: 0}
+  currentSoulMemory: {fileID: 0}
   playerSkillManager: {fileID: 0}
 --- !u!212 &741695939
 SpriteRenderer:
