@@ -50,12 +50,12 @@ public class StateMachine
         {
             return;
         }
-        //Exit--
+        
         if (currentState != null) // 먼저 끝내고 
         {
             currentState.Exit();
         }
-        //Enter---
+
         if (stateDict.ContainsKey(_state))
         {
             prevStateE = currentStateE;
@@ -71,10 +71,10 @@ public class StateMachine
         }
     }
 
-    //모노비헤이비어가 아니기 때문에 
+    //모노비헤이비어가 아니니까 자유롭게 사용
 
     /// <summary>
-    /// 익스큐트를 합니다.
+    /// Update를 합니다.
     /// </summary>
     public void Update()
     {
@@ -85,7 +85,7 @@ public class StateMachine
     }
 
     /// <summary>
-    /// 물리 업데이트를 합니다.
+    /// FixedUpdate를 합니다.
     /// </summary>
     public void FixedUpdate()
     {
@@ -97,7 +97,7 @@ public class StateMachine
 
 
     /// <summary>
-    /// eState형식을 반환합니다.
+    /// 현재 state를 eState형식으로 반환합니다.
     /// </summary>
     /// <returns></returns>
     public eState GetCurrentStateE()

@@ -81,7 +81,7 @@ public class WaterObject : WeatherInteractionObject
 
             //timeTakenDuringLerp += Time.deltaTime;
 
-            yield return new WaitForEndOfFrame();
+            yield return YieldInstructionCache.WaitForEndOfFrame;
         }
 
         //var test = GetComponent<SpriteRenderer>();

@@ -83,7 +83,7 @@ public class GrowableSeonAh : MonoBehaviour
 
             //timeTakenDuringLerp += Time.deltaTime;
 
-            yield return new WaitForFixedUpdate();
+            yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
         //var test = GetComponent<SpriteRenderer>();

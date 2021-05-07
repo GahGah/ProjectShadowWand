@@ -62,7 +62,7 @@ public class TestSceneChanger : MonoBehaviour
             Debug.Log("Progress : " + progress);
 
             goBlackImage.color = Color32.Lerp(twoMyeong, black, progress);
-            yield return new WaitForEndOfFrame();
+            yield return YieldInstructionCache.WaitForEndOfFrame;
         }
         SceneManager.LoadScene(moveSceneName);
 

@@ -141,9 +141,10 @@ public class PlayerController : Character
     [Tooltip("잡기 오브젝트와 NPC가 동시에 존재할 때 잡기를 수행하기 위해 만듬")]
     private bool isTalkReady;
 
-    //[HideInInspector] 
+    [HideInInspector]
     public bool isGrounded;
 
+    [HideInInspector]
     public bool isFalling;
 
     public bool isDie = false;
@@ -161,19 +162,19 @@ public class PlayerController : Character
     private bool shouldJump = false;
 
     [Tooltip("사다리에 닿은 상태로 상하키 입력을 했는가를 뜻합니다.")]
-    //[HideInInspector] 
+    [HideInInspector]
     public bool inLadder = false;
 
     [Tooltip("사다리에 닿은 !!! 상태인가를 뜻합니다.")]
-    //[HideInInspector] 
+    [HideInInspector]
     public bool onLadder = false; //퍼블릭으로 변경함
 
     [Tooltip("사다리에 올라탄 상태에서 특정 방향으로 점프했는가를 뜻합니다.")]
-    //[HideInInspector] 
+    [HideInInspector]
     public bool onLadderJump = false;
 
     [Tooltip("사다리를 오르고 있는 상태인가를 뜻합니다.")]
-    // [HideInInspector] 
+    [HideInInspector]
     public bool isClimbLadder = false;
 
     //[Tooltip("물건에 닿았나? - 물건을 잡으면 false가 되어야한다.")]
@@ -204,12 +205,12 @@ public class PlayerController : Character
     [Tooltip("잡기 키를 눌렀는가?")]
     [HideInInspector] public bool isInputCatchKey = false;
 
-    [SerializeField]
-    //[HideInInspector] 
+    // [SerializeField]
+    [HideInInspector]
     private CatchableObject catchedObject = null;
 
-    [SerializeField]
-    //[HideInInspector]
+    //[SerializeField]
+    [HideInInspector]
     public CatchableObject touchedObject = null;
 
     [HideInInspector] public Rigidbody2D catchBody;
@@ -388,8 +389,7 @@ public class PlayerController : Character
 
     private void CheckInteractInput()
     {
-
-        if (InputManager.Instance.buttonCatch.wasPressedThisFrame)// 키 누르기
+        if (InputManager.Instance.buttonInteract.wasPressedThisFrame)// 키 누르기
         {
             if (ReferenceEquals(catchedObject, null) && !ReferenceEquals(touchedObject, null))
             //   if (catchedObject == null) //잡아야 할 경우
@@ -419,16 +419,12 @@ public class PlayerController : Character
 
                         catchedObject = null;
                     }
-  
+
                 }
 
             }
         }
 
-        if (InputManager.Instance.buttonInteract.wasPressedThisFrame)
-        {
-
-        }
     }
     #region 이동, 점프, 사다리, 활강
     private void CheckMoveInput()
@@ -436,20 +432,26 @@ public class PlayerController : Character
         //무브먼트 인풋을 0으로 초기화
         movementInput = Vector2.zero;
 
-        if (CanMove())
-        {
-            if (InputManager.Instance.buttonMoveRight.isPressed) //오른쪽 이동
-            {
 
+        if (InputManager.Instance.buttonMoveRight.isPressed) //오른쪽 이동
+        {
+
+            if (CanMove())
+            {
                 movementInput = Vector2.right;
                 //if (pushedObject == null)
                 //{
                 isRight = true;
                 //}
 
-
             }
-            else if (InputManager.Instance.buttonMoveLeft.isPressed) //왼쪽 이동
+
+
+
+        }
+        else if (InputManager.Instance.buttonMoveLeft.isPressed) //왼쪽 이동
+        {
+            if (CanMove())
             {
                 movementInput = Vector2.left;
                 //if (pushedObject == null)
@@ -458,21 +460,26 @@ public class PlayerController : Character
                 //}
             }
 
-
         }
+
+
+
 
     }
 
     private void CheckLadderInput()
     {
-        if (CanMove())
+
+        //사다리에 닿은!!! 상태일때
+        if (onLadder)
         {
-            //사다리에 닿은!!! 상태일때
-            if (onLadder)
+            if (InputManager.Instance.buttonUp.wasPressedThisFrame
+                || InputManager.Instance.buttonDown.wasPressedThisFrame)
             {
-                if (InputManager.Instance.buttonUp.wasPressedThisFrame
-                    || InputManager.Instance.buttonDown.wasPressedThisFrame)
+                if (CanMove())
                 {
+
+
                     inLadder = true;
                     isClimbLadder = true;
                     isJumping = false;
@@ -482,11 +489,16 @@ public class PlayerController : Character
                     }
                 }
             }
+        }
 
-            if (inLadder)
+        if (inLadder)
+        {
+            if (InputManager.Instance.buttonUp.isPressed)//위쪽 이동
             {
-                if (InputManager.Instance.buttonUp.isPressed)//위쪽 이동
+                if (CanMove())
                 {
+
+
                     movementInput.y = 1f;
                     isClimbLadder = true;
                     //사다리의 가운데 부분으로 이동시키기 위해서...
@@ -497,9 +509,12 @@ public class PlayerController : Character
 
                     //    ChangeState(eState.PLAYER_CLIMB_LADDER);
                     //}
-
                 }
-                else if (InputManager.Instance.buttonDown.isPressed) //아래쪽 이동
+
+            }
+            else if (InputManager.Instance.buttonDown.isPressed) //아래쪽 이동
+            {
+                if (CanMove())
                 {
                     movementInput.y = -1f;
                     isClimbLadder = true;
@@ -515,6 +530,7 @@ public class PlayerController : Character
         }
 
 
+
     }
 
     /// <summary>
@@ -522,9 +538,10 @@ public class PlayerController : Character
     /// </summary>
     private void CheckJumpInput()
     {
-        if (CanMove())
+
+        if (InputManager.Instance.buttonMoveJump.wasPressedThisFrame)
         {
-            if (InputManager.Instance.buttonMoveJump.wasPressedThisFrame)
+            if (CanMove())
             {
                 if (isGrounded) //땅에 닿아있을 때와 사다리를 타는 상태일 때만 점프를 할 수 있습니다.
                 {
@@ -538,6 +555,7 @@ public class PlayerController : Character
                 }
             }
         }
+
 
         #region 중력조절
         //if (InputManager.Instance.buttonMoveJump.isPressed)
@@ -737,15 +755,15 @@ public class PlayerController : Character
             }
 
         }
-        else if (isWater == true) // 아니면 물 속?
-        {
-            isGrounded = true;
+        //else if (isWater == true) // 아니면 물 속?
+        //{
+        //    isGrounded = true;
 
-            GroundGlide();
-            isJumping = false;
+        //    GroundGlide();
+        //    isJumping = false;
 
-            animator.SetBool(animatorGroundedBool, isGrounded);
-        }
+        //    animator.SetBool(animatorGroundedBool, isGrounded);
+        //}
         else
         {
             isGrounded = false;
@@ -800,11 +818,11 @@ public class PlayerController : Character
 
         }
 
-        if (isDie)
-        {//죽음
-            ChangeState(eState.PLAYER_DIE);
-        }
-        else if (inLadder && prevPosition.y != playerRigidbody.position.y) //사다리 안쪽에 있고, 위로 올라갔다면
+        //if (isDie)
+        //{//죽음
+        //    ChangeState(eState.PLAYER_DIE);
+        //}
+        if (inLadder && prevPosition.y != playerRigidbody.position.y) //사다리 안쪽에 있고, 위로 올라갔다면
         {//사다리
             if (catchedObject != null)//그런데 물체를 들고있다면
             {
@@ -1040,7 +1058,7 @@ public class PlayerController : Character
 
         }
 
-        yield return new WaitForFixedUpdate();
+        yield return YieldInstructionCache.WaitForFixedUpdate;
     }
 
 

@@ -62,7 +62,7 @@ public class Skill_LightningShock : Skill
             timer += Time.deltaTime;
 
 
-            yield return new WaitForFixedUpdate();
+            yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
         hits = Physics2D.CircleCastAll(player.lightningPosition.position, player.lightningRadius, Vector2.up, 0.1f, machineLayerMask);

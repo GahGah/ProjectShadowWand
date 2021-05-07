@@ -112,7 +112,7 @@ public class Skill_WindGlide : Skill
 
             }
             timer += Time.deltaTime;
-            yield return new WaitForFixedUpdate();
+            yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
         if (player.glideGauge != null)

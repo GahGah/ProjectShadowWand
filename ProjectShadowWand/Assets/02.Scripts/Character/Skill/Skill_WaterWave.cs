@@ -97,7 +97,7 @@ public class Skill_WaterWave : Skill
                 }
 
             }
-            yield return new WaitForFixedUpdate();
+            yield return YieldInstructionCache.WaitForFixedUpdate;
         }
         Debug.Log("End Water");
         player.isSkillUse_Water = false;

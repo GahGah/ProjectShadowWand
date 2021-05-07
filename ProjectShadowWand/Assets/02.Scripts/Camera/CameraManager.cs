@@ -263,7 +263,7 @@ public class CameraManager : MonoBehaviour
                 // BG 크기 체인지
                 ChangeScaleBGObject();
 
-                yield return new WaitForEndOfFrame();
+                yield return YieldInstructionCache.WaitForEndOfFrame;
             }
         }
         else //아닐 경우
@@ -277,7 +277,7 @@ public class CameraManager : MonoBehaviour
 
                 // BG 크기 체인지
                 ChangeScaleBGObject();
-                yield return new WaitForEndOfFrame();
+                yield return YieldInstructionCache.WaitForEndOfFrame;
             }
         }
         currentCamera.orthographicSize = _size;
@@ -306,7 +306,7 @@ public class CameraManager : MonoBehaviour
                 // BG 크기 체인지
                 ChangeScaleBGObject();
 
-                yield return new WaitForEndOfFrame();
+                yield return YieldInstructionCache.WaitForEndOfFrame;
             }
         }
         else //아닐 경우
@@ -319,7 +319,7 @@ public class CameraManager : MonoBehaviour
                 // BG 크기 체인지
                 ChangeScaleBGObject();
 
-                yield return new WaitForEndOfFrame();
+                yield return YieldInstructionCache.WaitForEndOfFrame;
             }
         }
 

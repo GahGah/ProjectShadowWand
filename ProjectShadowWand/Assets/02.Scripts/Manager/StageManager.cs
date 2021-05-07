@@ -1,25 +1,29 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ÇöÀç ½ºÅ×ÀÌÁö Á¤º¸¸¦ °¡Áö°í ³ë´Â ¸Å´ÏÀú Å¬·¡½º.
+/// í˜„ì¬ ìŠ¤í…Œì´ì§€ ì •ë³´ë¥¼ ê°€ì§€ê³  ë…¸ëŠ” ë§¤ë‹ˆì € í´ë˜ìŠ¤.
 /// </summary>
 public class StageManager : MonoBehaviour
 {
     public List<SoulMemory> soulMemoryList;
 
-    [Header("Æ¯Á¤ Äù½ºÆ®¸¦ Å¬¸®¾îÇØ¾ßÇÒ °æ¿ì Ã¼Å©")]
-    [Tooltip("´ÙÀ½ ½ºÅ×ÀÌÁö·Î ³Ñ¾î°¡±â À§ÇØ¼­ Á¸ÀçÇÏ´Â Äù½ºÆ® Á¶°ÇÀÌ ÀÖ´Â°¡?")]
+    [Header("íŠ¹ì • í€˜ìŠ¤íŠ¸ë¥¼ í´ë¦¬ì–´í•´ì•¼í•  ê²½ìš° ì²´í¬")]
+    [Tooltip("ë‹¤ìŒ ìŠ¤í…Œì´ì§€ë¡œ ë„˜ì–´ê°€ê¸° ìœ„í•´ì„œ ì¡´ì¬í•˜ëŠ” í€˜ìŠ¤íŠ¸ ì¡°ê±´ì´ ìˆëŠ”ê°€?")]
     public bool isQuestExist;
-    [Header("±× ¿Ü")]
-    [Tooltip("Äù½ºÆ®¸¦ Å¬¸®¾îÇÑ »óÅÂÀÎ°¡?")]
+
+    [Header("ì‚¬ë…ì„ íšë“í•´ì•¼í•  ê²½ìš° ì²´í¬")]
+    [Tooltip("ë‹¹ë¯€ìŠ¤í…Œì´ì§€ë¡œ ë„˜ì–´ê°€ê¸° ìœ„í•´ì„œ ì¡´ì¬í•˜ëŠ” ì‚¬ë…ì´ ìˆëŠ”ê°€?")]
+    public bool isSoulMemoryExist;
+    [Header("ê·¸ ì™¸")]
+    [Tooltip("í€˜ìŠ¤íŠ¸ë¥¼ í´ë¦¬ì–´í•œ ìƒíƒœì¸ê°€?")]
     public bool isClear_Quest;
 
-    [Tooltip("»ç³äÀ» ÀüºÎ ¸ğÀº »óÅÂÀÎ°¡?")]
+    [Tooltip("ì‚¬ë…ì„ ì „ë¶€ ëª¨ì€ ìƒíƒœì¸ê°€?")]
     public bool isClear_SoulMemory;
 
-    [Tooltip("[µÇµµ·Ï IsStageClear() ÇÔ¼ö¸¦ »ç¿ëÇÏ´Â °ÍÀÌ ÁÁÀ½] Äù½ºÆ®¿Í »ç³ä Á¶°ÇÀ» ÀüºÎ ¿Ï·áÇÑ »óÅÂÀÎ°¡? ")]
+    [Tooltip("[ë˜ë„ë¡ IsStageClear() í•¨ìˆ˜ë¥¼ ì‚¬ìš©í•˜ëŠ” ê²ƒì´ ì¢‹ìŒ] í€˜ìŠ¤íŠ¸ì™€ ì‚¬ë… ì¡°ê±´ì„ ì „ë¶€ ì™„ë£Œí•œ ìƒíƒœì¸ê°€? ")]
     public bool isStageClear;
 
 
@@ -43,6 +47,20 @@ public class StageManager : MonoBehaviour
             instance = this;
         }
         InitSoulMemoryList();
+
+        if (IsStageClear()) //ì‹œì‘ë¶€í„° í´ë¦¬ì–´ì¼ ê²½ìš°
+        {
+            Debug.Log("ì´ ìŠ¤í…Œì´ì§€ëŠ” í€˜ìŠ¤íŠ¸ì™€ ì‚¬ë…ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤. ê·¸ëƒ¥ í´ë¦¬ì–´ ì²˜ë¦¬ í•©ë‹ˆë‹¤.");
+        }
+        else
+        {
+            StartCoroutine(ProcessStageClear());
+        }
+
+    }
+    private void Start()
+    {
+
     }
 
     public void InitSoulMemoryList()
@@ -54,7 +72,7 @@ public class StageManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ¼Ò¿ï¸Ş¸ğ¸® ¸®½ºÆ®¿¡ Ãß°¡ÇÕ´Ï´Ù.
+    /// ì†Œìš¸ë©”ëª¨ë¦¬ ë¦¬ìŠ¤íŠ¸ì— ì¶”ê°€í•©ë‹ˆë‹¤.
     /// </summary>
     public void AddSoulMemory(SoulMemory _soulMemory)
     {
@@ -63,23 +81,30 @@ public class StageManager : MonoBehaviour
 
     }
 
+
     /// <summary>
-    /// 
+    /// ìŠ¤í…Œì´ì§€ í´ë¦¬ì–´ê¹Œì§€ ê¸°ë‹¤ë¦¬ë‹¤ê°€ í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•©ë‹ˆë‹¤.
     /// </summary>
-    public void UpdateQuestExist()
+    /// <returns></returns>
+    public IEnumerator ProcessStageClear()
     {
+        yield return new WaitUntil(() => isStageClear);
+        //ìŠ¤í…Œì´ì§€ í´ë¦¬ì–´ê°€ trueì¼ ë•Œ ê¹Œì§€ ëŒ€ê¸°
+        Debug.Log("í´ë¦¬ì–´ ì¡°ê±´ ë§Œì¡±!");
+
 
     }
+
     /// <summary>
-    /// ¼Ò¿ï ¸Ş¸ğ¸®µéÀÇ »óÅÂ¸¦ º¸°í Å¬¸®¾î Á¶°ÇÀ» ¸¸Á·Çß´ÂÁö¸¦ Ã¼Å©ÇÕ´Ï´Ù.
+    /// ì†Œìš¸ ë©”ëª¨ë¦¬ë“¤ì˜ ìƒíƒœë¥¼ ë³´ê³  í´ë¦¬ì–´ ì¡°ê±´ì„ ë§Œì¡±í–ˆëŠ”ì§€ë¥¼ ì²´í¬í•©ë‹ˆë‹¤.
     /// </summary>
-    public void CheckClearCondition_SoulMemory()
+    public bool CheckClearCondition_SoulMemory()
     {
         bool isEnd_All = true;
 
         for (int i = 0; i < soulMemoryList.Count; i++)
         {
-            if (soulMemoryList[i].isEnd == false) //ÇÏ³ª¶óµµ isEnd°¡ ¾Æ´Ï¶ó¸é
+            if (soulMemoryList[i].isEnd == false) //í•˜ë‚˜ë¼ë„ isEndê°€ ì•„ë‹ˆë¼ë©´
             {
                 isEnd_All = false;
                 break;
@@ -95,41 +120,54 @@ public class StageManager : MonoBehaviour
         {
             isClear_SoulMemory = false;
         }
+
+        return isClear_SoulMemory;
     }
 
+    /// <summary>
+    /// ë§ˆì§€ë§‰ í€˜ìŠ¤íŠ¸ì˜ í´ë¦¬ì–´ ì—¬ë¶€ë¥¼ ì„¤ì •í•©ë‹ˆë‹¤. ê·¸ë¦¬ê³ , IsStageClear()í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•©ë‹ˆë‹¤.
+    /// </summary>
+    /// <param name="_b">trueì‹œ í´ë¦¬ì–´, falseì‹œ ì•„ì§ í´ë¦¬ì–´ ì•ˆí•¨.</param>
+    public void SetLastQuestClear(bool _b)
+    {
+        isClear_Quest = _b;
+        IsStageClear();
+    }
     //public void CheckClearCondition_Quest()
     //{
 
     //}
 
     /// <summary>
-    /// Äù½ºÆ®¿Í »ç³ä »óÅÂ¿¡ µû¶ó isStageClear¸¦ ¾÷µ¥ÀÌÆ®ÇÕ´Ï´Ù.
+    /// í€˜ìŠ¤íŠ¸ì™€ ì‚¬ë… ìƒíƒœì— ë”°ë¼ isStageClearë¥¼ ì—…ë°ì´íŠ¸í•©ë‹ˆë‹¤.
     /// </summary>
-    /// <returns> Å¬¸®¾î Á¶°ÇÀ» ¸¸Á·Çß´Ù¸é true, ¸¸Á·ÇÏÁö ¾Ê¾Ò´Ù¸é false¸¦ ¹İÈ¯ÇÕ´Ï´Ù.</returns>
+    /// <returns> í´ë¦¬ì–´ ì¡°ê±´ì„ ë§Œì¡±í–ˆë‹¤ë©´ true, ë§Œì¡±í•˜ì§€ ì•Šì•˜ë‹¤ë©´ falseë¥¼ ë°˜í™˜í•©ë‹ˆë‹¤.</returns>
     public bool IsStageClear()
     {
-        if (isQuestExist == true)//Å¬¸®¾î Á¶°Ç¿¡ Äù½ºÆ®°¡ ÀÖ´Ù¸é
+        var clearQ = false;
+        var clearS = false;
+        if (isQuestExist == true)//í´ë¦¬ì–´ ì¡°ê±´ì— í€˜ìŠ¤íŠ¸ê°€ ìˆë‹¤ë©´
         {
-            if (isClear_Quest && isClear_SoulMemory)
-            {
-                isStageClear = true;
-            }
-            else
-            {
-                isStageClear = false;
-            }
+
+            clearQ = isClear_Quest;
+        }
+        else //í€˜ìŠ¤íŠ¸ê°€ ì—†ë‹¤ë©´
+        { //ë¬´ì¡°ê±´ ì™„ë£Œë¡œ
+            clearQ = true;
+        }
+
+        if (isSoulMemoryExist == true) //í´ë¦¬ì–´ ì¡°ê±´ì— ì‚¬ë…ì´ ìˆë‹¤ë©´
+        {
+            clearS = isClear_SoulMemory;
         }
         else
         {
-            if (isClear_SoulMemory)
-            {
-                isStageClear = true;
-            }
-            else
-            {
-                isStageClear = false;
-            }
+            clearS = true;
         }
+
+
+        isStageClear = clearQ && clearS;
+
         return isStageClear;
 
     }

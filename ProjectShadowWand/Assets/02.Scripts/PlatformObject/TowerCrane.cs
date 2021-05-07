@@ -70,7 +70,7 @@ public class TowerCrane : MonoBehaviour
 
             //timeTakenDuringLerp += Time.deltaTime;
 
-            yield return new WaitForEndOfFrame();
+            yield return YieldInstructionCache.WaitForEndOfFrame;
         }
 
     }
