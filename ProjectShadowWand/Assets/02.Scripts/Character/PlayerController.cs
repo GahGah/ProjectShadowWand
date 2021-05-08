@@ -436,12 +436,8 @@ public class PlayerController : Character
                 }
                 else //아니라면
                 {
-                    if (!ReferenceEquals(catchedObject, null))
-                    {
-                        catchedObject.GoPutThis();
 
-                        catchedObject = null;
-                    }
+                    PutCatchedObject();
 
                 }
 
@@ -846,31 +842,20 @@ public class PlayerController : Character
         //}
         if (inLadder && prevPosition.y != playerRigidbody.position.y) //사다리 안쪽에 있고, 위로 올라갔다면
         {//사다리
-            if (catchedObject != null)//그런데 물체를 들고있다면
-            {
-                catchedObject.GoPutThis();
-                catchedObject = null;
-                //물체를 일단 내려놓음
-            }
+
+            PutCatchedObject(); //물체 들고있다면 내리고
 
             ChangeState(eState.PLAYER_CLIMB_LADDER); // 사다리상태로 변경
         }
         else if (isSkillUse_Water)
         {//물능력
-            if (catchedObject != null)
-            {
-                catchedObject.GoPutThis();
-                catchedObject = null;
-            }
+            PutCatchedObject(); //물체 들고있다면 내리고
             ChangeState(eState.PLAYER_SKILL_WATER);
         }
         else if (isSkillUse_Lightning)
         {//번개능력
-            if (catchedObject != null)
-            {
-                catchedObject.GoPutThis();
-                catchedObject = null;
-            }
+         
+            PutCatchedObject();
             ChangeState(eState.PLAYER_SKILL_LIGHTNING);
         }
         else if (isGrounded && !isJumping && !isGliding)
@@ -900,12 +885,7 @@ public class PlayerController : Character
 
             if (playerStateMachine.GetCurrentStateE() != eState.PLAYER_GLIDE)
             {
-                if (catchedObject != null)
-                {
-                    catchedObject.GoPutThis();
-                    catchedObject = null;
-                }
-
+                PutCatchedObject();
                 ChangeState(eState.PLAYER_GLIDE);
                 GlideCoroutine = playerSkillManager.skillWindGilde.ProcessGlideTimer();
                 StartCoroutine(GlideCoroutine);
@@ -1240,6 +1220,17 @@ public class PlayerController : Character
         //}
         playerSkillManager.skillWindGilde.windAnimator.SetFloat(playerSkillManager.skillWindGilde.windAnimatorTornadoBlend, 3f);
         isGliding = false;
+    }
+    /// <summary>
+    /// 물건을 놓게할 때 쓰이는 함수입니다. 무려 널체크까지 해준다구~
+    /// </summary>
+    public void PutCatchedObject()
+    {
+        if (!ReferenceEquals(catchedObject, null))
+        {
+            catchedObject.GoPutThis();
+            catchedObject = null;
+        }
     }
     private void OnParticleCollision(GameObject other)
     {

@@ -14,6 +14,8 @@ public class CatchableObject : MonoBehaviour, ICatchable
 
     public bool autoAnchorBool;
 
+    [Tooltip("이 오브젝트가 잡을 수 있는 상태인지를 체크합니다.")]
+    public bool canCatched;
     [Tooltip("이 오브젝트가 플레이어와 닿아있는 상태인지를 체크합니다.")]
     public bool isTouched;
 
@@ -29,6 +31,7 @@ public class CatchableObject : MonoBehaviour, ICatchable
 
     public void Init()
     {
+        canCatched = true;
         if (currentCollider == null)
         {
 
@@ -52,7 +55,7 @@ public class CatchableObject : MonoBehaviour, ICatchable
 
         if (rigidBody == null)
         {
-           rigidBody =  GetComponentInChildren<Rigidbody2D>();
+            rigidBody = GetComponentInChildren<Rigidbody2D>();
         }
 
         //fixedJoint.autoConfigureConnectedAnchor = false;
@@ -126,7 +129,7 @@ public class CatchableObject : MonoBehaviour, ICatchable
     /// <param name="_pos"></param>
     public void SetPosition(Vector2 _pos)
     {
-        transform.localPosition = new Vector2(_pos.x * positionFix , _pos.y);
+        transform.localPosition = new Vector2(_pos.x * positionFix, _pos.y);
     }
     public void GoPutThis()
     {
@@ -144,9 +147,13 @@ public class CatchableObject : MonoBehaviour, ICatchable
     {
         if (collision.CompareTag("Player"))
         {
-            //닿았다면 터치 오브젝트를 자신으로
-            PlayerController.Instance.SetTouchedObject(this);
-            isTouched = true;
+            if (canCatched == true)
+            {
+                //닿았다면 터치 오브젝트를 자신으로
+                PlayerController.Instance.SetTouchedObject(this);
+                isTouched = true;
+            }
+
         }
     }
 
