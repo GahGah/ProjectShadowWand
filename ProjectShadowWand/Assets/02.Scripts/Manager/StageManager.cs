@@ -1,13 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 현재 스테이지 정보를 가지고 노는 매니저 클래스.
 /// </summary>
 public class StageManager : MonoBehaviour
 {
+
+    [Tooltip("현재 씬 이름")]
+    public string nowStageName;
+
+    [Tooltip("다음 씬 이름")]
+    public string nextStageName;
+
+
     [Tooltip("다음 스테이지로 향하는 문")]
     public StageDoor stageDoor;
     public List<SoulMemory> soulMemoryList;
@@ -61,10 +69,10 @@ public class StageManager : MonoBehaviour
         }
 
     }
-    //private void Start()
-    //{
-
-    //}
+    private void Start()
+    {
+        UpdateStageName();
+    }
 
     public void InitSoulMemoryList()
     {
@@ -93,17 +101,7 @@ public class StageManager : MonoBehaviour
         yield return new WaitUntil(() => isStageClear);
         //스테이지 클리어가 true일 때 까지 대기
         Debug.Log("클리어 조건 만족!");
-        //var currentTime = 0f;
-        //var allTime = 4f;
-        //var currentPer = 0f;
 
-        //while (currentTime < 1f)
-        //{
-        //    currentTime += Time.deltaTime / allTime;
-
-        //    currentPer = Mathf.Lerp(0f, 1f, currentTime);
-        //    yield return YieldInstructionCache.WaitForFixedUpdate;
-        //}
 
 
     }
@@ -169,6 +167,22 @@ public class StageManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 현재 스테이지 이름과 다음 스테이지 이름을 업데이트합니다. 다음 스테이지로 넘어갈 때 쓰입니다.
+    /// </summary>
+    public void UpdateStageName()
+    {
+        //TODO : 실제 빌드 때에는 주석처리한 저 겟액티브씬을 쓰도록 합시다.
+        nowStageName = "Stage_01";// SceneManager.GetActiveScene().name;
+
+        var tempStageName = nowStageName.Split('_');
+
+        int nextStageNumber = System.Convert.ToInt32(tempStageName[1]) + 1;
+        var tempNextStageName = tempStageName[0] + "_" + nextStageNumber.ToString("D2");
+
+        nextStageName = tempNextStageName;
+        Debug.Log(nextStageName);
+    }
     //public void SetStageClear_SoulMemory()
     //{
 
