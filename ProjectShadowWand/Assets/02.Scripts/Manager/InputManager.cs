@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
 
-public class InputManager : MonoBehaviour
+public class InputManager : Manager<InputManager>
 {
     public ButtonControl buttonUp;// = Keyboard.current.wKey;
     public ButtonControl buttonDown;// = Keyboard.current.sKey;
@@ -37,28 +37,9 @@ public class InputManager : MonoBehaviour
     public Keyboard keyboard;
     public bool isDebugMode;
 
-    static InputManager instance;
-    public static InputManager Instance
+    protected override void Awake()
     {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<InputManager>();
-            }
-            return instance;
-        }
-    }
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-        }
+        base.Awake();
         //DontDestroyOnLoad(gameObject);
 #if UNITY_EDITOR
         if (Keyboard.current == null)

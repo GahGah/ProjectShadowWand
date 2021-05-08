@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TalkSystemManager : MonoBehaviour
+public class TalkSystemManager : Manager<TalkSystemManager>
 {
     [Tooltip("CSV로 불러온 대화 파일의 내용이 담겨있는 딕셔너리 리스트입니다.")]
     public List<Dictionary<string, object>> talkData;
@@ -82,25 +82,23 @@ public class TalkSystemManager : MonoBehaviour
 
     public GameObject talkUI;
 
-    private static TalkSystemManager instance;
-    public static TalkSystemManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<TalkSystemManager>();
-            }
-            return instance;
-        }
-    }
+    //private static TalkSystemManager instance;
+    //public static TalkSystemManager Instance
+    //{
+    //    get
+    //    {
+    //        if (instance == null)
+    //        {
+    //            instance = FindObjectOfType<TalkSystemManager>();
+    //        }
+    //        return instance;
+    //    }
+    //}
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            instance = this;
-        }
+        base.Awake();
+
         Init();
     }
     public void Init()

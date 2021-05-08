@@ -18,12 +18,13 @@ public class Manager<T> : MonoBehaviour where T : MonoBehaviour
             {
                 instance = FindObjectOfType(typeof(T)) as T;
             }
- 
-            //if (instance == null)
-            //{
-            //    instance = new GameObject(typeof(T).Name).AddComponent<T>();
-            //}
- 
+
+            if (instance == null)
+            {
+                Debug.LogError(typeof(T).Name + "이 존재하지 않습니다. 추가해!");
+               // instance = new GameObject(typeof(T).Name).AddComponent<T>();
+            }
+
             return instance;
         }
     }
