@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// 현재 스테이지 정보를 가지고 노는 매니저 클래스.
 /// </summary>
-public class StageManager : MonoBehaviour
+public class StageManager : Manager<StageManager>
 {
 
     [Tooltip("현재 씬 이름")]
@@ -38,25 +38,23 @@ public class StageManager : MonoBehaviour
     public bool isStageClear;
 
 
-    private static StageManager instance;
-    public static StageManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<StageManager>();
-            }
-            return instance;
-        }
-    }
+    //private static StageManager instance;
+    //public static StageManager Instance
+    //{
+    //    get
+    //    {
+    //        if (instance == null)
+    //        {
+    //            instance = FindObjectOfType<StageManager>();
+    //        }
+    //        return instance;
+    //    }
+    //}
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            instance = this;
-        }
+        base.Awake();
+
         InitSoulMemoryList();
 
         if (IsStageClear()) //시작부터 클리어일 경우
