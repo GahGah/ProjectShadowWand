@@ -24,7 +24,7 @@ public class Quest
     /// 퀘스트가 추가될 때 자동으로 호출되는 함수입니다.
     /// </summary>
     public virtual void StartQuest() { }
-
+ 
     /// <summary>
     /// 퀘스트가 실행되고 있는 도중 호출되는 함수입니다만, 실제로 사용되어지지 않았습니다.
     /// </summary>

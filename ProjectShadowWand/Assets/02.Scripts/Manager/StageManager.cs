@@ -162,31 +162,6 @@ public class StageManager : MonoBehaviour
 
         bool clearS = isSoulMemoryExist == true ? isClear_SoulMemory : true;
 
-        //switch (isQuestExist) 
-        //{
-
-        //    case true:// 클리어 조건에 퀘스트가 있다면
-        //        clearQ = isClear_Quest;
-        //        break;
-
-        //    case false: // 없으면 그냥 클리어한 것으로 간주
-        //        clearQ = true;
-        //        break;
-        //}
-
-        //switch (isSoulMemoryExist)
-        //{
-
-        //    case true:// 클리어 조건에 사념이 있다면
-        //        clearS = isClear_SoulMemory;
-        //        break;
-
-        //    case false: // 없으면 그냥 클리어한 것으로 간주
-        //        clearS = true;
-        //        break;
-        //}
-
-
 
         isStageClear = clearQ && clearS;
 
