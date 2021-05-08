@@ -12,13 +12,13 @@ using UnityEditor;
 
 public enum eDataType
 {
-    PLAYER, CHILD, SETTINGS,
+    PLAYER, CHILD, SETTINGS,STAGE,
     //etc...
 }
 /// <summary>
 /// 데이터를 세이브하고 로드할 때 쓰이는 매니저...
 /// </summary>
-public class SaveLoadManager : MonoBehaviour
+public class SaveLoadManager : Manager<SaveLoadManager>
 {
     public int currentDataSlot;
     public string currentFilePath;
@@ -32,7 +32,6 @@ public class SaveLoadManager : MonoBehaviour
     [SerializeField] public Data_ChildList currentData_ChildList;
 
     public Dictionary<eChildType, Data_Child> currentData_ChildDict;
-    public static SaveLoadManager Instance;
 
     [HideInInspector] public bool isLoad = false;
 
@@ -47,16 +46,9 @@ public class SaveLoadManager : MonoBehaviour
     public string settingsFileName = "Data_Settings.dat";
 
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Debug.Log("이미 instance가 존재합니다." + this);
-        }
+        base.Awake();
     }
 
     private void Start()
@@ -94,6 +86,9 @@ public class SaveLoadManager : MonoBehaviour
                 break;
             case eDataType.SETTINGS:
                 tempName = settingsFileName;
+                break;
+
+            case eDataType.STAGE:
                 break;
             default:
                 break;

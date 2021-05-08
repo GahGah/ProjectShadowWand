@@ -12,7 +12,7 @@ public class Ladder : MonoBehaviour
             if (collision.gameObject.CompareTag("Player"))
             {
                 PlayerController.Instance.SetIsLadder(true, gameObject.transform.position);
-                Debug.Log("SetIsLadder!!");
+                //Debug.Log("SetIsLadder!!");
             }
 
         }

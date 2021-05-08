@@ -30,7 +30,7 @@ public class Manager<T> : MonoBehaviour where T : MonoBehaviour
     }
 
     /// <summary>
-    /// 만약 Instance가 null일경우, instance에 gameObject.GetComponent(T)를 합니다.
+    /// 만약 Instance가 null일경우, instance에 GetComponent(T)를 합니다.
     /// </summary>
     protected virtual void Awake()
     {
