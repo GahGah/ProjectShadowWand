@@ -1073,6 +1073,14 @@ public class PlayerController : Character
     }
 
 
+    /// <summary>
+    /// 죽습니다.
+    /// </summary>
+    public void GoDie()
+    {
+        isDie = true;
+        ChangeState(eState.PLAYER_DIE);
+    }
     public IEnumerator ProcessDie()
     {
         if (isDie)
