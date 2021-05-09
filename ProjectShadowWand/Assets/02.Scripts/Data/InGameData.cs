@@ -56,16 +56,16 @@ public class Data_Settings : InGameData
 
 public class Data_Stage : InGameData
 {
-    public string stageNumber;
+    public string stageName;
     public Data_Stage(){ }
     /// <summary>
-    /// 스테이지 넘버를 미리 가진 채로 생성합니다.
+    /// 스테이지 이름을 미리 가진 채로 생성합니다.
     /// </summary>
-    /// <param name="_stageNumber"></param>
-    public Data_Stage(string _stageNumber)
+    /// <param name="_stageName"></param>
+    public Data_Stage(string _stageName)
     {
 
-        stageNumber = _stageNumber;
+        stageName = _stageName;
     }
 
 
