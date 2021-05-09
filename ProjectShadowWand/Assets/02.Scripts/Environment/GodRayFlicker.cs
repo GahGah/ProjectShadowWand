@@ -27,14 +27,13 @@ public class GodRayFlicker : MonoBehaviour
 
     void Update()
     {
-        timer = Time.deltaTime * speed;
+        timer += Time.deltaTime * speed;
 
         for(int i =0; i< L2D.Length; ++i)
         {
-            L2D[i].intensity = defaultIntensity[i] * Mathf.Lerp(multiplyRange.x, multiplyRange.y,
-                (Mathf.Sin(timer)+1) * 0.5f);
+            L2D[i].intensity = defaultIntensity[i] * Mathf.Lerp(multiplyRange.x, multiplyRange.y, (Mathf.Sin(timer)+1) * 0.5f);
         }
 
-        if(timer > 1000000) { timer = 0; }
+        if(timer > 10000) { timer = 0; }
     }
 }

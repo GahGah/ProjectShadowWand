@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat_SkyColor
-  m_Shader: {fileID: -6465566751694194690, guid: 419ad67f37e42554ca156b5e3ff0b4a8, type: 3}
+  m_Name: Mat_VFX_Water_SetSphere
+  m_Shader: {fileID: -6465566751694194690, guid: 9c0af56aefd3104419d8a9ca6d0c2c8f, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -48,10 +48,19 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _BaseColorIntensity: 0
     - _EnableExternalAlpha: 0
+    - _LimColorIntensity: 2.6
+    - _NoiseLerpValue: 0.724
+    - _NoiseScale: 9.81
+    - _noiseLerpValue: 0.352
+    - _noiseScale: 28.58
     m_Colors:
-    - Color_2960955c66b9492a9e500287c082cfbc: {r: 0.13803844, g: 0.49283713, b: 0.6226415, a: 0}
-    - _Color: {r: 0.36834514, g: 0.3794516, b: 0.4708356, a: 1}
+    - Vector2_1870490b4e2e45e1866bce549683d301: {r: 20.6, g: 5.45, b: 0, a: 0}
+    - _BaseColor: {r: 0.023050921, g: 0.4298332, b: 0.6981132, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _LimColor: {r: 0.7311321, g: 0.97153157, b: 1, a: 0}
+    - _NoiseOffset: {r: 15.95, g: 0.02, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
