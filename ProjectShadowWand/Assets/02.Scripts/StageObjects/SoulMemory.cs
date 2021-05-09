@@ -13,6 +13,20 @@ public class SoulMemory : MonoBehaviour
     public bool isEnd;
 
     public int currentTalkCode;
+
+    private float runningTime;
+    [SerializeField]
+    [Range(0f, 5f)]
+    private float upAndDownSpeed;
+
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float length;
+    private float yPos;
+
+    private Transform myTransform;
+    private float originalYpos;
+
     private void Awake()
     {
         isTake = false;
@@ -23,7 +37,16 @@ public class SoulMemory : MonoBehaviour
 
     private void Start()
     {
+
+        Init();
+    }
+
+    public void Init()
+    {
+        myTransform = gameObject.transform;
+        originalYpos = myTransform.position.y;
         stageManager = StageManager.Instance;
+        yPos = originalYpos;
 
         if (stageManager.soulMemoryList.Contains(this) == false) // 리스트 안에 자기가 안들어가있다면
         {
@@ -32,7 +55,6 @@ public class SoulMemory : MonoBehaviour
 
         }
     }
-
     public void TakeSoulMemory()
     {
         isTake = true;
@@ -52,6 +74,26 @@ public class SoulMemory : MonoBehaviour
         StageManager.Instance.CheckClearCondition_SoulMemory();
         gameObject.SetActive(false);
         //stageManager.CheckClearCondition_SoulMemory();
+    }
+
+    private void Update()
+    {
+        UpdateUpAndDownPosition();
+    }
+    public void UpdateUpAndDownPosition()
+    {
+        //        runningTime += Time.deltaTime * upAndDownSpeed;
+
+        //      yPos = Mathf.Sin(runningTime) * originalYpos * length;
+
+        yPos = Mathf.Sin(Time.time * upAndDownSpeed) * length;
+        Debug.Log(yPos);
+        myTransform.position = new Vector2(myTransform.position.x, originalYpos  + yPos);
+
+        if (runningTime > 10000f)
+        {
+            runningTime = 0f;
+        }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -74,5 +116,12 @@ public class SoulMemory : MonoBehaviour
                 PlayerController.Instance.currentSoulMemory = null; // null로 해버리기
             }
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x, length));
     }
 }

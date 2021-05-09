@@ -7,13 +7,14 @@ public class StageDoor : MonoBehaviour
 
     private Light2D[] lights;
     public bool isOpen;
+    public bool isLoop;
     private void Start()
     {
         lights = GetComponentsInChildren<Light2D>();
         isOpen = false;
         Debug.Log("AllLight is Done");
 
-        for (int i = 0; i < lights.Length;  i++)
+        for (int i = 0; i < lights.Length; i++)
         {
             lights[i].color = Color.red;
         }
@@ -45,7 +46,16 @@ public class StageDoor : MonoBehaviour
             if (isOpen)
             {
                 StageManager.Instance.UpdateStageName();
-                StartCoroutine(SceneChanger.Instance.LoadThisScene(StageManager.Instance.nextStageName));
+                if (isLoop == false)
+                {
+
+                    StartCoroutine(SceneChanger.Instance.LoadThisScene(StageManager.Instance.nextStageName));
+                }
+                else
+                {
+                    StartCoroutine(SceneChanger.Instance.LoadThisScene(StageManager.Instance.nowStageName));
+                }
+
             }
         }
     }
