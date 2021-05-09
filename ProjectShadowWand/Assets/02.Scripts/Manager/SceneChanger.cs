@@ -133,6 +133,10 @@ public class SceneChanger : MonoBehaviour
             waitTime = 0.5f;
             fadeTime = 1f;
 
+            if (instance == null)
+            {
+                instance = FindObjectOfType<SceneChanger>();
+            }
             StartCoroutine(SceneChanger.Instance.GoColorScreen(waitTime, fadeTime, false));
 
             SceneManager.sceneLoaded -= LoadSceneEnd;
