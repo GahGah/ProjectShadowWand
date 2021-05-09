@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -65,8 +65,12 @@ public class SceneChanger : MonoBehaviour
         StartCoroutine(LoadThisScene("Stage_00"));
     }
 
+    public void LoadThisSceneName(string _sceneName)
+    {
+        StartCoroutine(LoadThisScene(_sceneName));
+    }
     /// <summary>
-    /// ÇØ´ç ¾ÀÀ» ·ÎµùÇÕ´Ï´Ù.
+    /// í•´ë‹¹ ì”¬ì„ ë¡œë”©í•©ë‹ˆë‹¤.
     /// </summary>
     /// <param name="_sceneName"></param>
     /// <returns></returns>
@@ -85,12 +89,21 @@ public class SceneChanger : MonoBehaviour
         yield return StartCoroutine(GoColorScreen(waitTime, fadeTime, true));
 
 
-        //ºñµ¿±â·Î ·Îµå ¾À
+        if (SaveLoadManager.Instance != null)
+        {
+            //ì´ë™í•  ìŠ¤í…Œì´ì§€ë¥¼ ì €ì¥í•˜ê³ 
+            SaveLoadManager.Instance.SetCurrentData_Stage(new Data_Stage(moveSceneName));
+
+            yield return StartCoroutine(SaveLoadManager.Instance.SaveData_Stage());
+
+        }
+
+        //ë¹„ë™ê¸°ë¡œ ë¡œë“œ ì”¬
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(_sceneName);
-        asyncOperation.allowSceneActivation = false;  //¾À È°¼ºÈ­¸¦ false·Î. ÀÌÁ¦ ·ÎµùÀÌ ³¡³ªµµ ¾ÀÀÌ È°¼ºÈ­µÇÁö ¾ÊÀ½.
+        asyncOperation.allowSceneActivation = false;  //ì”¬ í™œì„±í™”ë¥¼ falseë¡œ. ì´ì œ ë¡œë”©ì´ ëë‚˜ë„ ì”¬ì´ í™œì„±í™”ë˜ì§€ ì•ŠìŒ.
 
         float timer = 0f;
-        while (!asyncOperation.isDone) // ·ÎµùÀÌ ¿Ï·áµÇ±â Àü ±îÁö¸¸
+        while (!asyncOperation.isDone) // ë¡œë”©ì´ ì™„ë£Œë˜ê¸° ì „ ê¹Œì§€ë§Œ
         {
             timer += Time.unscaledDeltaTime;
 
@@ -118,7 +131,7 @@ public class SceneChanger : MonoBehaviour
         yield return null;
 
         //yield return StartCoroutine(GoColorScreen(0.5f, 1f, false));
-        //Debug.Log("µÊ?");
+        //Debug.Log("ë¨?");
         //Time.timeScale = 1f;
         //goBlackImage.gameObject.SetActive(false);
         //progressBar.gameObject.SetActive(false);
@@ -158,7 +171,7 @@ public class SceneChanger : MonoBehaviour
         StartCoroutine(LoadScene_ProcessDie());
     }
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾î°¡ Á×À» ¶§ 
+    /// í”Œë ˆì´ì–´ê°€ ì£½ì„ ë•Œ 
     /// </summary>
     /// <returns></returns>
     IEnumerator LoadScene_ProcessDie()
@@ -175,13 +188,14 @@ public class SceneChanger : MonoBehaviour
         yield return StartCoroutine(GoColorScreen(waitTime, fadeTime, true));
 
         Time.timeScale = 0f;
-        //ºñµ¿±â·Î ·Îµå ¾À
+
+        //ë¹„ë™ê¸°ë¡œ ë¡œë“œ ì”¬
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(moveSceneName);
-        asyncOperation.allowSceneActivation = false;  //¾À È°¼ºÈ­¸¦ false·Î. ÀÌÁ¦ ·ÎµùÀÌ ³¡³ªµµ ¾ÀÀÌ È°¼ºÈ­µÇÁö ¾ÊÀ½.
+        asyncOperation.allowSceneActivation = false;  //ì”¬ í™œì„±í™”ë¥¼ falseë¡œ. ì´ì œ ë¡œë”©ì´ ëë‚˜ë„ ì”¬ì´ í™œì„±í™”ë˜ì§€ ì•ŠìŒ.
 
         float timer = 0f;
 
-        while (!asyncOperation.isDone) // ·ÎµùÀÌ ¿Ï·áµÇ±â Àü ±îÁö¸¸
+        while (!asyncOperation.isDone) // ë¡œë”©ì´ ì™„ë£Œë˜ê¸° ì „ ê¹Œì§€ë§Œ
         {
             timer += Time.unscaledDeltaTime;
 
@@ -210,11 +224,11 @@ public class SceneChanger : MonoBehaviour
 
     }
     /// <summary>
-    /// _waitTime µÚ ¼­¼­È÷, _goingTime±îÁö È­¸éÀ» Æ¯Á¤ »öÀ¸·Î ¹°µéÀÔ´Ï´Ù.
+    /// _waitTime ë’¤ ì„œì„œíˆ, _goingTimeê¹Œì§€ í™”ë©´ì„ íŠ¹ì • ìƒ‰ìœ¼ë¡œ ë¬¼ë“¤ì…ë‹ˆë‹¤.
     /// </summary>
-    /// <param name="_waitTime">º¯È­ Àü ±â´Ù¸®´Â ½Ã°£ÀÔ´Ï´Ù.</param>
-    /// <param name="_goingTime">º¯È­ÇÏ´Â ½Ã°£ÀÔ´Ï´Ù.</param>
-    /// <param name="_goBlack">true¶ó¸é È­¸éÀÌ ±î¸ÅÁö°í, false¶ó¸é È­¸éÀÌ Åõ¸íÇØÁı´Ï´Ù.</param>
+    /// <param name="_waitTime">ë³€í™” ì „ ê¸°ë‹¤ë¦¬ëŠ” ì‹œê°„ì…ë‹ˆë‹¤.</param>
+    /// <param name="_goingTime">ë³€í™”í•˜ëŠ” ì‹œê°„ì…ë‹ˆë‹¤.</param>
+    /// <param name="_goBlack">trueë¼ë©´ í™”ë©´ì´ ê¹Œë§¤ì§€ê³ , falseë¼ë©´ í™”ë©´ì´ íˆ¬ëª…í•´ì§‘ë‹ˆë‹¤.</param>
     /// <returns></returns>
     public IEnumerator GoColorScreen(float _waitTime, float _goingTime, bool _goBlack)
     {
@@ -231,7 +245,7 @@ public class SceneChanger : MonoBehaviour
 
         float startVal;
         float endVal;
-        if (_goBlack) //¾À ·Îµå¸¦ ÇØ¾ßÇÏ´Â »óÈ²ÀÏ ¶§
+        if (_goBlack) //ì”¬ ë¡œë“œë¥¼ í•´ì•¼í•˜ëŠ” ìƒí™©ì¼ ë•Œ
         {
             startColor = colorTwoMyeong;
             goingColor = colorBlack;
@@ -240,7 +254,7 @@ public class SceneChanger : MonoBehaviour
             startVal = 0f;
             endVal = 1f;
         }
-        else //¾À ·Îµå ¿Ï·áÀÏ¶§
+        else //ì”¬ ë¡œë“œ ì™„ë£Œì¼ë•Œ
         {
             startColor = colorBlack;
             goingColor = colorTwoMyeong;

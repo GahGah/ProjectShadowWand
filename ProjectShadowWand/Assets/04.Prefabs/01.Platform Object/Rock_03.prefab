@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7601770554969163808}
   - component: {fileID: 7601770554969163809}
   - component: {fileID: 7601770554969163810}
-  - component: {fileID: 7601770554969163811}
+  - component: {fileID: 744144687727478768}
   - component: {fileID: 7601770554969163815}
   m_Layer: 9
   m_Name: Rock_03
@@ -106,7 +106,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!60 &7601770554969163811
+--- !u!60 &744144687727478768
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,7 +115,7 @@ PolygonCollider2D:
   m_GameObject: {fileID: 7601770554969163820}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: fcd08f2e06808c041807f563837fd87b, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 1
   m_UsedByComposite: 0
@@ -131,14 +131,11 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.99292374, y: 3.5751162}
-      - {x: 0.2004013, y: 3.4256747}
-      - {x: 0.82439995, y: 2.9750478}
-      - {x: 1.4765835, y: 2.2147558}
-      - {x: 1.601677, y: -3.681378}
-      - {x: -1.6064262, y: -3.6971164}
-      - {x: -1.570723, y: 2.9585588}
-      - {x: -1.3919497, y: 3.3932226}
+    - - {x: -1.5369263, y: 3.4646327}
+      - {x: 0.59164023, y: 3.464633}
+      - {x: 1.5556221, y: 2.6393375}
+      - {x: 1.5177021, y: 0.79844785}
+      - {x: -1.5389991, y: 0.8766527}
 --- !u!251 &7601770554969163815
 PlatformEffector2D:
   m_ObjectHideFlags: 0

@@ -4,15 +4,30 @@ using UnityEngine;
 
 public class UIMainMenu : MonoBehaviour
 {
-    
+    public CanvasGroup canvasGroup;
+    public UIPopup newGamePopup;
+
+    private void Start()
+    {
+        canvasGroup.interactable = true;
+    }
     public void Button_GoNewGame(UIBase _ui)
     {
         _ui.Open();
     }
-
     public void Button_GoContinue(UIBase _ui)
     {
-        _ui.Open();
+        //_ui.Open();
+        if (SaveLoadManager.Instance.currentData_Stage.stageName == "Stage_00")
+        {
+            canvasGroup.interactable = false;
+            SceneChanger.Instance.LoadThisSceneName(SaveLoadManager.Instance.currentData_Stage.stageName);
+        }
+        else
+        {
+            canvasGroup.interactable = false;
+            SceneChanger.Instance.LoadThisSceneName(SaveLoadManager.Instance.currentData_Stage.stageName);
+        }
     }
 
     public void Button_OpenSetting(UIBase _ui)
@@ -27,6 +42,6 @@ public class UIMainMenu : MonoBehaviour
     public void Button_Quit()
     {
         Application.Quit();
-    }    
+    }
 
 }

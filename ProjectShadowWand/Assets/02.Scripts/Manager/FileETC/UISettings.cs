@@ -11,10 +11,15 @@ public class UISettings : UIBase
     public Slider sfxSlider;
     public Slider bgmSlider;
 
+    public Toggle fullScreenToggle;
+    public Toggle windowScreenToggle;
 
     public Slider brightnessSlider;
     public CanvasGroup canvasGroup;
     //public UISelecter languageSelector;
+
+    //  public ToggleGroup screenModeGroup;
+
 
     private Data_Settings currentSettingsData;
     // private Data_Settings settingsData;
@@ -22,6 +27,7 @@ public class UISettings : UIBase
     private void Start()
     {
         Init();
+
     }
 
     public override void Init()
@@ -78,6 +84,15 @@ public class UISettings : UIBase
 
     }
 
+    //public void ToggleScreen_WindowMode()
+    //{
+    //    currentSettingsData.isFullScreenMode = false;
+    //}
+    //public void ToggleScreen_FullScreenMode()
+    //{
+
+    //    currentSettingsData.isFullScreenMode = true;
+    //}
 
     public void ButtonOnApply()
     {
@@ -123,7 +138,18 @@ public class UISettings : UIBase
         masterSlider.value = GetFloat(_data.masterVolume);
         sfxSlider.value = GetFloat(_data.sfxVolume);
         bgmSlider.value = GetFloat(_data.bgmVolume);
+
+        if (_data.isFullScreenMode == true)
+        {
+            fullScreenToggle.isOn = true;
+        }
+        else
+        {
+            windowScreenToggle.isOn = true;
+        }
+
         brightnessSlider.value = GetFloat(_data.brightness);
+
     }
 
     /// <summary>
@@ -137,8 +163,14 @@ public class UISettings : UIBase
         data.bgmVolume = GetString(bgmSlider.value);
         data.brightness = GetString(brightnessSlider.value);
 
-        //TODO :
-        //data.isFullScreenMode = GetString()
+        if (fullScreenToggle.isOn == true)
+        {
+            data.isFullScreenMode = true;
+        }
+        else
+        {
+            data.isFullScreenMode = false;
+        }
 
         //data.language = (Language)languageSelector.GetCurrentIndex();
 
@@ -194,30 +226,47 @@ public class UISettings : UIBase
         //   GameManager.Instance.settingsManager.
         audioMixer.SetFloat("sfxVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(data.sfxVolume))) * 20);
 
+
+
+        UpdateFullScreen(data.isFullScreenMode);
         //LocalizationManager.Instance.SetLocalizationLanguage(data.language);
         //LocalizationManager.Instance.UpdateLocalization();
         currentSettingsData = new Data_Settings(data);
     }
 
-    public IEnumerator SaveSettingsData()
+    public void UpdateFullScreen(bool _b)
     {
-        //string dataString = JsonUtility.ToJson(currentSettingsData, true); //true로 하면 제대로...그...띄어쓰기? 가 됨.
+        Screen.fullScreen = _b;
 
-        //yield return StartCoroutine(GameManager.Instance.fileManager.WriteText("Settings.dat", dataString));
-
-        yield break;
+        if (_b == true)
+        {
+            fullScreenToggle.isOn = true;
+        }
+        else
+        {
+            windowScreenToggle.isOn = true;
+        }
     }
 
-    public IEnumerator LoadSettingsData()
-    {
-        //yield return StartCoroutine(GameManager.Instance.fileManager.ReadText("Settings.dat"));
-        //if (!string.IsNullOrEmpty(GameManager.Instance.fileManager.readText_Result))
-        //{
-        //    var loadedSettingsData = JsonUtility.FromJson<SettingsData>(GameManager.Instance.fileManager.readText_Result);
-        //    ApplySettings(loadedSettingsData);
-        //}
-        yield break;
-    }
+    //public IEnumerator SaveSettingsData()
+    //{
+    //    //string dataString = JsonUtility.ToJson(currentSettingsData, true); //true로 하면 제대로...그...띄어쓰기? 가 됨.
+
+    //    //yield return StartCoroutine(GameManager.Instance.fileManager.WriteText("Settings.dat", dataString));
+
+    //    yield break;
+    //}
+
+    //public IEnumerator LoadSettingsData()
+    //{
+    //    //yield return StartCoroutine(GameManager.Instance.fileManager.ReadText("Settings.dat"));
+    //    //if (!string.IsNullOrEmpty(GameManager.Instance.fileManager.readText_Result))
+    //    //{
+    //    //    var loadedSettingsData = JsonUtility.FromJson<SettingsData>(GameManager.Instance.fileManager.readText_Result);
+    //    //    ApplySettings(loadedSettingsData);
+    //    //}
+    //    yield break;
+    //}
 
     /// <summary>
     /// 현재 세팅 데이터를 반환합니다. 현재 세팅 데이터가 null일 경우, 기본 세팅 데이터를 반환합니다.

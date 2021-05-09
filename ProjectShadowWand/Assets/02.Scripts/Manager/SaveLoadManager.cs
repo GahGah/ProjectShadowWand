@@ -12,7 +12,7 @@ using UnityEditor;
 
 public enum eDataType
 {
-    PLAYER, CHILD, SETTINGS,STAGE,
+    PLAYER, CHILD, SETTINGS, STAGE,
     //etc...
 }
 /// <summary>
@@ -28,6 +28,7 @@ public class SaveLoadManager : Manager<SaveLoadManager>
     public Data_Child currentData_Child;
 
     public Data_Settings currentData_Settings;
+    public Data_Stage currentData_Stage;
 
     [SerializeField] public Data_ChildList currentData_ChildList;
 
@@ -35,6 +36,8 @@ public class SaveLoadManager : Manager<SaveLoadManager>
 
     [HideInInspector] public bool isLoad = false;
 
+    [HideInInspector]
+    public string stageFileName = "Data_Stage.dat";
 
     [HideInInspector]
     public string playerFileName = "Data_Player.dat";
@@ -51,7 +54,7 @@ public class SaveLoadManager : Manager<SaveLoadManager>
         base.Awake();
     }
 
-    private void Start()
+    private IEnumerator Start()
     {
         //Debug.Log("DataPath : " + Application.dataPath);
         //string path = Application.dataPath;
@@ -59,9 +62,26 @@ public class SaveLoadManager : Manager<SaveLoadManager>
         //path = splitPath[0];
         //Debug.Log("Assets를 없앤 데이터 패스 : " + path);
 
-        StartCoroutine(LoadData_Settings());
+        yield return StartCoroutine(LoadData_Settings());
+
+
+        yield return StartCoroutine(LoadData_Stage());
     }
 
+    /// <summary>
+    /// 파일 이름을 정합니다.
+    /// </summary>
+    public void SetFileName()
+    {
+
+        stageFileName = "Data_Stage.dat";
+
+        playerFileName = "Data_Player.dat";
+
+        childFileName = "Data_Childs.dat";
+
+        settingsFileName = "Data_Settings.dat";
+    }
     /// <summary>
     /// 데이터를 저장할 경로가 있는지 확인하고, 없으면 경로에 맞는 폴더를 생성합니다.
     /// </summary>
@@ -73,6 +93,7 @@ public class SaveLoadManager : Manager<SaveLoadManager>
         string path = Application.dataPath + "/DataSlot_" + _dataSlot + "/";
         currentFilePath = path;
         string tempName = string.Empty;
+        SetFileName();
         //dataPath/DataSlot_1/
 
         switch (_t)
@@ -89,6 +110,7 @@ public class SaveLoadManager : Manager<SaveLoadManager>
                 break;
 
             case eDataType.STAGE:
+                tempName = stageFileName;
                 break;
             default:
                 break;
@@ -155,6 +177,51 @@ public class SaveLoadManager : Manager<SaveLoadManager>
 
     #endregion
 
+    #region Data_Stage
+    public void SetCurrentData_Stage(Data_Stage _d)
+    {
+        currentData_Stage = new Data_Stage(_d);
+    }
+
+    public IEnumerator SaveData_Stage()
+    {
+        yield return StartCoroutine(CreatePath(eDataType.STAGE, currentDataSlot));
+
+        string path = currentFilePath; //파일 경로를 가지고...
+        string data = JsonUtility.ToJson(currentData_Stage, true); // Json 형식으로 변경
+
+        yield return StartCoroutine(fileManager.WriteText(stageFileName, data, path)); // 글 쓰기
+        Debug.Log("스테이지 데이터 저장 완료! 이어하기 시 시작할 스테이지 : " + currentData_Stage.stageName);
+    }
+
+    public IEnumerator LoadData_Stage()
+    {
+        yield return StartCoroutine(CreatePath(eDataType.STAGE, currentDataSlot));
+
+        string path = currentFilePath;
+
+        yield return StartCoroutine(fileManager.ReadText(stageFileName, path));
+
+        if (!string.IsNullOrEmpty(fileManager.readText_Result))
+        {
+            var loadedData = JsonUtility.FromJson<Data_Stage>(fileManager.readText_Result);
+            currentData_Stage = loadedData;
+        }
+        else // 없을 경우
+        {
+            Debug.Log("이어할 데이터가 없습니다. 새 데이터를 만듭니다.");
+            var defaultData = new Data_Stage();
+            currentData_Stage = defaultData;
+            yield return StartCoroutine(SaveData_Stage());
+#if UNITY_EDITOR
+            AssetDatabase.Refresh();
+#endif
+        }
+
+    }
+
+    #endregion
+
     #region Data_Settings
 
     public void SetCurrentData_Settings(Data_Settings _d)
@@ -190,7 +257,11 @@ public class SaveLoadManager : Manager<SaveLoadManager>
             Debug.Log("세팅 데이터 파일이 없습니다. 기본 데이터 파일을 생성합니다.");
             var defaultData = new Data_Settings();
             currentData_Settings = defaultData;
-            StartCoroutine(SaveData_Settings());
+            yield return StartCoroutine(SaveData_Settings());
+
+#if UNITY_EDITOR
+            AssetDatabase.Refresh();
+#endif
         }
 
     }
@@ -342,7 +413,7 @@ public class SaveLoadManager : Manager<SaveLoadManager>
 
         //딕셔너리의 Values들만 ToList를 이용하여 List로 
         currentData_ChildList.childDataList = currentData_ChildDict.Values.ToList();
-        
+
 
         foreach (var item in currentData_ChildList.childDataList)
         {

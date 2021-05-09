@@ -87,8 +87,7 @@ public class SoulMemory : MonoBehaviour
         //      yPos = Mathf.Sin(runningTime) * originalYpos * length;
 
         yPos = Mathf.Sin(Time.time * upAndDownSpeed) * length;
-        Debug.Log(yPos);
-        myTransform.position = new Vector2(myTransform.position.x, originalYpos  + yPos);
+        myTransform.position = new Vector2(myTransform.position.x, originalYpos + yPos);
 
         if (runningTime > 10000f)
         {

@@ -28,7 +28,17 @@ public class FileBaseWindows : FileBase
         readText_Result = string.Empty;
         //string path = GetDataLocation_Persistent() + dataName;
         string path = _path + _dataName;
-        readText_Result = File.ReadAllText(path);
+
+        FileInfo fileInfo = new FileInfo(path);
+        if (fileInfo.Exists == true)
+        {
+            readText_Result = File.ReadAllText(path);
+        }
+        else
+        {
+            //파일 읽기 실패
+        }
+
         yield break;
     }
 

@@ -65,6 +65,8 @@ public class GameManager : MonoBehaviour
 
     IEnumerator ProcessStartGame()
     {
+        yield return StartCoroutine(saveLoadManager.LoadData_Stage());
+        yield return StartCoroutine(saveLoadManager.LoadData_Settings());
 
         //yield return StartCoroutine(fileManager.IsExist("Settings.dat"));
 
