@@ -9,7 +9,7 @@ public class ViewMover : MonoBehaviour
 {
     public Transform target;
     [Header("움직이는 정도"), Tooltip("카메라가 움직일 때, 해당 값 만큼 추가로 더 움직입니다. ")]
-    [Range(0f, 0.1f)]
+    [Range(0f, 0.05f)]
     public float moveValue;
 
     private new Renderer renderer;
