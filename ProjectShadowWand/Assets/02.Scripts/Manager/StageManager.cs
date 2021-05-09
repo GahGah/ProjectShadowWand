@@ -69,7 +69,8 @@ public class StageManager : Manager<StageManager>
     }
     private void Start()
     {
-        UpdateStageName();
+        // UpdateStageName();
+        UpdateStageName_TEST();
     }
 
     public void InitSoulMemoryList()
@@ -100,8 +101,9 @@ public class StageManager : Manager<StageManager>
         //스테이지 클리어가 true일 때 까지 대기
         Debug.Log("클리어 조건 만족!");
 
+        yield return StartCoroutine(stageDoor.ChangeOpenDoor());
 
-
+        yield break;
     }
 
     /// <summary>
@@ -166,12 +168,20 @@ public class StageManager : Manager<StageManager>
     }
 
     /// <summary>
+    /// 그냥 같은 씬을 로딩합니다.
+    /// </summary>
+    public void UpdateStageName_TEST()
+    {
+        nowStageName = SceneManager.GetActiveScene().name;
+
+        nextStageName = nowStageName;
+    }
+    /// <summary>
     /// 현재 스테이지 이름과 다음 스테이지 이름을 업데이트합니다. 다음 스테이지로 넘어갈 때 쓰입니다.
     /// </summary>
     public void UpdateStageName()
     {
-        //TODO : 실제 빌드 때에는 주석처리한 저 겟액티브씬을 쓰도록 합시다.
-        nowStageName = "Stage_01";// SceneManager.GetActiveScene().name;
+        nowStageName = SceneManager.GetActiveScene().name;
 
         var tempStageName = nowStageName.Split('_');
 
