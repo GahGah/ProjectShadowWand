@@ -8,6 +8,8 @@ public class SceneChanger : MonoBehaviour
 {
     public string moveSceneName;
 
+    public CanvasGroup canvasGroup;
+
     public Image goBlackImage;
 
     public Image progressBar;
@@ -146,12 +148,17 @@ public class SceneChanger : MonoBehaviour
         Color32 startColor;
         Color32 progressStartColor;
         Color32 progressGoingColor;
+
+        float startVal;
+        float endVal;
         if (_goBlack) //씬 로드를 해야하는 상황일 때
         {
             startColor = colorTwoMyeong;
             goingColor = colorBlack;
             progressStartColor = colorTwoMyeong;
             progressGoingColor = colorWhite;
+            startVal = 0f;
+            endVal = 1f;
         }
         else //씬 로드 완료일때
         {
@@ -159,27 +166,28 @@ public class SceneChanger : MonoBehaviour
             goingColor = colorTwoMyeong;
             progressStartColor = colorWhite;
             progressGoingColor = colorTwoMyeong;
+            startVal = 1f;
+            endVal = 0f;
         }
 
         yield return new WaitForSecondsRealtime(_waitTime);
 
-        goBlackImage.gameObject.SetActive(true);
-        progressBar.gameObject.SetActive(true);
+        canvasGroup.gameObject.SetActive(true);
 
         while (progress < 1f)
         {
             timer += Time.unscaledDeltaTime;
             progress = timer / _goingTime;
 
-            goBlackImage.color = Color32.Lerp(startColor, goingColor, progress);
-            progressBar.color = Color32.Lerp(progressStartColor, progressGoingColor, progress);
+            //goBlackImage.color = Color32.Lerp(startColor, goingColor, progress);
+            //progressBar.color = Color32.Lerp(progressStartColor, progressGoingColor, progress);
+            canvasGroup.alpha = Mathf.Lerp(startVal, endVal, progress);
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
 
         if (_goBlack == false)
         {
-            goBlackImage.gameObject.SetActive(false);
-            progressBar.gameObject.SetActive(false);
+            canvasGroup.gameObject.SetActive(false);
             isLoading = false;
 
         }

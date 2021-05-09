@@ -119,7 +119,7 @@ public class TalkSystemManager : Manager<TalkSystemManager>
     {
         talkUI.SetActive(false);
         StartCoroutine(ProcessStart());
-        spaceTest.text = "다음";
+       // spaceTest.text = "다음";
     }
 
     // Update is called once per frame

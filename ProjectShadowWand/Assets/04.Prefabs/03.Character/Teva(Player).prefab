@@ -427,6 +427,7 @@ MonoBehaviour:
   isJumping: 0
   isGrounded: 0
   isFalling: 0
+  isInteractingSoulMemory: 0
   isDie: 0
   canGliding: 0
   isRight: 0
@@ -434,15 +435,14 @@ MonoBehaviour:
   onLadder: 0
   onLadderJump: 0
   isClimbLadder: 0
-  isPushing: 0
   isCatching: 0
   isGliding: 0
+  isTalking: 0
   ladderPosition: {x: 0, y: 0}
   prevPosition: {x: 0, y: 0}
   originalMoveSpeed: 0
   testIdleMotions: []
   isInputCatchKey: 0
-  catchedObject: {fileID: 0}
   touchedObject: {fileID: 0}
   catchBody: {fileID: 0}
   windDirection: 0
@@ -462,10 +462,9 @@ MonoBehaviour:
   - {x: 0.076, y: -0.314}
   - {x: 0.076, y: -0.314}
   currentHandPosition: {x: 0, y: 0}
-  glideGauge: {fileID: 0}
   currentNPC: {fileID: 0}
+  currentSoulMemory: {fileID: 0}
   playerSkillManager: {fileID: 0}
-  isTalking: 0
 --- !u!114 &8403324799475236889
 MonoBehaviour:
   m_ObjectHideFlags: 0
