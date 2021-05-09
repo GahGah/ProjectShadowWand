@@ -10,7 +10,11 @@ public class TestDieObject : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            PlayerController.Instance.isDie = true;
+            if (PlayerController.Instance.isDie == false)
+            {
+
+                PlayerController.Instance.isDie = true;
+            }
         }
     }
 }

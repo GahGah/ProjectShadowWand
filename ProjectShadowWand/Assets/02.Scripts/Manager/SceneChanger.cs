@@ -15,15 +15,30 @@ public class SceneChanger : MonoBehaviour
     public Image progressBar;
     public bool isLoading;
 
-    public static SceneChanger Instance;
+    private static SceneChanger instance;
+    public static SceneChanger Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<SceneChanger>();
+            }
+            return instance;
+        }
+    }
+
+    public float waitTime;
+    public float fadeTime;
 
     protected void Awake()
     {
-        if (Instance == null)
+
+        if (Instance == this)
         {
-            Instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
+
         // Screen.SetResolution(1920, 1080, true);
     }
     private void Start()
@@ -35,20 +50,20 @@ public class SceneChanger : MonoBehaviour
         SceneManager.LoadScene(moveSceneName);
     }
 
-    private void Update()
-    {
+    //private void Update()
+    //{
 
-    }
-    public void PlayerDie_SceneReload()
-    {
-        StartCoroutine(ProcessDie());
-    }
+    //}
 
     public void Test()
     {
         Screen.fullScreen = false;
     }
 
+    public void LoadThisScene_Start()
+    {
+        StartCoroutine(LoadThisScene("Stage_00"));
+    }
 
     /// <summary>
     /// 해당 씬을 로딩합니다.
@@ -65,7 +80,9 @@ public class SceneChanger : MonoBehaviour
 
         Time.timeScale = 0f;
         progressBar.fillAmount = 0f;
-        yield return StartCoroutine(GoColorScreen(0.5f, 1f, true));
+        waitTime = 0.5f;
+        fadeTime = 1f;
+        yield return StartCoroutine(GoColorScreen(waitTime, fadeTime, true));
 
 
         //비동기로 로드 씬
@@ -113,8 +130,10 @@ public class SceneChanger : MonoBehaviour
         if (scene.name == moveSceneName)
         {
             Debug.Log("End");
+            waitTime = 0.5f;
+            fadeTime = 1f;
 
-            StartCoroutine(SceneChanger.Instance.GoColorScreen(0.5f, 1f, false));
+            StartCoroutine(SceneChanger.Instance.GoColorScreen(waitTime, fadeTime, false));
 
             SceneManager.sceneLoaded -= LoadSceneEnd;
 
@@ -129,6 +148,63 @@ public class SceneChanger : MonoBehaviour
 
 
 
+
+    public void LoadScene_Die()
+    {
+        StartCoroutine(LoadScene_ProcessDie());
+    }
+    /// <summary>
+    /// 플레이어가 죽을 때 
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator LoadScene_ProcessDie()
+    {
+        isLoading = true;
+
+        SceneManager.sceneLoaded += LoadSceneEnd;
+
+        moveSceneName = StageManager.Instance.nowStageName;
+
+        progressBar.fillAmount = 0f;
+        waitTime = 2f;
+        fadeTime = 2f;
+        yield return StartCoroutine(GoColorScreen(waitTime, fadeTime, true));
+
+        Time.timeScale = 0f;
+        //비동기로 로드 씬
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(moveSceneName);
+        asyncOperation.allowSceneActivation = false;  //씬 활성화를 false로. 이제 로딩이 끝나도 씬이 활성화되지 않음.
+
+        float timer = 0f;
+
+        while (!asyncOperation.isDone) // 로딩이 완료되기 전 까지만
+        {
+            timer += Time.unscaledDeltaTime;
+
+            if (asyncOperation.progress < 0.9f)
+            {
+                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, asyncOperation.progress, timer);
+
+                if (progressBar.fillAmount >= asyncOperation.progress)
+                {
+                    timer = 0f;
+                }
+            }
+            else
+            {
+                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1f, timer);
+
+                if (progressBar.fillAmount >= 1f)
+                {
+                    asyncOperation.allowSceneActivation = true;
+                    break;
+                }
+            }
+            yield return YieldInstructionCache.WaitForEndOfFrame;
+        }
+        yield return null;
+
+    }
     /// <summary>
     /// _waitTime 뒤 서서히, _goingTime까지 화면을 특정 색으로 물들입니다.
     /// </summary>
@@ -191,29 +267,5 @@ public class SceneChanger : MonoBehaviour
             isLoading = false;
 
         }
-    }
-
-    IEnumerator ProcessDie()
-    {
-        var timer = 0f;
-        var maxTime = 2f;
-        var progress = 0f;
-        var twoMyeong = new Color32(0, 0, 0, 0);
-        var black = new Color32(0, 0, 0, 255);
-
-        yield return new WaitForSecondsRealtime(2f);
-
-        goBlackImage.gameObject.SetActive(true);
-        while (progress < 1f)
-        {
-            timer += Time.deltaTime;
-            progress = timer / maxTime;
-            Debug.Log("Progress : " + progress);
-
-            goBlackImage.color = Color32.Lerp(twoMyeong, black, progress);
-            yield return YieldInstructionCache.WaitForEndOfFrame;
-        }
-        SceneManager.LoadScene(moveSceneName);
-
     }
 }

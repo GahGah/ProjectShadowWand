@@ -220,7 +220,7 @@ public class PlayerController : Character
 
     public eWindDirection windDirection;
 
-    public TestSceneChanger testSceneChanger;
+    public SceneChanger sceneChanger;
     [Header("잡기 손 위치")]
     public Vector2 handPosition_idle;
     public Vector2 handPosition_walk;
@@ -279,6 +279,7 @@ public class PlayerController : Character
         ChangeState(eState.PLAYER_DEFAULT);
         playerSkillManager.Init();
         playerStateMachine.Start();
+        sceneChanger = SceneChanger.Instance;
     }
     public void Init()
     {
@@ -823,6 +824,12 @@ public class PlayerController : Character
     }
     private void UpdateChangeState()
     {
+        if (isDie)
+        {
+            ChangeState(eState.PLAYER_DIE);
+            return;
+        }
+
 
         if (isCatching)
         {

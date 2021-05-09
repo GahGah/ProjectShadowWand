@@ -328,7 +328,7 @@ public class PlayerState_Die : PlayerState
     {
         ResetAnimatorSpeed();
         player.animator.SetBool(player.animatorDieBool, true);
-        player.testSceneChanger.PlayerDie_SceneReload();
+        player.sceneChanger.LoadScene_Die();
     }
     public override void Execute()
     {
