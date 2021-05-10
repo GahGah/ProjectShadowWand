@@ -45,7 +45,8 @@ public class CsvReader : MonoBehaviour
 
         if (data == null)
         {
-            Debug.Log("하?");
+            Debug.Log("파일이 없습니다 : " + file);
+            return null;
         }
         var lines = Regex.Split(data.text, LINE_SPLIT_RE);
 

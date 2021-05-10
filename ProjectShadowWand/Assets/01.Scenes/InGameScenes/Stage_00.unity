@@ -6036,9 +6036,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8403324799475236886, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
+      propertyPath: groundCheckDistance
+      value: 0.06
+      objectReference: {fileID: 0}
     - target: {fileID: 8403324799475236887, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
       propertyPath: m_SortingOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403324799475236890, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
+      propertyPath: m_EdgeRadius
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 8403324799475236893, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
       propertyPath: m_Name

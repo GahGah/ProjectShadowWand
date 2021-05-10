@@ -119,7 +119,7 @@ public class TalkSystemManager : Manager<TalkSystemManager>
     {
         talkUI.SetActive(false);
         StartCoroutine(ProcessStart());
-       // spaceTest.text = "다음";
+        // spaceTest.text = "다음";
     }
 
     // Update is called once per frame
@@ -226,7 +226,15 @@ public class TalkSystemManager : Manager<TalkSystemManager>
     {
         filePath = "DataFiles/TalkData/" + path;
         talkData = CsvReader.Read(filePath);
-        Debug.Log(path + "을 불러왔습니다.");
+        if (talkData != null)
+        {
+            Debug.Log(path + "을 불러왔습니다.");
+        }
+        else
+        {
+
+            Debug.Log(path + "불러오기 실패.");
+        }
         yield return null;
     }
 

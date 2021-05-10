@@ -86,7 +86,7 @@ public class PlayerController : Character
     public bool isSkillUse_Lightning;
 
     public BoxCollider2D playerCollider;
-    private EdgeCollider2D playerSideCollider;
+    private CapsuleCollider2D playerCapsuleCollider;
 
 
     [HideInInspector] public eBlockType blockType;
@@ -137,6 +137,9 @@ public class PlayerController : Character
     [HideInInspector] public bool canMove = true;
 
     [HideInInspector] public bool isJumping;
+
+    [Tooltip("경사면에 있냐 없냐를 뜻합니다.")]
+    public bool isSlope;
 
     [Tooltip("잡기 오브젝트와 NPC가 동시에 존재할 때 잡기를 수행하기 위해 만듬")]
     private bool isTalkReady;
@@ -235,7 +238,8 @@ public class PlayerController : Character
     [Tooltip("일단 밟을 수 있으면 다 해볼 생각")]
     private int groundCheckMask;
 
-    private float groundCheckDistance;
+    [Header("Ray길이")]
+    public float groundCheckDistance;
 
     [HideInInspector]
     [Tooltip("현재 대화중인/대화를 시작할 수 있는NPC")]
@@ -279,6 +283,7 @@ public class PlayerController : Character
         ChangeState(eState.PLAYER_DEFAULT);
         playerSkillManager.Init();
         playerStateMachine.Start();
+        hitSize = new Vector2(playerCollider.size.x, 0.1f);
         sceneChanger = SceneChanger.Instance;
     }
     public void Init()
@@ -291,10 +296,9 @@ public class PlayerController : Character
         }
         playerRigidbody = GetComponent<Rigidbody2D>();
         playerCollider = GetComponent<BoxCollider2D>();
+        playerCapsuleCollider = GetComponent<CapsuleCollider2D>();
         animator = GetComponent<Animator>();
         puppet = gameObject.transform;
-
-        groundCheckDistance = 0.5f;
 
         groundCheckMask = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Ground_Soft")) | (1 << LayerMask.NameToLayer("Ground_Hard"));
         //| (1 << LayerMask.NameToLayer("Default"));
@@ -374,8 +378,11 @@ public class PlayerController : Character
     }
     void FixedUpdate()
     {
-        GroundCheck();
+        UpdateGroundCheck_Fixed();
+        // GroundCheck();
         //UpdateGroundCheck_Cast();
+
+        UpdateSlopeStop();
         // UpdateGroundCheck_Touch_Cast();
         UpdateMoveVelocity();
         UpdateJumpVelocity();
@@ -398,6 +405,31 @@ public class PlayerController : Character
     //    }
     //}
 
+
+    /// <summary>
+    /// 경사면에서 플레이어가 밀리지 않게 합니다.
+    /// </summary>
+    private void UpdateSlopeStop()
+    {
+
+        if (isSlope == true) //경사면에 있을 때
+        {
+            if (isFalling == false && isJumping == false && isGliding == false && movementInput == Vector2.zero && playerStateMachine.GetCurrentStateE() == eState.PLAYER_DEFAULT)
+            {
+                playerRigidbody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+            }
+            else
+            {
+                playerRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+            }
+
+        }
+        else
+        {
+            playerRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+            return;
+        }
+    }
     private void CheckInteractInput()
     {
         if (InputManager.Instance.buttonInteract.wasPressedThisFrame)// 키 누르기
@@ -465,10 +497,10 @@ public class PlayerController : Character
 
             }
 
-
-
+            return;
         }
-        else if (InputManager.Instance.buttonMoveLeft.isPressed) //왼쪽 이동
+
+        if (InputManager.Instance.buttonMoveLeft.isPressed) //왼쪽 이동
         {
             if (CanMove())
             {
@@ -477,12 +509,11 @@ public class PlayerController : Character
                 //{
                 isRight = false;
                 //}
+
+
             }
-
+            return;
         }
-
-
-
 
     }
 
@@ -683,21 +714,104 @@ public class PlayerController : Character
         }
     }
 
+    public float groundAngle;
+    public Vector2 groundPerp;
+
+    Vector2 hitSize;
+    public Vector2 castStartPos;
+
+
+    /// <summary>
+    /// Touching을 쓰고, 경사면에서 고정됩니다.
+    /// </summary>
+    private void UpdateGroundCheck_Fixed()
+    {
+        //박스캐스트 버전
+        hitSize = new Vector2(playerCollider.size.x, 0.1f);
+        castStartPos = new Vector2(playerCollider.bounds.center.x, playerCollider.bounds.min.y);
+        groundHit = Physics2D.BoxCast(castStartPos, hitSize, 0f, Vector2.down, groundCheckDistance, groundCheckMask);
+
+
+        ////써클캐스트 버전
+        //hitSize = new Vector2(playerCapsuleCollider.size.x, 0.1f);
+        //castStartPos = new Vector2(playerCapsuleCollider.bounds.center.x, playerCapsuleCollider.bounds.min.y);
+        //groundHit = Physics2D.CircleCast(castStartPos, playerCapsuleCollider.size.x, Vector2.down, groundCheckDistance, groundCheckMask);
+
+
+
+        //groundHit = Physics2D.Raycast(castStartPos, Vector2.down, groundCheckDistance, groundCheckMask);
+
+        // groundPerp = Vector2.Perpendicular(groundHit.normal).normalized; //실제 사용할 때에는-1 곱해줘야함
+
+        groundAngle = Vector2.Angle(groundHit.normal, Vector2.up);
+
+        if (playerCollider.IsTouching(contactFilter_Ground))
+        {
+            if (playerRigidbody.velocity.y <= 2f)
+            {
+                isGrounded = true;
+                GroundGlide();
+                isJumping = false;
+
+                animator.SetBool(animatorGroundedBool, isGrounded);
+
+                //
+            }
+        }
+        else
+        {
+            isGrounded = false;
+            isSlope = false;
+            animator.SetBool(animatorGroundedBool, isGrounded);
+        }
+
+
+        if (groundHit == true)
+        {
+            Debug.DrawLine(groundHit.point, groundHit.point + groundHit.normal, Color.blue);
+
+
+            if (groundAngle != 0f)
+            {
+                isSlope = true;
+            }
+            else
+            {
+                isSlope = false;
+            }
+        }
+
+        UpdateSlopeStop();
+
+
+    }
     /// <summary>
     /// 박스캐스트로 땅 체크를 합니다.
     /// </summary>
     private void UpdateGroundCheck_Cast()
     {
 
-        groundHit = Physics2D.BoxCast(playerRigidbody.position, playerCollider.size, 0f, Vector2.down, groundCheckDistance, groundCheckMask);
+        castStartPos = new Vector2(playerCollider.bounds.center.x, playerCollider.bounds.min.y);
+        groundHit = Physics2D.BoxCast(castStartPos, hitSize, 0f, Vector2.down, groundCheckDistance, groundCheckMask);
+        //groundHit = Physics2D.Raycast(castStartPos, Vector2.down, groundCheckDistance, groundCheckMask);
+        groundPerp = Vector2.Perpendicular(groundHit.normal).normalized; //-1 곱해줘야함
+        groundAngle = Vector2.Angle(groundHit.normal, Vector2.up);
 
         if (groundHit == true)
         {
-            if (playerRigidbody.velocity.y > 0f)
+            Debug.DrawLine(groundHit.point, groundHit.point + groundHit.normal, Color.blue);
+
+
+            if (groundAngle != 0f) //수직이 아니라면 
             {
-                //isJumping = false;
+                isSlope = true; //경사면임
             }
             else
+            {
+                isSlope = false; //아님
+            }
+            //a만약 
+            if (Mathf.Abs(groundHit.point.y - castStartPos.y) <= 0.1f && groundAngle != 90f && playerRigidbody.velocity.y <= 2f)
             {
                 isGrounded = true;
                 GroundGlide();
@@ -707,19 +821,19 @@ public class PlayerController : Character
 
                 //ChangeState(eState.PLAYER_DEFAULT);
             }
-        }
-        else if (isWater == true) // 아니면 물 속?
-        {
-            isGrounded = true;
+            else
+            {
 
-            GroundGlide();
-            isJumping = false;
-
-            animator.SetBool(animatorGroundedBool, isGrounded);
+                isGrounded = false;
+                isSlope = false;
+                animator.SetBool(animatorGroundedBool, isGrounded);
+            }
+            return;
         }
         else
         {
             isGrounded = false;
+            isSlope = false;
             animator.SetBool(animatorGroundedBool, isGrounded);
         }
 
@@ -809,11 +923,14 @@ public class PlayerController : Character
     }
     private void CheckFalling()
     {
-        if (playerRigidbody.velocity.y < -1f && isGrounded == false)
+        if (playerRigidbody.velocity.y < -4.5f && isGrounded == false)
         {
             if (isClimbLadder == false && inLadder == false)
             {
                 isFalling = true;
+
+                Debug.Log(playerRigidbody.velocity.y);
+
             }
 
         }
@@ -861,7 +978,7 @@ public class PlayerController : Character
         }
         else if (isSkillUse_Lightning)
         {//번개능력
-         
+
             PutCatchedObject();
             ChangeState(eState.PLAYER_SKILL_LIGHTNING);
         }
@@ -910,6 +1027,8 @@ public class PlayerController : Character
     {
         if (playerStateMachine.GetCurrentStateE() != _state)
         {
+
+
             playerStateMachine.ChangeState(_state);
         }
     }
@@ -921,8 +1040,10 @@ public class PlayerController : Character
     {
         prevPosition = new Vector2(playerRigidbody.position.x, playerRigidbody.position.y);
 
-        if (isClimbLadder == false && isGliding == false)//사다리도 안타고, 글라이딩상태도 아닐때
+
+        if (isClimbLadder == false && isGliding == false)//사다리도 안타고, 글라이딩상태도 아닐때 ( 기본 상태)
         {
+
             playerRigidbody.velocity =
                 new Vector2((movementInput.x * movementSpeed) + extraForce.x, playerRigidbody.velocity.y + extraForce.y);
         }
@@ -931,7 +1052,7 @@ public class PlayerController : Character
             playerRigidbody.velocity =
                 new Vector2((movementInput.x * movementSpeed) + extraForce.x, (movementInput.y * climbSpeed) + extraForce.y);
         }
-        else if (isGliding)
+        else if (isGliding) //글라이딩 상태일때
         {
             Vector2 dir = new Vector2(Mathf.Sin(Mathf.Deg2Rad * currentGlideAngle * movementInput.x), Mathf.Cos(Mathf.Deg2Rad * currentGlideAngle * movementInput.x));
 
@@ -1457,8 +1578,14 @@ public class PlayerController : Character
     {
         Gizmos.color = Color.magenta;
 
-        Gizmos.DrawWireCube(transform.position + (Vector3)Vector2.down * groundCheckDistance, playerCollider.size);
+        Gizmos.DrawWireCube(castStartPos, hitSize);
+        Gizmos.DrawWireCube((Vector3)castStartPos + (Vector3)Vector2.down * groundCheckDistance, hitSize);
 
+        if (groundHit == true)
+        {
+            Gizmos.DrawSphere(groundHit.point, 0.1f);
+
+        }
         Gizmos.color = Color.cyan;
 
         Gizmos.DrawWireCube(transform.position, waterSize);
@@ -1468,9 +1595,12 @@ public class PlayerController : Character
         Gizmos.DrawWireCube(transform.position + (Vector3)waterDirection * waterDistance, waterSize);
 
 
-        Gizmos.color = Color.yellow;
+        //번개쪽
+        //Gizmos.color = Color.yellow;
 
-        Gizmos.DrawWireSphere(lightningPosition.position, lightningRadius);
+        //Gizmos.DrawWireSphere(lightningPosition.position, lightningRadius);
+
+
         ////Draw a Ray forward from GameObject toward the maximum distance
         //Gizmos.DrawRay(transform.position, waterDirection * waterDistance);
         ////Draw a cube at the maximum distance
