@@ -1364,6 +1364,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windEffect: {fileID: 0}
+  waterPosition: {fileID: 0}
+  waterEffect_Set: {fileID: 0}
+  waterEffect_Splash: {fileID: 0}
   unlockWind: 1
   unlockLightning: 0
   unlockWater: 0
@@ -1441,6 +1444,7 @@ MonoBehaviour:
   saveMoveInputX: 0
   canMove: 1
   isJumping: 0
+  isSlope: 0
   isGrounded: 0
   isFalling: 0
   isInteractingSoulMemory: 0
@@ -1468,9 +1472,13 @@ MonoBehaviour:
   handPosition_jump: []
   handPosition_landed: []
   currentHandPosition: {x: 0, y: 0}
+  groundCheckDistance: 0
   currentNPC: {fileID: 0}
   currentSoulMemory: {fileID: 0}
   playerSkillManager: {fileID: 0}
+  groundAngle: 0
+  groundPerp: {x: 0, y: 0}
+  castStartPos: {x: 0, y: 0}
 --- !u!212 &741695939
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3556,3 +3564,60 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e37425cf9ab09b244a136c99d515bfef, type: 3}
+--- !u!1001 &6535968408631823897
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6535968408704137348, guid: 122345f44d44ed1458fd47e98d5c945a, type: 3}
+      propertyPath: m_Name
+      value: VFX_MemoryLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535968408704137351, guid: 122345f44d44ed1458fd47e98d5c945a, type: 3}
+      propertyPath: m_RootOrder
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535968408704137351, guid: 122345f44d44ed1458fd47e98d5c945a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.85956
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535968408704137351, guid: 122345f44d44ed1458fd47e98d5c945a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.875293
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535968408704137351, guid: 122345f44d44ed1458fd47e98d5c945a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.1343849
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535968408704137351, guid: 122345f44d44ed1458fd47e98d5c945a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535968408704137351, guid: 122345f44d44ed1458fd47e98d5c945a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535968408704137351, guid: 122345f44d44ed1458fd47e98d5c945a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535968408704137351, guid: 122345f44d44ed1458fd47e98d5c945a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535968408704137351, guid: 122345f44d44ed1458fd47e98d5c945a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535968408704137351, guid: 122345f44d44ed1458fd47e98d5c945a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6535968408704137351, guid: 122345f44d44ed1458fd47e98d5c945a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 122345f44d44ed1458fd47e98d5c945a, type: 3}
