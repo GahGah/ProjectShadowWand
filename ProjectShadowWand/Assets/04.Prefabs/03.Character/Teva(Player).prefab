@@ -425,6 +425,7 @@ MonoBehaviour:
   saveMoveInputX: 0
   canMove: 1
   isJumping: 0
+  isSlope: 0
   isGrounded: 0
   isFalling: 0
   isInteractingSoulMemory: 0
@@ -446,7 +447,7 @@ MonoBehaviour:
   touchedObject: {fileID: 0}
   catchBody: {fileID: 0}
   windDirection: 0
-  testSceneChanger: {fileID: 0}
+  sceneChanger: {fileID: 0}
   handPosition_idle: {x: 0.16, y: -0.231}
   handPosition_walk: {x: 0.246, y: -0.202}
   handPosition_jump:
@@ -462,9 +463,13 @@ MonoBehaviour:
   - {x: 0.076, y: -0.314}
   - {x: 0.076, y: -0.314}
   currentHandPosition: {x: 0, y: 0}
+  groundCheckDistance: 0.06
   currentNPC: {fileID: 0}
   currentSoulMemory: {fileID: 0}
   playerSkillManager: {fileID: 0}
+  groundAngle: 0
+  groundPerp: {x: 0, y: 0}
+  castStartPos: {x: 0, y: 0}
 --- !u!114 &8403324799475236889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -546,7 +551,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 0.6244824, y: 1.09}
-  m_EdgeRadius: 0.09
+  m_EdgeRadius: 0.03
 --- !u!114 &8403324799733906937
 MonoBehaviour:
   m_ObjectHideFlags: 0

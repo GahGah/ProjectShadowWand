@@ -923,13 +923,11 @@ public class PlayerController : Character
     }
     private void CheckFalling()
     {
-        if (playerRigidbody.velocity.y < -4.5f && isGrounded == false)
+        if (playerRigidbody.velocity.y < -3f && isGrounded == false)
         {
             if (isClimbLadder == false && inLadder == false)
             {
                 isFalling = true;
-
-                Debug.Log(playerRigidbody.velocity.y);
 
             }
 
