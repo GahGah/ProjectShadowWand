@@ -15,13 +15,13 @@ public class MeshRendererSortingLayer : MonoBehaviour
         meshRenderer.sortingLayerName = sortingLayerName;
     }
 
-    public void Update()
-    {
-        if (meshRenderer.sortingLayerName != sortingLayerName)
-            meshRenderer.sortingLayerName = sortingLayerName;
-        if (meshRenderer.sortingOrder != sortingOrder)
-            meshRenderer.sortingOrder = sortingOrder;
-    }
+    //public void Update()
+    //{
+    //    if (meshRenderer.sortingLayerName != sortingLayerName)
+    //        meshRenderer.sortingLayerName = sortingLayerName;
+    //    if (meshRenderer.sortingOrder != sortingOrder)
+    //        meshRenderer.sortingOrder = sortingOrder;
+    //}
 
     public void OnValidate()
     {
