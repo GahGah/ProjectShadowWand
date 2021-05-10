@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat_VFX_Water_SetSphere
-  m_Shader: {fileID: -6465566751694194690, guid: 5102c6973d79f2c42ba42f05885d6698, type: 3}
+  m_Name: Mat_VFX_Water_Splash01
+  m_Shader: {fileID: -6465566751694194690, guid: aba651d27b172744e88792cce45846f2, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -23,6 +23,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _BaseTex:
+        m_Texture: {fileID: 2800000, guid: 90415562240784644bdf3ae8e7aec411, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -33,6 +37,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _NormalMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_17865afa442f49a2b184d7ab020418a2_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 90415562240784644bdf3ae8e7aec411, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_beb36a8141e44e30bdf4530aeb1432bb_Texture_1:
@@ -52,22 +60,37 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - BOOLEAN_686004652CAF4CEEB782636359F027D3: 0
+    - BOOLEAN_A2C780EA2F9740F6BE7831789FFB25B1: 0
     - Vector1_1c26137bf6b54e0798d3f65a9efbb4d1: 7
-    - _BaseColorIntensity: 0
+    - _BaseColorIntensity: 0.34
+    - _DissolveControl: 0.321
     - _EnableExternalAlpha: 0
-    - _FresnelPow: 3.5
-    - _LimColorIntensity: 4.68
+    - _FrenelColorIntensity: 0
+    - _FresnelPow: 4
+    - _LimColorIntensity: 3.8
     - _NoiseLerpValue: 0.37
+    - _NoisePower: 1.43
+    - _NoiseRotate: 270
     - _NoiseScale: 10.8
+    - _OutLineColorIntensity: 0.34
+    - _OutLineControl: 0
     - _noiseLerpValue: 0.352
     - _noiseScale: 28.58
     m_Colors:
     - Vector2_1870490b4e2e45e1866bce549683d301: {r: 20.6, g: 5.45, b: 0, a: 0}
-    - Vector2_ba07bdb8dc524585b1a2fad0e3e22ef5: {r: 0.05, g: -0.3, b: 0, a: 0}
-    - _BaseColor: {r: 0.11356357, g: 0.29512107, b: 0.8301887, a: 0}
+    - Vector2_ba07bdb8dc524585b1a2fad0e3e22ef5: {r: 0.05, g: -0.11, b: 0, a: 0}
+    - Vector2_fdecb44c07b943d08ac87eec8ea21c29: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseColor: {r: 0.8254717, g: 0.9804267, b: 1, a: 0}
+    - _BaseTexOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseTexTiling: {r: 1, g: 1, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _FresnelColor: {r: 0, g: 0, b: 0, a: 0}
     - _LimColor: {r: 0.33490568, g: 0.9728457, b: 1, a: 0}
     - _NoiseOffset: {r: 0, g: 60, b: 0, a: 0}
+    - _NoiseSpeed: {r: 0.46, g: 0, b: 0, a: 0}
+    - _NoiseTiling: {r: 2.44, g: 2.38, b: 0, a: 0}
+    - _OutlineColor: {r: 0.8235295, g: 0.9803922, b: 1, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

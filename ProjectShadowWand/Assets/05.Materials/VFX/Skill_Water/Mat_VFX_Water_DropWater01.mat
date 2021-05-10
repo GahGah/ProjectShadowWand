@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Mat_VFX_Water_DropWater01
+  m_Shader: {fileID: -6465566751694194690, guid: ad3d699cc3c66174cbd3904a1862c7d7, type: 3}
+  m_ShaderKeywords: BOOLEAN_686004652CAF4CEEB782636359F027D3_ON BOOLEAN_A2C780EA2F9740F6BE7831789FFB25B1_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses:
+  - SHADOWCASTER
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_0cde897df9384cfa9908d2ed4eea8011:
+        m_Texture: {fileID: 8400000, guid: 7677b084c27600d4e9318d0e99f781c9, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_b1e03e580fa04a4b90b96a02c015073c:
+        m_Texture: {fileID: 2800000, guid: 24dd85801fdc32e4084faf01594a5f69, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 5175afce4386c01418180f7c94949592, type: 3}
+        m_Scale: {x: 1, y: 2.84}
+        m_Offset: {x: -0, y: 0}
+    - _BaseTex:
+        m_Texture: {fileID: 2800000, guid: 4a4f4248eee3c3246a55cf3634d1c283, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 5175afce4386c01418180f7c94949592, type: 3}
+        m_Scale: {x: 1, y: 2.84}
+        m_Offset: {x: 0, y: 0}
+    - _MaskTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_1405105be7dc49749af6557960283d08_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 5175afce4386c01418180f7c94949592, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - BOOLEAN_686004652CAF4CEEB782636359F027D3: 1
+    - BOOLEAN_A2C780EA2F9740F6BE7831789FFB25B1: 1
+    - Vector1_1eb2dfb6ed8a40b8af6ba85c612cd584: 2
+    - Vector1_30fee62abb4045b6933d2d34164ca316: 0.5
+    - _AlphaClip: 0
+    - _BaseColorIntensity: 0
+    - _Blend: 0
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DstBlend: 10
+    - _EnableExternalAlpha: 0
+    - _FrenelColorIntensity: 2.46
+    - _FresnelPow: 1.35
+    - _NoisePower: 0.95
+    - _NoiseRotate: 90
+    - _OutLineColorIntensity: 0.82
+    - _OutLineControl: 0.054
+    - _QueueOffset: 0
+    - _SampleGI: 0
+    - _SrcBlend: 5
+    - _Surface: 1
+    - _ZWrite: 0
+    m_Colors:
+    - _BaseColor: {r: 2.9960785, g: 2.9960785, b: 2.9960785, a: 1}
+    - _BaseTexOffset: {r: 0, g: 1, b: 0, a: 0}
+    - _BaseTexTiling: {r: 1, g: 1, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _FresnelColor: {r: 0.21226418, g: 0.949554, b: 1, a: 0}
+    - _NoiseSpeed: {r: -0.54, g: 0.21, b: 0, a: 0}
+    - _OutlineColor: {r: 0.37254906, g: 0.68818814, b: 1, a: 0}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
+--- !u!114 &2880798521873713890
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 4
