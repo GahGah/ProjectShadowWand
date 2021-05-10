@@ -1574,23 +1574,24 @@ public class PlayerController : Character
 
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.magenta;
+        //Gizmos.color = Color.magenta;
 
-        Gizmos.DrawWireCube(castStartPos, hitSize);
-        Gizmos.DrawWireCube((Vector3)castStartPos + (Vector3)Vector2.down * groundCheckDistance, hitSize);
+        //Gizmos.DrawWireCube(castStartPos, hitSize);
+        //Gizmos.DrawWireCube((Vector3)castStartPos + (Vector3)Vector2.down * groundCheckDistance, hitSize);
 
-        if (groundHit == true)
-        {
-            Gizmos.DrawSphere(groundHit.point, 0.1f);
+        //if (groundHit == true)
+        //{
+        //    Gizmos.DrawSphere(groundHit.point, 0.1f);
 
-        }
-        Gizmos.color = Color.cyan;
+        //}
 
-        Gizmos.DrawWireCube(transform.position, waterSize);
-        //Draw a Ray forward from GameObject toward the maximum distance
-        Gizmos.DrawRay(transform.position, waterDirection * waterDistance);
-        //Draw a cube at the maximum distance
-        Gizmos.DrawWireCube(transform.position + (Vector3)waterDirection * waterDistance, waterSize);
+        //Gizmos.color = Color.cyan;
+
+        //Gizmos.DrawWireCube(transform.position, waterSize);
+        ////Draw a Ray forward from GameObject toward the maximum distance
+        //Gizmos.DrawRay(transform.position, waterDirection * waterDistance);
+        ////Draw a cube at the maximum distance
+        //Gizmos.DrawWireCube(transform.position + (Vector3)waterDirection * waterDistance, waterSize);
 
 
         //번개쪽
