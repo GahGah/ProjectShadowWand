@@ -24,7 +24,7 @@ public class Quest
     /// 퀘스트가 추가될 때 자동으로 호출되는 함수입니다.
     /// </summary>
     public virtual void StartQuest() { }
- 
+
     /// <summary>
     /// 퀘스트가 실행되고 있는 도중 호출되는 함수입니다만, 실제로 사용되어지지 않았습니다.
     /// </summary>
@@ -138,5 +138,57 @@ public class Quest_MomAndBaby_02 : Quest
             baby.currentTalkCode = -1;
             baby.birdCollider.enabled = false;
         }
+    }
+}
+
+public class Quest_CheckTheSoulMemory : Quest
+{
+
+    SquirrelDoritos doritos;
+    SoulMemory soulMemory;
+    public Quest_CheckTheSoulMemory(SquirrelDoritos _doritos, SoulMemory _soulMemory)
+    {
+        doritos = _doritos;
+        soulMemory = _soulMemory;
+    }
+    public override void StartTalk(NPC _npc)
+    {
+        base.StartTalk(_npc);
+        if (_npc == doritos)
+        {
+            //딱히 없는듯
+
+        }
+    }
+    public override void StartQuest()
+    {
+
+    }
+
+    public override void ExecuteQuest()
+    {
+
+    }
+
+    public override void EndQuest()
+    {
+        base.EndQuest();
+        StageManager.Instance.SetLastQuestClear(true);
+    }
+    public override void EndTalk(NPC _npc)
+    {
+        base.EndTalk(_npc);
+        if (soulMemory.isEnd == true)
+        {
+            if (_npc == doritos)
+            {
+                QuestManager.Instance.QuestSystem_RemoveQuest(this, true);
+                doritos.currentTalkCode = 13;
+                //mom.currentTalkCode = 12;
+                //baby.currentTalkCode = -1;
+                //baby.birdCollider.enabled = false;
+            }
+        }
+
     }
 }

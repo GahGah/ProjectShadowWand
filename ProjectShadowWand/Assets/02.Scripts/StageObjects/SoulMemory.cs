@@ -9,6 +9,7 @@ public class SoulMemory : MonoBehaviour
 
     [Tooltip("상호작용 한 적 있는지를 뜻합니다.")]
     public bool isTake;
+
     [Tooltip("isEnd가 true일 경우 UI에 사념이 추가됩니다.")]
     public bool isEnd;
 
