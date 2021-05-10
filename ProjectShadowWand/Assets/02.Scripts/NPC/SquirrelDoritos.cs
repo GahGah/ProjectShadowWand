@@ -6,7 +6,7 @@ public class SquirrelDoritos : NPC
 {
 
     Quest_CheckTheSoulMemory quest_01;
-    SoulMemory soulMemory;
+    public SoulMemory soulMemory;
 
     // Start is called before the first frame update
     void Start()
@@ -36,7 +36,6 @@ public class SquirrelDoritos : NPC
         }
 
 
-
         switch (currentTalkCode)
         {
             case 0:
@@ -53,6 +52,7 @@ public class SquirrelDoritos : NPC
                 TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
                 currentTalkCode = 13;
                 break;
+
             default:
                 TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
                 break;

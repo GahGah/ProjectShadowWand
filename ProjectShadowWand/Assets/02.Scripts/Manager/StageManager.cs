@@ -65,12 +65,12 @@ public class StageManager : Manager<StageManager>
         {
             StartCoroutine(ProcessStageClear());
         }
-
+        // UpdateStageName();
+        UpdateStageName_TEST();
     }
     private void Start()
     {
-        // UpdateStageName();
-        UpdateStageName_TEST();
+
     }
 
     public void InitSoulMemoryList()

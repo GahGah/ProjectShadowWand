@@ -213,7 +213,7 @@ public class TalkSystemManager : Manager<TalkSystemManager>
     public IEnumerator ProcessStart()
     {
         yield return StartCoroutine(GoReadCharData("CharData"));
-        yield return StartCoroutine(GoReadTalkData("TalkData_Stage_00"));
+        yield return StartCoroutine(GoReadTalkData("TalkData_" + StageManager.Instance.nowStageName));
 
         yield return StartCoroutine(GoReadSoulMemoryData("SoulMemoryData_Stage_01"));
     }
