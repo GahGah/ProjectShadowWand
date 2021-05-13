@@ -14,9 +14,6 @@ public class PlayerSkillManager : MonoBehaviour
 
     [Header("물")]
 
-    [Tooltip("CastStart위치")]
-    public Transform waterPosition;
-
     [Tooltip("물 스킬 시전 이펙트")]
     public GameObject waterEffect_Set;
 
@@ -45,7 +42,7 @@ public class PlayerSkillManager : MonoBehaviour
     public void WindInit()
     {
         skillWindGilde.windEffect = windEffect;
-        skillWindGilde.windAnimator =  windEffect.GetComponent<Animator>();
+        skillWindGilde.windAnimator = windEffect.GetComponent<Animator>();
         skillWindGilde.windAnimatorTornadoBlend = Animator.StringToHash("TornadoBlend");
     }
 
@@ -54,7 +51,6 @@ public class PlayerSkillManager : MonoBehaviour
     {
         skillWaterWave.waterEffect_Set = waterEffect_Set;
         skillWaterWave.waterEffect_Splash = waterEffect_Splash;
-        skillWaterWave.waterPosition = waterPosition;
     }
     /// <summary>
     /// unlock 여부에 따라 리스트에 스킬을 추가합니다.
@@ -76,7 +72,7 @@ public class PlayerSkillManager : MonoBehaviour
 
             skillList.Add(skillWindGilde);
         }
-        if (unlockWater ==true)
+        if (unlockWater == true)
         {
             skillWaterWave = new Skill_WaterWave(PlayerController.Instance);
 
@@ -175,11 +171,11 @@ public class PlayerSkillManager : MonoBehaviour
     {
         Gizmos.color = Color.cyan;
 
-        Gizmos.DrawWireCube(waterPosition.position, PlayerController.Instance.waterSize);
+        Gizmos.DrawWireCube(waterEffect_Splash.transform.position, PlayerController.Instance.waterSize);
         //Draw a Ray forward from GameObject toward the maximum distance
-        Gizmos.DrawRay(waterPosition.position, PlayerController.Instance.waterDirection * PlayerController.Instance.waterDistance);
+        Gizmos.DrawRay(waterEffect_Splash.transform.position, PlayerController.Instance.waterDirection * PlayerController.Instance.waterDistance);
         //Draw a cube at the maximum distance
-        Gizmos.DrawWireCube(waterPosition.position + (Vector3)PlayerController.Instance.waterDirection * PlayerController.Instance.waterDistance, PlayerController.Instance.waterSize);
+        Gizmos.DrawWireCube(waterEffect_Splash.transform.position + (Vector3)PlayerController.Instance.waterDirection * PlayerController.Instance.waterDistance, PlayerController.Instance.waterSize);
 
 
     }

@@ -239,8 +239,9 @@ public class PlayerController : Character
     [Tooltip("땅 체크에 쓰일 hit")]
     private RaycastHit2D groundHit;
 
+    [HideInInspector]
     [Tooltip("일단 밟을 수 있으면 다 해볼 생각")]
-    private int groundCheckMask;
+    public int groundCheckMask;
 
     [Header("Ray길이")]
     public float groundCheckDistance;
@@ -773,7 +774,7 @@ public class PlayerController : Character
 
         if (groundHit == true)
         {
-            Debug.DrawLine(groundHit.point, groundHit.point + groundHit.normal, Color.blue);
+            //Debug.DrawLine(groundHit.point, groundHit.point + groundHit.normal, Color.blue);
 
 
             if (groundAngle != 0f)
@@ -1115,7 +1116,6 @@ public class PlayerController : Character
                 playerRigidbody.velocity =
     new Vector2(playerRigidbody.velocity.x + extraForce.x, jumpForce + extraForce.y);
 
-                Debug.Log("Jump!");
                 shouldJump = false;
 
                 ChangeState(eState.PLAYER_JUMP);

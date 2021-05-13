@@ -8,7 +8,7 @@ public class Skill_WaterWave : Skill
 
     RaycastHit2D[] hits;
 
-    public GameObject startPos;
+    public Transform startPos;
     //[Header("판정 크기")]
     //public Vector2 size;
 
@@ -28,19 +28,32 @@ public class Skill_WaterWave : Skill
     [Tooltip("물 스킬 발동 이펙트")]
     public GameObject waterEffect_Splash;
     public Transform waterPosition;
+
+    private float splashCheckDistance;
+    private int groundCheckMask;
+    private Vector2 rayHitPosition;
+
+    [Tooltip("스플래쉬 위치잡기용 레이캐스트에 쓰이는 시작 위치입니다.")]
+    public Transform originalRayPosition;
     public Skill_WaterWave(PlayerController _p)
     {
         player = _p;
+        groundCheckMask = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Ground_Soft")) | (1 << LayerMask.NameToLayer("Machine")) | (1 << LayerMask.NameToLayer("Ground_Hard"));
     }
 
 
     public override void Init()
     {
+
+
+
+        splashCheckDistance = 2f;
         if (player.waterActiveTime <= 0f)
         {
             player.waterActiveTime = 2f;
         }
-        startPos = waterPosition.gameObject;
+        startPos = waterEffect_Splash.transform;
+        originalRayPosition = waterEffect_Set.transform;
         // plantLayerMask = LayerMask.NameToLayer("Plant");
         plantLayerMask = (1 << LayerMask.NameToLayer("Plant"));
     }
@@ -74,37 +87,45 @@ public class Skill_WaterWave : Skill
     {
     }
 
+    public void  SetRayPosition()
+    {
+        rayHitPosition = new Vector2(originalRayPosition.position.x, originalRayPosition.position.y - splashCheckDistance);
+    }
+    RaycastHit2D posHit;
     IEnumerator ProcessWater()
     {
         var splashOn = false;
-        Debug.Log("StartWater");
-        Vector2 pos = startPos.transform.position;
 
         player.isSkillUse_Water = true;
 
         yield return new WaitForSeconds(0.7f);
 
         waterEffect_Set.SetActive(true);
-
+        SetRayPosition();
         //yield return new WaitUntil(() => waterEffect_Set.activeSelf == false);
-
 
         yield return new WaitForSeconds(1f);
         //WaterSet가 사라진 이후
         if (splashOn == false)
         {
             splashOn = true;
-            RaycastHit2D posHit = Physics2D.Raycast(waterEffect_Set.transform.position, Vector2.down, 100f);
-
-            waterEffect_Splash.transform.position = new Vector3(waterEffect_Splash.transform.position.x, posHit.point.y, waterEffect_Splash.transform.position.z);
 
         }
-        yield return YieldInstructionCache.WaitForFixedUpdate;
 
+        posHit = Physics2D.Raycast(rayHitPosition, Vector2.down, 50f, groundCheckMask);
+        Debug.DrawLine(rayHitPosition, Vector2.down * 10f, Color.red, 1f);
+        if (posHit)
+        {
+            Debug.DrawLine(rayHitPosition, posHit.point, Color.cyan, 1f);
+
+            waterEffect_Splash.transform.position =
+                new Vector3(waterEffect_Splash.transform.position.x, posHit.point.y, waterEffect_Splash.transform.position.z);
+        }
+        yield return YieldInstructionCache.WaitForFixedUpdate;
         waterEffect_Splash.SetActive(true);
         yield return new WaitForSeconds(0.3f);
         //WaterSplash가 적당한 모습일때
-
+        Vector2 pos = startPos.transform.position;
         hits = Physics2D.BoxCastAll(pos, player.waterSize, 0f, player.waterDirection, player.waterDistance, plantLayerMask);
 
         hit = false;
@@ -131,11 +152,11 @@ public class Skill_WaterWave : Skill
         //WaterSplash가 끝나고
 
         waterEffect_Splash.SetActive(false);
-        Debug.Log("End Water");
+        //   Debug.Log("End Water");
         player.isSkillUse_Water = false;
         player.WaterCoroutine = null;
+        yield break;
     }
-
 
     //While문 쓰는 버전(안될수도)
     //IEnumerator ProcessWater()
