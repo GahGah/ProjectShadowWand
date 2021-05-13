@@ -300,7 +300,7 @@ public class PlayerController : Character
         animator = GetComponent<Animator>();
         puppet = gameObject.transform;
 
-        groundCheckMask = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Ground_Soft")) | (1 << LayerMask.NameToLayer("Ground_Hard"));
+        groundCheckMask = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Ground_Soft")) | (1 << LayerMask.NameToLayer("Plant")) | (1 << LayerMask.NameToLayer("Ground_Hard"));
         //| (1 << LayerMask.NameToLayer("Default"));
         //  noPlayerMask = ~noPlayerMask;
 
@@ -1043,12 +1043,12 @@ public class PlayerController : Character
         {
 
             playerRigidbody.velocity =
-                new Vector2((movementInput.x * movementSpeed) + extraForce.x, playerRigidbody.velocity.y + extraForce.y);
+                new Vector2((movementInput.x * movementSpeed) + extraForce.x, playerRigidbody.velocity.y);//+ extraForce.y);
         }
         else if (isClimbLadder)
         {
             playerRigidbody.velocity =
-                new Vector2((movementInput.x * movementSpeed) + extraForce.x, (movementInput.y * climbSpeed) + extraForce.y);
+                new Vector2((movementInput.x * movementSpeed) + extraForce.x, (movementInput.y * climbSpeed));// + extraForce.y);
         }
         else if (isGliding) //글라이딩 상태일때
         {
@@ -1117,6 +1117,10 @@ public class PlayerController : Character
                 isJumping = true;
                 isGrounded = false;
             }
+
+        }
+        else
+        {
 
         }
     }

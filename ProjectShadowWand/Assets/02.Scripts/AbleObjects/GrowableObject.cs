@@ -44,7 +44,12 @@ public class GrowableObject : MonoBehaviour
             isWetted = true;
         }
     }
-    private IEnumerator TestProcessGrow()
+
+    public virtual void EndGrow()
+    {
+
+    }
+    protected IEnumerator TestProcessGrow()
     {
 
         Debug.Log("Ω√¿€");
@@ -67,4 +72,6 @@ public class GrowableObject : MonoBehaviour
         isFinishedGrow = true;
     }
 
+    
+    
 }
