@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateDebuger : MonoBehaviour
+public class PlayerStateDebugger : MonoBehaviour
 {
     [Tooltip("스테이트 제대로 돌아가는지 테스트용의 텍스트 메쉬")]
     private TextMesh stateTextMesh = null;

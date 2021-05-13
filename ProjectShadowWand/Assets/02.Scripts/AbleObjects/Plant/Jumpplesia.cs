@@ -5,8 +5,23 @@ using UnityEngine;
 //밟으면 점프할 수 있는 오브젝트입니다.
 public class Jumpplesia : Plant
 {
+    [HideInInspector]
+    public PlayerController player;
+
+    [Header("추가될 점프 파워~")]
     public float jumpPower;
+
+    [Header("제한 각도")]
+    [Range(0f, 180f)]
+    public float limitAngle;
+    [HideInInspector]
     public int playerMask;
+
+    [Header("그 외")]
+    public Transform myTransform;
+    private float angleToPlayer;
+
+    private bool isDrawGizmos;
     private void Start()
     {
         if (jumpPower == 0f)
@@ -16,10 +31,8 @@ public class Jumpplesia : Plant
         playerMask = LayerMask.NameToLayer("Player");
         //| (1 << LayerMask.NameToLayer("Default"));
         //  noPlayerMask = ~noPlayerMask;
-
-    }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
+        player = PlayerController.Instance;
+        myTransform = GetComponent<Transform>();
 
     }
 
@@ -27,15 +40,16 @@ public class Jumpplesia : Plant
     {
         if (collision.collider.CompareTag("Player"))
         {
-            var dir = PlayerController.Instance.playerRigidbody.position - (Vector2)transform.position;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, dir, 10f, playerMask);
+            angleToPlayer = Vector2.Angle(((Vector2)player.footPosition.position - (Vector2)myTransform.position), Vector2.up);
 
-            Debug.DrawRay(transform.position, dir * 10f, Color.black, 0.5f);
-            var angle = Vector2.Angle(hit.normal, Vector2.up);
-            Debug.Log("노말 : " + hit.normal + ", 앵글 :  " + angle);
-            if (angle == 0f)
+            if (angleToPlayer <= limitAngle)
             {
-                PlayerController.Instance.SetExtraForce(new Vector2(0f, jumpPower));
+                player.SetExtraForce(new Vector2(0f, jumpPower));
+
+            }
+            else
+            {
+                PlayerController.Instance.SetExtraForce(Vector2.zero);
             }
         }
     }
@@ -47,4 +61,33 @@ public class Jumpplesia : Plant
         }
 
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+
+        Vector2 leftBoundary = DirFromAngle(-limitAngle / 2);
+        Vector2 rightBoundary = DirFromAngle(limitAngle / 2);
+
+        Gizmos.DrawLine(myTransform.position, (Vector2)myTransform.position + leftBoundary * 5f);
+        Gizmos.DrawLine(myTransform.position, (Vector2)myTransform.position + rightBoundary * 5f);
+
+    }
+
+
+    public Vector2 DirFromAngle(float angleInDegrees)
+    {
+        //탱크의 좌우 회전값 갱신
+        angleInDegrees += myTransform.eulerAngles.y;
+        //경계 벡터값 반환
+        return new Vector2(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
+    }
+
+    //public void DrawView()
+    //{
+    //    Vector2 leftBoundary = DirFromAngle(-limitAngle / 2);
+    //    Vector2 rightBoundary = DirFromAngle(limitAngle / 2);
+    //    Debug.DrawLine(myTransform.position, (Vector2)myTransform.position + leftBoundary * limitAngle, Color.blue);
+    //    Debug.DrawLine(myTransform.position, (Vector2)myTransform.position + rightBoundary * limitAngle, Color.blue);
+    //}
 }

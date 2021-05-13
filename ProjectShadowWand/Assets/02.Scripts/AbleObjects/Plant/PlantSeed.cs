@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class PlantSeed : GrowableObject
 {
+    [Header("커서 뭐가 되는거니?")]
     [Tooltip("다 자랐을때 생성되는 식물오브젝트입니다.")]
-    GameObject plantObject;
+    public GameObject plantObject;
 
+    [Header("애니메이터")]
+    public Animator animator;
+    private void Start()
+    {
+        GrowCoroutine = ProcessGrow();
+    }
     public void Init()
     {
         if (growTime <= 0f)
@@ -29,6 +36,7 @@ public class PlantSeed : GrowableObject
     public override void OnWater()
     {
         base.OnWater();
+        StartGrow();
     }
 
     public override void StartGrow()
@@ -38,6 +46,20 @@ public class PlantSeed : GrowableObject
 
     private IEnumerator ProcessGrow()
     {
+        currentGrowTime = 0f;
+
+        while (currentGrowTime < 1f)
+        {
+            currentGrowTime += Time.fixedDeltaTime / growTime;
+
+            currentPer = Mathf.Lerp(0f, 1f, currentGrowTime);
+
+            //timeTakenDuringLerp += Time.deltaTime;
+
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+
+        EndGrow();
         yield break;
     }
 }

@@ -56,6 +56,10 @@ public class PlayerController : Character
 
     [Tooltip("번개의 중심점입니다.")]
     public Transform lightningPosition;
+   
+
+    [HideInInspector]
+    public Transform footPosition;
     [Tooltip("번개의 원 크기입니다.")]
     public float lightningRadius;
 
@@ -348,6 +352,7 @@ public class PlayerController : Character
         //animator.SetFloat("WindBlend", 0);
         currentGlideAngle = glideAngle + 90f;
 
+        footPosition = lightningPosition;
         Init_ContactFilter();
     }
 
@@ -1081,7 +1086,6 @@ public class PlayerController : Character
         {
             if (onLadderJump)
             {
-                Debug.Log("레더 점프");
 
                 isClimbLadder = false;
                 onLadderJump = false;
@@ -1098,6 +1102,7 @@ public class PlayerController : Character
 
                 playerRigidbody.velocity =
     new Vector2(playerRigidbody.velocity.x + extraForce.x, jumpForce + extraForce.y);
+                Debug.Log("Jump!");
                 shouldJump = false;
 
                 ChangeState(eState.PLAYER_JUMP);
@@ -1110,6 +1115,7 @@ public class PlayerController : Character
                 playerRigidbody.velocity =
     new Vector2(playerRigidbody.velocity.x + extraForce.x, jumpForce + extraForce.y);
 
+                Debug.Log("Jump!");
                 shouldJump = false;
 
                 ChangeState(eState.PLAYER_JUMP);
@@ -1382,7 +1388,20 @@ public class PlayerController : Character
 
         //}
     }
+    private Plant currentPlant;
+
+    public Plant GetCurrentPlant()
+    {
+        return currentPlant;
+    }
+
+    public void SetCurrentPlant(Plant _plant)
+    {
+        currentPlant = _plant;
+    }
+
     #region 구버전
+
 
     //public void CheckCatchInput(CatchableObject _obj)
     //{

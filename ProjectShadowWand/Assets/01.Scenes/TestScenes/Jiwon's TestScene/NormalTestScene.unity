@@ -249,7 +249,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 623618798}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.24313927, y: -0.38987803, z: 0}
+  m_LocalPosition: {x: 0, y: -0.38987803, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -268,6 +268,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   col: {fileID: 623618800}
+  angle: 0
+  testObject: {fileID: 1080455492}
   distance: 0.51
 --- !u!1 &1080455492
 GameObject:
@@ -281,7 +283,7 @@ GameObject:
   - component: {fileID: 1080455495}
   - component: {fileID: 1080455494}
   - component: {fileID: 1080455493}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Static Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -394,7 +396,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1080455492}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.46, y: -2.67, z: 0}
+  m_LocalPosition: {x: 0, y: -2.67, z: 0}
   m_LocalScale: {x: 17.3255, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

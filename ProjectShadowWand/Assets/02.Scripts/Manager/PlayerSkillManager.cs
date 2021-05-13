@@ -23,7 +23,6 @@ public class PlayerSkillManager : MonoBehaviour
     [Tooltip("물 스킬 발동 이펙트")]
     public GameObject waterEffect_Splash;
 
-
     List<Skill> skillList = null;
 
     public bool unlockWind;

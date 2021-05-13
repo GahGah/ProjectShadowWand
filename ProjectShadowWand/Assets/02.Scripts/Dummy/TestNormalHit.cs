@@ -6,13 +6,26 @@ public class TestNormalHit : MonoBehaviour
 {
 
     public BoxCollider2D col;
+
+    public float angle;
+    public GameObject testObject;
     public float distance;
 
     private RaycastHit2D hit;
     private bool drawGizmos;
     private void Update()
     {
-        UpdateGroundCheck_Cast();
+        //   UpdateGroundCheck_Cast();
+        UpdateNormalHit();
+    }
+
+    private void UpdateNormalHit()
+    {
+        //hit = Physics2D.Raycast(transform.position, testObject.transform.position - transform.position, 5f);
+        //Debug.Log(hit.normal);
+        angle = Vector2.Angle(testObject.transform.position - transform.position, transform.position);
+
+        //Debug.DrawRay(transform.position, (testObject.transform.position - transform.position).normalized * 5f, Color.red);
     }
     /// <summary>
     /// 박스캐스트로 땅 체크를 합니다.

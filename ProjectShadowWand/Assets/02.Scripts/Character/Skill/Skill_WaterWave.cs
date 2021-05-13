@@ -27,7 +27,6 @@ public class Skill_WaterWave : Skill
 
     [Tooltip("물 스킬 발동 이펙트")]
     public GameObject waterEffect_Splash;
-
     public Transform waterPosition;
     public Skill_WaterWave(PlayerController _p)
     {
@@ -80,7 +79,7 @@ public class Skill_WaterWave : Skill
         var splashOn = false;
         Debug.Log("StartWater");
         Vector2 pos = startPos.transform.position;
-     
+
         player.isSkillUse_Water = true;
 
         yield return new WaitForSeconds(0.7f);
@@ -89,14 +88,22 @@ public class Skill_WaterWave : Skill
 
         //yield return new WaitUntil(() => waterEffect_Set.activeSelf == false);
 
+
         yield return new WaitForSeconds(1f);
+        //WaterSet가 사라진 이후
         if (splashOn == false)
         {
             splashOn = true;
-            waterEffect_Splash.SetActive(true);
-        }
+            RaycastHit2D posHit = Physics2D.Raycast(waterEffect_Set.transform.position, Vector2.down, 100f);
 
+            waterEffect_Splash.transform.position = new Vector3(waterEffect_Splash.transform.position.x, posHit.point.y, waterEffect_Splash.transform.position.z);
+
+        }
+        yield return YieldInstructionCache.WaitForFixedUpdate;
+
+        waterEffect_Splash.SetActive(true);
         yield return new WaitForSeconds(0.3f);
+        //WaterSplash가 적당한 모습일때
 
         hits = Physics2D.BoxCastAll(pos, player.waterSize, 0f, player.waterDirection, player.waterDistance, plantLayerMask);
 
@@ -121,6 +128,7 @@ public class Skill_WaterWave : Skill
         yield return YieldInstructionCache.WaitForEndOfFrame;
 
         yield return new WaitForSeconds(0.3f);
+        //WaterSplash가 끝나고
 
         waterEffect_Splash.SetActive(false);
         Debug.Log("End Water");
