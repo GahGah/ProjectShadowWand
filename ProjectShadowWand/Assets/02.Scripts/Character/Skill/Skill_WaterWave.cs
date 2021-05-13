@@ -113,7 +113,6 @@ public class Skill_WaterWave : Skill
         }
 
         posHit = Physics2D.Raycast(rayHitPosition, Vector2.down, 50f, groundCheckMask);
-        Debug.DrawLine(rayHitPosition, Vector2.down * 10f, Color.red, 1f);
         if (posHit)
         {
             Debug.DrawLine(rayHitPosition, posHit.point, Color.cyan, 1f);
