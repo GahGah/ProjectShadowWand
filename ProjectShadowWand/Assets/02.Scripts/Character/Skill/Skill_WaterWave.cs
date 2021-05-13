@@ -104,11 +104,13 @@ public class Skill_WaterWave : Skill
 
         foreach (var item in hits)
         {
-            var test = item.collider.GetComponent<GrowableObject>();
-            if (test != null)
+            GrowableObject growableObject = item.collider.GetComponent<PlantSeed>();
+
+            if (growableObject != null)
             {
-                Debug.Log(test.name);
-                test.OnWater();
+                Debug.Log(growableObject.name);
+                growableObject.OnWater(); //젖음 판정
+                growableObject.StartGrow(); //자람 시작
             }
             if (item && hit == false)
             {
