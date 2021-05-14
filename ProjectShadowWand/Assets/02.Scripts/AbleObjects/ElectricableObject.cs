@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// 번개의 영향을 받는 오브젝트입니다.
 /// </summary>
-public class ElectricableObject : MonoBehaviour, IElectricable
+public class ElectricableObject : MonoBehaviour
 {
     [Header("타입 : 부서지냐/작동하냐"), Tooltip("WORK면 작동, DESTROY면 부서집니다.")]
     public eElectricableType electricableType;
@@ -17,7 +17,7 @@ public class ElectricableObject : MonoBehaviour, IElectricable
     /// <summary>
     /// 번개에 맞았을 때 해당 함수를 호출합시다.
     /// </summary>
-    public void OnLightining()
+    public virtual void OnLightining()
     {
  
         if (isShocked == false)
