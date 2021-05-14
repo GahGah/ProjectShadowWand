@@ -73,7 +73,7 @@ public enum eChildOption
 }
 public enum eUItype
 {
-    NONE, DIARY, SAVE, LOAD,
+    NONE, DIARY, SAVE, LOAD, PAUSE,
     SETTINGS,BLACKSCREEN,
     SOULMEMORY_01, SOULMEMORY_02, SOULMEMORY_03,
 }

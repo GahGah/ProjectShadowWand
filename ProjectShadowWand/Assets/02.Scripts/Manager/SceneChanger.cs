@@ -62,19 +62,30 @@ public class SceneChanger : MonoBehaviour
 
     public void LoadThisScene_Start()
     {
-        StartCoroutine(LoadThisScene("Stage_00"));
-    }
-
-    public void LoadThisSceneName(string _sceneName)
-    {
-        StartCoroutine(LoadThisScene(_sceneName));
+        StartCoroutine(LoadThisScene("Stage_00", true));
     }
     /// <summary>
     /// 해당 씬을 로딩합니다.
     /// </summary>
-    /// <param name="_sceneName"></param>
+    /// <param name="_sceneName">로딩할 씬 이름</param>
+    /// <param name="_doSave">저장할 것인가?</param>
     /// <returns></returns>
-    public IEnumerator LoadThisScene(string _sceneName)
+    public void LoadThisSceneName(string _sceneName, bool _doSave)
+    {
+        if (isLoading)
+        {
+            return;
+        }
+        StartCoroutine(LoadThisScene(_sceneName, _doSave));
+    }
+
+    /// <summary>
+    /// 해당 씬을 로딩합니다.
+    /// </summary>
+    /// <param name="_sceneName">로딩할 씬 이름</param>
+    /// <param name="_doSave">저장할 것인가?</param>
+    /// <returns></returns>
+    public IEnumerator LoadThisScene(string _sceneName, bool _doSave)
     {
         isLoading = true;
 
@@ -89,12 +100,16 @@ public class SceneChanger : MonoBehaviour
         yield return StartCoroutine(GoColorScreen(waitTime, fadeTime, true));
 
 
-        if (SaveLoadManager.Instance != null)
+        if (_doSave == true)
         {
-            //이동할 스테이지를 저장하고
-            SaveLoadManager.Instance.SetCurrentData_Stage(new Data_Stage(moveSceneName));
+            if (SaveLoadManager.Instance != null)
+            {
+                //이동할 스테이지를 저장하고
+                SaveLoadManager.Instance.SetCurrentData_Stage(new Data_Stage(moveSceneName));
 
-            yield return StartCoroutine(SaveLoadManager.Instance.SaveData_Stage());
+                yield return StartCoroutine(SaveLoadManager.Instance.SaveData_Stage());
+
+            }
 
         }
 
@@ -146,9 +161,10 @@ public class SceneChanger : MonoBehaviour
             waitTime = 0.5f;
             fadeTime = 1f;
 
-            if (instance == null)
+            if (Instance == null)
             {
                 instance = FindObjectOfType<SceneChanger>();
+                
             }
             StartCoroutine(SceneChanger.Instance.GoColorScreen(waitTime, fadeTime, false));
 

@@ -65,9 +65,9 @@ public class UIManager : MonoBehaviour
             {
                 CloseTop();
             }
-            else //스택에 아무것도 없을 때에는 
+            else
             {
-                //OpenThis(uiPause)...;
+                OpenThis(uiDicitonary[eUItype.PAUSE]);
             }
 
         }

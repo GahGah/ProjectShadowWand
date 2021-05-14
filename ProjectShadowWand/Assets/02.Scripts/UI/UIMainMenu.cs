@@ -21,12 +21,12 @@ public class UIMainMenu : MonoBehaviour
         if (SaveLoadManager.Instance.currentData_Stage.stageName == "Stage_00")
         {
             canvasGroup.interactable = false;
-            SceneChanger.Instance.LoadThisSceneName(SaveLoadManager.Instance.currentData_Stage.stageName);
+            SceneChanger.Instance.LoadThisSceneName(SaveLoadManager.Instance.currentData_Stage.stageName, false);
         }
         else
         {
             canvasGroup.interactable = false;
-            SceneChanger.Instance.LoadThisSceneName(SaveLoadManager.Instance.currentData_Stage.stageName);
+            SceneChanger.Instance.LoadThisSceneName(SaveLoadManager.Instance.currentData_Stage.stageName, false);
         }
     }
 

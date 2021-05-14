@@ -49,11 +49,11 @@ public class StageDoor : MonoBehaviour
                 if (isLoop == false)
                 {
 
-                    StartCoroutine(SceneChanger.Instance.LoadThisScene(StageManager.Instance.nextStageName));
+                    StartCoroutine(SceneChanger.Instance.LoadThisScene(StageManager.Instance.nextStageName, true));
                 }
                 else
                 {
-                    StartCoroutine(SceneChanger.Instance.LoadThisScene(StageManager.Instance.nowStageName));
+                    StartCoroutine(SceneChanger.Instance.LoadThisScene(StageManager.Instance.nowStageName, false));
                 }
 
             }
