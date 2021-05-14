@@ -622,7 +622,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123567659}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 40.15, y: 7.35, z: 0}
+  m_LocalPosition: {x: 40.15, y: 7.296, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -9272,7 +9272,7 @@ MonoBehaviour:
   cameraState: 0
   isConfine: 1
   confinePos: {x: 26.2, y: 3.7}
-  confineSize: {x: 65.7, y: 10.4}
+  confineSize: {x: 65.7, y: 10.5}
   whiteScreen: {fileID: 0}
 --- !u!4 &863214807
 Transform:
@@ -10919,8 +10919,16 @@ PrefabInstance:
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7383628592374259353, guid: 07ba874ea47d43247a424b2a3efe66fd, type: 3}
+      propertyPath: m_Size.x
+      value: 1.1784883
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383628592374259353, guid: 07ba874ea47d43247a424b2a3efe66fd, type: 3}
       propertyPath: m_Size.y
       value: 7.234868
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383628592374259353, guid: 07ba874ea47d43247a424b2a3efe66fd, type: 3}
+      propertyPath: m_Offset.x
+      value: -1.9982216
       objectReference: {fileID: 0}
     - target: {fileID: 7383628592374259353, guid: 07ba874ea47d43247a424b2a3efe66fd, type: 3}
       propertyPath: m_Offset.y
@@ -12585,8 +12593,16 @@ PrefabInstance:
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7383628592374259353, guid: 07ba874ea47d43247a424b2a3efe66fd, type: 3}
+      propertyPath: m_Size.x
+      value: 2.9575486
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383628592374259353, guid: 07ba874ea47d43247a424b2a3efe66fd, type: 3}
       propertyPath: m_Size.y
       value: 7.234868
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383628592374259353, guid: 07ba874ea47d43247a424b2a3efe66fd, type: 3}
+      propertyPath: m_Offset.x
+      value: 1.1086915
       objectReference: {fileID: 0}
     - target: {fileID: 7383628592374259353, guid: 07ba874ea47d43247a424b2a3efe66fd, type: 3}
       propertyPath: m_Offset.y
