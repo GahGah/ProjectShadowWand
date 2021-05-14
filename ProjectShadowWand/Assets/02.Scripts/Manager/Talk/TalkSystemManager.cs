@@ -310,11 +310,11 @@ public class TalkSystemManager : Manager<TalkSystemManager>
 
         if (currentSoulMemory != null)
         {
-            //TODO : UI에 추가라던가 그런걸 해야함...혹은 그냥 end만 하던가?
+
+            //UI에 추가하는건 사념이 알아서 하기로 함
             currentSoulMemory.isEnd = true;
         }
 
-        PlayerController.Instance.isInteractingSoulMemory = false;
         currentSoulMemory.DisappearSoulMemory();
         currentSoulMemory = null;
 
@@ -367,7 +367,7 @@ public class TalkSystemManager : Manager<TalkSystemManager>
                 // isSkip = true;//스킵을 했다고 처리한다.
                 break; //for 벗어나기
             }
-            yield return new WaitForSecondsRealtime(talkSpeed);
+            yield return new WaitForSeconds(talkSpeed);
         }
 
         yield return new WaitUntil(() => isNextPressed); //TRUE일때까지 대기

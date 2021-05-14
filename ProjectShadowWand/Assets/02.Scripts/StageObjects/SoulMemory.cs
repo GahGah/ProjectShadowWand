@@ -15,7 +15,24 @@ public class SoulMemory : MonoBehaviour
 
     public int currentTalkCode;
 
+    [SerializeField]
+    [Range(0f, 5f)]
+    [Tooltip("사념을 획득한 뒤 사념이 올라가는 정도입니다.")]
+    private float upLength;
+
+    [SerializeField]
+    [Range(0f, 5f)]
+    [Tooltip("사념을 획득한 뒤 사념이 올라가는 시간입니다.")]
+    private float upTime;
+
+    [SerializeField]
+    [Range(0f, 5f)]
+    [Tooltip("사념을 획득한 뒤 화면이 페이드 되는 시간입니다.")]
+    private float fadeTime;
+
+
     private float runningTime;
+
     [SerializeField]
     [Range(0f, 5f)]
     private float upAndDownSpeed;
@@ -28,6 +45,10 @@ public class SoulMemory : MonoBehaviour
     private Transform myTransform;
     private float originalYpos;
 
+
+
+
+    private UIBlackScreen blackScreen;
     private void Awake()
     {
         isTake = false;
@@ -49,6 +70,16 @@ public class SoulMemory : MonoBehaviour
         stageManager = StageManager.Instance;
         yPos = originalYpos;
 
+        if (upTime <= 0f)
+        {
+            upTime = 2f;
+        }
+
+        if (upLength <= 0f)
+        {
+            upLength = 1f;
+        }
+
         if (stageManager.soulMemoryList.Contains(this) == false) // 리스트 안에 자기가 안들어가있다면
         {
             stageManager.AddSoulMemory(this);
@@ -56,14 +87,35 @@ public class SoulMemory : MonoBehaviour
 
         }
     }
+
+    private void Update()
+    {
+        UpdateUpAndDownPosition();
+    }
     public void TakeSoulMemory()
     {
         isTake = true;
 
-        TalkSystemManager.Instance.StartReadSoulMemory(currentTalkCode, this);
+        PlayerController.Instance.isInteractingSoulMemory = true;
+
+        StartCoroutine(ProcessTakeSoulMemory());
         //gameObject.SetActive(false);
         //isEnd = true;
         //stageManager.CheckClearCondition_SoulMemory();
+    }
+    /// <summary>
+    /// 화면이 까매진 후, 대화창이 뜹니다.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ProcessTakeSoulMemory()
+    {
+        yield return null;
+
+        blackScreen = UIManager.Instance.uiDicitonary[eUItype.BLACKSCREEN] as UIBlackScreen;
+        blackScreen.SetFadeValue(0f, fadeTime, true);
+        yield return StartCoroutine(blackScreen.GoFadeScreen());
+
+        TalkSystemManager.Instance.StartReadSoulMemory(currentTalkCode, this);
     }
 
     /// <summary>
@@ -71,18 +123,56 @@ public class SoulMemory : MonoBehaviour
     /// </summary>
     public void DisappearSoulMemory()
     {
-        isEnd = true;
-        StageManager.Instance.CheckClearCondition_SoulMemory();
-        gameObject.SetActive(false);
+        StartCoroutine(ProcessDisappearSoulMemory());
         //stageManager.CheckClearCondition_SoulMemory();
     }
 
-    private void Update()
+    private IEnumerator ProcessDisappearSoulMemory()
     {
-        UpdateUpAndDownPosition();
+        yield return null;
+
+        blackScreen = UIManager.Instance.uiDicitonary[eUItype.BLACKSCREEN] as UIBlackScreen;
+
+        blackScreen.SetFadeValue(0f, fadeTime, false);
+        yield return StartCoroutine(blackScreen.GoFadeScreen());
+
+        yield return StartCoroutine(MoveUpSoulMemory());
+
+        isEnd = true;
+        gameObject.SetActive(false);
+        PlayerController.Instance.isInteractingSoulMemory = false;
+        StageManager.Instance.CheckClearCondition_SoulMemory();
     }
+
+    /// <summary>
+    /// 사념이 위로 올라갑니다.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator MoveUpSoulMemory()
+    {
+        float upPos = originalYpos + upLength;
+        float timer = 0f;
+        float progress = 0f;
+
+        float xPos = myTransform.position.x;
+        float yPos = myTransform.position.y;
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / upTime;
+
+            myTransform.position = new Vector2(xPos, Mathf.Lerp(yPos, upPos, progress));
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+    }
+
+
     public void UpdateUpAndDownPosition()
     {
+        if (isTake)
+        {
+            return;
+        }
         //        runningTime += Time.deltaTime * upAndDownSpeed;
 
         //      yPos = Mathf.Sin(runningTime) * originalYpos * length;
