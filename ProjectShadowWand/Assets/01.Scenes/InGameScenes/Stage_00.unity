@@ -6685,7 +6685,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7601770554969163808, guid: 748007395c7fc4f419c8b9f957ced969, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 19.77
+      value: 17.96
       objectReference: {fileID: 0}
     - target: {fileID: 7601770554969163808, guid: 748007395c7fc4f419c8b9f957ced969, type: 3}
       propertyPath: m_LocalPosition.y
@@ -11509,7 +11509,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8403324799475236889, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
       propertyPath: unlockWind
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403324799475236889, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
+      propertyPath: unlockWater
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8403324799475236893, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
       propertyPath: m_Name
@@ -12856,7 +12860,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5722369941433130456, guid: 1e8761121e4de374382c1b442f040d9a, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1e8761121e4de374382c1b442f040d9a, type: 3}
