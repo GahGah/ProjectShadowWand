@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 127746120729221135}
   - component: {fileID: 127746120729221128}
   - component: {fileID: 127746120729221134}
+  - component: {fileID: 3760498176024443567}
   m_Layer: 9
   m_Name: Fence_Wire_01
   m_TagString: Untagged
@@ -100,7 +101,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.28, y: 1.28}
+    oldSize: {x: 1.92, y: 1.92}
     newSize: {x: 1.28, y: 1.28}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -109,3 +110,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.28, y: 1.28}
   m_EdgeRadius: 0
+--- !u!114 &3760498176024443567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127746120729221129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b27be5b1acdd5f446a0132cee6c97b93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

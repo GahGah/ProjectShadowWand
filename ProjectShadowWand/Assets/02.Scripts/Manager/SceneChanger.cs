@@ -164,7 +164,11 @@ public class SceneChanger : MonoBehaviour
             if (Instance == null)
             {
                 instance = FindObjectOfType<SceneChanger>();
-                
+
+                if (instance == null)
+                {
+                    Debug.Log("찾지못함.");
+                }
             }
             StartCoroutine(SceneChanger.Instance.GoColorScreen(waitTime, fadeTime, false));
 
