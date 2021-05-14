@@ -10,10 +10,13 @@ public class SoulMemory : MonoBehaviour
     [Tooltip("상호작용 한 적 있는지를 뜻합니다.")]
     public bool isTake;
 
-    [Tooltip("isEnd가 true일 경우 UI에 사념이 추가됩니다.")]
+    [Tooltip("대화 출력이 끝났는 가를 뜻합니다.")]
     public bool isEnd;
 
     public int currentTalkCode;
+
+
+    [Header("획득 연출 관련")]
 
     [SerializeField]
     [Range(0f, 5f)]
@@ -33,6 +36,8 @@ public class SoulMemory : MonoBehaviour
 
     private float runningTime;
 
+
+    [Header("둥둥 떠있는거 관련")]
     [SerializeField]
     [Range(0f, 5f)]
     private float upAndDownSpeed;
@@ -136,9 +141,11 @@ public class SoulMemory : MonoBehaviour
         blackScreen.SetFadeValue(0f, fadeTime, false);
         yield return StartCoroutine(blackScreen.GoFadeScreen());
 
+        isEnd = true;
+
         yield return StartCoroutine(MoveUpSoulMemory());
 
-        isEnd = true;
+
         gameObject.SetActive(false);
         PlayerController.Instance.isInteractingSoulMemory = false;
         StageManager.Instance.CheckClearCondition_SoulMemory();
@@ -169,7 +176,7 @@ public class SoulMemory : MonoBehaviour
 
     public void UpdateUpAndDownPosition()
     {
-        if (isTake)
+        if (isEnd)
         {
             return;
         }

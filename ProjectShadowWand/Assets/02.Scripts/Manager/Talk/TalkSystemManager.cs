@@ -310,13 +310,13 @@ public class TalkSystemManager : Manager<TalkSystemManager>
 
         if (currentSoulMemory != null)
         {
-
-            //UI에 추가하는건 사념이 알아서 하기로 함
-            currentSoulMemory.isEnd = true;
+            currentSoulMemory.DisappearSoulMemory();
+            currentSoulMemory = null;
+            ////UI에 추가하는건 사념이 알아서 하기로 함
+            //currentSoulMemory.isEnd = true;
         }
 
-        currentSoulMemory.DisappearSoulMemory();
-        currentSoulMemory = null;
+
 
     }
     /// <summary>
