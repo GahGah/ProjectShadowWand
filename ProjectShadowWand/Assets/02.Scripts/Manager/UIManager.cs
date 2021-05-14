@@ -67,7 +67,10 @@ public class UIManager : MonoBehaviour
             }
             else
             {
-                OpenThis(uiDicitonary[eUItype.PAUSE]);
+                if (SceneChanger.Instance.isLoading == false)
+                {
+                    OpenThis(uiDicitonary[eUItype.PAUSE]);
+                }
             }
 
         }
