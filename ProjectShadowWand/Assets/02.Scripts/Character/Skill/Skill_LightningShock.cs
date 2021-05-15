@@ -38,7 +38,8 @@ public class Skill_LightningShock : Skill
     {
         if (InputManager.Instance.buttonSkillLightning.wasPressedThisFrame
             && player.isOtherSkillUse() == false
-            && player.playerStateMachine.GetCurrentStateE() == eState.PLAYER_DEFAULT)
+            && player.playerStateMachine.GetCurrentStateE() == eState.PLAYER_DEFAULT
+            && player.CanMove())
         {
             if (player.LightningCoroutine == null)
             {

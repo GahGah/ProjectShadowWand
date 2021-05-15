@@ -23,6 +23,7 @@ public class SquirrelDoritos : NPC
             if (soulMemory.isEnd) //이미 해당 사념을 읽었다면
             {
                 currentTalkCode = 8;
+                QuestManager.Instance.QuestSystem_AddQuest(new Quest_CheckTheSoulMemory(this, soulMemory));
             }
 
         }
@@ -51,6 +52,7 @@ public class SquirrelDoritos : NPC
             case 8:
                 TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
                 currentTalkCode = 13;
+             //   StageManager.Instance.SetLastQuestClear(true);
                 break;
 
             default:

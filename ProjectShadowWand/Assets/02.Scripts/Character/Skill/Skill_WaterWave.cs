@@ -65,7 +65,8 @@ public class Skill_WaterWave : Skill
         UpdateWaterDirection();
         if (InputManager.Instance.buttonSkillWater.wasPressedThisFrame
             && player.isOtherSkillUse() == false
-            && player.playerStateMachine.GetCurrentStateE() == eState.PLAYER_DEFAULT)
+            && player.playerStateMachine.GetCurrentStateE() == eState.PLAYER_DEFAULT
+            && player.CanMove())
         {
             if (player.WaterCoroutine == null)
             {
