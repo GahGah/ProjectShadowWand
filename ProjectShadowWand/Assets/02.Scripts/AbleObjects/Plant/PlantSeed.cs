@@ -8,14 +8,19 @@ public class PlantSeed : GrowableObject
     [Tooltip("다 자랐을때 생성되는 식물오브젝트입니다.")]
     public GameObject plantObject;
 
-    private CatchableObject catchableObject;
+    [Header("식물이 생성될 위치")]
+    [Tooltip("씨앗이 다 자라면 식물이 해당 위치에 생성됩니다.")]
+    public Transform plantTransform;
 
+    private CatchableObject catchableObject;
     private SpriteRenderer spriteRenderer;
+
 
     [Header("애니메이터")]
     public Animator animator;
     private void Start()
     {
+        Init();
         catchableObject.canCatched = true;
         GrowCoroutine = ProcessGrow();
     }
@@ -32,6 +37,7 @@ public class PlantSeed : GrowableObject
         }
 
         GrowCoroutine = ProcessGrow();
+        catchableObject = GetComponent<CatchableObject>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -53,7 +59,7 @@ public class PlantSeed : GrowableObject
     {
         isFinishedGrow = true;
         //base.EndGrow();
-        Instantiate(plantObject, gameObject.transform.position, Quaternion.identity, null);
+        Instantiate(plantObject, plantTransform.position, Quaternion.identity, null);
         gameObject.SetActive(false);
 
     }
@@ -61,11 +67,13 @@ public class PlantSeed : GrowableObject
     {
         currentGrowTime = 0f;
 
-        while (currentGrowTime < 1f)
+        while (currentPer < 1f)
         {
-            currentGrowTime += Time.fixedDeltaTime / growTime;
+            currentGrowTime += Time.fixedDeltaTime;
+            Debug.Log(currentGrowTime);
 
-            currentPer = Mathf.Lerp(0f, 1f, currentGrowTime);
+            currentPer = currentGrowTime / growTime; 
+            //Mathf.Lerp(0f, 1f, currentGrowTime);
 
             //timeTakenDuringLerp += Time.deltaTime;
 

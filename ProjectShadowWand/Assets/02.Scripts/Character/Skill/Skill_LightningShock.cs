@@ -96,6 +96,7 @@ public class Skill_LightningShock : Skill
         yield return null;
 
         Debug.Log("End L");
+        yield return YieldInstructionCache.WaitForEndOfFrame;
         player.isSkillUse_Lightning = false;
         player.LightningCoroutine = null;
     }

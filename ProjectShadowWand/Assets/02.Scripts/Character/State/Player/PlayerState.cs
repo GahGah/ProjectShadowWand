@@ -272,6 +272,7 @@ public class PlayerState_Skill_Lightning : PlayerState
 
     public override void Enter()
     {
+        player.animator.SetBool(player.animatorLightningBool, true);
     }
 
     public override void Execute()
@@ -280,6 +281,7 @@ public class PlayerState_Skill_Lightning : PlayerState
 
     public override void Exit()
     {
+        player.animator.SetBool(player.animatorLightningBool, false);
     }
 
     public override void PhysicsExecute()
