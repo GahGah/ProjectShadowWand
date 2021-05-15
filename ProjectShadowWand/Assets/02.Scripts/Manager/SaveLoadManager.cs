@@ -66,6 +66,8 @@ public class SaveLoadManager : Manager<SaveLoadManager>
 
 
         yield return StartCoroutine(LoadData_Stage());
+
+
     }
 
     /// <summary>

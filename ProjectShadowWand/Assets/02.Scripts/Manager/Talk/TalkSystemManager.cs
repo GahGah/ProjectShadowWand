@@ -215,7 +215,7 @@ public class TalkSystemManager : Manager<TalkSystemManager>
         yield return StartCoroutine(GoReadCharData("CharData"));
         yield return StartCoroutine(GoReadTalkData("TalkData_" + StageManager.Instance.nowStageName));
 
-        yield return StartCoroutine(GoReadSoulMemoryData("SoulMemoryData_Stage_01"));
+        yield return StartCoroutine(GoReadSoulMemoryData("SoulMemoryData_" + StageManager.Instance.nowStageName));
     }
 
     /// <summary>
@@ -247,16 +247,24 @@ public class TalkSystemManager : Manager<TalkSystemManager>
     {
         filePath = "DataFiles/TalkData/" + path;
         charData = CsvReader.Read(filePath);
-        Debug.Log(path + "을 불러왔습니다.");
-
-        charDict = new Dictionary<int, string>();
-
-        for (int i = 0; i < charData.Count; i++)
+        if (charData != null)
         {
-            var code = (int)charData[i]["CHAR_CODE"];
-            var name = charData[i]["CHAR_NAME"] as string;
+            Debug.Log(path + "을 불러왔습니다.");
+            charDict = new Dictionary<int, string>();
 
-            charDict.Add(code, name);
+            for (int i = 0; i < charData.Count; i++)
+            {
+                var code = (int)charData[i]["CHAR_CODE"];
+                var name = charData[i]["CHAR_NAME"] as string;
+
+                charDict.Add(code, name);
+            }
+
+        }
+        else
+        {
+
+            Debug.Log(path + "불러오기 실패.");
         }
 
 

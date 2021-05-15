@@ -56,14 +56,7 @@ public class SquirrelDoritos : NPC
             default:
                 TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
                 break;
-                //case 4:
-                //    TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
-                //    break;
-                //case 8:
-                //    TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
-                //    break;
-                //case 12:
-                //    Talk
+
         }
     }
 }
