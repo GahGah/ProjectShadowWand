@@ -33,6 +33,8 @@ public class Skill_WaterWave : Skill
     private int groundCheckMask;
     private Vector2 rayHitPosition;
 
+    private Transform splashTransform;
+
     [Tooltip("스플래쉬 위치잡기용 레이캐스트에 쓰이는 시작 위치입니다.")]
     public Transform originalRayPosition;
     public Skill_WaterWave(PlayerController _p)
@@ -54,6 +56,7 @@ public class Skill_WaterWave : Skill
         }
         startPos = waterEffect_Splash.transform;
         originalRayPosition = waterEffect_Set.transform;
+        splashTransform = waterEffect_Splash.transform;
         // plantLayerMask = LayerMask.NameToLayer("Plant");
         plantLayerMask = (1 << LayerMask.NameToLayer("Plant"));
     }
@@ -87,7 +90,7 @@ public class Skill_WaterWave : Skill
     {
     }
 
-    public void  SetRayPosition()
+    public void SetRayPosition()
     {
         rayHitPosition = new Vector2(originalRayPosition.position.x, originalRayPosition.position.y - splashCheckDistance);
     }
@@ -119,8 +122,20 @@ public class Skill_WaterWave : Skill
 
             waterEffect_Splash.transform.position =
                 new Vector3(waterEffect_Splash.transform.position.x, posHit.point.y, waterEffect_Splash.transform.position.z);
+
+            if (player.isRight == true)
+            {
+                splashTransform.localScale = new Vector2(Mathf.Abs(splashTransform.localScale.x), splashTransform.localScale.y);
+            }
+            else
+            {
+
+                splashTransform.localScale = new Vector2(Mathf.Abs(splashTransform.localScale.x) * -1f, splashTransform.localScale.y);
+            }
+
         }
         yield return YieldInstructionCache.WaitForFixedUpdate;
+
         waterEffect_Splash.SetActive(true);
         yield return new WaitForSeconds(0.3f);
         //WaterSplash가 적당한 모습일때
