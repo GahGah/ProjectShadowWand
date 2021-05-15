@@ -57,14 +57,18 @@ public class Skill_LightningShock : Skill
     {
 
         player.isSkillUse_Lightning = true;
-        var timer = 0f;
-        while (timer < player.lightningActiveTime)
-        {
-            timer += Time.deltaTime;
+        //var timer = 0f;
+        //while (timer < player.lightningActiveTime)
+        //{
+        //    timer += Time.deltaTime;
 
 
-            yield return YieldInstructionCache.WaitForFixedUpdate;
-        }
+        //    yield return YieldInstructionCache.WaitForFixedUpdate;
+        //}
+        yield return new WaitForSeconds(player.lightningActiveTime);
+        //해당 시간만큼 기다린 뒤에
+
+        //번개 판정 
 
         hits = Physics2D.CircleCastAll(player.lightningPosition.position, player.lightningRadius, Vector2.up, 0.1f, machineLayerMask);
         //(player.lightningPosition.position, player.waterSize, 0f, player.waterDirection, player.waterDistance, machineLayerMask);
