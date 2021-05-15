@@ -56,7 +56,7 @@ public class PlayerController : Character
 
     [Tooltip("번개의 중심점입니다.")]
     public Transform lightningPosition;
-   
+
 
     [HideInInspector]
     public Transform footPosition;
@@ -456,11 +456,15 @@ public class PlayerController : Character
             else if (ReferenceEquals(catchedObject, null) && !ReferenceEquals(touchedObject, null))
             //   if (catchedObject == null) //잡아야 할 경우
             {
-                SetCatchedObject(touchedObject);
-
-                if (!ReferenceEquals(catchedObject, null))
+                if (touchedObject.canCatched == true)
                 {
-                    catchedObject.GoCatchThis();
+                    SetCatchedObject(touchedObject);
+
+                    if (!ReferenceEquals(catchedObject, null))
+                    {
+                        catchedObject.GoCatchThis();
+                    }
+
                 }
 
             }

@@ -8,10 +8,15 @@ public class PlantSeed : GrowableObject
     [Tooltip("다 자랐을때 생성되는 식물오브젝트입니다.")]
     public GameObject plantObject;
 
+    private CatchableObject catchableObject;
+
+    private SpriteRenderer spriteRenderer;
+
     [Header("애니메이터")]
     public Animator animator;
     private void Start()
     {
+        catchableObject.canCatched = true;
         GrowCoroutine = ProcessGrow();
     }
     public void Init()
@@ -27,10 +32,14 @@ public class PlantSeed : GrowableObject
         }
 
         GrowCoroutine = ProcessGrow();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
     public override void EndGrow()
     {
         base.EndGrow();
+        Instantiate(plantObject, gameObject.transform.position, Quaternion.identity, null);
+        gameObject.SetActive(false);
+
     }
 
     public override void OnWater()
@@ -42,6 +51,7 @@ public class PlantSeed : GrowableObject
     public override void StartGrow()
     {
         base.StartGrow();
+        spriteRenderer.enabled = false;
     }
 
     private IEnumerator ProcessGrow()
