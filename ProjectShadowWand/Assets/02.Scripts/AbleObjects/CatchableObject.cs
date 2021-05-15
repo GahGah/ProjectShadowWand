@@ -31,7 +31,6 @@ public class CatchableObject : MonoBehaviour, ICatchable
 
     public void Init()
     {
-        canCatched = true;
         if (currentCollider == null)
         {
 

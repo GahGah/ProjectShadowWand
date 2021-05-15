@@ -69,7 +69,14 @@ public class UIManager : MonoBehaviour
             {
                 if (SceneChanger.Instance.isLoading == false)
                 {
-                    OpenThis(uiDicitonary[eUItype.PAUSE]);
+                    UIBase tempUI;
+                    uiDicitonary.TryGetValue(eUItype.PAUSE, out tempUI);
+
+                    if (!ReferenceEquals(tempUI, null))
+                    {
+                        OpenThis(tempUI);
+
+                    }
                 }
             }
 

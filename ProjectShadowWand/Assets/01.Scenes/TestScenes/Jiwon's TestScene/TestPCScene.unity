@@ -1011,7 +1011,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 718021568}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.937, y: 0.596, z: 0}
+  m_LocalPosition: {x: 30.89, y: 6.42, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1103,7 +1103,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 8
+  m_SortingOrder: 192
   m_Sprite: {fileID: 21300000, guid: c8e972dad7a426a4b861cbbd35a3cb95, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1156,7 +1156,7 @@ MonoBehaviour:
   currentCollider: {fileID: 0}
   rigidBody: {fileID: 0}
   autoAnchorBool: 0
-  canCatched: 0
+  canCatched: 1
   isTouched: 0
   isCatched: 0
   positionFix: 0

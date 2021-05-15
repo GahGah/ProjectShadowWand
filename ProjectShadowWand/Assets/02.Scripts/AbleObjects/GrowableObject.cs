@@ -28,13 +28,6 @@ public class GrowableObject : MonoBehaviour
     protected IEnumerator GrowCoroutine;
 
     /// <summary>
-    /// 외부에서 GrowCoroutine을 호출합니다. 식물이 자라기 시작합니다.
-    /// </summary>
-    public virtual void StartGrow()
-    {
-        StartCoroutine(GrowCoroutine);
-    }
-    /// <summary>
     /// 물에 닿았을 때 호출되는 함수입니다.
     /// </summary>
     public virtual void OnWater()
@@ -45,6 +38,17 @@ public class GrowableObject : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 외부에서 GrowCoroutine을 호출합니다. 식물이 자라기 시작합니다.
+    /// </summary>
+    public virtual void StartGrow()
+    {
+        StartCoroutine(GrowCoroutine);
+    }
+
+    /// <summary>
+    /// GrowCoroutine의 마지막 부분에서 실행됩니다.
+    /// </summary>
     public virtual void EndGrow()
     {
 

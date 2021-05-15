@@ -34,13 +34,7 @@ public class PlantSeed : GrowableObject
         GrowCoroutine = ProcessGrow();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
-    public override void EndGrow()
-    {
-        base.EndGrow();
-        Instantiate(plantObject, gameObject.transform.position, Quaternion.identity, null);
-        gameObject.SetActive(false);
 
-    }
 
     public override void OnWater()
     {
@@ -52,8 +46,15 @@ public class PlantSeed : GrowableObject
     {
         base.StartGrow();
         spriteRenderer.enabled = false;
+        catchableObject.canCatched = false;
     }
+    public override void EndGrow()
+    {
+        //base.EndGrow();
+        Instantiate(plantObject, gameObject.transform.position, Quaternion.identity, null);
+        gameObject.SetActive(false);
 
+    }
     private IEnumerator ProcessGrow()
     {
         currentGrowTime = 0f;
