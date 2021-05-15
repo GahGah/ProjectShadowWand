@@ -152,7 +152,7 @@ public class Skill_WaterWave : Skill
             {
                 Debug.Log(growableObject.name);
                 growableObject.OnWater(); //젖음 판정
-                growableObject.StartGrow(); //자람 시작
+                //growableObject.StartGrow(); //자람 시작
             }
             if (item && hit == false)
             {

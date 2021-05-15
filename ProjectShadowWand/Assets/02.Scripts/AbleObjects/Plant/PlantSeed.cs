@@ -44,12 +44,14 @@ public class PlantSeed : GrowableObject
 
     public override void StartGrow()
     {
-        base.StartGrow();
         spriteRenderer.enabled = false;
         catchableObject.canCatched = false;
+        base.StartGrow();
+
     }
     public override void EndGrow()
     {
+        isFinishedGrow = true;
         //base.EndGrow();
         Instantiate(plantObject, gameObject.transform.position, Quaternion.identity, null);
         gameObject.SetActive(false);

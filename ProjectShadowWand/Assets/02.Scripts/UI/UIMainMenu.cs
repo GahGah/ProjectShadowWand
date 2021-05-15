@@ -15,6 +15,12 @@ public class UIMainMenu : MonoBehaviour
     {
         _ui.Open();
     }
+
+    public void Button_StartNewGame()
+    {
+        canvasGroup.interactable = false;
+        SceneChanger.Instance.LoadThisSceneName("Stage_00", false);
+    }
     public void Button_GoContinue(UIBase _ui)
     {
         //_ui.Open();
