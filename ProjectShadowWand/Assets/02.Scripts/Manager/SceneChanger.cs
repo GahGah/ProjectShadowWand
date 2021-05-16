@@ -152,6 +152,35 @@ public class SceneChanger : MonoBehaviour
         //progressBar.gameObject.SetActive(false);
 
     }
+    private IEnumerator LoadSceneEnd_Coroutine(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        if (scene.name == moveSceneName)
+        {
+            Debug.Log("End");
+            waitTime = 0.5f;
+            fadeTime = 1f;
+
+            if (Instance == null)
+            {
+                Debug.Log("인스턴스가 null");
+                instance = FindObjectOfType<SceneChanger>();
+
+                if (instance == null)
+                {
+                    Debug.Log("찾지못함.");
+                }
+            }
+
+           yield return StartCoroutine(SceneChanger.Instance.GoColorScreen(waitTime, fadeTime, false));
+
+            SceneManager.sceneLoaded -= LoadSceneEnd;
+
+            Time.timeScale = 1f;
+
+            isLoading = false;
+
+        }
+    }
     private void LoadSceneEnd(Scene scene, LoadSceneMode loadSceneMode)
     {
 
@@ -163,6 +192,7 @@ public class SceneChanger : MonoBehaviour
 
             if (Instance == null)
             {
+                Debug.Log("인스턴스가 null");
                 instance = FindObjectOfType<SceneChanger>();
 
                 if (instance == null)
@@ -170,6 +200,7 @@ public class SceneChanger : MonoBehaviour
                     Debug.Log("찾지못함.");
                 }
             }
+
             StartCoroutine(SceneChanger.Instance.GoColorScreen(waitTime, fadeTime, false));
 
             SceneManager.sceneLoaded -= LoadSceneEnd;
