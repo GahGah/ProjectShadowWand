@@ -66,7 +66,7 @@ public class StageManager : Manager<StageManager>
             StartCoroutine(ProcessStageClear());
         }
         // UpdateStageName();
-        UpdateStageName_TEST();
+        UpdateStageName();
     }
     private void Start()
     {

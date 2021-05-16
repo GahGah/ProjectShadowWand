@@ -280,7 +280,16 @@ public class TalkSystemManager : Manager<TalkSystemManager>
     {
         filePath = "DataFiles/SoulMemoryData/" + path;
         soulMemoryData = CsvReader.Read(filePath);
-        Debug.Log(path + "을 불러왔습니다.");
+        if (soulMemoryData != null)
+        {
+            Debug.Log(path + "을 불러왔습니다.");
+
+        }
+        else
+        {
+
+            Debug.Log(path + " 불러오기 실패.");
+        }
         yield return null;
     }
 
