@@ -143,8 +143,9 @@ public class SceneChanger : MonoBehaviour
             }
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
-        yield return null;
 
+        Debug.Log("SceneLoad");
+        yield break;
         //yield return StartCoroutine(GoColorScreen(0.5f, 1f, false));
         //Debug.Log("됨?");
         //Time.timeScale = 1f;
@@ -152,11 +153,15 @@ public class SceneChanger : MonoBehaviour
         //progressBar.gameObject.SetActive(false);
 
     }
+    private void LoadSceneEnd_StartCoroutine(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        StartCoroutine(LoadSceneEnd_Coroutine(scene, loadSceneMode));
+    }
     private IEnumerator LoadSceneEnd_Coroutine(Scene scene, LoadSceneMode loadSceneMode)
     {
         if (scene.name == moveSceneName)
         {
-            Debug.Log("End");
+            Debug.Log("LoadSceneEnd");
             waitTime = 0.5f;
             fadeTime = 1f;
 
@@ -171,7 +176,8 @@ public class SceneChanger : MonoBehaviour
                 }
             }
 
-           yield return StartCoroutine(SceneChanger.Instance.GoColorScreen(waitTime, fadeTime, false));
+            yield return new WaitUntil(() => Instance != null);
+            StartCoroutine(SceneChanger.Instance.GoColorScreen(waitTime, fadeTime, false));
 
             SceneManager.sceneLoaded -= LoadSceneEnd;
 
@@ -229,7 +235,7 @@ public class SceneChanger : MonoBehaviour
     {
         isLoading = true;
 
-        SceneManager.sceneLoaded += LoadSceneEnd;
+        SceneManager.sceneLoaded += LoadSceneEnd_StartCoroutine;
 
         moveSceneName = StageManager.Instance.nowStageName;
 
@@ -271,7 +277,9 @@ public class SceneChanger : MonoBehaviour
             }
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
-        yield return null;
+
+        Debug.Log("SceneLoad");
+        yield break;
 
     }
     /// <summary>
