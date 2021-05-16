@@ -30,14 +30,26 @@ public class SceneChanger : MonoBehaviour
 
     public float waitTime;
     public float fadeTime;
-
-    protected void Awake()
+    private void OnEnable()
     {
-
         if (Instance == this)
         {
             DontDestroyOnLoad(this.gameObject);
         }
+        else
+        {
+            DontDestroyOnLoad(Instance.gameObject);
+        }
+
+    }
+
+    protected void Awake()
+    {
+
+        //if (Instance == this)
+        //{
+        //    DontDestroyOnLoad(this.gameObject);
+        //}
 
         // Screen.SetResolution(1920, 1080, true);
     }
@@ -85,11 +97,54 @@ public class SceneChanger : MonoBehaviour
     /// <param name="_sceneName">로딩할 씬 이름</param>
     /// <param name="_doSave">저장할 것인가?</param>
     /// <returns></returns>
+
+    private void LoadSceneEnd_StartCoroutine(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        StartCoroutine(SceneChanger.Instance.LoadSceneEnd_Coroutine(scene, loadSceneMode));
+    }
+    private IEnumerator LoadSceneEnd_Coroutine(Scene scene, LoadSceneMode loadSceneMode)
+    {
+        if (scene.name == moveSceneName)
+        {
+            Debug.Log("LoadSceneEnd");
+            waitTime = 0.5f;
+            fadeTime = 1f;
+
+            if (Instance == null)
+            {
+                Debug.Log("인스턴스가 null");
+                instance = FindObjectOfType<SceneChanger>();
+
+                if (instance == null)
+                {
+                    Debug.Log("찾지못함.");
+                }
+            }
+
+            yield return new WaitUntil(() => Instance != null);
+            StartCoroutine(SceneChanger.Instance.GoColorScreen(waitTime, fadeTime, false));
+
+            SceneManager.sceneLoaded -= LoadSceneEnd_StartCoroutine;
+
+            Time.timeScale = 1f;
+
+            isLoading = false;
+
+        }
+    }
+
+
+
+    public void LoadScene_Die()
+    {
+        StartCoroutine(LoadScene_ProcessDie());
+    }
+
     public IEnumerator LoadThisScene(string _sceneName, bool _doSave)
     {
         isLoading = true;
 
-        SceneManager.sceneLoaded += LoadSceneEnd;
+        // SceneManager.sceneLoaded += LoadSceneEnd;
 
         moveSceneName = _sceneName;
 
@@ -116,6 +171,8 @@ public class SceneChanger : MonoBehaviour
         //비동기로 로드 씬
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(_sceneName);
         asyncOperation.allowSceneActivation = false;  //씬 활성화를 false로. 이제 로딩이 끝나도 씬이 활성화되지 않음.
+
+        SceneManager.sceneLoaded += LoadSceneEnd;
 
         float timer = 0f;
         while (!asyncOperation.isDone) // 로딩이 완료되기 전 까지만
@@ -153,40 +210,66 @@ public class SceneChanger : MonoBehaviour
         //progressBar.gameObject.SetActive(false);
 
     }
-    private void LoadSceneEnd_StartCoroutine(Scene scene, LoadSceneMode loadSceneMode)
+
+
+    /// <summary>
+    /// 플레이어가 죽을 때 
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator LoadScene_ProcessDie()
     {
-        StartCoroutine(LoadSceneEnd_Coroutine(scene, loadSceneMode));
-    }
-    private IEnumerator LoadSceneEnd_Coroutine(Scene scene, LoadSceneMode loadSceneMode)
-    {
-        if (scene.name == moveSceneName)
+        isLoading = true;
+
+        // SceneManager.sceneLoaded += LoadSceneEnd;
+
+        moveSceneName = StageManager.Instance.nowStageName;
+
+        progressBar.fillAmount = 0f;
+        waitTime = 2f;
+        fadeTime = 2f;
+        yield return StartCoroutine(GoColorScreen(waitTime, fadeTime, true));
+
+        Time.timeScale = 0f;
+
+        //비동기로 로드 씬
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(moveSceneName);
+        asyncOperation.allowSceneActivation = false;  //씬 활성화를 false로. 이제 로딩이 끝나도 씬이 활성화되지 않음.
+
+        SceneManager.sceneLoaded += LoadSceneEnd;
+        float timer = 0f;
+
+        while (!asyncOperation.isDone) // 로딩이 완료되기 전 까지만
         {
-            Debug.Log("LoadSceneEnd");
-            waitTime = 0.5f;
-            fadeTime = 1f;
+            timer += Time.unscaledDeltaTime;
 
-            if (Instance == null)
+            if (asyncOperation.progress < 0.9f)
             {
-                Debug.Log("인스턴스가 null");
-                instance = FindObjectOfType<SceneChanger>();
+                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, asyncOperation.progress, timer);
 
-                if (instance == null)
+                if (progressBar.fillAmount >= asyncOperation.progress)
                 {
-                    Debug.Log("찾지못함.");
+                    timer = 0f;
                 }
             }
+            else
+            {
+                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1f, timer);
 
-            yield return new WaitUntil(() => Instance != null);
-            StartCoroutine(SceneChanger.Instance.GoColorScreen(waitTime, fadeTime, false));
-
-            SceneManager.sceneLoaded -= LoadSceneEnd;
-
-            Time.timeScale = 1f;
-
-            isLoading = false;
-
+                if (progressBar.fillAmount >= 1f)
+                {
+                    asyncOperation.allowSceneActivation = true;
+                    break;
+                }
+            }
+            yield return YieldInstructionCache.WaitForEndOfFrame;
         }
+
+        Debug.Log("SceneLoad");
+        yield break;
+
     }
+
+
     private void LoadSceneEnd(Scene scene, LoadSceneMode loadSceneMode)
     {
 
@@ -220,68 +303,6 @@ public class SceneChanger : MonoBehaviour
     }
 
 
-
-
-
-    public void LoadScene_Die()
-    {
-        StartCoroutine(LoadScene_ProcessDie());
-    }
-    /// <summary>
-    /// 플레이어가 죽을 때 
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator LoadScene_ProcessDie()
-    {
-        isLoading = true;
-
-        SceneManager.sceneLoaded += LoadSceneEnd_StartCoroutine;
-
-        moveSceneName = StageManager.Instance.nowStageName;
-
-        progressBar.fillAmount = 0f;
-        waitTime = 2f;
-        fadeTime = 2f;
-        yield return StartCoroutine(GoColorScreen(waitTime, fadeTime, true));
-
-        Time.timeScale = 0f;
-
-        //비동기로 로드 씬
-        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(moveSceneName);
-        asyncOperation.allowSceneActivation = false;  //씬 활성화를 false로. 이제 로딩이 끝나도 씬이 활성화되지 않음.
-
-        float timer = 0f;
-
-        while (!asyncOperation.isDone) // 로딩이 완료되기 전 까지만
-        {
-            timer += Time.unscaledDeltaTime;
-
-            if (asyncOperation.progress < 0.9f)
-            {
-                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, asyncOperation.progress, timer);
-
-                if (progressBar.fillAmount >= asyncOperation.progress)
-                {
-                    timer = 0f;
-                }
-            }
-            else
-            {
-                progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1f, timer);
-
-                if (progressBar.fillAmount >= 1f)
-                {
-                    asyncOperation.allowSceneActivation = true;
-                    break;
-                }
-            }
-            yield return YieldInstructionCache.WaitForEndOfFrame;
-        }
-
-        Debug.Log("SceneLoad");
-        yield break;
-
-    }
     /// <summary>
     /// _waitTime 뒤 서서히, _goingTime까지 화면을 특정 색으로 물들입니다.
     /// </summary>
