@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,6 +17,8 @@ public class MovePlatform : MonoBehaviour
 
     private Vector3 currentDestination;
 
+    private Transform myTransform;
+
     public bool isGoal;
     void Start()
     {
@@ -29,6 +31,7 @@ public class MovePlatform : MonoBehaviour
 
     public void Init()
     {
+        myTransform = gameObject.transform;
         startPosition = transform.position;
         endPosition = endPoint.position;
         isGoal = false;
@@ -39,36 +42,36 @@ public class MovePlatform : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (moveSelf)
+        if (canMoving == false)
         {
-            if (canMoving)// && moveSelf)
+            return;
+        }
+
+        if (isLoop == false)
+        {
+            if (!isGoal)
             {
-                if (isLoop == false)
-                {
-                    if (!isGoal)
-                    {
-                        ProcessMove();
-                    }
-
-                }
-                else
-                {
-                    ProcessMove();
-                }
-
+                ProcessMove();
             }
 
         }
-
+        else
+        {
+            ProcessMove();
+        }
 
     }
+
+
+
+
     public void SetDestination(Vector3 _pos)
     {
         currentDestination = _pos;
     }
 
     /// <summary>
-    /// ¸ñÀûÁö°¡ ½ºÅ¸Æ®Æ÷Áö¼ÇÀÏ°æ¿ì ¿£µå Æ÷Áö¼ÇÀ¸·Î, ¿£µå Æ÷Áö¼ÇÀÏ °æ¿ì ½ºÅ¸Æ® Æ÷Áö¼ÇÀ¸·Î º¯°æ½ÃÅµ´Ï´Ù.
+    /// ëª©ì ì§€ê°€ ìŠ¤íƒ€íŠ¸í¬ì§€ì…˜ì¼ê²½ìš° ì—”ë“œ í¬ì§€ì…˜ìœ¼ë¡œ, ì—”ë“œ í¬ì§€ì…˜ì¼ ê²½ìš° ìŠ¤íƒ€íŠ¸ í¬ì§€ì…˜ìœ¼ë¡œ ë³€ê²½ì‹œí‚µë‹ˆë‹¤.
     /// </summary>
     public void ToggleDestination()
     {
@@ -83,20 +86,20 @@ public class MovePlatform : MonoBehaviour
         isGoal = false;
     }
     /// <summary>
-    /// endPositiionÀ¸·Î ÇâÇÕ´Ï´Ù. µÇµµ·ÏÀÌ¸é FixedUpdate°¡ ÁÁÀ» °Ì´Ï´Ù.
+    /// endPositiionìœ¼ë¡œ í–¥í•©ë‹ˆë‹¤. ë˜ë„ë¡ì´ë©´ FixedUpdateê°€ ì¢‹ì„ ê²ë‹ˆë‹¤.
     /// </summary>
     public void ProcessMove()
     {
         if (canMoving)
         {
-            gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, currentDestination, Time.deltaTime * moveSpeed);
+            myTransform.position = Vector2.MoveTowards(myTransform.position, currentDestination, Time.deltaTime * moveSpeed);
         }
 
-        if (Vector2.Distance(gameObject.transform.position, currentDestination) <= 0.01f) //°Å¸®°¡ 0.01¶ó¸é
+        if (Vector2.Distance(myTransform.position, currentDestination) <= 0.01f) //ê±°ë¦¬ê°€ 0.01ë¼ë©´
         {
             if (isLoop)
             {
-                if (currentDestination == endPosition) //¸¸¾à ¸ñÀûÁö°¡ ¿£µå Æ÷Áö¼ÇÀÌ¾ú´Ù¸é
+                if (currentDestination == endPosition) //ë§Œì•½ ëª©ì ì§€ê°€ ì—”ë“œ í¬ì§€ì…˜ì´ì—ˆë‹¤ë©´
                 {
                     currentDestination = startPosition;
                 }

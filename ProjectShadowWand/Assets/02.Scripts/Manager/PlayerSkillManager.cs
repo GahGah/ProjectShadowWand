@@ -20,6 +20,16 @@ public class PlayerSkillManager : MonoBehaviour
     [Tooltip("물 스킬 발동 이펙트")]
     public GameObject waterEffect_Splash;
 
+    [Header("번개")]
+
+    [Tooltip("번개 스킬 발동 이펙트")]
+    public GameObject lightningEffect_Shock;
+
+    [Tooltip("번개 스킬 잔류 스파크")]
+    public GameObject lightningEffect_Spark;
+
+    public Transform lightningPosition;
+
     List<Skill> skillList = null;
 
     public bool unlockWind;
@@ -28,14 +38,14 @@ public class PlayerSkillManager : MonoBehaviour
     public void Init()
     {
         CheckSkills();
-        if (skillList != null)
-        {
-            for (int i = 0; i < skillList.Count; i++)
-            {
-                skillList[i].Init();
-            }
-        }
-        windEffect.SetActive(false);
+        //if (skillList != null)
+        //{
+        //    for (int i = 0; i < skillList.Count; i++)
+        //    {
+        //        skillList[i].Init();
+        //    }
+        //}
+
     }
 
 
@@ -44,6 +54,7 @@ public class PlayerSkillManager : MonoBehaviour
         skillWindGilde.windEffect = windEffect;
         skillWindGilde.windAnimator = windEffect.GetComponent<Animator>();
         skillWindGilde.windAnimatorTornadoBlend = Animator.StringToHash("TornadoBlend");
+        //skillWindGilde.Init();
     }
 
 
@@ -51,6 +62,15 @@ public class PlayerSkillManager : MonoBehaviour
     {
         skillWaterWave.waterEffect_Set = waterEffect_Set;
         skillWaterWave.waterEffect_Splash = waterEffect_Splash;
+        skillWaterWave.Init();
+    }
+
+    public void LightningInit()
+    {
+        skillLightningShock.lightningEffect_Shock = lightningEffect_Shock;
+        skillLightningShock.lightningEffect_Spark = lightningEffect_Spark;
+        skillLightningShock.lightningPosition = lightningPosition;
+        skillLightningShock.Init();
     }
     /// <summary>
     /// unlock 여부에 따라 리스트에 스킬을 추가합니다.
@@ -82,7 +102,9 @@ public class PlayerSkillManager : MonoBehaviour
         }
         if (unlockLightning == true)
         {
+
             skillLightningShock = new Skill_LightningShock(PlayerController.Instance);
+            LightningInit();
             skillList.Add(skillLightningShock);
         }
 
@@ -147,8 +169,9 @@ public class PlayerSkillManager : MonoBehaviour
             case eSkill.LIGHTNINGSHOCK:
                 if (unlockLightning == false) //해금하지 않은 상태라면
                 {
-                    unlockWind = true;
+                    unlockLightning = true;
                     skillLightningShock = new Skill_LightningShock(PlayerController.Instance);
+                    LightningInit();
                     skillList.Add(skillLightningShock);
                 }
                 break;
@@ -177,7 +200,9 @@ public class PlayerSkillManager : MonoBehaviour
         //Draw a cube at the maximum distance
         Gizmos.DrawWireCube(waterEffect_Splash.transform.position + (Vector3)PlayerController.Instance.waterDirection * PlayerController.Instance.waterDistance, PlayerController.Instance.waterSize);
 
+        Gizmos.color = Color.yellow;
 
+        Gizmos.DrawWireSphere(lightningPosition.position, PlayerController.Instance.lightningRadius);
     }
 
 }

@@ -88,7 +88,7 @@ public class SoulMemory : MonoBehaviour
         if (stageManager.soulMemoryList.Contains(this) == false) // 리스트 안에 자기가 안들어가있다면
         {
             stageManager.AddSoulMemory(this);
-            Debug.LogError(gameObject.name + " : 스테이지 매니저 사념 리스트에 제가 없길래 넣었습니다. 문제는 없어졌겠지만 오류날 수도 있으니까 직접 넣으세요.");
+            Debug.LogWarning(gameObject.name + " : 스테이지 매니저 사념 리스트에 제가 없길래 넣었습니다. 문제는 없어졌겠지만 오류날 수도 있으니까 직접 넣으세요.");
 
         }
     }

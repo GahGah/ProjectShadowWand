@@ -26,4 +26,5 @@ public class ElectricableObject : MonoBehaviour
             Debug.Log("찌리릿!!! : " + name);
         }
     }
+
 }
