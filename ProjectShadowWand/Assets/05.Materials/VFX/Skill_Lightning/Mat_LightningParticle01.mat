@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat_Temp 1
-  m_Shader: {fileID: -6465566751694194690, guid: ad3d699cc3c66174cbd3904a1862c7d7, type: 3}
+  m_Name: Mat_LightningParticle01
+  m_Shader: {fileID: -6465566751694194690, guid: df24c4c3b95a1f44a979c8215ecdfe1a, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,12 +19,12 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
+    - Texture2D_02a8f9c943c34fc5b5d02f5daf8a3e2e:
+        m_Texture: {fileID: 2800000, guid: d387e167f9ca6a740a3a098f01dc9b2d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _BaseTex:
-        m_Texture: {fileID: 2800000, guid: 135373b47e8af7b44ab95102a820d221, type: 3}
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -52,9 +52,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _BaseColorIntensity: 1.5
     - _EnableExternalAlpha: 0
     m_Colors:
-    - _BaseColor: {r: 12.053714, g: 8.68712, b: 3.127143, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}

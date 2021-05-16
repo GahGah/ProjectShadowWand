@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat_Temp 1
-  m_Shader: {fileID: -6465566751694194690, guid: ad3d699cc3c66174cbd3904a1862c7d7, type: 3}
+  m_Name: Mat_Temp 2
+  m_Shader: {fileID: -6465566751694194690, guid: 87ed0719b50be44418e4e303c2ae5742, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,6 +19,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_632039a33f5a4634b13655bbdd227a8c:
+        m_Texture: {fileID: 2800000, guid: ebc90a63107b5db4a94e75f0b5cb5daf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _AlphaTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -52,10 +56,14 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - _BaseColorIntensity: 2.3
     - _EnableExternalAlpha: 0
+    - _NoiseScale: 6.24
     m_Colors:
-    - _BaseColor: {r: 12.053714, g: 8.68712, b: 3.127143, a: 1}
+    - _BaseColor: {r: 1, g: 0.86748636, b: 0.27843142, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _NoseOffset: {r: 32.78, g: 18.4, b: 0, a: 0}
+    - _NoseTiling: {r: 0.42, g: 0.03, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
