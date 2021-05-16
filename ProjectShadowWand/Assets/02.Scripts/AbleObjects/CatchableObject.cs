@@ -22,7 +22,11 @@ public class CatchableObject : MonoBehaviour, ICatchable
     [Tooltip("이 오브젝트가 잡혀있는 상태인지 체크합니다.")]
     public bool isCatched;
 
+
+    public bool isColliderOn;
     public float positionFix;
+
+    private PlatformEffector2D platformEffector;
     void Start()
     {
         Init();
@@ -31,6 +35,7 @@ public class CatchableObject : MonoBehaviour, ICatchable
 
     public void Init()
     {
+
         if (currentCollider == null)
         {
 
@@ -60,7 +65,10 @@ public class CatchableObject : MonoBehaviour, ICatchable
         //fixedJoint.autoConfigureConnectedAnchor = false;
         //fixedJoint.enabled = false;
 
-        Physics2D.IgnoreCollision(PlayerController.Instance.playerCollider, currentCollider);
+        if (isColliderOn == false)
+        {
+            Physics2D.IgnoreCollision(PlayerController.Instance.playerCollider, currentCollider);
+        }
 
     }
 
@@ -120,6 +128,11 @@ public class CatchableObject : MonoBehaviour, ICatchable
             positionFix = 1f;
         }
 
+        if (isColliderOn == true)
+        {
+            Physics2D.IgnoreCollision(PlayerController.Instance.playerCollider, currentCollider);
+        }
+
     }
 
     /// <summary>
@@ -134,6 +147,7 @@ public class CatchableObject : MonoBehaviour, ICatchable
     {
         rigidBody.bodyType = RigidbodyType2D.Dynamic;
         gameObject.transform.SetParent(null);
+
     }
 
 
@@ -167,6 +181,12 @@ public class CatchableObject : MonoBehaviour, ICatchable
                 PlayerController.Instance.SetTouchedObject(null);
 
             }
+
+            if (isColliderOn == true)
+            {
+                Physics2D.IgnoreCollision(PlayerController.Instance.playerCollider, currentCollider, false);
+            }
+
             //if (PlayerController.Instance.GetCurrentCatchJoint() == fixedJoint)
             //{
             //    //널로 변경
