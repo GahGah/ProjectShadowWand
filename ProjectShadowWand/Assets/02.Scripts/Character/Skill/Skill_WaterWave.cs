@@ -46,9 +46,6 @@ public class Skill_WaterWave : Skill
 
     public override void Init()
     {
-
-
-
         splashCheckDistance = 2f;
         if (player.waterActiveTime <= 0f)
         {
@@ -95,6 +92,19 @@ public class Skill_WaterWave : Skill
     {
         rayHitPosition = new Vector2(originalRayPosition.position.x, originalRayPosition.position.y - splashCheckDistance);
     }
+
+    private void FlipSplashEffect()
+    {
+        if (player.isRight == true)
+        {
+            splashTransform.localScale = new Vector2(Mathf.Abs(splashTransform.localScale.x), splashTransform.localScale.y);
+        }
+        else
+        {
+
+            splashTransform.localScale = new Vector2(Mathf.Abs(splashTransform.localScale.x) * -1f, splashTransform.localScale.y);
+        }
+    }
     RaycastHit2D posHit;
     IEnumerator ProcessWater()
     {
@@ -124,15 +134,7 @@ public class Skill_WaterWave : Skill
             waterEffect_Splash.transform.position =
                 new Vector3(waterEffect_Splash.transform.position.x, posHit.point.y, waterEffect_Splash.transform.position.z);
 
-            if (player.isRight == true)
-            {
-                splashTransform.localScale = new Vector2(Mathf.Abs(splashTransform.localScale.x), splashTransform.localScale.y);
-            }
-            else
-            {
-
-                splashTransform.localScale = new Vector2(Mathf.Abs(splashTransform.localScale.x) * -1f, splashTransform.localScale.y);
-            }
+            FlipSplashEffect();
 
         }
         yield return YieldInstructionCache.WaitForFixedUpdate;
