@@ -137,7 +137,7 @@ public class Skill_LightningShock : Skill
         {
             if (item.normal.y <= 0f) //¹Ý¿ø
             {
-                Debug.DrawRay(player.lightningPosition.position, item.collider.gameObject.transform.position, Color.red, 1f);
+                //Debug.DrawRay(player.lightningPosition.position, item.collider.gameObject.transform.position, Color.red, 1f);
                 var test = item.collider.GetComponent<ElectricableObject>();
                 if (test != null)
                 {
