@@ -23,8 +23,6 @@ public class InputManager : Manager<InputManager>
 
     public ButtonControl buttonPush;
 
-
-    //안씀
     public ButtonControl buttonSkillUse;
 
     public ButtonControl buttonSkillWater;
@@ -34,6 +32,7 @@ public class InputManager : Manager<InputManager>
 
     public ButtonControl buttonInteract;
 
+    public ButtonControl buttonCapture;
     public Keyboard keyboard;
     public bool isDebugMode;
 
@@ -115,6 +114,8 @@ public class InputManager : Manager<InputManager>
         buttonTalkNext = Keyboard.current.spaceKey;
 
         buttonInteract = Keyboard.current.fKey;
+
+        buttonCapture = Keyboard.current.pKey;
 
         //이 밑 키들은 아마도 안씀
         buttonPush = Keyboard.current.cKey;

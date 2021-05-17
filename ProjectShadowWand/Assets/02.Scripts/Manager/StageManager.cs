@@ -68,10 +68,7 @@ public class StageManager : Manager<StageManager>
         // UpdateStageName();
         UpdateStageName();
     }
-    private void Start()
-    {
 
-    }
 
     public void InitSoulMemoryList()
     {

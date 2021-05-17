@@ -69,7 +69,13 @@ public class SaveLoadManager : Manager<SaveLoadManager>
 
 
     }
-
+    private void Update()
+    {
+        if (InputManager.Instance.buttonCapture.wasPressedThisFrame)
+        {
+            ScreenCapture.CaptureScreenshot(Application.dataPath + "/CaptureImage.png");
+        }
+    }
     /// <summary>
     /// 파일 이름을 정합니다.
     /// </summary>
