@@ -157,6 +157,7 @@ public enum eLayer
 
 public enum eSortingLayer
 {
+    Default,
     Far,
     Middle, 
     Near_Back, 

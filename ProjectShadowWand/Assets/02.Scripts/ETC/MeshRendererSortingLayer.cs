@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MeshRendererSortingLayer : MonoBehaviour
 {
-    public string sortingLayerName;
+    public eSortingLayer sortingLayer;
     public int sortingOrder;
 
     public MeshRenderer meshRenderer;
@@ -14,8 +14,8 @@ public class MeshRendererSortingLayer : MonoBehaviour
         {
             meshRenderer = GetComponent<MeshRenderer>();
         }
+        meshRenderer.sortingLayerName = sortingLayer.ToString();
         meshRenderer.sortingOrder = sortingOrder;
-        meshRenderer.sortingLayerName = sortingLayerName;
     }
 
     //public void Update()
@@ -28,8 +28,11 @@ public class MeshRendererSortingLayer : MonoBehaviour
 
     public void OnValidate()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
-        meshRenderer.sortingLayerName = sortingLayerName;
+        if (meshRenderer == null)
+        {
+            meshRenderer = GetComponent<MeshRenderer>();
+        }
+        meshRenderer.sortingLayerName = sortingLayer.ToString();
         meshRenderer.sortingOrder = sortingOrder;
     }
 }
