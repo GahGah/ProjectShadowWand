@@ -155,6 +155,17 @@ public enum eLayer
     Fire = 25,
 }
 
+public enum eSortingLayer
+{
+    Far,
+    Middle, 
+    Near_Back, 
+    VFX_Back,
+    Player,
+    VFX_Front,
+    Near_Front,
+    SuperNear,
+}
 public enum eQuestCode
 {
     MOM_AND_BABY_01,

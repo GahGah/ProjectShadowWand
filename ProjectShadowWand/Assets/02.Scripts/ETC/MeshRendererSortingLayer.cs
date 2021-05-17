@@ -7,10 +7,13 @@ public class MeshRendererSortingLayer : MonoBehaviour
     public string sortingLayerName;
     public int sortingOrder;
 
-    private MeshRenderer meshRenderer;
+    public MeshRenderer meshRenderer;
     void Awake()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
+        if (meshRenderer == null)
+        {
+            meshRenderer = GetComponent<MeshRenderer>();
+        }
         meshRenderer.sortingOrder = sortingOrder;
         meshRenderer.sortingLayerName = sortingLayerName;
     }
