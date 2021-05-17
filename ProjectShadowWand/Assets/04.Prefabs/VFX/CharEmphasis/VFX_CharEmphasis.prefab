@@ -14427,8 +14427,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33cd71f95a216bf428a1db89cc2539a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sortingLayerName: VFX_Back
-  sortingOrder: -40
+  sortingLayer: 4
+  sortingOrder: 0
+  meshRenderer: {fileID: 1549790450606745091}
 --- !u!1001 &162239082315364999
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14502,7 +14503,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 6b10fa1ae6d344f40931a5a2cb171be3, type: 3}
       propertyPath: m_SortingOrder
-      value: -40
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 6b10fa1ae6d344f40931a5a2cb171be3, type: 3}
       propertyPath: m_SortingLayerID
@@ -14530,5 +14531,10 @@ GameObject:
 --- !u!4 &417386607745359212 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6b10fa1ae6d344f40931a5a2cb171be3, type: 3}
+  m_PrefabInstance: {fileID: 162239082315364999}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1549790450606745091 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 6b10fa1ae6d344f40931a5a2cb171be3, type: 3}
   m_PrefabInstance: {fileID: 162239082315364999}
   m_PrefabAsset: {fileID: 0}
