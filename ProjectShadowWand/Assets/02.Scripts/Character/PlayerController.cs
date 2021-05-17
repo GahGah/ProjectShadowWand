@@ -505,6 +505,11 @@ public class PlayerController : Character
                 isRight = true;
                 //}
 
+                if (ReferenceEquals(catchedObject, null) == false)
+                {
+                    catchedObject.isRight = true;
+                }
+
             }
 
             return;
@@ -519,7 +524,10 @@ public class PlayerController : Character
                 //{
                 isRight = false;
                 //}
-
+                if (ReferenceEquals(catchedObject, null) == false)
+                {
+                    catchedObject.isRight = false;
+                }
 
             }
             return;
@@ -1173,6 +1181,7 @@ public class PlayerController : Character
         {
             isFlipped = false;
             puppet.localScale = Vector3.one;
+
 
             //if (flipFX.activeSelf == false)
             //{
