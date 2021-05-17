@@ -186,6 +186,8 @@ public class StageManager : Manager<StageManager>
         var tempStageName = nowStageName.Split('_');
 
         int nextStageNumber = System.Convert.ToInt32(tempStageName[1]) + 1;
+
+        //D2? : 넘버를 00의 형식으로. 
         var tempNextStageName = tempStageName[0] + "_" + nextStageNumber.ToString("D2");
 
         nextStageName = tempNextStageName;

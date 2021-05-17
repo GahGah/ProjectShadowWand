@@ -14,6 +14,7 @@ public class PlantSeed : GrowableObject
 
     private GameObject plantObject_Clone;
     private CatchableObject catchableObject;
+
     //private SpriteRenderer spriteRenderer;
 
     int animatorGrowBool;

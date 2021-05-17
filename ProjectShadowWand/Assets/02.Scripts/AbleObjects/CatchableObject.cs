@@ -73,6 +73,7 @@ public class CatchableObject : MonoBehaviour, ICatchable
             Physics2D.IgnoreCollision(PlayerController.Instance.playerCollider, currentCollider);
         }
 
+        isRight = true;
     }
 
     //private void Update()
