@@ -27,6 +27,9 @@ public class CatchableObject : MonoBehaviour, ICatchable
     public float positionFix;
 
     private PlatformEffector2D platformEffector;
+
+    [HideInInspector]
+    public bool isRight;
     void Start()
     {
         Init();
@@ -121,11 +124,13 @@ public class CatchableObject : MonoBehaviour, ICatchable
         {
             transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x), transform.localScale.y);
             positionFix = 1f;
+            isRight = true;
         }
         else
         {
             transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x), transform.localScale.y);
             positionFix = 1f;
+            isRight = false;
         }
 
         if (isColliderOn == true)
