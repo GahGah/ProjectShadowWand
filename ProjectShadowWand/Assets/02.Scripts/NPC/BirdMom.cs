@@ -16,6 +16,7 @@ public class BirdMom : NPC
     public void Init()
     {
         currentTalkCode = 0;
+        canInteract = true;
     }
 
     public override void StartTalk()

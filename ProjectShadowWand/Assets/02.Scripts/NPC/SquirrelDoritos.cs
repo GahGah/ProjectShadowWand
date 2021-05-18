@@ -11,7 +11,7 @@ public class SquirrelDoritos : NPC
     // Start is called before the first frame update
     void Start()
     {
-
+        canInteract = true;
     }
 
     public override void StartTalk()

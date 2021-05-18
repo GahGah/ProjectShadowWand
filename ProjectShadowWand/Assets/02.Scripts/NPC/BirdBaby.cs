@@ -80,6 +80,7 @@ public class BirdBaby : NPC
     public void Init()
     {
         currentTalkCode = 5;
+        canInteract = true;
         birdCollider = GetComponent<Collider2D>();
     }
     public override void StartTalk()
@@ -88,6 +89,11 @@ public class BirdBaby : NPC
         {
             case 5:
                 TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
+                canInteract = false;
+                //if (PlayerController.Instance.currentNPC == this)//토크 스타터가 본인일때만
+                //{
+                //    PlayerController.Instance.currentNPC = null;
+                //}
                 break;
             default:
                 TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
