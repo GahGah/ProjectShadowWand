@@ -7,9 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: VFX_Landmark_Pollution_Aura01
+  m_Name: VFX_Landmark_Pollution_Aura02
   m_Shader: {fileID: -6465566751694194690, guid: 050af61cd4d025d45bd31cd6634bcc93, type: 3}
-  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -20,7 +20,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - Texture2D_661100fa2b1e4c5582a9608468464028:
-        m_Texture: {fileID: 2800000, guid: 10408999f47984a468416af6b481b017, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _AlphaTex:
@@ -82,21 +82,19 @@ Material:
     - _DissolveControl: 0.003
     - _EnableExternalAlpha: 0
     - _NoiseColorIntensity: 0
-    - _NoiseHOffset: 1
     - _NoiseLerp: 0.56
-    - _NoiseScale: 109.75
-    - _NoiseSpeed: -0.09
+    - _NoiseScale: 8.03
+    - _NoiseSpeed: 0.2
     - _OutlineIntensity: 0
-    - _OutlineThickness: 0.07
-    - _isPurified: 0
+    - _OutlineThickness: 0
     m_Colors:
-    - Color_00853426ddf348d69c4fc525a31a3c8b: {r: 0, g: 0, b: 0, a: 1}
-    - _BaseColor: {r: 0, g: 0, b: 0, a: 0.8352941}
+    - Color_00853426ddf348d69c4fc525a31a3c8b: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseColor: {r: 0, g: 0, b: 0, a: 0}
     - _BaseTiling: {r: 3.49, g: 1, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _NoiseColor: {r: 0.047169805, g: 0.047169805, b: 0.047169805, a: 0.9372549}
-    - _NoiseTiling: {r: 65.92, g: 0.06, b: 0, a: 0}
+    - _NoiseColor: {r: 1, g: 1, b: 1, a: 0}
+    - _NoiseTiling: {r: 0.9, g: 1.6, b: 0, a: 0}
     - _NoseSpeed: {r: 1, g: 1, b: 0, a: 0}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
