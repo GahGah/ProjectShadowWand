@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerSkillManager : MonoBehaviour
 {
+    public bool isDrawGizmo = false;
     public Skill_WindGlide skillWindGilde;
     public Skill_LightningShock skillLightningShock;
     public Skill_WaterWave skillWaterWave;
@@ -192,17 +193,21 @@ public class PlayerSkillManager : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.cyan;
+        if (isDrawGizmo)
+        {
+            Gizmos.color = Color.cyan;
 
-        Gizmos.DrawWireCube(waterEffect_Splash.transform.position, PlayerController.Instance.waterSize);
-        //Draw a Ray forward from GameObject toward the maximum distance
-        Gizmos.DrawRay(waterEffect_Splash.transform.position, PlayerController.Instance.waterDirection * PlayerController.Instance.waterDistance);
-        //Draw a cube at the maximum distance
-        Gizmos.DrawWireCube(waterEffect_Splash.transform.position + (Vector3)PlayerController.Instance.waterDirection * PlayerController.Instance.waterDistance, PlayerController.Instance.waterSize);
+            Gizmos.DrawWireCube(waterEffect_Splash.transform.position, PlayerController.Instance.waterSize);
+            //Draw a Ray forward from GameObject toward the maximum distance
+            Gizmos.DrawRay(waterEffect_Splash.transform.position, PlayerController.Instance.waterDirection * PlayerController.Instance.waterDistance);
+            //Draw a cube at the maximum distance
+            Gizmos.DrawWireCube(waterEffect_Splash.transform.position + (Vector3)PlayerController.Instance.waterDirection * PlayerController.Instance.waterDistance, PlayerController.Instance.waterSize);
 
-        Gizmos.color = Color.yellow;
+            Gizmos.color = Color.yellow;
 
-        Gizmos.DrawWireSphere(lightningPosition.position, PlayerController.Instance.lightningRadius);
+            Gizmos.DrawWireSphere(lightningPosition.position, PlayerController.Instance.lightningRadius);
+        }
+
     }
 
 }
