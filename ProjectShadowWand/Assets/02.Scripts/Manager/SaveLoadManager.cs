@@ -49,9 +49,17 @@ public class SaveLoadManager : Manager<SaveLoadManager>
     public string settingsFileName = "Data_Settings.dat";
 
 
+    private int screenshotNumber = 0;
     protected override void Awake()
     {
         base.Awake();
+        DirectoryInfo di = new DirectoryInfo((Application.dataPath + "/ScreenShots/"));
+
+        if (di.Exists==false)
+        {
+            di.Create();
+        }
+
     }
 
     private IEnumerator Start()
@@ -73,7 +81,8 @@ public class SaveLoadManager : Manager<SaveLoadManager>
     {
         if (InputManager.Instance.buttonCapture.wasPressedThisFrame)
         {
-            ScreenCapture.CaptureScreenshot(Application.dataPath + "/CaptureImage.png");
+            ScreenCapture.CaptureScreenshot(Application.dataPath + "/ScreenShots/CaptureImage_"+screenshotNumber.ToString("D2")+".png");
+            screenshotNumber += 1;
         }
     }
     /// <summary>
