@@ -167,8 +167,8 @@ MonoBehaviour:
   currentZoomSpeed: 0
   cameraState: 0
   isConfine: 1
-  confinePos: {x: 53.8, y: 4.17}
-  confineSize: {x: 120.9, y: 10.01}
+  confinePos: {x: 53.8, y: 4}
+  confineSize: {x: 120.9, y: 10.28}
   whiteScreen: {fileID: 0}
 --- !u!4 &23238399
 Transform:
@@ -11630,6 +11630,10 @@ PrefabInstance:
       propertyPath: unlockWater
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8403324799475236889, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
+      propertyPath: unlockLightning
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8403324799475236893, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
       propertyPath: m_Name
       value: Teva(Player)
@@ -14223,6 +14227,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3550241836437575473, guid: afc88f4b1d9e7b34e8fd50bcd56c79a3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.223
+      objectReference: {fileID: 0}
+    - target: {fileID: 3550241836437575473, guid: afc88f4b1d9e7b34e8fd50bcd56c79a3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.458
+      objectReference: {fileID: 0}
     - target: {fileID: 3550241836819845762, guid: afc88f4b1d9e7b34e8fd50bcd56c79a3, type: 3}
       propertyPath: birdMom
       value: 
@@ -14241,11 +14253,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3550241836819845788, guid: afc88f4b1d9e7b34e8fd50bcd56c79a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 39.237
+      value: 39.184
       objectReference: {fileID: 0}
     - target: {fileID: 3550241836819845788, guid: afc88f4b1d9e7b34e8fd50bcd56c79a3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.136
+      value: 3.684
       objectReference: {fileID: 0}
     - target: {fileID: 3550241836819845788, guid: afc88f4b1d9e7b34e8fd50bcd56c79a3, type: 3}
       propertyPath: m_LocalPosition.z

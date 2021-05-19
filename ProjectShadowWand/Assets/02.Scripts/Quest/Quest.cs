@@ -133,6 +133,7 @@ public class Quest_MomAndBaby_02 : Quest
     {
         base.EndQuest();
         //마지막 퀘스트 완료
+        PlayerController.Instance.playerSkillManager.UnlockWind();
         StageManager.Instance.SetLastQuestClear(true);
     }
     public override void EndTalk(NPC _npc)
