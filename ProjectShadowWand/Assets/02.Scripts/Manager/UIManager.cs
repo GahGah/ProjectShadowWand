@@ -10,7 +10,6 @@ public class UIManager : MonoBehaviour
 
     public Dictionary<eUItype, UIBase> uiDicitonary = new Dictionary<eUItype, UIBase>();
 
-    public UIDiary uiDiary;
     public Stack<UIBase> uiStack;
 
 
@@ -51,12 +50,6 @@ public class UIManager : MonoBehaviour
         uiDicitonary.Add(_uiBase.uiType, _uiBase);
     }
 
-    public void GoUIDiaryToggle()
-    {
-        uiDiary.Toggle();
-    }
-
-
     private void Update()
     {
         if (InputManager.Instance.buttonEscape.wasPressedThisFrame)
@@ -95,7 +88,6 @@ public class UIManager : MonoBehaviour
             }
 
         }
-
     }
 
     /// <summary>
