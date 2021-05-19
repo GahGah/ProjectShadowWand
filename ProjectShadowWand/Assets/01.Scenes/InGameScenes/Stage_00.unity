@@ -551,7 +551,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 4.6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -14174,6 +14174,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: VFX_MemoryLight
       objectReference: {fileID: 0}
+    - target: {fileID: 6535968408704137348, guid: 122345f44d44ed1458fd47e98d5c945a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6535968408704137351, guid: 122345f44d44ed1458fd47e98d5c945a, type: 3}
       propertyPath: m_RootOrder
       value: 16
@@ -14227,14 +14231,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3550241836437575473, guid: afc88f4b1d9e7b34e8fd50bcd56c79a3, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.223
-      objectReference: {fileID: 0}
-    - target: {fileID: 3550241836437575473, guid: afc88f4b1d9e7b34e8fd50bcd56c79a3, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.458
-      objectReference: {fileID: 0}
     - target: {fileID: 3550241836819845762, guid: afc88f4b1d9e7b34e8fd50bcd56c79a3, type: 3}
       propertyPath: birdMom
       value: 
@@ -14253,11 +14249,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3550241836819845788, guid: afc88f4b1d9e7b34e8fd50bcd56c79a3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 39.184
+      value: 39.236
       objectReference: {fileID: 0}
     - target: {fileID: 3550241836819845788, guid: afc88f4b1d9e7b34e8fd50bcd56c79a3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.684
+      value: 3.628
       objectReference: {fileID: 0}
     - target: {fileID: 3550241836819845788, guid: afc88f4b1d9e7b34e8fd50bcd56c79a3, type: 3}
       propertyPath: m_LocalPosition.z
