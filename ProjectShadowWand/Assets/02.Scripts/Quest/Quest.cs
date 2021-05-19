@@ -51,7 +51,7 @@ public class Quest
     }
 }
 
-public class Quest_MomAndBaby_01 : Quest
+public class Quest_MomAndBaby_01 : Quest //나리를 들어올려라!
 {
     BirdBaby baby;
     BirdMom mom;
@@ -66,7 +66,6 @@ public class Quest_MomAndBaby_01 : Quest
     }
     public override void StartQuest()
     {
-        baby.gameObject.SetActive(true);
     }
 
     public override void ExecuteQuest()
@@ -77,20 +76,20 @@ public class Quest_MomAndBaby_01 : Quest
     public override void EndQuest()
     {
         base.EndQuest();
-        baby.gameObject.SetActive(false);
+        //퀘스트가 끝나면 바로 아카에게 가야하는 퀘스트 추가
+        QuestManager.Instance.QuestSystem_AddQuest(baby.quest_02);
     }
 
     public override void EndTalk(NPC _npc)
     {
         base.EndTalk(_npc);
 
+        //?? : BirdBaby에서 리무브퀘스트를 호출하니 걱정 마세용.
         if (_npc == baby) //아이와 말을 했다면
-        {
-            QuestManager.Instance.QuestSystem_RemoveQuest(this, true);
-            QuestManager.Instance.QuestSystem_AddQuest(new Quest_MomAndBaby_02(baby, mom));
-            mom.currentTalkCode = 8;
-            PlayerController.Instance.playerSkillManager.UnlockWind();
+        { //잡기 체크 시작
+            baby.StartCatchBabyQuest();
         }
+
 
     }
 }
@@ -109,6 +108,9 @@ public class Quest_MomAndBaby_02 : Quest
         base.StartTalk(_npc);
         if (_npc == mom) //맘...이라면
         {
+            baby.catchableObject.GoPutThis();
+            PlayerController.Instance.SetCatchedObject(null);
+            baby.catchableObject.enabled = false;
             baby.gameObject.SetActive(true);
             baby.gameObject.transform.position = baby.momTogetherPos.position;
         }

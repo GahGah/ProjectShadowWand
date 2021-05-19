@@ -7,8 +7,6 @@ public class BirdMom : NPC
     Quest_MomAndBaby_01 quest_01;
     Quest_MomAndBaby_02 quest_02;
 
-    public BirdBaby birdBaby;
-
     private void Start()
     {
         Init();
@@ -24,7 +22,7 @@ public class BirdMom : NPC
         switch (currentTalkCode)
         {
             case 0:
-                QuestManager.Instance.QuestSystem_AddQuest(new Quest_MomAndBaby_01(birdBaby, this));
+
                 TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
                 currentTalkCode = 4;
                 break;

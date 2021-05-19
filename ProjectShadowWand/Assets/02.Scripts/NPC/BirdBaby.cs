@@ -68,10 +68,20 @@ public class BirdBaby : NPC
     //}
     #endregion
 
+    [HideInInspector]
+    public Quest_MomAndBaby_01 quest_01;
+
+    [HideInInspector]
+    public Quest_MomAndBaby_02 quest_02;
+
     public Transform momTogetherPos;
 
     [HideInInspector]
     public Collider2D birdCollider;
+
+    public BirdMom birdMom;
+
+    public CatchableObject catchableObject;
 
     private void Start()
     {
@@ -79,15 +89,37 @@ public class BirdBaby : NPC
     }
     public void Init()
     {
+        catchableObject.enabled = false;
         currentTalkCode = 5;
         canInteract = true;
         birdCollider = GetComponent<Collider2D>();
+        quest_01 = new Quest_MomAndBaby_01(this, birdMom);
+        quest_02 = new Quest_MomAndBaby_02(this, birdMom);
+    }
+
+    private IEnumerator ProcessCatchBirdBabyQuest()
+    {
+        catchableObject.enabled = true;
+
+        while (catchableObject.isCatched == true)
+        {
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+
+        QuestManager.Instance.QuestSystem_RemoveQuest(quest_01, true);
+
+    }
+
+    public void StartCatchBabyQuest()
+    {
+        StartCoroutine(ProcessCatchBirdBabyQuest());
     }
     public override void StartTalk()
     {
         switch (currentTalkCode)
         {
             case 5:
+                QuestManager.Instance.QuestSystem_AddQuest(quest_01);
                 TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
                 canInteract = false;
                 //if (PlayerController.Instance.currentNPC == this)//토크 스타터가 본인일때만

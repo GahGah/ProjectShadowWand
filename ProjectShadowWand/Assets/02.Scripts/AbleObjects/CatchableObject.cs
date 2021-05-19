@@ -74,6 +74,7 @@ public class CatchableObject : MonoBehaviour, ICatchable
         }
 
         isRight = true;
+        isCatched = false;
     }
 
     //private void Update()
@@ -121,6 +122,7 @@ public class CatchableObject : MonoBehaviour, ICatchable
     {
         rigidBody.bodyType = RigidbodyType2D.Kinematic;
         gameObject.transform.SetParent(PlayerController.Instance.transform);
+        isCatched = true;
         if (PlayerController.Instance.isRight) //오른쪽을 보고있었다면
         {
             transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x), transform.localScale.y);
@@ -153,6 +155,7 @@ public class CatchableObject : MonoBehaviour, ICatchable
     {
         rigidBody.bodyType = RigidbodyType2D.Dynamic;
         gameObject.transform.SetParent(null);
+        isCatched = false;
 
     }
 

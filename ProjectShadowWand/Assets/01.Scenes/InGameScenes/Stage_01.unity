@@ -4205,6 +4205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5528494458ad0a141a448b20aaf496bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canInteract: 0
   currentTalkCode: 0
   soulMemory: {fileID: 554607986}
 --- !u!212 &702290762
@@ -9076,7 +9077,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1770382445
 PrefabInstance:
@@ -11826,7 +11827,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9183275981572323020, guid: e58eee6c77b77eb43ab93e9e210d64da, type: 3}
       propertyPath: m_RootOrder
-      value: 19
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 9183275981572323020, guid: e58eee6c77b77eb43ab93e9e210d64da, type: 3}
       propertyPath: m_LocalPosition.x

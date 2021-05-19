@@ -77,7 +77,7 @@ public class Jumpplesia : Plant
 
     public Vector2 DirFromAngle(float angleInDegrees)
     {
-        //탱크의 좌우 회전값 갱신
+        //좌우 회전값 갱신
         angleInDegrees += myTransform.eulerAngles.y;
         //경계 벡터값 반환
         return new Vector2(Mathf.Sin(angleInDegrees * Mathf.Deg2Rad), Mathf.Cos(angleInDegrees * Mathf.Deg2Rad));
