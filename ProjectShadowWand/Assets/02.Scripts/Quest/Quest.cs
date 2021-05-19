@@ -85,8 +85,10 @@ public class Quest_MomAndBaby_01 : Quest //나리를 들어올려라!
         base.EndTalk(_npc);
 
         //?? : BirdBaby에서 리무브퀘스트를 호출하니 걱정 마세용.
-        if (_npc == baby) //아이와 말을 했다면
+        if (_npc == baby) //나리와 말을 끝냈을 때
         { //잡기 체크 시작
+            baby.catchableObject.canCatched = true;
+            PlayerController.Instance.SetTouchedObject(baby.catchableObject);
             baby.StartCatchBabyQuest();
         }
 
@@ -109,9 +111,11 @@ public class Quest_MomAndBaby_02 : Quest
         if (_npc == mom) //맘...이라면
         {
             baby.catchableObject.GoPutThis();
-            PlayerController.Instance.SetCatchedObject(null);
-            baby.catchableObject.enabled = false;
-            baby.gameObject.SetActive(true);
+            PlayerController.Instance.SetCatchedObject(null); //나리를 내려놓고
+
+
+            baby.catchableObject.enabled = false; //잡지 못하게 한다.
+
             baby.gameObject.transform.position = baby.momTogetherPos.position;
         }
     }
@@ -128,11 +132,14 @@ public class Quest_MomAndBaby_02 : Quest
     public override void EndQuest()
     {
         base.EndQuest();
+        //마지막 퀘스트 완료
         StageManager.Instance.SetLastQuestClear(true);
     }
     public override void EndTalk(NPC _npc)
     {
         base.EndTalk(_npc);
+
+        //엄마와 말을 끝내면
         if (_npc == mom)
         {
             QuestManager.Instance.QuestSystem_RemoveQuest(this, true);

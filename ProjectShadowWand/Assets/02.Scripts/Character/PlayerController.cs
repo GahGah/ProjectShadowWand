@@ -466,6 +466,16 @@ public class PlayerController : Character
                     }
 
                 }
+                else
+                {
+                    if (!ReferenceEquals(currentNPC, null) && isTalking == false && currentNPC.canInteract) //대화를 해야한다면
+                    {
+                        TalkSystemManager.Instance.currentTalkNPC = currentNPC;
+                        currentNPC.StartTalk();
+                        // TalkSystemManager.Instance.StartGoTalk(currentNPC.currentTalkCode, currentNPC);
+                    }
+
+                }
 
             }
             else //잡아야할 오브젝트가 없을 경우
@@ -654,18 +664,14 @@ public class PlayerController : Character
     #region 밀기/잡기
     private void CheckCatch() //최적화가 필요함
     {
-        if (CanMove())
+        if (!ReferenceEquals(catchedObject, null)) //널이 아닐 경우
+                                                   //if (catchedObject != null)
         {
-            if (!ReferenceEquals(catchedObject, null)) //널이 아닐 경우
-            //if (catchedObject != null)
-            {
-                isCatching = true;
-            }
-            else
-            {
-                isCatching = false;
-            }
-
+            isCatching = true;
+        }
+        else
+        {
+            isCatching = false;
         }
 
 

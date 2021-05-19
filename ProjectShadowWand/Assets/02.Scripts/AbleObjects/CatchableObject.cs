@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class CatchableObject : MonoBehaviour, ICatchable
 {
+    //public CatchableObject() { }
+
+    //public CatchableObject(Collider2D _col, Rigidbody2D _rb)
+    //{
+    //    currentCollider = _col;
+    //    rigidBody = _rb;
+    //}
     [Space(10)]
     public Collider2D currentCollider;
 

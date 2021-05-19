@@ -76,12 +76,13 @@ public class BirdBaby : NPC
 
     public Transform momTogetherPos;
 
-    [HideInInspector]
     public Collider2D birdCollider;
 
     public BirdMom birdMom;
 
     public CatchableObject catchableObject;
+
+    private Rigidbody2D rb;
 
     private void Start()
     {
@@ -89,17 +90,21 @@ public class BirdBaby : NPC
     }
     public void Init()
     {
-        catchableObject.enabled = false;
         currentTalkCode = 5;
+        catchableObject.canCatched = false;
         canInteract = true;
-        birdCollider = GetComponent<Collider2D>();
+        if (birdCollider == null)
+        {
+            birdCollider = GetComponent<Collider2D>();
+
+        }
+
         quest_01 = new Quest_MomAndBaby_01(this, birdMom);
         quest_02 = new Quest_MomAndBaby_02(this, birdMom);
     }
 
     private IEnumerator ProcessCatchBirdBabyQuest()
     {
-        catchableObject.enabled = true;
 
         while (catchableObject.isCatched == true)
         {

@@ -7,6 +7,7 @@ public class BirdMom : NPC
     Quest_MomAndBaby_01 quest_01;
     Quest_MomAndBaby_02 quest_02;
 
+    public BirdBaby baby;
     private void Start()
     {
         Init();
@@ -19,6 +20,10 @@ public class BirdMom : NPC
 
     public override void StartTalk()
     {
+        if (baby.catchableObject.isCatched == true)
+        {
+            currentTalkCode = 8;
+        }
         switch (currentTalkCode)
         {
             case 0:
@@ -30,14 +35,14 @@ public class BirdMom : NPC
             default:
                 TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
                 break;
-            //case 4:
-            //    TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
-            //    break;
-            //case 8:
-            //    TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
-            //    break;
-            //case 12:
-            //    Talk
+                //case 4:
+                //    TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
+                //    break;
+                //case 8:
+                //    TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
+                //    break;
+                //case 12:
+                //    Talk
         }
     }
 
