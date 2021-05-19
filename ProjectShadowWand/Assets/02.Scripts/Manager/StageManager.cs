@@ -188,7 +188,6 @@ public class StageManager : Manager<StageManager>
         var tempNextStageName = tempStageName[0] + "_" + nextStageNumber.ToString("D2");
 
         nextStageName = tempNextStageName;
-        Debug.Log(nextStageName);
     }
     //public void SetStageClear_SoulMemory()
     //{

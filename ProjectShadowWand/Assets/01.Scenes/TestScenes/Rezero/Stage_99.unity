@@ -233,7 +233,7 @@ Transform:
   m_LocalScale: {x: 38.4, y: 10.8, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 35
+  m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &17122805
 PrefabInstance:
@@ -348,7 +348,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 28
+  m_RootOrder: 34
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &33236940
 GameObject:
@@ -7672,7 +7672,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 29
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &664213193
 PrefabInstance:
@@ -8728,7 +8728,7 @@ Transform:
   - {fileID: 242359487}
   - {fileID: 764503689}
   m_Father: {fileID: 0}
-  m_RootOrder: 30
+  m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &849031678
 PrefabInstance:
@@ -10143,7 +10143,7 @@ Transform:
   m_LocalScale: {x: 38.4, y: 10.8, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 32
+  m_RootOrder: 30
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1013264273 stripped
 Transform:
@@ -10291,7 +10291,7 @@ Transform:
   m_Children:
   - {fileID: 958044928}
   m_Father: {fileID: 0}
-  m_RootOrder: 27
+  m_RootOrder: 35
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1057511641
 PrefabInstance:
@@ -12960,6 +12960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c1995674a45d424c9e3747924624995, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canInteract: 0
   currentTalkCode: 5
   momTogetherPos: {fileID: 756171289}
   birdCollider: {fileID: 0}
@@ -13106,7 +13107,7 @@ Transform:
   m_LocalScale: {x: 38.4, y: 10.8, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 34
+  m_RootOrder: 32
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1737620867
 PrefabInstance:
@@ -13582,7 +13583,7 @@ Transform:
   m_LocalScale: {x: 38.4, y: 10.8, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 33
+  m_RootOrder: 31
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1829721215
 PrefabInstance:
@@ -14436,7 +14437,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 31
+  m_RootOrder: 29
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1994230509
 PrefabInstance:
@@ -15053,6 +15054,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b56d7916d0179c8468a0ff269f9e3544, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canInteract: 0
   currentTalkCode: 0
   birdBaby: {fileID: 1687048910}
 --- !u!95 &2146398246
