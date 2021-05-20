@@ -1252,6 +1252,10 @@ public class PlayerController : Character
     public bool CanMove()
     {
 
+        if (canMove == false)
+        {
+            return false;
+        }
 
         if (isDie)
         {
@@ -1614,6 +1618,11 @@ public class PlayerController : Character
 
     #endregion
 
+
+    private void OnDestroy()
+    {
+        instance = null;
+    }
     void OnDrawGizmos()
     {
         //Gizmos.color = Color.magenta;

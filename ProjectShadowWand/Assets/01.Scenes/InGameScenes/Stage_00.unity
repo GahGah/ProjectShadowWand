@@ -123,67 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &23238397
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 23238399}
-  - component: {fileID: 23238398}
-  m_Layer: 0
-  m_Name: CameraManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &23238398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 23238397}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43b26b1e13431394693d0176252f1fee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentCamera: {fileID: 84267660}
-  target: {fileID: 1777225901}
-  BGObject: {fileID: 0}
-  useZoom: 0
-  cameraDefaultPositionZ: -10
-  cameraDefaultSize: 4
-  cameraZoomInSize: 4.5
-  cameraZoomOutSize: 4
-  followSpeed: 0
-  zoomSpeed: 0.1
-  isTimeMode: 1
-  zoomTimer: 0
-  currentZoomSpeed: 0
-  cameraState: 0
-  isConfine: 1
-  confinePos: {x: 53.8, y: 4}
-  confineSize: {x: 120.9, y: 10.28}
-  whiteScreen: {fileID: 0}
---- !u!4 &23238399
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 23238397}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &24834421
 GameObject:
   m_ObjectHideFlags: 0
@@ -8810,6 +8749,91 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07ba874ea47d43247a424b2a3efe66fd, type: 3}
+--- !u!1001 &903873402
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8731688404087715376, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: m_Name
+      value: CameraManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731688404087715377, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 1777225901}
+    - target: {fileID: 8731688404087715377, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: followSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731688404087715377, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: confinePos.x
+      value: 53.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731688404087715377, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: confinePos.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731688404087715377, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: confineSize.x
+      value: 120.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731688404087715377, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: confineSize.y
+      value: 10.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731688404087715377, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: currentCamera
+      value: 
+      objectReference: {fileID: 84267660}
+    - target: {fileID: 8731688404087715378, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731688404087715378, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731688404087715378, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731688404087715378, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731688404087715378, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731688404087715378, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731688404087715378, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731688404087715378, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731688404087715378, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731688404087715378, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8731688404087715378, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
 --- !u!1001 &931005639
 PrefabInstance:
   m_ObjectHideFlags: 0

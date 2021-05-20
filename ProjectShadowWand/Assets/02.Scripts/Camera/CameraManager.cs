@@ -88,11 +88,12 @@ public class CameraManager : Manager<CameraManager>
         Init();
     }
 
-
+    public void SetTarget(Transform _t)
+    {
+        target = _t;
+    }
     public void Init()
     {
-
-
         height = currentCamera.orthographicSize;
         width = height * Screen.width / Screen.height;
 
@@ -138,7 +139,7 @@ public class CameraManager : Manager<CameraManager>
 
 
 
-    private void Start()
+    public void StartZoomMode()
     {
         if (useZoom == true)
         {
@@ -149,42 +150,28 @@ public class CameraManager : Manager<CameraManager>
 
     }
 
-    //private void Update()
+    //private void FixedUpdate()
     //{
-    //    //zoomSpeed∞° ∫Ø«“...ºˆµµ ¿÷±‚ ∂ßπÆø°.
-
-
-
+    //    FollowTarget(); // ≈∏∞Ÿ ∆»∑Œ¿◊
     //}
 
-    private void FixedUpdate()
+    //private float followProgress = 0f;
+    //private float followTimer = 0f;
+    //private Vector3 originalPosition = Vector3.zero;
+
+    [Tooltip("ƒ´∏ﬁ∂Û∞° ¿Ãµø«œ¡ˆ æ ¥¬ ªÛ≈¬¿‘¥œ¥Ÿ.")]
+    public bool isStop;
+    [Tooltip("¥‹º¯»˜ ≈∏∞Ÿ¿ª ∆»∑ŒøÏ «œ¥¬ ªÛ≈¬∞° æ∆¥“ ∂ß ªÁøÎ«’¥œ¥Ÿ.")]
+    private bool isExtraMove;
+    private Vector2 prevPosition;
+    public void FollowTarget() // ≈∏∞Ÿ ∆»∑Œ¿◊
     {
-        FollowTarget(); // ≈∏∞Ÿ ∆»∑Œ¿◊
-    }
+        //currentTransform.position = Vector3.Lerp(currentTransform.position, target.position, Time.deltaTime * followSpeed);
+        if (Vector2.Distance(currentTransform.position, target.position) > 0.01f)
+        {
+            currentTransform.position = Vector3.Lerp(currentTransform.position, target.position, Time.deltaTime * followSpeed);
 
-    private float followProgress = 0f;
-    private float followTimer = 0f;
-    private Vector3 originalPosition = Vector3.zero;
-    private void FollowTarget() // ≈∏∞Ÿ ∆»∑Œ¿◊
-    {
-
-
-        currentTransform.position = Vector3.Lerp(currentTransform.position, target.position, Time.deltaTime * followSpeed);
-        //if (Vector2.Distance(currentTransform.position,target.position) > 0.01f)
-        //{
-
-        //    followTimer += Time.deltaTime;
-        //    followProgress = followTimer / followSpeed;
-        //    currentTransform.position = Vector3.Lerp(originalPosition, target.position, followProgress);
-        //}
-        //else
-        //{
-        //    followProgress = 0f;
-        //    originalPosition = currentTransform.position;
-        //}
-
-
-
+        }
 
         if (isConfine) //¡¶«— º≥¡§¿Ã µ«æÓ¿÷¿∏∏È 
         {
@@ -195,6 +182,15 @@ public class CameraManager : Manager<CameraManager>
         {
             currentTransform.position = new Vector3(currentTransform.position.x, currentTransform.position.y, cameraDefaultPositionZ);
         }
+        if (prevPosition==(Vector2)currentTransform.position)
+        {
+            isStop = true;
+        }
+        else
+        {
+            isStop = false;
+        }
+        prevPosition = currentTransform.position;
     }
     private IEnumerator CameraZoom()
     {
@@ -438,5 +434,9 @@ public class CameraManager : Manager<CameraManager>
     public void SetWhiteScreen(bool _b)
     {
         whiteScreen.SetActive(_b);
+    }
+    private void OnDestroy()
+    {
+        instance = null;
     }
 }
