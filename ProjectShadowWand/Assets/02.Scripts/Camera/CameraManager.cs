@@ -13,7 +13,7 @@ public class CameraManager : Manager<CameraManager>
 {
     [Tooltip("사용할 카메라. 넣지 않을 경우 자동으로 메인 카메라를 넣습니다. ")]
     public Camera currentCamera;
-
+    private Transform currentTransform;
     [Tooltip("팔로우, 줌인, 줌아웃 대상")]
     public Transform target;
 
@@ -101,10 +101,14 @@ public class CameraManager : Manager<CameraManager>
         if (currentCamera == null)
         {
             Debug.Log("currentCamera가 null");
+            currentCamera = Camera.main;
+
         }
+        currentTransform = currentCamera.transform;
         if (zoomSpeed <= 0f)
         {
             zoomSpeed = 1f;
+
         }
 
         if (followSpeed <= 0f)
@@ -158,21 +162,39 @@ public class CameraManager : Manager<CameraManager>
         FollowTarget(); // 타겟 팔로잉
     }
 
+    private float followProgress = 0f;
+    private float followTimer = 0f;
+    private Vector3 originalPosition = Vector3.zero;
     private void FollowTarget() // 타겟 팔로잉
     {
-        currentCamera.transform.position = Vector3.Lerp(currentCamera.transform.position, target.position, Time.smoothDeltaTime * followSpeed);
+
+
+        currentTransform.position = Vector3.Lerp(currentTransform.position, target.position, Time.deltaTime * followSpeed);
+        //if (Vector2.Distance(currentTransform.position,target.position) > 0.01f)
+        //{
+
+        //    followTimer += Time.deltaTime;
+        //    followProgress = followTimer / followSpeed;
+        //    currentTransform.position = Vector3.Lerp(originalPosition, target.position, followProgress);
+        //}
+        //else
+        //{
+        //    followProgress = 0f;
+        //    originalPosition = currentTransform.position;
+        //}
+
+
 
 
         if (isConfine) //제한 설정이 되어있으면 
         {
             currentConfinePos = GetConfinePosition();
-            currentCamera.transform.position = new Vector3(currentConfinePos.x, currentConfinePos.y, cameraDefaultPositionZ);
+            currentTransform.position = new Vector3(currentConfinePos.x, currentConfinePos.y, cameraDefaultPositionZ);
         }
         else
         {
-            currentCamera.transform.position = new Vector3(currentCamera.transform.position.x, currentCamera.transform.position.y, cameraDefaultPositionZ);
+            currentTransform.position = new Vector3(currentTransform.position.x, currentTransform.position.y, cameraDefaultPositionZ);
         }
-
     }
     private IEnumerator CameraZoom()
     {
@@ -343,8 +365,8 @@ public class CameraManager : Manager<CameraManager>
 
         float localY = confineSize.y * 0.5f - height;
 
-        float clampX = Mathf.Clamp(currentCamera.transform.position.x, -localX + confinePos.x, localX + confinePos.x);
-        float clampY = Mathf.Clamp(currentCamera.transform.position.y, -localY + confinePos.y, localY + confinePos.y);
+        float clampX = Mathf.Clamp(currentTransform.position.x, -localX + confinePos.x, localX + confinePos.x);
+        float clampY = Mathf.Clamp(currentTransform.position.y, -localY + confinePos.y, localY + confinePos.y);
 
         Vector3 centerBottom = currentCamera.ViewportToWorldPoint(new Vector2(0.5f, 0f));
         //가운데 아래의 좌표를 얻어야함....

@@ -385,7 +385,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 398924779
-  m_SortingLayer: 6
+  m_SortingLayer: 5
   m_SortingOrder: 10
   m_Sprite: {fileID: -3055583128737286723, guid: a4a27926ebc30c64b8bdc8e2b3434253, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -531,6 +531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d05665065a6776a4098a7092a72560f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDrawGizmo: 0
   windEffect: {fileID: 9133116460333454853}
   waterEffect_Set: {fileID: 5047972218522152986}
   waterEffect_Splash: {fileID: 7780770169846347000}
@@ -605,7 +606,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   serializedVersion: 2
   m_Size: {x: 0.6244824, y: 1.1540313}
-  m_EdgeRadius: 0.03
+  m_EdgeRadius: 0
 --- !u!114 &8403324799733906937
 MonoBehaviour:
   m_ObjectHideFlags: 0
