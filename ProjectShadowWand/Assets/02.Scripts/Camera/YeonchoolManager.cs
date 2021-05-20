@@ -67,12 +67,15 @@ public class YeonchoolManager : MonoBehaviour
     }
     private IEnumerator GoStageDoorAndComebackTarget()
     {
+        PlayerController.Instance.canMove = false;
+
         yield return new WaitForSeconds(1.5f);
+
         cameraManager.followSpeed = goSpeed;
         cameraManager.SetTarget(stageDoor.transform);
         cameraManager.FollowTarget(); //혹시 모르니까 불러주기
 
-        PlayerController.Instance.canMove = false;
+
         while (cameraManager.isStop == false) //멈추기 전까지 기다림
         {
             yield return YieldInstructionCache.WaitForFixedUpdate;

@@ -182,7 +182,7 @@ public class CameraManager : Manager<CameraManager>
         {
             currentTransform.position = new Vector3(currentTransform.position.x, currentTransform.position.y, cameraDefaultPositionZ);
         }
-        if (prevPosition==(Vector2)currentTransform.position)
+        if (prevPosition.x == currentTransform.position.x)
         {
             isStop = true;
         }
