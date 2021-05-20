@@ -151,7 +151,7 @@ public class SceneChanger : MonoBehaviour
         Time.timeScale = 0f;
         progressBar.fillAmount = 0f;
         waitTime = 0.5f;
-        fadeTime = 1f;
+        fadeTime = 1.5f;
         yield return StartCoroutine(GoColorScreen(waitTime, fadeTime, true));
 
 
@@ -290,8 +290,8 @@ public class SceneChanger : MonoBehaviour
                 }
             }
 
-            StartCoroutine(SceneChanger.Instance.GoColorScreen(waitTime, fadeTime, false));
 
+            StartGoColorScreen(waitTime, fadeTime, false);
             SceneManager.sceneLoaded -= LoadSceneEnd;
 
             Time.timeScale = 1f;
@@ -301,7 +301,10 @@ public class SceneChanger : MonoBehaviour
         }
 
     }
-
+    public void StartGoColorScreen(float _w, float _f, bool _b)
+    {
+        StartCoroutine(SceneChanger.Instance.GoColorScreen(_w, _f, _b));
+    }
 
     /// <summary>
     /// _waitTime 뒤 서서히, _goingTime까지 화면을 특정 색으로 물들입니다.

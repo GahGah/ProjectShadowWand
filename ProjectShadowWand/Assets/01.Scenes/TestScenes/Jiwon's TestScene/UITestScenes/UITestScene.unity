@@ -2146,7 +2146,7 @@ GameObject:
   - component: {fileID: 1245378343}
   - component: {fileID: 1245378347}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: CutSceneCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2276,6 +2276,7 @@ MonoBehaviour:
   currentCut: {fileID: 0}
   fadeTime: 2
   isEnd: 0
+  isNext: 0
 --- !u!1 &1375175840
 GameObject:
   m_ObjectHideFlags: 0

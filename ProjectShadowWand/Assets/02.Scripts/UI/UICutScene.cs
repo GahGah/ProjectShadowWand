@@ -31,7 +31,7 @@ public class UICutScene : UIBase
     public bool isEnd;
 
 
-    private bool isNext;
+    public bool isNext;
     //private void Start()
     //{
     //    Init();
@@ -41,6 +41,16 @@ public class UICutScene : UIBase
     private void Awake()
     {
         Init();
+        uiType = eUItype.CUTSCENE;
+    }
+    private void Start()
+    {
+        UIManager.Instance.AddToDictionary(this);
+        for (int i = 0; i < cutCount; i++)
+        {
+            cutList[i].SetActive(false);
+        }
+        gameObject.SetActive(false);
     }
     public override void Init()
     {
@@ -49,11 +59,7 @@ public class UICutScene : UIBase
         currentCut = null;
         currentCutNumber = 0;
 
-        for (int i = 0; i < cutCount; i++)
-        {
-            cutList[i].SetActive(false);
-        }
-        gameObject.SetActive(false);
+
     }
 
     public override bool Open()
@@ -167,7 +173,8 @@ public class UICutScene : UIBase
         yield return null;
 
         isEnd = true;
-        StartCloseCutScene();
+        isNext = false;
+//        StartCloseCutScene();
     }
 
     private IEnumerator ProcessClose_Fade()
@@ -186,6 +193,7 @@ public class UICutScene : UIBase
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
         gameObject.SetActive(false);
+        isEnd = true;
     }
 
 }

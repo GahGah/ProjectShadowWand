@@ -6,6 +6,7 @@ public class UIMainMenu : MonoBehaviour
 {
     public CanvasGroup canvasGroup;
     public UIPopup newGamePopup;
+    public UICutScene cutscene;
 
     private void Start()
     {
@@ -19,6 +20,25 @@ public class UIMainMenu : MonoBehaviour
     public void Button_StartNewGame()
     {
         canvasGroup.interactable = false;
+        StartCoroutine(NewGameIntro());
+    }
+
+    private IEnumerator NewGameIntro()
+    {
+
+        cutscene = UIManager.Instance.uiDicitonary[eUItype.CUTSCENE] as UICutScene;
+
+        cutscene.StartPlayCutScene();
+
+        while (cutscene.isEnd == false)
+        {
+            yield return YieldInstructionCache.WaitForEndOfFrame;
+        }
+        while (cutscene.isNext == false)
+        {
+            yield return YieldInstructionCache.WaitForEndOfFrame;
+        }
+
         SceneChanger.Instance.LoadThisSceneName("Stage_00", false);
     }
     public void Button_GoContinue(UIBase _ui)

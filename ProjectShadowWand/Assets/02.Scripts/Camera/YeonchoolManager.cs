@@ -67,6 +67,7 @@ public class YeonchoolManager : MonoBehaviour
     }
     private IEnumerator GoStageDoorAndComebackTarget()
     {
+        yield return new WaitForSeconds(1.5f);
         cameraManager.followSpeed = goSpeed;
         cameraManager.SetTarget(stageDoor.transform);
         cameraManager.FollowTarget(); //혹시 모르니까 불러주기
