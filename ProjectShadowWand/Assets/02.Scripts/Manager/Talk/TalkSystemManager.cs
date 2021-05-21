@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using TMPro;
 public class TalkSystemManager : Manager<TalkSystemManager>
 {
     [Tooltip("CSV로 불러온 대화 파일의 내용이 담겨있는 딕셔너리 리스트입니다.")]
@@ -19,11 +19,11 @@ public class TalkSystemManager : Manager<TalkSystemManager>
 
     [Header("이름")]
     [Tooltip("이름이 표시될 Text")]
-    public Text nameText;
+    public TMP_Text nameText;
 
     [Header("대화 내용")]
     [Tooltip("글자가 표시될 Text")]
-    public Text talkText;
+    public TMP_Text talkText;
 
     [Header("스킵 버튼")]
     public Button nextButton;
@@ -346,6 +346,12 @@ public class TalkSystemManager : Manager<TalkSystemManager>
     }
 
 
+
+
+    private string _TALK_CODE = "TALK_CODE";
+    private string _TALK_CHAR_NAME = "TALK_CHAR_NAME";
+    private string _TALK_MOVE = "TALK_MOVE";
+    private string _TALK_NAEYONG = "TALK_NAEYONG";
     /// <summary>
     /// 한 대화(한 창에 나오는...)를 시작합니다.
     /// </summary>
@@ -361,12 +367,12 @@ public class TalkSystemManager : Manager<TalkSystemManager>
         PlayerController.Instance.isTalking = true;
         isNextPressed = false;
 
-        currentTalkCode = (int)talkData[TALK_CODE]["TALK_CODE"];
-        currentCharCode = (int)talkData[TALK_CODE]["TALK_CHAR_NAME"];
-        currentTalkMove = (int)talkData[TALK_CODE]["TALK_MOVE"];
+        currentTalkCode = (int)talkData[TALK_CODE][_TALK_CODE];
+        currentCharCode = (int)talkData[TALK_CODE][_TALK_CHAR_NAME];
+        currentTalkMove = (int)talkData[TALK_CODE][_TALK_MOVE];
 
         currentCharName = charDict[currentCharCode];
-        currentTalkText = talkData[TALK_CODE]["TALK_NAEYONG"] as string;
+        currentTalkText = talkData[TALK_CODE][_TALK_NAEYONG] as string;
 
         //talkWindow.SetActive(true);
 
@@ -423,15 +429,15 @@ public class TalkSystemManager : Manager<TalkSystemManager>
         PlayerController.Instance.isInteractingSoulMemory = true;
         isNextPressed = false;
 
-        currentTalkCode = (int)soulMemoryData[TALK_CODE]["TALK_CODE"];
-        currentCharCode = (int)soulMemoryData[TALK_CODE]["TALK_CHAR_NAME"];
+        currentTalkCode = (int)soulMemoryData[TALK_CODE][_TALK_CODE];
+        currentCharCode = (int)soulMemoryData[TALK_CODE][_TALK_CHAR_NAME];
 
 
-        currentTalkMove = (int)soulMemoryData[TALK_CODE]["TALK_MOVE"];
+        currentTalkMove = (int)soulMemoryData[TALK_CODE][_TALK_MOVE];
 
         currentCharName = charDict[currentCharCode];
 
-        currentTalkText = soulMemoryData[TALK_CODE]["TALK_NAEYONG"] as string;
+        currentTalkText = soulMemoryData[TALK_CODE][_TALK_NAEYONG] as string;
 
         //talkWindow.SetActive(true);
 
