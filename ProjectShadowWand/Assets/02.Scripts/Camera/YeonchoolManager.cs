@@ -74,6 +74,8 @@ public class YeonchoolManager : Manager<YeonchoolManager>
 
     public IEnumerator StartCutscene(eCutsceneType _cutsceneType)
     {
+        Debug.Log("연출매니저 스타트 컷씬");
+        Time.timeScale = 0f;
         UICutScene tempCutscene = null;
         switch (_cutsceneType)
         {
@@ -98,6 +100,8 @@ public class YeonchoolManager : Manager<YeonchoolManager>
         }
 
         yield return StartCoroutine(tempCutscene.ProcessCutScene());
+
+        Time.timeScale = 1f;
 
         yield return StartCoroutine(tempCutscene.ProcessClose_Fade());
 
