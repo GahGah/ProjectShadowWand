@@ -71,6 +71,14 @@ public enum eChildOption
     TAIN,
     FRIEND
 }
+
+public enum eCutsceneType
+{
+    INTRO,
+    UNLOCK_WIND,
+    UNLOCK_WATER,
+    UNLOCK_LIGHTNING,
+}
 public enum eUItype
 {
     NONE, DIARY, SAVE, LOAD, PAUSE,

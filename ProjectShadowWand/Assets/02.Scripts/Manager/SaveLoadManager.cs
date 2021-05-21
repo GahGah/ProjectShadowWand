@@ -51,9 +51,15 @@ public class SaveLoadManager : Manager<SaveLoadManager>
 
     private int screenshotNumber = 0;
 
+    #region csvData
+    private List<Dictionary<string, object>> talkData;
 
-    [Tooltip("csv를 읽어들이는 데이터입니다.")]
-    public List<Dictionary<string, object>> csvData;
+    private List<Dictionary<string, object>> charData;
+
+    private List<Dictionary<string, object>> soulMemoryData;
+
+    private List<Dictionary<string, object>> tooltipData;
+    #endregion
 
     private string filePath;
     protected override void Awake()
@@ -78,18 +84,23 @@ public class SaveLoadManager : Manager<SaveLoadManager>
 
         yield return StartCoroutine(LoadData_Settings());
 
-
         yield return StartCoroutine(LoadData_Stage());
 
-        yield return StartCoroutine(LoadData_CharData("CharData"));
-        yield return StartCoroutine(LoadData_TalkData("TalkData_" + StageManager.Instance.nowStageName));
-        yield return StartCoroutine(LoadData_SoulMemoryData("SoulMemoryData_" + StageManager.Instance.nowStageName));
+        yield return StartCoroutine(LoadData_TooltipData());
 
-        TalkSystemManager.Instance.talkData = GetTalkData();
-        TalkSystemManager.Instance.charData = GetCharData();
-        TalkSystemManager.Instance.soulMemoryData = GetSoulMemoryData();
 
-        TalkSystemManager.Instance.charDict = CreateCharDict();
+        if (SceneChanger.Instance.UpdateStageName() != "Stage_Main")
+        {
+            yield return StartCoroutine(LoadData_CharData("CharData"));
+            yield return StartCoroutine(LoadData_TalkData("TalkData_" + StageManager.Instance.nowStageName));
+            yield return StartCoroutine(LoadData_SoulMemoryData("SoulMemoryData_" + StageManager.Instance.nowStageName));
+
+            TalkSystemManager.Instance.talkData = GetTalkData();
+            TalkSystemManager.Instance.charData = GetCharData();
+            TalkSystemManager.Instance.soulMemoryData = GetSoulMemoryData();
+
+            TalkSystemManager.Instance.charDict = CreateCharDict();
+        }
 
 
     }
@@ -165,13 +176,6 @@ public class SaveLoadManager : Manager<SaveLoadManager>
 
     #region csvData
 
-    private List<Dictionary<string, object>> talkData;
-
-    private List<Dictionary<string, object>> charData;
-
-    private List<Dictionary<string, object>> soulMemoryData;
-
-    private List<Dictionary<string, object>> tooltipData;
 
     private IEnumerator LoadData_TalkData(string path)
     {
@@ -233,9 +237,26 @@ public class SaveLoadManager : Manager<SaveLoadManager>
         yield return null;
     }
 
-    private IEnumerator LoadData_TooltipData(string path)
+    private IEnumerator LoadData_TooltipData()
     {
-        yield break;
+        tooltipData = new List<Dictionary<string, object>>();
+        filePath = "DataFiles/TooltipData/TooltipData";
+
+        tooltipData = null;
+        tooltipData = new List<Dictionary<string, object>>();
+        tooltipData = CsvReader.Read(filePath);
+        if (tooltipData != null)
+        {
+            Debug.Log("TooltipData를 불러왔습니다.");
+
+        }
+        else
+        {
+
+            Debug.Log("TooltipData 불러오기 실패.");
+        }
+
+        yield return null;
     }
     public List<Dictionary<string, object>> GetTalkData()
     {

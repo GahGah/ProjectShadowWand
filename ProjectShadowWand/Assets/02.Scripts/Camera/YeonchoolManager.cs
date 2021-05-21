@@ -5,12 +5,14 @@ using UnityEngine;
 /// <summary>
 /// 카메라 매니저를 조작합니다.
 /// </summary>
-public class YeonchoolManager : MonoBehaviour
+public class YeonchoolManager : Manager<YeonchoolManager>
 {
-
     CameraManager cameraManager;
     StageDoor stageDoor;
 
+    public UICutScene cutScene_Wind;
+    public UICutScene cutScene_Water;
+    public UICutScene cutScene_Lightning;
 
     [Header("랜드마크로 향할 때")]
     [Tooltip("랜드마크로 향하는 속도입니다.")]
@@ -31,7 +33,17 @@ public class YeonchoolManager : MonoBehaviour
     [Range(0f, 5f)]
     public float waitTime_comeback;
     // Start is called before the first frame update
-    void Start()
+
+    protected override void Awake()
+    {
+        base.Awake();
+        Init();
+    }
+    private void Start()
+    {
+        Init();
+    }
+    public void Init()
     {
         cameraManager = CameraManager.Instance;
 
@@ -46,7 +58,6 @@ public class YeonchoolManager : MonoBehaviour
             comebackSpeed = 0.6f;
             waitTime_comeback = 1f;
         }
-        StartStageInYeonchool();
     }
 
     // Update is called once per frame
@@ -61,6 +72,42 @@ public class YeonchoolManager : MonoBehaviour
     }
 
 
+    public IEnumerator StartCutscene(eCutsceneType _cutsceneType)
+    {
+        UICutScene tempCutscene = null;
+        switch (_cutsceneType)
+        {
+            case eCutsceneType.INTRO:
+                break;
+            case eCutsceneType.UNLOCK_WIND:
+                tempCutscene = cutScene_Wind;
+                break;
+            case eCutsceneType.UNLOCK_WATER:
+                tempCutscene = cutScene_Water;
+                break;
+            case eCutsceneType.UNLOCK_LIGHTNING:
+                tempCutscene = cutScene_Lightning;
+                break;
+            default:
+                break;
+        }
+
+        if (PlayerController.Instance != null)
+        {
+            PlayerController.Instance.canMove = false;
+        }
+
+        yield return StartCoroutine(tempCutscene.ProcessCutScene());
+
+        yield return StartCoroutine(tempCutscene.ProcessClose_Fade());
+
+
+        if (PlayerController.Instance != null)
+        {
+            PlayerController.Instance.canMove = true;
+        }
+
+    }
     public void StartStageInYeonchool()
     {
         StartCoroutine(GoStageDoorAndComebackTarget());

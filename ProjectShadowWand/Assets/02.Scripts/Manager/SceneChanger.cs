@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -9,11 +10,13 @@ public class SceneChanger : MonoBehaviour
     public string moveSceneName;
 
     public CanvasGroup canvasGroup;
-
+    public TMP_Text test;
     public Image goBlackImage;
 
     public Image progressBar;
     public bool isLoading;
+
+    public string nowSceneName;
 
     private static SceneChanger instance;
     public static SceneChanger Instance
@@ -43,20 +46,24 @@ public class SceneChanger : MonoBehaviour
 
     }
 
-    protected void Awake()
+    //protected void Awake()
+    //{
+
+    //    //if (Instance == this)
+    //    //{
+    //    //    DontDestroyOnLoad(this.gameObject);
+    //    //}
+
+    //    // Screen.SetResolution(1920, 1080, true);
+
+    //}
+    public string UpdateStageName()
     {
-
-        //if (Instance == this)
-        //{
-        //    DontDestroyOnLoad(this.gameObject);
-        //}
-
-        // Screen.SetResolution(1920, 1080, true);
+        return SceneManager.GetActiveScene().name;
     }
-    private void Start()
-    {
-
-    }
+    //private void Start()
+    //{
+    //}
     public void ButtonGoPlayerScene()
     {
         SceneManager.LoadScene(moveSceneName);

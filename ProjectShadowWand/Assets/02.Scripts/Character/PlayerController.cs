@@ -268,10 +268,10 @@ public class PlayerController : Character
     {
         get
         {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<PlayerController>();
-            }
+            //if (instance == null)
+            //{
+            //    instance = FindObjectOfType<PlayerController>();
+            //}
             return instance;
         }
     }

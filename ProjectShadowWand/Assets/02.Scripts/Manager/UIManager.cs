@@ -50,6 +50,11 @@ public class UIManager : MonoBehaviour
         uiDicitonary.Add(_uiBase.uiType, _uiBase);
     }
 
+    public void RemoveToDictionary(UIBase _uiBase)
+    {
+        uiDicitonary.Remove(_uiBase.uiType);
+    }
+
     private void Update()
     {
         if (InputManager.Instance.buttonEscape.wasPressedThisFrame)
@@ -121,5 +126,9 @@ public class UIManager : MonoBehaviour
         {
 
         }
+    }
+    private void OnDestroy()
+    {
+        instance = null;
     }
 }

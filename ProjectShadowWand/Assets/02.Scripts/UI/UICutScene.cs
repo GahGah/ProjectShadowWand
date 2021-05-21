@@ -12,11 +12,11 @@ public class UICutScene : UIBase
     //TODO : 켜고 싶을 때 gameObject.SetActive(true)를 해버리면 처음부터 하이어라키에서 끄고 시작할 때 오류가 생김.
     //즉, 얘는 캔버스 그 자체면 조금 애매애매쓰 하다는 소리....
     //그러니까, 빈 게임 오브젝트에 해당 컴포넌트를 붙이자.
-    
+
     public CanvasGroup canvasGroup;
 
     [Tooltip("컷 목록")]
-    public UICut[] cutList;
+    public List<UICut> cutList;
 
     [SerializeField]
     private UICut currentCut;
@@ -45,21 +45,25 @@ public class UICutScene : UIBase
     }
     private void Start()
     {
-        UIManager.Instance.AddToDictionary(this);
+        UIBase tempUI;
+        if (UIManager.Instance.uiDicitonary.TryGetValue(uiType, out tempUI) == false)
+        {
+            UIManager.Instance.AddToDictionary(this);
+        }
+
         for (int i = 0; i < cutCount; i++)
         {
             cutList[i].SetActive(false);
         }
-        gameObject.SetActive(false);
+        canvasGroup.gameObject.SetActive(false);
     }
+
     public override void Init()
     {
-        cutCount = cutList.Length;
+        cutCount = cutList.Count;
         isEnd = false;
         currentCut = null;
         currentCutNumber = 0;
-
-
     }
 
     public override bool Open()
@@ -77,7 +81,7 @@ public class UICutScene : UIBase
     //이미지컷씬을 재생시작합니다.
     public void StartPlayCutScene()
     {
-        gameObject.SetActive(true);
+        canvasGroup.gameObject.SetActive(true);
         StartCoroutine(ProcessCutScene());
     }
 
@@ -97,7 +101,7 @@ public class UICutScene : UIBase
     private IEnumerator ProcessOpen_Fade()
     {
 
-        gameObject.SetActive(true);
+        canvasGroup.gameObject.SetActive(true);
         canvasGroup.alpha = 0f;
 
         float timer = 0f;
@@ -114,8 +118,19 @@ public class UICutScene : UIBase
         StartCoroutine(ProcessCutScene());
     }
 
-    private IEnumerator ProcessCutScene()
+    public IEnumerator ProcessCutScene()
     {
+        Debug.Log("StartCutscene");
+        canvasGroup.gameObject.SetActive(true);
+        UIBase tempUI;
+        UIManager.Instance.uiDicitonary.TryGetValue(uiType, out tempUI);
+        if (tempUI != this)
+        {
+            UIManager.Instance.RemoveToDictionary(tempUI);
+            UIManager.Instance.AddToDictionary(this);
+        }
+
+
         if (cutCount == 0) //갯수가 0이면
         {
             Debug.LogWarning("UICutScene : 이상하다...재생시킬 컷이 없어! 추가를 깜빡한거 아니야?");
@@ -174,14 +189,15 @@ public class UICutScene : UIBase
 
         isEnd = true;
         isNext = false;
-//        StartCloseCutScene();
+        //        StartCloseCutScene();
     }
 
-    private IEnumerator ProcessClose_Fade()
+    public IEnumerator ProcessClose_Fade()
     {
 
         float timer = 0f;
         float progress = 0f;
+        canvasGroup.alpha = 0f;
         float alphaVal = 1f;
         while (progress < 1f)
         {
@@ -192,8 +208,9 @@ public class UICutScene : UIBase
 
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
-        gameObject.SetActive(false);
         isEnd = true;
+        canvasGroup.gameObject.SetActive(false);
+
     }
 
 }

@@ -69,7 +69,10 @@ public class StageManager : Manager<StageManager>
         UpdateStageName();
     }
 
-
+    private void Start()
+    {
+        YeonchoolManager.Instance.StartStageInYeonchool();
+    }
     public void InitSoulMemoryList()
     {
         if (soulMemoryList.Count == 0)

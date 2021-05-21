@@ -64,7 +64,7 @@ public class ActiveSelectImage_Sprout : MonoBehaviour, IPointerEnterHandler, IPo
     public void Init()
     {
 
-        StartCoroutine(LerpSproutImage());
+        StartCoroutine(UpdataSprout());
     }
 
     public void OnSelect(BaseEventData eventData)
@@ -101,131 +101,66 @@ public class ActiveSelectImage_Sprout : MonoBehaviour, IPointerEnterHandler, IPo
         }
     }
 
-    private bool isStartLerpLeaf;
 
-
-    private IEnumerator LerpSproutImage()
+    private IEnumerator UpdataSprout()
     {
-        while (true)
-        {
-            yield return YieldInstructionCache.WaitForEndOfFrame;
+        float tempfillAmount;
 
-            if (isWorking)
-            {
-                continue;
-            }
-            else
-            {
-                if (goFillAmount > currentProgress) //마우스를 올렸는데 새싹이 자라지 않은 상태일때
-                {
-                    StartCoroutine(AppearSprout());
-                }
-                else if (goFillAmount < currentProgress) //마우스가 내려갔는데 새싹이 사라지지 않은 상태일때
-                {
-                    StartCoroutine(DisappearSprout());
-                }
-            }
-
-        }
-    }
+        float _tempTimer = 0f;
 
 
-    //새싹이 자랍니다.
-    private IEnumerator AppearSprout()
-    {
-        isWorking = true;
-        float timer = 0f;
-        float progress = 0f;
-
-        int length = selectImage_Leaf.Length;
-
-        while (progress < filledSpeed)
-        {
-            timer += Time.unscaledDeltaTime;
-            progress = timer / filledSpeed;
-
-            selectImage_Stem.fillAmount = Mathf.Lerp(0f, 1f, progress);
-            yield return YieldInstructionCache.WaitForEndOfFrame;
-        }
-
-        timer = 0f;
-        progress = 0f;
-
-        while (progress < filledSpeed)
-        {
-            timer += Time.unscaledDeltaTime;
-            progress = timer / filledSpeed;
-
-            for (int i = 0; i < length; i++)
-            {
-                selectImage_Leaf[i].fillAmount = Mathf.Lerp(0f, 1f, progress);
-            }
-
-            yield return YieldInstructionCache.WaitForEndOfFrame;
-        }
-
-        currentProgress = 1f;
-        isWorking = false;
-    }
-
-    //새싹이 사라집니다.
-
-    private IEnumerator DisappearSprout()
-    {
-        isWorking = true;
-        float timer = 0f;
-        float progress = 0f;
-
-        int length = selectImage_Leaf.Length;
-
-        while (progress < filledSpeed)
-        {
-            timer += Time.unscaledDeltaTime;
-            progress = 1f - (timer / filledSpeed);
-
-            selectImage_Stem.fillAmount = Mathf.Lerp(1f, 0f, progress);
-            yield return YieldInstructionCache.WaitForEndOfFrame;
-        }
-
-        timer = 0f;
-        progress = 0f;
-
-        while (progress < filledSpeed)
-        {
-            timer += Time.unscaledDeltaTime;
-            progress = 1f - (timer / filledSpeed);
-
-            for (int i = 0; i < length; i++)
-            {
-                selectImage_Leaf[i].fillAmount = Mathf.Lerp(1f, 0f, progress);
-            }
-
-            yield return YieldInstructionCache.WaitForEndOfFrame;
-        }
-
-        currentProgress = 0f;
-        isWorking = false;
-    }
-    private IEnumerator LerpImage_Sprout()
-    {
-        float tempfillAmount = 0f;
         while (true)
         {
             tempfillAmount = goFillAmount;
-            if (isStartLerpLeaf == false)//만약 잎이 나지 않은 상태라면
+
+            if (selectImage_Stem.fillAmount == 1f)//꽉 차있을 때만 
             {
-                if (selectImage_Stem.fillAmount != tempfillAmount) // 현재 fillAmount와 가야할 fillAmount가 다르면
+                _tempTimer = 0f;
+
+                while (true)
                 {
-                    float _tempTimer = 0f;
+                    if (selectImage_Leaf[0].fillAmount != tempfillAmount) //다르다면
+                    {
+                        _tempTimer += Time.unscaledDeltaTime * currentFilledSpeed;
+
+                        ChangeLeafFillAmount(tempfillAmount, _tempTimer);
+                    }
+
+                    yield return YieldInstructionCache.WaitForEndOfFrame;
+
+                    if (Mathf.Abs(selectImage_Leaf[0].fillAmount - tempfillAmount) < 0.005f)
+                    {
+                        for (int i = 0; i < selectImage_Leaf.Length; i++)
+                        {
+                            selectImage_Leaf[i].fillAmount = tempfillAmount;
+                        }
+                    }
+
+                    if (selectImage_Leaf[0].fillAmount == tempfillAmount)
+                    {
+                        break;
+                    }
+
+
+                }
+                yield return YieldInstructionCache.WaitForEndOfFrame;
+            }
+
+            if (selectImage_Stem.fillAmount != tempfillAmount && selectImage_Leaf[0].fillAmount == 0f) // 현재 fillAmount와 가야할 fillAmount가 다르면
+            {
+                if (tempfillAmount == 1f) //생겨나야하고, 잎쪽이 안자라있을때만 
+                {
+                    _tempTimer = 0f;
 
                     while (true)
                     {
                         _tempTimer += Time.unscaledDeltaTime * currentFilledSpeed;
+
                         selectImage_Stem.fillAmount = Mathf.Lerp(selectImage_Stem.fillAmount, tempfillAmount, _tempTimer);
 
                         yield return YieldInstructionCache.WaitForEndOfFrame;
 
-                        if (Mathf.Abs(selectImage_Stem.fillAmount - goFillAmount) < 0.005f)
+                        if (Mathf.Abs(selectImage_Stem.fillAmount - tempfillAmount) < 0.005f)
                         {
                             selectImage_Stem.fillAmount = tempfillAmount;
                         }
@@ -236,151 +171,53 @@ public class ActiveSelectImage_Sprout : MonoBehaviour, IPointerEnterHandler, IPo
                         }
                     }
 
-                    if (selectImage_Leaf[0].fillAmount != tempfillAmount)
+                }
+                else//사라져야하고, 잎 쪽이 안자라있을 때만 
+                {
+                    _tempTimer = 0f;
+                    while (true)
                     {
-                        _tempTimer = 0f;
-                        isStartLerpLeaf = true;
-                        while (true)
+                        if (selectImage_Stem.fillAmount != tempfillAmount)
                         {
                             _tempTimer += Time.unscaledDeltaTime * currentFilledSpeed;
-
-                            for (int i = 0; i < selectImage_Leaf.Length; i++)
-                            {
-                                selectImage_Leaf[i].fillAmount = Mathf.Lerp(selectImage_Leaf[i].fillAmount, tempfillAmount, _tempTimer);
-                            }
+                            selectImage_Stem.fillAmount = Mathf.Lerp(selectImage_Stem.fillAmount, tempfillAmount, _tempTimer);
 
                             yield return YieldInstructionCache.WaitForEndOfFrame;
 
-
-                            for (int i = 0; i < selectImage_Leaf.Length; i++)
+                            if (Mathf.Abs(selectImage_Stem.fillAmount - tempfillAmount) < 0.005f)
                             {
-                                selectImage_Leaf[i].fillAmount = Mathf.Lerp(selectImage_Leaf[i].fillAmount, tempfillAmount, _tempTimer);
-
-
-                                if (Mathf.Abs(selectImage_Leaf[i].fillAmount - tempfillAmount) < 0.005f)
-                                {
-                                    selectImage_Leaf[i].fillAmount = tempfillAmount;
-                                }
+                                selectImage_Stem.fillAmount = tempfillAmount;
                             }
 
-                            if (selectImage_Leaf[0].fillAmount == tempfillAmount)
+                            if (selectImage_Stem.fillAmount == tempfillAmount)
                             {
                                 break;
                             }
-
-
-
-                        }
-
-                    }
-
-                }
-            }
-            else //잎이 난 상태라면
-            {
-                if (selectImage_Leaf[0].fillAmount != goFillAmount)
-                {
-                    float _tempTimer = 0f;
-                    isStartLerpLeaf = true;
-                    while (true)
-                    {
-                        _tempTimer += Time.unscaledDeltaTime * currentFilledSpeed;
-
-                        for (int i = 0; i < selectImage_Leaf.Length; i++)
-                        {
-                            selectImage_Leaf[i].fillAmount = Mathf.Lerp(selectImage_Leaf[i].fillAmount, goFillAmount, _tempTimer);
                         }
 
                         yield return YieldInstructionCache.WaitForEndOfFrame;
-
-
-                        for (int i = 0; i < selectImage_Leaf.Length; i++)
-                        {
-                            selectImage_Leaf[i].fillAmount = Mathf.Lerp(selectImage_Leaf[i].fillAmount, goFillAmount, _tempTimer);
-
-
-                            if (Mathf.Abs(selectImage_Leaf[i].fillAmount - goFillAmount) < 0.005f)
-                            {
-                                selectImage_Leaf[i].fillAmount = goFillAmount;
-                            }
-                        }
-
-                        if (selectImage_Leaf[0].fillAmount == goFillAmount)
-                        {
-                            break;
-                        }
-
-                    }
-
-                    isStartLerpLeaf = false;
-
-                    if (selectImage_Stem.fillAmount != goFillAmount) // 현재 fillAmount와 가야할 fillAmount가 다르면
-                    {
-                        _tempTimer = 0f;
-
-                        while (true)
-                        {
-                            _tempTimer += Time.unscaledDeltaTime * currentFilledSpeed;
-                            selectImage_Stem.fillAmount = Mathf.Lerp(selectImage_Stem.fillAmount, goFillAmount, _tempTimer);
-
-                            yield return YieldInstructionCache.WaitForEndOfFrame;
-
-                            if (Mathf.Abs(selectImage_Stem.fillAmount - goFillAmount) < 0.005f)
-                            {
-                                selectImage_Stem.fillAmount = goFillAmount;
-                            }
-
-                            if (selectImage_Stem.fillAmount == goFillAmount)
-                            {
-                                break;
-                            }
-                        }
-
-
-
                     }
                 }
 
             }
             yield return YieldInstructionCache.WaitForEndOfFrame;
+
         }
+
     }
-    private IEnumerator LerpImage()
+    private void ChangeLeafFillAmount(float _goalAmount, float _timer)
     {
-        while (true)
+
+        for (int i = 0; i < selectImage_Leaf.Length; i++)
         {
-            if (selectImage_Stem.fillAmount != goFillAmount) // 현재 fillAmount와 가야할 fillAmount가 다르면
+            selectImage_Leaf[i].fillAmount = Mathf.Lerp(selectImage_Leaf[i].fillAmount, _goalAmount, _timer);
+
+            if (Mathf.Abs(selectImage_Leaf[i].fillAmount - _goalAmount) < 0.005f)
             {
-                float _tempTimer = 0f;
-
-                while (true)
-                {
-                    _tempTimer += Time.unscaledDeltaTime * currentFilledSpeed;
-                    selectImage_Stem.fillAmount = Mathf.Lerp(selectImage_Stem.fillAmount, goFillAmount, _tempTimer);
-
-                    yield return YieldInstructionCache.WaitForEndOfFrame;
-
-                    if (Mathf.Abs(selectImage_Stem.fillAmount - goFillAmount) < 0.005f)
-                    {
-                        selectImage_Stem.fillAmount = goFillAmount;
-                    }
-
-                    if (selectImage_Stem.fillAmount == goFillAmount)
-                    {
-                        break;
-                    }
-                }
-
-
-
-
-
+                selectImage_Leaf[i].fillAmount = _goalAmount;
             }
-            yield return YieldInstructionCache.WaitForEndOfFrame;
-
         }
     }
-
 
 }
 

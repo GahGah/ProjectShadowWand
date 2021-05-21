@@ -710,7 +710,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectImage: {fileID: 1434764925}
-  selectImagePosition: {fileID: 1434764927}
   goFillAmount: 0
   filledSpeed: 1
 --- !u!114 &186174738
@@ -1355,7 +1354,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectImage: {fileID: 776978908}
-  selectImagePosition: {fileID: 776978910}
   goFillAmount: 0
   filledSpeed: 0
 --- !u!114 &366333688
@@ -2113,7 +2111,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectImage: {fileID: 298691126}
-  selectImagePosition: {fileID: 298691128}
   goFillAmount: 0
   filledSpeed: 1
 --- !u!114 &498049291
@@ -3512,7 +3509,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 748784376}
-  - component: {fileID: 748784375}
   - component: {fileID: 748784374}
   - component: {fileID: 748784373}
   - component: {fileID: 748784372}
@@ -3597,32 +3593,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &748784375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 748784370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9761024b994f0d4459a29cad6be6c7a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiType: 0
-  canvasGroup: {fileID: 748784371}
-  cutList:
-  - {fileID: 1799607114}
-  - {fileID: 417622351}
-  - {fileID: 632246378}
-  - {fileID: 601795131}
-  - {fileID: 879176895}
-  - {fileID: 1070775116}
-  - {fileID: 174296307}
-  currentCut: {fileID: 0}
-  fadeTime: 2
-  isEnd: 0
-  isNext: 0
 --- !u!224 &748784376
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3641,8 +3611,8 @@ RectTransform:
   - {fileID: 879176898}
   - {fileID: 1070775119}
   - {fileID: 174296310}
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_Father: {fileID: 1554192706}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4301,7 +4271,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectImage: {fileID: 1268723821}
-  selectImagePosition: {fileID: 1268723823}
   goFillAmount: 0
   filledSpeed: 1
 --- !u!114 &1055436723
@@ -5524,7 +5493,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectImage: {fileID: 1098416072}
-  selectImagePosition: {fileID: 1098416074}
   goFillAmount: 0
   filledSpeed: 1
 --- !u!114 &1341372421
@@ -5662,7 +5630,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectImage: {fileID: 180885742}
-  selectImagePosition: {fileID: 180885744}
   goFillAmount: 0
   filledSpeed: 1
 --- !u!114 &1355220311
@@ -6196,6 +6163,64 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1473636426}
   m_CullTransparentMesh: 1
+--- !u!1 &1554192704
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1554192706}
+  - component: {fileID: 1554192705}
+  m_Layer: 0
+  m_Name: UICutScene
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1554192705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554192704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9761024b994f0d4459a29cad6be6c7a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiType: 0
+  canvasGroup: {fileID: 748784371}
+  cutList:
+  - {fileID: 1799607114}
+  - {fileID: 417622351}
+  - {fileID: 632246378}
+  - {fileID: 601795131}
+  - {fileID: 879176895}
+  - {fileID: 1070775116}
+  - {fileID: 174296307}
+  currentCut: {fileID: 0}
+  fadeTime: 2
+  isEnd: 0
+  isNext: 0
+--- !u!4 &1554192706
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554192704}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 960, y: 540, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 748784376}
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1555118652
 GameObject:
   m_ObjectHideFlags: 0
@@ -7090,7 +7115,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectImage: {fileID: 1334740511}
-  selectImagePosition: {fileID: 1334740513}
   goFillAmount: 0
   filledSpeed: 1
 --- !u!114 &1812052984

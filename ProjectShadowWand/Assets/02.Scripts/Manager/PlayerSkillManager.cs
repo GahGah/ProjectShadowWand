@@ -136,23 +136,24 @@ public class PlayerSkillManager : MonoBehaviour
     }
     public void UnlockWind()
     {
-
         UnlockSkill(eSkill.WINDGILDE);
+        YeonchoolManager.Instance.StartCutscene(eCutsceneType.UNLOCK_WIND);
     }
-
     public void UnlockLightning()
     {
         UnlockSkill(eSkill.LIGHTNINGSHOCK);
+        YeonchoolManager.Instance.StartCutscene(eCutsceneType.UNLOCK_LIGHTNING);
     }
 
     public void UnlockWater()
     {
         UnlockSkill(eSkill.WATERWAVE);
+        YeonchoolManager.Instance.StartCutscene(eCutsceneType.UNLOCK_WATER);
     }
     /// <summary>
     /// 스킬을 해금하고 획득합니다.이미 있으면 아무것도 안하지롱
     /// </summary>
-    public void UnlockSkill(eSkill _skill)
+    private void UnlockSkill(eSkill _skill)
     {
         switch (_skill)
         {
