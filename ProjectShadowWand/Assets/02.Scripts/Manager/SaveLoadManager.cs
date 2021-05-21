@@ -50,12 +50,18 @@ public class SaveLoadManager : Manager<SaveLoadManager>
 
 
     private int screenshotNumber = 0;
+
+
+    [Tooltip("csv를 읽어들이는 데이터입니다.")]
+    public List<Dictionary<string, object>> csvData;
+
+    private string filePath;
     protected override void Awake()
     {
         base.Awake();
         DirectoryInfo di = new DirectoryInfo((Application.dataPath + "/ScreenShots/"));
 
-        if (di.Exists==false)
+        if (di.Exists == false)
         {
             di.Create();
         }
@@ -75,13 +81,23 @@ public class SaveLoadManager : Manager<SaveLoadManager>
 
         yield return StartCoroutine(LoadData_Stage());
 
+        yield return StartCoroutine(LoadData_CharData("CharData"));
+        yield return StartCoroutine(LoadData_TalkData("TalkData_" + StageManager.Instance.nowStageName));
+        yield return StartCoroutine(LoadData_SoulMemoryData("SoulMemoryData_" + StageManager.Instance.nowStageName));
+
+        TalkSystemManager.Instance.talkData = GetTalkData();
+        TalkSystemManager.Instance.charData = GetCharData();
+        TalkSystemManager.Instance.soulMemoryData = GetSoulMemoryData();
+
+        TalkSystemManager.Instance.charDict = CreateCharDict();
+
 
     }
     private void Update()
     {
         if (InputManager.Instance.buttonCapture.wasPressedThisFrame)
         {
-            ScreenCapture.CaptureScreenshot(Application.dataPath + "/ScreenShots/CaptureImage_"+screenshotNumber.ToString("D2")+".png");
+            ScreenCapture.CaptureScreenshot(Application.dataPath + "/ScreenShots/CaptureImage_" + screenshotNumber.ToString("D2") + ".png");
             screenshotNumber += 1;
         }
     }
@@ -146,6 +162,116 @@ public class SaveLoadManager : Manager<SaveLoadManager>
 #endif
         }
     }
+
+    #region csvData
+
+    private List<Dictionary<string, object>> talkData;
+
+    private List<Dictionary<string, object>> charData;
+
+    private List<Dictionary<string, object>> soulMemoryData;
+
+    private List<Dictionary<string, object>> tooltipData;
+
+    private IEnumerator LoadData_TalkData(string path)
+    {
+        filePath = "DataFiles/TalkData/" + path;
+        talkData = null;
+        talkData = new List<Dictionary<string, object>>();
+        talkData = CsvReader.Read(filePath);
+
+        if (talkData != null)
+        {
+            Debug.Log(path + "을 불러왔습니다.");
+        }
+        else
+        {
+
+            Debug.Log(path + "불러오기 실패.");
+        }
+
+        yield return null;
+    }
+
+    private IEnumerator LoadData_CharData(string path)
+    {
+        filePath = "DataFiles/TalkData/" + path;
+        charData = null;
+        charData = new List<Dictionary<string, object>>();
+        charData = CsvReader.Read(filePath);
+        if (charData != null)
+        {
+            Debug.Log(path + "을 불러왔습니다.");
+
+        }
+        else
+        {
+
+            Debug.Log(path + "불러오기 실패.");
+        }
+
+        yield return null;
+    }
+
+    private IEnumerator LoadData_SoulMemoryData(string path)
+    {
+        filePath = "DataFiles/SoulMemoryData/" + path;
+
+        soulMemoryData = null;
+        soulMemoryData = new List<Dictionary<string, object>>();
+        soulMemoryData = CsvReader.Read(filePath);
+        if (soulMemoryData != null)
+        {
+            Debug.Log(path + "을 불러왔습니다.");
+
+        }
+        else
+        {
+
+            Debug.Log(path + " 불러오기 실패.");
+        }
+        yield return null;
+    }
+
+    private IEnumerator LoadData_TooltipData(string path)
+    {
+        yield break;
+    }
+    public List<Dictionary<string, object>> GetTalkData()
+    {
+
+        return talkData;
+    }
+
+    public List<Dictionary<string, object>> GetCharData()
+    {
+
+        return charData;
+    }
+
+    public List<Dictionary<string, object>> GetSoulMemoryData()
+    {
+
+        return soulMemoryData;
+    }
+
+
+    //CharDict를 만들어서 반환합니다.
+    public Dictionary<int, string> CreateCharDict()
+    {
+        var charDict = new Dictionary<int, string>();
+
+        for (int i = 0; i < charData.Count; i++)
+        {
+            var code = (int)charData[i]["CHAR_CODE"];
+            var name = charData[i]["CHAR_NAME"] as string;
+
+            charDict.Add(code, name);
+        }
+
+        return charDict;
+    }
+    #endregion
 
     #region Data_Player
     /// <summary>

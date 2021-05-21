@@ -112,13 +112,16 @@ public class TalkSystemManager : Manager<TalkSystemManager>
         currentSoulMemory = null;
         isTalkEnd = false;
         isTalkStart = false;
+        talkData = new List<Dictionary<string, object>>();
+        charData = new List<Dictionary<string, object>>();
+        soulMemoryData = new List<Dictionary<string, object>>();
 
     }
 
     void Start()
     {
         talkUI.SetActive(false);
-        StartCoroutine(ProcessStart());
+        //StartCoroutine(ProcessStart());
         // spaceTest.text = "다음";
     }
 
@@ -271,6 +274,25 @@ public class TalkSystemManager : Manager<TalkSystemManager>
         yield return null;
     }
 
+    private string _CHAR_CODE = "CHAR_CODE";
+    private string _CHAR_NAME = "CHAR_NAME";
+
+    private void SetCharDict()
+    {
+        charDict = new Dictionary<int, string>();
+
+        for (int i = 0; i < charData.Count; i++)
+        {
+            var code = (int)charData[i][_CHAR_CODE];
+            var name = charData[i][_CHAR_NAME] as string;
+
+            charDict.Add(code, name);
+        }
+
+    }
+
+
+
     /// <summary>
     ///  Resources.Load를 이용하여 사념 파일을 불러옵니다.
     /// </summary>
@@ -345,9 +367,7 @@ public class TalkSystemManager : Manager<TalkSystemManager>
 
     }
 
-
-
-
+    //미리 해놓기
     private string _TALK_CODE = "TALK_CODE";
     private string _TALK_CHAR_NAME = "TALK_CHAR_NAME";
     private string _TALK_MOVE = "TALK_MOVE";
