@@ -468,10 +468,12 @@ public class PlayerController : Character
                 }
                 else
                 {
-                    if (!ReferenceEquals(currentNPC, null) && isTalking == false && currentNPC.canInteract) //대화를 해야한다면
+                    if (!ReferenceEquals(currentNPC, null) && isTalking == false && currentNPC.canInteract && playerStateMachine.GetCurrentStateE() == eState.PLAYER_DEFAULT) //대화를 해야한다면
                     {
+
                         TalkSystemManager.Instance.currentTalkNPC = currentNPC;
                         currentNPC.StartTalk();
+
                         // TalkSystemManager.Instance.StartGoTalk(currentNPC.currentTalkCode, currentNPC);
                     }
 
@@ -480,7 +482,7 @@ public class PlayerController : Character
             }
             else //잡아야할 오브젝트가 없을 경우
             {
-                if (!ReferenceEquals(currentNPC, null) && isTalking == false && currentNPC.canInteract) //대화를 해야한다면
+                if (!ReferenceEquals(currentNPC, null) && isTalking == false && currentNPC.canInteract && playerStateMachine.GetCurrentStateE() == eState.PLAYER_DEFAULT) //대화를 해야한다면
                 {
 
                     TalkSystemManager.Instance.currentTalkNPC = currentNPC;
