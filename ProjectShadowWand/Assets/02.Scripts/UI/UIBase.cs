@@ -9,6 +9,8 @@ public class UIBase : MonoBehaviour
 {
     [Tooltip("현재 직접 구분해서 type을 정하는 기능이 없습니다. 직접 넣어라!!")]
     public eUItype uiType;
+
+    public GameObject canvasObject;
     private void Start()
     {
         Debug.Log("Start!");

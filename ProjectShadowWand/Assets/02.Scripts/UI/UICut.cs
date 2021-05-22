@@ -24,6 +24,7 @@ public class UICut : UIBase
     private void Awake()
     {
         cutImage = GetComponent<Image>();
+        canvasObject = gameObject;
     }
     private void Start()
     {

@@ -69,6 +69,10 @@ public class ActiveSelectImage_Sprout : MonoBehaviour, IPointerEnterHandler, IPo
 
     public void OnSelect(BaseEventData eventData)
     {
+        if (eventSystem == null)
+        {
+            eventSystem = EventSystem.current;
+        }
         if (eventSystem.currentSelectedGameObject != gameObject)
         {
             eventSystem.SetSelectedGameObject(gameObject);
@@ -95,10 +99,10 @@ public class ActiveSelectImage_Sprout : MonoBehaviour, IPointerEnterHandler, IPo
     {
         //  UIManager.Instance.isCanChangeCursor = true;
         goFillAmount = 0f;
-        if (eventSystem.currentSelectedGameObject == gameObject)
-        {
-            eventSystem.SetSelectedGameObject(null);
-        }
+        //if (eventSystem.currentSelectedGameObject == gameObject)
+        //{
+        //    eventSystem.SetSelectedGameObject(null);
+        //}
     }
 
 

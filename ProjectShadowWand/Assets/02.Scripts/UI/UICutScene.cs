@@ -9,10 +9,6 @@ using UnityEngine.UI;
 public class UICutScene : UIBase
 {
 
-    //TODO : 켜고 싶을 때 gameObject.SetActive(true)를 해버리면 처음부터 하이어라키에서 끄고 시작할 때 오류가 생김.
-    //즉, 얘는 캔버스 그 자체면 조금 애매애매쓰 하다는 소리....
-    //그러니까, 빈 게임 오브젝트에 해당 컴포넌트를 붙이자.
-
     public CanvasGroup canvasGroup;
 
     [Tooltip("컷 목록")]
@@ -55,7 +51,7 @@ public class UICutScene : UIBase
         {
             cutList[i].SetActive(false);
         }
-        canvasGroup.gameObject.SetActive(false);
+        canvasObject.SetActive(false);
     }
 
     public override void Init()
@@ -81,7 +77,7 @@ public class UICutScene : UIBase
     //이미지컷씬을 재생시작합니다.
     public void StartPlayCutScene()
     {
-        canvasGroup.gameObject.SetActive(true);
+        canvasObject.SetActive(true);
         StartCoroutine(ProcessCutScene());
     }
 
@@ -101,7 +97,7 @@ public class UICutScene : UIBase
     private IEnumerator ProcessOpen_Fade()
     {
 
-        canvasGroup.gameObject.SetActive(true);
+        canvasObject.SetActive(true);
         canvasGroup.alpha = 0f;
 
         float timer = 0f;
@@ -121,7 +117,7 @@ public class UICutScene : UIBase
     public IEnumerator ProcessCutScene()
     {
         Debug.Log("StartCutscene");
-        canvasGroup.gameObject.SetActive(true);
+        canvasObject.SetActive(true);
         UIBase tempUI;
         UIManager.Instance.uiDicitonary.TryGetValue(uiType, out tempUI);
         if (tempUI != this)
@@ -209,7 +205,7 @@ public class UICutScene : UIBase
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
         isEnd = true;
-        canvasGroup.gameObject.SetActive(false);
+        canvasObject.SetActive(false);
 
     }
 

@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIMainMenu : MonoBehaviour
+public class UIMainMenu : UIBase
 {
     public CanvasGroup canvasGroup;
-    public UIPopup newGamePopup;
+
+    public UIPopup uiPopup_NewGame;
+    public UISettings uiSetting;
+    public UIPopup uiPopup_ExitGame;
+
     public UICutScene cutscene;
 
     private void Start()
@@ -25,7 +29,6 @@ public class UIMainMenu : MonoBehaviour
 
     private IEnumerator NewGameIntro()
     {
-
         cutscene = UIManager.Instance.uiDicitonary[eUItype.CUTSCENE] as UICutScene;
 
         cutscene.StartPlayCutScene();

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class UIPopup : UIBase
 {
+    public ButtonSelector buttonSelector;
 
     private void Start()
     {
@@ -12,30 +13,35 @@ public class UIPopup : UIBase
 
     public override void Init()
     {
-
-        SetActive(false);
+        canvasObject.SetActive(false);
     }
 
     public override bool Open()
     {
-        SetActive(true);
-        return gameObject.activeSelf;
+
+        canvasObject.SetActive(true);
+        return canvasObject.activeSelf;
     }
 
     public override bool Close()
     {
-        SetActive(false);
-        return !gameObject.activeSelf;
+        canvasObject.SetActive(false);
+        return !canvasObject.activeSelf;
     }
 
 
     public void ButtonOpen()
     {
-        SetActive(true);
+        Open();
+        buttonSelector.ForceSelect();
     }
 
     public void ButtonClose()
     {
-        SetActive(false);
+        if (buttonSelector.eventSystem.currentSelectedGameObject == buttonSelector.activeButton.gameObject)
+        {
+            buttonSelector.eventSystem.SetSelectedGameObject(null);
+        }
+        Close();
     }
 }

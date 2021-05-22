@@ -9,22 +9,38 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class ButtonSelector : MonoBehaviour
 {
-    private Button button;
-    private ActiveSelectImage activer;
-    private EventSystem eventSystem;
+    [Tooltip("처음에 선택될 버튼 오브젝트입니다.")]
+    public Button activeButton;
+
+
+    private ActiveSelectImage_Sprout activer;
+
+    [HideInInspector]
+    public EventSystem eventSystem;
+
     // Start is called before the first frame update
     private void Awake()
     {
-        button = GetComponent<Button>();
-        activer = GetComponent<ActiveSelectImage>();
+
+        activer = activeButton.GetComponent<ActiveSelectImage_Sprout>();
+        Debug.Log("AWAKE!!");
     }
     void Start()
     {
         eventSystem = EventSystem.current;
-
-        eventSystem.SetSelectedGameObject(null);
-        eventSystem.SetSelectedGameObject(gameObject);
-        activer.goFillAmount = 1f;
     }
+    public void ForceSelect()
+    {
+        if (eventSystem == null)
+        {
+            eventSystem = EventSystem.current;
+        }
+        if (activer != null)
+        {
+            eventSystem.SetSelectedGameObject(null);
+            eventSystem.SetSelectedGameObject(activeButton.gameObject);
+            activer.goFillAmount = 1f;
+        }
 
+    }
 }
