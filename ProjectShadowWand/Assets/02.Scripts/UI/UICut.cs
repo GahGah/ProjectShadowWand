@@ -21,21 +21,36 @@ public class UICut : UIBase
 
     public bool isSkip;
 
+    [Tooltip("애니메이션을 사용하는가?")]
+    public bool useAnimation;
+
     private void Awake()
     {
         cutImage = GetComponent<Image>();
+
         canvasObject = gameObject;
+
+        if (useAnimation)
+        {
+            anim = gameObject.GetComponent<Animator>();
+        }
     }
     private void Start()
     {
         Init();
-
     }
+    [HideInInspector]
+    public Animator anim;
     public override void Init()
     {
         base.Init();
         isOn = false;
+
+
     }
+
+
+
 
     public override void OnActive()
     {

@@ -90,7 +90,8 @@ public class Skill_WaterWave : Skill
 
     public void SetRayPosition()
     {
-        rayHitPosition = new Vector2(originalRayPosition.position.x, originalRayPosition.position.y - splashCheckDistance);
+        //rayHitPosition = new Vector2(originalRayPosition.position.x, originalRayPosition.position.y - splashCheckDistance);
+        rayHitPosition = new Vector2(originalRayPosition.position.x, originalRayPosition.position.y);
     }
 
     private void FlipSplashEffect()

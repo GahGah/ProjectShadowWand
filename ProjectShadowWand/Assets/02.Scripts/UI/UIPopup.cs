@@ -20,13 +20,20 @@ public class UIPopup : UIBase
     {
 
         canvasObject.SetActive(true);
-        return canvasObject.activeSelf;
+
+        buttonSelector.ForceSelect();
+        return true;
     }
 
     public override bool Close()
     {
         canvasObject.SetActive(false);
-        return !canvasObject.activeSelf;
+
+        if (buttonSelector.eventSystem.currentSelectedGameObject == buttonSelector.activeButton.gameObject)
+        {
+            buttonSelector.eventSystem.SetSelectedGameObject(null);
+        }
+        return true;
     }
 
 

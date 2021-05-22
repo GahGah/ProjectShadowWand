@@ -27,6 +27,12 @@ public class UICutScene : UIBase
     public bool isEnd;
 
 
+
+    [Header("씬의 종료를 검은색 페이드로")]
+    [Tooltip("씬의 맨 마지막에서 검은색으로 Fade가 됩니다.")]
+    public bool isLastFade;
+    public UICut frontBlackCut;
+
     public bool isNext;
     //private void Start()
     //{
@@ -178,10 +184,44 @@ public class UICutScene : UIBase
                 }
 
             }
+            if (currentCut.useAnimation == true)
+            {
+                currentCut.anim.enabled = false;
+            }
 
         }
 
         yield return null;
+
+
+
+
+        if (isLastFade == true)
+        {
+            isNext = false;
+
+
+            while (isNext == false)
+            {
+                yield return YieldInstructionCache.WaitForEndOfFrame;
+            }
+
+
+            frontBlackCut.SetActive(true);
+            frontBlackCut.Open();
+
+            while (!frontBlackCut.isOn)
+            {
+                yield return YieldInstructionCache.WaitForEndOfFrame;
+            }
+
+            for (int i = 0; i < cutCount; i++)
+            {
+                cutList[i].SetActive(false);
+            }
+
+        }
+
 
         isEnd = true;
         isNext = false;

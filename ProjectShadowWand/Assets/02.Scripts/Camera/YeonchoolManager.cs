@@ -102,10 +102,14 @@ public class YeonchoolManager : Manager<YeonchoolManager>
 
         yield return StartCoroutine(tempCutscene.ProcessCutScene());
 
-        while (tempCutscene.isNext == false)
+        if (tempCutscene.isLastFade == false)
         {
-            yield return null;
+            while (tempCutscene.isNext == false)
+            {
+                yield return YieldInstructionCache.WaitForEndOfFrame;
+            }
         }
+
         Time.timeScale = 1f;
 
         yield return StartCoroutine(tempCutscene.ProcessClose_Fade());

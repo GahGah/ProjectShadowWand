@@ -111,6 +111,8 @@ public class BirdBaby : NPC
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
+        PlayerController.Instance.currentNPC = null;
+        TalkSystemManager.Instance.currentTalkNPC = null;
         QuestManager.Instance.QuestSystem_RemoveQuest(quest_01, true);
 
     }

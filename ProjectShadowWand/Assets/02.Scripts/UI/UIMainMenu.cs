@@ -42,7 +42,7 @@ public class UIMainMenu : UIBase
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
 
-        SceneChanger.Instance.LoadThisSceneName("Stage_00", false);
+        SceneChanger.Instance.LoadThisSceneName("Stage_00", true);
     }
     public void Button_GoContinue(UIBase _ui)
     {

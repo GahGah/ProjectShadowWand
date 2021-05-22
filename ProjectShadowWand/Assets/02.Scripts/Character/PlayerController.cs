@@ -621,19 +621,29 @@ public class PlayerController : Character
 
         if (InputManager.Instance.buttonMoveJump.wasPressedThisFrame)
         {
-            if (CanMove())
+            if (CanMove() == false)
             {
-                if (isGrounded) //땅에 닿아있을 때와 사다리를 타는 상태일 때만 점프를 할 수 있습니다.
-                {
-                    shouldJump = true;
+                return;
+            }
 
-                }
-                if (isClimbLadder)
+            if (isGrounded) //땅에 닿아있을 때와 사다리를 타는 상태일 때만 점프를 할 수 있습니다.
+            {
+                shouldJump = true;
+
+            }
+            else
+            {
+                if (playerStateMachine.GetCurrentStateE() == eState.PLAYER_DEFAULT)
                 {
-                    onLadderJump = true;
                     shouldJump = true;
                 }
             }
+            if (isClimbLadder)
+            {
+                onLadderJump = true;
+                shouldJump = true;
+            }
+
         }
 
 
