@@ -57,6 +57,8 @@ public class UICutScene : UIBase
         {
             cutList[i].SetActive(false);
         }
+
+    //    canvasObject = gameObject;
         canvasObject.SetActive(false);
     }
 
