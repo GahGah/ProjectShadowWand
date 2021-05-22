@@ -100,15 +100,18 @@ public class Quest_MomAndBaby_02 : Quest
 {
     BirdBaby baby;
     BirdMom mom;
+
+    bool isClear;
     public Quest_MomAndBaby_02(BirdBaby _baby, BirdMom _mom)
     {
         mom = _mom;
         baby = _baby;
+        isClear = false;
     }
     public override void StartTalk(NPC _npc)
     {
         base.StartTalk(_npc);
-        if (_npc == mom) //맘...이라면
+        if (_npc == mom && baby.catchableObject.isCatched == true) //맘...이라면
         {
             baby.catchableObject.GoPutThis();
             PlayerController.Instance.SetCatchedObject(null); //나리를 내려놓고
@@ -117,6 +120,7 @@ public class Quest_MomAndBaby_02 : Quest
             baby.catchableObject.enabled = false; //잡지 못하게 한다.
 
             baby.gameObject.transform.position = baby.momTogetherPos.position;
+            isClear = true;
         }
     }
     public override void StartQuest()
@@ -141,12 +145,12 @@ public class Quest_MomAndBaby_02 : Quest
         base.EndTalk(_npc);
 
         //엄마와 말을 끝내면
-        if (_npc == mom)
+        if (_npc == mom && isClear == true)
         {
-            QuestManager.Instance.QuestSystem_RemoveQuest(this, true);
             mom.currentTalkCode = 12;
             baby.currentTalkCode = -1;
             baby.birdCollider.enabled = false;
+            QuestManager.Instance.QuestSystem_RemoveQuest(this, true);
         }
     }
 }

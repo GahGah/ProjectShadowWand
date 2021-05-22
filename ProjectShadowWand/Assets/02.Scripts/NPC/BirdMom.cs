@@ -24,6 +24,7 @@ public class BirdMom : NPC
         {
             currentTalkCode = 8;
         }
+
         switch (currentTalkCode)
         {
             case 0:
@@ -32,15 +33,16 @@ public class BirdMom : NPC
                 currentTalkCode = 4;
                 break;
 
+            case 8:
+                TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
+                break;
+
             default:
                 TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
                 break;
-                //case 4:
-                //    TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
-                //    break;
-                //case 8:
-                //    TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
-                //    break;
+            //case 4:
+            //    TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
+            //    break;
                 //case 12:
                 //    Talk
         }
