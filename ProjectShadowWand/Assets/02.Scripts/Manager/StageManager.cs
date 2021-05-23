@@ -196,6 +196,7 @@ public class StageManager : Manager<StageManager>
         {
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
+
         if (isStageClear)
         {
 
@@ -211,7 +212,13 @@ public class StageManager : Manager<StageManager>
     public void SetLastQuestClear(bool _b)
     {
         isClear_Quest = _b;
+
         IsStageClear();
+
+        if (isStageClear)
+        {
+            StartCoroutine(stageDoor.ChangeOpenDoor());
+        }
     }
 
 
