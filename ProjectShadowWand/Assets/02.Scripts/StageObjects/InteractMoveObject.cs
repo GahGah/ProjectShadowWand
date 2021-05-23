@@ -12,9 +12,9 @@ public class InteractMoveObject : MonoBehaviour
     public Collider2D col;
     private void Start()
     {
-        
         Physics2D.IgnoreCollision(col, PlayerController.Instance.playerCollider, true);
         rb = GetComponent<Rigidbody2D>();
+        StageManager.Instance.AddTrashList(this);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

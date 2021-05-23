@@ -47,6 +47,13 @@ public class StageManager : Manager<StageManager>
     public bool isStageClear;
 
 
+    [Tooltip("맵의 쓰레기 리스트 입니다.")]
+
+    public List<InteractMoveObject> trashList;
+    public void AddTrashList(InteractMoveObject _imo)
+    {
+        trashList.Add(_imo);
+    }
     //private static StageManager instance;
     //public static StageManager Instance
     //{
@@ -65,8 +72,8 @@ public class StageManager : Manager<StageManager>
         base.Awake();
 
         InitSoulMemoryList();
-
-        if (IsStageClear()) //시작부터 클리어일 경우
+        var test = IsStageClear();
+        if (test) //시작부터 클리어일 경우
         {
             Debug.Log("이 스테이지는 퀘스트와 사념이 존재하지 않습니다. 그냥 클리어 처리 합니다.");
         }
@@ -76,7 +83,7 @@ public class StageManager : Manager<StageManager>
         }
         // UpdateStageName();
 
-
+        trashList = new List<InteractMoveObject>();
         UpdateStageName();
     }
 
@@ -183,12 +190,17 @@ public class StageManager : Manager<StageManager>
 
         yield return null;
 
+
+
         while (YeonchoolManager.Instance.isCutscenePlaying == true) //컷씬 플레이가 끝날때까지 기다리기
         {
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
+        if (isStageClear)
+        {
 
-        yield return StartCoroutine(stageDoor.ChangeOpenDoor());
+            yield return StartCoroutine(stageDoor.ChangeOpenDoor());
+        }
     }
 
 

@@ -728,6 +728,8 @@ MonoBehaviour:
   waitTime: 1
   isOn: 0
   isSkip: 0
+  useAnimation: 0
+  anim: {fileID: 0}
 --- !u!1001 &110429252
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2151,6 +2153,8 @@ MonoBehaviour:
   waitTime: 1
   isOn: 0
   isSkip: 0
+  useAnimation: 0
+  anim: {fileID: 0}
 --- !u!1001 &414659362
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3001,6 +3005,8 @@ MonoBehaviour:
   waitTime: 0
   isOn: 0
   isSkip: 0
+  useAnimation: 0
+  anim: {fileID: 0}
 --- !u!1001 &635733073
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3152,6 +3158,8 @@ MonoBehaviour:
   waitTime: 0.29
   isOn: 0
   isSkip: 0
+  useAnimation: 0
+  anim: {fileID: 0}
 --- !u!1001 &682524410
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3869,13 +3877,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nowStageName: 
   nextStageName: 
+  stageNameList: []
   stageDoor: {fileID: 24861553}
+  soulMemoryTakeCount: 0
   soulMemoryList: []
   isQuestExist: 0
   isSoulMemoryExist: 1
   isClear_Quest: 0
   isClear_SoulMemory: 0
   isStageClear: 0
+  trashList: []
 --- !u!4 &854743482
 Transform:
   m_ObjectHideFlags: 0
@@ -4372,6 +4383,7 @@ MonoBehaviour:
   waitTime_go: 0
   comebackSpeed: 0
   waitTime_comeback: 0
+  isCutscenePlaying: 0
 --- !u!4 &1060424460
 Transform:
   m_ObjectHideFlags: 0
@@ -4646,6 +4658,8 @@ MonoBehaviour:
   waitTime: 1
   isOn: 0
   isSkip: 0
+  useAnimation: 0
+  anim: {fileID: 0}
 --- !u!114 &1143873282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6326,11 +6340,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4846710324325566922, guid: 18eeb67282b813b48af59a8998642d9f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 19.89
+      value: 20.19
       objectReference: {fileID: 0}
     - target: {fileID: 4846710324325566922, guid: 18eeb67282b813b48af59a8998642d9f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.19
+      value: 0.78
       objectReference: {fileID: 0}
     - target: {fileID: 4846710324325566922, guid: 18eeb67282b813b48af59a8998642d9f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6366,7 +6380,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4846710324325566923, guid: 18eeb67282b813b48af59a8998642d9f, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4846710324325566924, guid: 18eeb67282b813b48af59a8998642d9f, type: 3}
       propertyPath: m_Name
@@ -6813,7 +6827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiType: 0
-  canvasObject: {fileID: 0}
+  canvasObject: {fileID: 1299635924}
   canvasGroup: {fileID: 1299635929}
   cutList:
   - {fileID: 2095891165}
@@ -6826,6 +6840,8 @@ MonoBehaviour:
   currentCut: {fileID: 0}
   fadeTime: 2
   isEnd: 0
+  isLastFade: 0
+  frontBlackCut: {fileID: 0}
   isNext: 0
 --- !u!224 &1474469648
 RectTransform:
@@ -8642,7 +8658,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2228752287119987343, guid: d56656dacc336f84f88f0cef974b56af, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 31.22
+      value: 31.85
       objectReference: {fileID: 0}
     - target: {fileID: 2228752287119987343, guid: d56656dacc336f84f88f0cef974b56af, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9058,6 +9074,8 @@ MonoBehaviour:
   waitTime: 0.87
   isOn: 0
   isSkip: 0
+  useAnimation: 0
+  anim: {fileID: 0}
 --- !u!1001 &1938891108
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9478,11 +9496,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8126105683638668032, guid: c32048cd9819f214697815145f758468, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126105683638668032, guid: c32048cd9819f214697815145f758468, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126105683638668032, guid: c32048cd9819f214697815145f758468, type: 3}
       propertyPath: m_LocalPosition.x
@@ -9498,7 +9516,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8126105683638668032, guid: c32048cd9819f214697815145f758468, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8126105683638668032, guid: c32048cd9819f214697815145f758468, type: 3}
       propertyPath: m_LocalRotation.x
@@ -9506,7 +9524,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8126105683638668032, guid: c32048cd9819f214697815145f758468, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126105683638668032, guid: c32048cd9819f214697815145f758468, type: 3}
       propertyPath: m_LocalRotation.z
@@ -9518,7 +9536,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8126105683638668032, guid: c32048cd9819f214697815145f758468, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8126105683638668032, guid: c32048cd9819f214697815145f758468, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -9625,6 +9643,8 @@ MonoBehaviour:
   waitTime: 1
   isOn: 0
   isSkip: 0
+  useAnimation: 0
+  anim: {fileID: 0}
 --- !u!1 &2122446694
 GameObject:
   m_ObjectHideFlags: 0
@@ -9860,14 +9880,6 @@ PrefabInstance:
     - target: {fileID: 3876949640752661612, guid: c416d4f1a195ef749975def7f4bf411f, type: 3}
       propertyPath: m_RootOrder
       value: 86
-      objectReference: {fileID: 0}
-    - target: {fileID: 3876949640752661612, guid: c416d4f1a195ef749975def7f4bf411f, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3876949640752661612, guid: c416d4f1a195ef749975def7f4bf411f, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 3876949640752661612, guid: c416d4f1a195ef749975def7f4bf411f, type: 3}
       propertyPath: m_LocalPosition.x
