@@ -443,6 +443,7 @@ MonoBehaviour:
   isClear_Quest: 0
   isClear_SoulMemory: 0
   isStageClear: 0
+  trashList: []
 --- !u!4 &33684719
 Transform:
   m_ObjectHideFlags: 0
@@ -23339,7 +23340,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 427963301685739844, guid: 09b77de4ca38845478994a93adae135a, type: 3}
       propertyPath: m_RootOrder
-      value: 22
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 427963301685739844, guid: 09b77de4ca38845478994a93adae135a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -24428,7 +24429,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9183275981572323020, guid: e58eee6c77b77eb43ab93e9e210d64da, type: 3}
       propertyPath: m_RootOrder
-      value: 23
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 9183275981572323020, guid: e58eee6c77b77eb43ab93e9e210d64da, type: 3}
       propertyPath: m_LocalPosition.x
