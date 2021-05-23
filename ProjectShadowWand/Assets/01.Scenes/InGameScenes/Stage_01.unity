@@ -434,7 +434,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nowStageName: 
   nextStageName: 
+  stageNameList: []
   stageDoor: {fileID: 1969004827}
+  soulMemoryTakeCount: 0
   soulMemoryList: []
   isQuestExist: 1
   isSoulMemoryExist: 1
@@ -3084,7 +3086,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiType: 0
-  canvasObject: {fileID: 0}
+  canvasObject: {fileID: 1656223709}
   canvasGroup: {fileID: 1656223714}
   cutList:
   - {fileID: 1150117736}
@@ -5392,7 +5394,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1261229787
-  m_SortingLayer: 6
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &534443388
@@ -8904,7 +8906,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -741118393
-  m_SortingLayer: 7
+  m_SortingLayer: 6
   m_SortingOrder: 16
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &798404625
@@ -12383,8 +12385,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiType: 0
   canvasObject: {fileID: 0}
-  processTime: 3.67
-  waitTime: 1
+  processTime: 1
+  waitTime: 0.4
   isOn: 0
   isSkip: 0
   useAnimation: 0
@@ -14330,6 +14332,7 @@ MonoBehaviour:
   waitTime_go: 0
   comebackSpeed: 7
   waitTime_comeback: 0
+  isCutscenePlaying: 0
 --- !u!4 &1307151603
 Transform:
   m_ObjectHideFlags: 0
@@ -22592,6 +22595,14 @@ PrefabInstance:
     - target: {fileID: 8403324799475236889, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
       propertyPath: unlockWind
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403324799475236889, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
+      propertyPath: unlockWater
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403324799475236889, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
+      propertyPath: unlockLightning
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8403324799475236893, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
       propertyPath: m_Name

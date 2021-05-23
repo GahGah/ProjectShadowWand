@@ -6,7 +6,6 @@ public class SoulMemory : MonoBehaviour
 {
     private StageManager stageManager;
 
-
     [Tooltip("상호작용 한 적 있는지를 뜻합니다.")]
     public bool isTake;
 
@@ -14,7 +13,6 @@ public class SoulMemory : MonoBehaviour
     public bool isEnd;
 
     public int currentTalkCode;
-
 
     [Header("획득 연출 관련")]
 
@@ -51,6 +49,7 @@ public class SoulMemory : MonoBehaviour
     private float originalYpos;
 
 
+    private bool isUp;
 
 
     private UIBlackScreen blackScreen;
@@ -58,13 +57,13 @@ public class SoulMemory : MonoBehaviour
     {
         isTake = false;
         isEnd = false;
+        isUp = false;
     }
 
 
 
     private void Start()
     {
-
         Init();
     }
 
@@ -74,11 +73,12 @@ public class SoulMemory : MonoBehaviour
         originalYpos = myTransform.position.y;
         stageManager = StageManager.Instance;
         yPos = originalYpos;
+        runningTime = 0f;
 
-        if (upTime <= 0f)
-        {
-            upTime = 2f;
-        }
+        //if (upTime <= 0f)
+        //{
+        upTime = 3f;
+        //}
 
         if (upLength <= 0f)
         {
@@ -116,9 +116,17 @@ public class SoulMemory : MonoBehaviour
     {
         yield return null;
 
-        blackScreen = UIManager.Instance.uiDicitonary[eUItype.BLACKSCREEN] as UIBlackScreen;
-        blackScreen.SetFadeValue(0f, fadeTime, true);
-        yield return StartCoroutine(blackScreen.GoFadeScreen());
+
+        //isTake = true인 상태입니다....
+
+
+
+        //yield return StartCoroutine(MoveUpSoulMemory());
+
+        //blackScreen = UIManager.Instance.uiDicitonary[eUItype.BLACKSCREEN] as UIBlackScreen;
+        //blackScreen.SetFadeValue(0f, fadeTime, true);
+
+        // yield return StartCoroutine(blackScreen.GoFadeScreen());
 
         TalkSystemManager.Instance.StartReadSoulMemory(currentTalkCode, this);
     }
@@ -136,10 +144,10 @@ public class SoulMemory : MonoBehaviour
     {
         yield return null;
 
-        blackScreen = UIManager.Instance.uiDicitonary[eUItype.BLACKSCREEN] as UIBlackScreen;
+        //blackScreen = UIManager.Instance.uiDicitonary[eUItype.BLACKSCREEN] as UIBlackScreen;
 
-        blackScreen.SetFadeValue(0f, fadeTime, false);
-        yield return StartCoroutine(blackScreen.GoFadeScreen());
+        //blackScreen.SetFadeValue(0f, fadeTime, false);
+        //yield return StartCoroutine(blackScreen.GoFadeScreen());
 
         isEnd = true;
 
@@ -148,6 +156,7 @@ public class SoulMemory : MonoBehaviour
 
         gameObject.SetActive(false);
         PlayerController.Instance.isInteractingSoulMemory = false;
+        StageManager.Instance.soulMemoryTakeCount += 1;
         StageManager.Instance.CheckClearCondition_SoulMemory();
     }
 
@@ -157,7 +166,8 @@ public class SoulMemory : MonoBehaviour
     /// <returns></returns>
     private IEnumerator MoveUpSoulMemory()
     {
-        float upPos = originalYpos + upLength;
+        //  float upPos = originalYpos + upLength;
+        float upPos = (CameraManager.Instance.currentCamera.transform.position.y + 2.5f);
         float timer = 0f;
         float progress = 0f;
 
@@ -169,28 +179,37 @@ public class SoulMemory : MonoBehaviour
             progress = timer / upTime;
 
             myTransform.position = new Vector2(xPos, Mathf.Lerp(yPos, upPos, progress));
+
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
+        //   isUp = false;
+        //   UpdateUpAndDownPosition();
     }
 
 
     public void UpdateUpAndDownPosition()
     {
+        //원래 isEnd엿음
         if (isEnd)
         {
             return;
         }
-        //        runningTime += Time.deltaTime * upAndDownSpeed;
 
-        //      yPos = Mathf.Sin(runningTime) * originalYpos * length;
-
-        yPos = Mathf.Sin(Time.time * upAndDownSpeed) * length;
+        runningTime = Time.time;
+        yPos = Mathf.Sin(runningTime * upAndDownSpeed) * length;
         myTransform.position = new Vector2(myTransform.position.x, originalYpos + yPos);
 
         if (runningTime > 10000f)
         {
             runningTime = 0f;
         }
+
+
+        //        runningTime += Time.deltaTime * upAndDownSpeed;
+
+        //      yPos = Mathf.Sin(runningTime) * originalYpos * length;
+
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

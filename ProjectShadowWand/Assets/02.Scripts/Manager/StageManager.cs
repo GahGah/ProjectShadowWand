@@ -16,8 +16,17 @@ public class StageManager : Manager<StageManager>
     public string nextStageName;
 
 
+    [Tooltip("스테이지들의 이름을 담고있습니다.")]
+    public List<string> stageNameList;
+
     [Tooltip("다음 스테이지로 향하는 문")]
     public StageDoor stageDoor;
+
+
+
+    [Tooltip("사념을 획득한 갯수입니다.")]
+    public int soulMemoryTakeCount;
+
     public List<SoulMemory> soulMemoryList;
 
     [Header("특정 퀘스트를 클리어해야할 경우 체크")]
@@ -66,9 +75,18 @@ public class StageManager : Manager<StageManager>
             StartCoroutine(ProcessStageClear());
         }
         // UpdateStageName();
+
+
         UpdateStageName();
     }
 
+    private void UpdateStageNameList()
+    {
+        stageNameList = new List<string>();
+        stageNameList.Add("Stage_00");
+        stageNameList.Add("Stage_01");
+        stageNameList.Add("Stage_02");
+    }
     private void Start()
     {
         YeonchoolManager.Instance.StartStageInYeonchool();
@@ -78,6 +96,7 @@ public class StageManager : Manager<StageManager>
         if (soulMemoryList.Count == 0)
         {
             soulMemoryList = new List<SoulMemory>();
+            soulMemoryTakeCount = 0;
         }
     }
 
@@ -97,11 +116,11 @@ public class StageManager : Manager<StageManager>
     /// <returns></returns>
     public IEnumerator ProcessStageClear()
     {
-        yield return new WaitUntil(() => isStageClear);
-        //스테이지 클리어가 true일 때 까지 대기
-        Debug.Log("클리어 조건 만족!");
+        //yield return new WaitUntil(() => isStageClear);
+        ////스테이지 클리어가 true일 때 까지 대기
+        //Debug.Log("클리어 조건 만족!");
 
-        yield return StartCoroutine(stageDoor.ChangeOpenDoor());
+        //yield return StartCoroutine(stageDoor.ChangeOpenDoor());
 
         yield break;
     }
@@ -109,9 +128,10 @@ public class StageManager : Manager<StageManager>
     /// <summary>
     /// 소울 메모리들의 상태를 보고 클리어 조건을 만족했는지를 체크합니다. 만족했다면, IsStageClear()함수를 호출합니다.
     /// </summary>
-    public bool CheckClearCondition_SoulMemory()
+    public void CheckClearCondition_SoulMemory()
     {
         bool isEnd_All = true;
+
 
         for (int i = 0; i < soulMemoryList.Count; i++)
         {
@@ -133,8 +153,44 @@ public class StageManager : Manager<StageManager>
             isClear_SoulMemory = false;
         }
 
-        return isClear_SoulMemory;
+        StartCoroutine(ProcessTakeSoulMemory());
     }
+
+    public IEnumerator ProcessTakeSoulMemory()
+    {
+        switch (nowStageName)
+        {
+            case "Stage_00":
+                break;
+
+            case "Stage_01":
+                if (soulMemoryTakeCount == 2)
+                {
+                    PlayerController.Instance.playerSkillManager.UnlockWater();
+                }
+                break;
+
+            case "Stage_02":
+                if (soulMemoryTakeCount == 1) //정해진 하나를 먹었다면
+                {
+                    PlayerController.Instance.playerSkillManager.UnlockLightning();
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        yield return null;
+
+        while (YeonchoolManager.Instance.isCutscenePlaying == true) //컷씬 플레이가 끝날때까지 기다리기
+        {
+            yield return YieldInstructionCache.WaitForEndOfFrame;
+        }
+
+        yield return StartCoroutine(stageDoor.ChangeOpenDoor());
+    }
+
 
     /// <summary>
     /// 마지막 퀘스트의 클리어 여부를 설정합니다. 그리고, IsStageClear()함수를 호출합니다.

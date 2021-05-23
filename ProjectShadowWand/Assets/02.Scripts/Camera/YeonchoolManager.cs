@@ -34,6 +34,8 @@ public class YeonchoolManager : Manager<YeonchoolManager>
     public float waitTime_comeback;
     // Start is called before the first frame update
 
+
+    public bool isCutscenePlaying;
     protected override void Awake()
     {
         base.Awake();
@@ -74,6 +76,13 @@ public class YeonchoolManager : Manager<YeonchoolManager>
 
     public IEnumerator StartCutscene(eCutsceneType _cutsceneType)
     {
+        isCutscenePlaying = true;
+        if (PlayerController.Instance != null)
+        {
+            PlayerController.Instance.canMove = false;
+        }
+
+
         Debug.Log("¿¬Ãâ¸Å´ÏÀú ½ºÅ¸Æ® ÄÆ¾À");
         yield return new WaitForSeconds(1f);
         Time.timeScale = 0f;
@@ -95,11 +104,6 @@ public class YeonchoolManager : Manager<YeonchoolManager>
                 break;
         }
 
-        if (PlayerController.Instance != null)
-        {
-            PlayerController.Instance.canMove = false;
-        }
-
         yield return StartCoroutine(tempCutscene.ProcessCutScene());
 
         if (tempCutscene.isLastFade == false)
@@ -119,6 +123,8 @@ public class YeonchoolManager : Manager<YeonchoolManager>
         {
             PlayerController.Instance.canMove = true;
         }
+
+        isCutscenePlaying = false;
 
     }
     public void StartStageInYeonchool()

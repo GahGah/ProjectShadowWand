@@ -137,18 +137,20 @@ public class PlayerSkillManager : MonoBehaviour
     public void UnlockWind()
     {
         UnlockSkill(eSkill.WINDGILDE);
-        Debug.Log("언록 윈드");
+        YeonchoolManager.Instance.isCutscenePlaying = true;
         StartCoroutine(YeonchoolManager.Instance.StartCutscene(eCutsceneType.UNLOCK_WIND));
     }
     public void UnlockLightning()
     {
         UnlockSkill(eSkill.LIGHTNINGSHOCK);
+        YeonchoolManager.Instance.isCutscenePlaying = true;
         StartCoroutine(YeonchoolManager.Instance.StartCutscene(eCutsceneType.UNLOCK_LIGHTNING));
     }
 
     public void UnlockWater()
     {
         UnlockSkill(eSkill.WATERWAVE);
+        YeonchoolManager.Instance.isCutscenePlaying = true;
         StartCoroutine(YeonchoolManager.Instance.StartCutscene(eCutsceneType.UNLOCK_WATER));
     }
     /// <summary>
