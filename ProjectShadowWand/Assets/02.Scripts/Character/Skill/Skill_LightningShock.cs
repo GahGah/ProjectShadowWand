@@ -153,7 +153,13 @@ public class Skill_LightningShock : Skill
         }
         yield return null;
 
+
+        AudioManager.Instance.Play_Skill_Lightning();
+
         yield return YieldInstructionCache.WaitForEndOfFrame;
+
+
+
         yield return new WaitForSeconds(0.5f);
         player.isSkillUse_Lightning = false;
 

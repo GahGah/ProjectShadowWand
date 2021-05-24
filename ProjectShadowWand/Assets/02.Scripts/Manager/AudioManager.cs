@@ -145,7 +145,7 @@ public class AudioManager : Manager<AudioManager>
     {
         float timer = 0f;
         float progress = 0f;
-        float sec = 1f;
+        float sec = 2f;
         if (_source == audioSource_sfx)
             sec = 0.5f;
 
