@@ -29,10 +29,7 @@ public class UIPopup : UIBase
     {
         canvasObject.SetActive(false);
 
-        if (buttonSelector.eventSystem.currentSelectedGameObject == buttonSelector.activeButton.gameObject)
-        {
-            buttonSelector.eventSystem.SetSelectedGameObject(null);
-        }
+        buttonSelector.ForceDeSelect();
         return true;
     }
 
@@ -45,10 +42,8 @@ public class UIPopup : UIBase
 
     public void ButtonClose()
     {
-        if (buttonSelector.eventSystem.currentSelectedGameObject == buttonSelector.activeButton.gameObject)
-        {
-            buttonSelector.eventSystem.SetSelectedGameObject(null);
-        }
+
+        buttonSelector.ForceDeSelect();
         Close();
     }
 }

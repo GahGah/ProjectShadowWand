@@ -3,18 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using TMPro;
 public class UISettings : UIBase
 {
-    [Header("소리")]
+    [Header("오디오 믹서")]
     public AudioMixer audioMixer;
-    public Slider masterSlider;
-    public Slider sfxSlider;
-    public Slider bgmSlider;
 
+
+    [Header("소리 슬라이더")]
+    public Slider masterSlider;
+    public Slider bgmSlider;
+    public Slider sfxSlider;
+
+
+    [Header("음소거 버튼")]
+    public Button masterMute;
+    public Button bgmMute;
+    public Button sfxMute;
+
+    [Header("소리 퍼센트 텍스트")]
+    public TMP_Text masterPer;
+    public TMP_Text bgmPer;
+    public TMP_Text sfxPer;
+
+    [Header("화면모드 토글")]
     public Toggle fullScreenToggle;
     public Toggle windowScreenToggle;
 
+
+
+    [Header("음소거 버튼 이미지")]
+    public Sprite soundMuteImage;
+    public Sprite soundOnImage;
+
     public Slider brightnessSlider;
+
+
+
+
     public CanvasGroup canvasGroup;
     //public UISelecter languageSelector;
 
@@ -24,27 +50,45 @@ public class UISettings : UIBase
     private Data_Settings currentSettingsData;
     // private Data_Settings settingsData;
     private Data_Settings originalSettingsData;
-    private void Start()
+
+
+    private ButtonSelector buttonSelector;
+    private IEnumerator Start()
     {
+        yield return StartCoroutine(SaveLoadManager.Instance.LoadData_Settings());
+
+        SetData(SaveLoadManager.Instance.currentData_Settings);
+
+        masterSlider.onValueChanged.AddListener(delegate { SliderOnChangeMasterSlider(); });
+        bgmSlider.onValueChanged.AddListener(delegate { SliderOnChangeBGMSlider(); });
+        sfxSlider.onValueChanged.AddListener(delegate { SliderOnChangeSfxSlider(); });
+
+
         Init();
+        yield break;
 
     }
 
+
     public override void Init()
     {
-        SetActive(false);
+        canvasObject.SetActive(false);
+        buttonSelector = GetComponent<ButtonSelector>();
     }
 
     public override bool Open()
     {
-        SetActive(true);
-        SetData(SaveLoadManager.Instance.currentData_Settings);
+        canvasObject.SetActive(true);
+
+        buttonSelector.ForceSelect();
         return gameObject.activeSelf;
     }
 
     public override bool Close()
     {
-        SetActive(false);
+        canvasObject.SetActive(false);
+
+        buttonSelector.ForceSelect();
         return !gameObject.activeSelf;
     }
     private void SetData(Data_Settings data)
@@ -64,20 +108,26 @@ public class UISettings : UIBase
     }
     public void SliderOnChangeMasterSlider()
     {
+        Debug.Log("Change!!");
         audioMixer.SetFloat("masterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, masterSlider.value)) * 20);
+        masterPer.text = ChangePerText(masterSlider.value);
     }
-    public void SliderOnChangeSfxSlider()
-    {
-        // GameManager.Instance.settingsManager.
-        audioMixer.SetFloat("sfxVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, sfxSlider.value)) * 20);
-    }
-
     public void SliderOnChangeBGMSlider()
     {
         //  GameManager.Instance.settingsManager.
         audioMixer.SetFloat("bgmVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, bgmSlider.value)) * 20);
+        bgmPer.text = ChangePerText(bgmSlider.value);
 
     }
+
+    public void SliderOnChangeSfxSlider()
+    {
+        // GameManager.Instance.settingsManager.
+        audioMixer.SetFloat("sfxVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, sfxSlider.value)) * 20);
+        sfxPer.text = ChangePerText(sfxSlider.value);
+    }
+
+
     public void SliderOnChangeBrightnessSlider()
     {
 
@@ -129,6 +179,91 @@ public class UISettings : UIBase
         canvasGroup.interactable = true;
     }
 
+
+    public void ButtonOnToggleMute_Master()
+    {
+        masterSlider.interactable = !masterSlider.interactable;
+        UpdateMuteButtonImage(masterMute, masterSlider);
+
+        if (masterSlider.interactable)
+        {
+            audioMixer.SetFloat("masterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(masterSlider.value))) * 20);
+        }
+        else
+        {
+
+            audioMixer.SetFloat("masterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(0f))) * 20);
+        }
+
+      
+
+    }
+    public void ButtonOnToggleMute_Bgm()
+    {
+        bgmSlider.interactable = !bgmSlider.interactable;
+        UpdateMuteButtonImage(bgmMute, bgmSlider);
+
+        if (bgmSlider.interactable)
+        {
+            audioMixer.SetFloat("bgmVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(bgmSlider.value))) * 20);
+        }
+        else
+        {
+            audioMixer.SetFloat("bgmVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(0f))) * 20);
+        }
+
+     
+    }
+    public void ButtonOnToggleMute_Sfx()
+    {
+        sfxSlider.interactable = !sfxSlider.interactable;
+        UpdateMuteButtonImage(sfxMute, sfxSlider);
+
+        if (sfxSlider.interactable)
+        {
+            audioMixer.SetFloat("sfxVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(sfxSlider.value))) * 20);
+        }
+        else
+        {
+            audioMixer.SetFloat("sfxVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(0f))) * 20);
+
+        }
+    }
+
+
+
+    /// <summary>
+    /// 음소거 버튼의 모양을 바꿉니다.
+    /// </summary>
+    public void UpdateMuteButtonImage(Button _button, Slider _slider)
+    {
+        if (_slider.interactable)
+        {
+            _button.image.sprite = soundOnImage;
+        }
+        else
+        {
+            _button.image.sprite = soundMuteImage;
+        }
+    }
+    public void UpdateMuteButtonImage(Button _button, bool _isMute)
+    {
+        if (_isMute == false)
+        {
+            _button.image.sprite = soundOnImage;
+        }
+        else
+        {
+            _button.image.sprite = soundMuteImage;
+        }
+    }
+
+
+
+    private string ChangePerText(float _slideValue)
+    {
+        return GetString(Mathf.Round(_slideValue * 100f));
+    }
     /// <summary>
     /// UI에 보여지는 값들을 변경시킵니다.
     /// </summary>
@@ -139,6 +274,14 @@ public class UISettings : UIBase
         sfxSlider.value = GetFloat(_data.sfxVolume);
         bgmSlider.value = GetFloat(_data.bgmVolume);
 
+        UpdateMuteButtonImage(masterMute, _data.muteMasterVolume);
+        UpdateMuteButtonImage(bgmMute, _data.muteBgmVolume);
+        UpdateMuteButtonImage(sfxMute, _data.muteSfxVolume);
+
+        masterPer.text = ChangePerText(masterSlider.value);
+        bgmPer.text = ChangePerText(bgmSlider.value);
+        sfxPer.text = ChangePerText(sfxSlider.value);
+
         if (_data.isFullScreenMode == true)
         {
             fullScreenToggle.isOn = true;
@@ -148,7 +291,7 @@ public class UISettings : UIBase
             windowScreenToggle.isOn = true;
         }
 
-        brightnessSlider.value = GetFloat(_data.brightness);
+        //  brightnessSlider.value = GetFloat(_data.brightness);
 
     }
 
@@ -161,7 +304,11 @@ public class UISettings : UIBase
         data.masterVolume = GetString(masterSlider.value);
         data.sfxVolume = GetString(sfxSlider.value);
         data.bgmVolume = GetString(bgmSlider.value);
-        data.brightness = GetString(brightnessSlider.value);
+       // data.brightness = GetString(brightnessSlider.value);
+
+        data.muteMasterVolume = !masterSlider.interactable;
+        data.muteBgmVolume = !bgmSlider.interactable;
+        data.muteSfxVolume = !sfxSlider.interactable;
 
         if (fullScreenToggle.isOn == true)
         {
@@ -220,15 +367,43 @@ public class UISettings : UIBase
     /// <param name="data">변경할 세팅 데이터</param>
     private void ApplySettings(Data_Settings data)
     {
-        audioMixer.SetFloat("masterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(data.masterVolume))) * 20);
+        if (data.muteMasterVolume == false)
+        {
+            audioMixer.SetFloat("masterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(data.masterVolume))) * 20);
+        }
+        else
+        {
+
+            audioMixer.SetFloat("masterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(0f))) * 20);
+        }
+
+        if (data.muteBgmVolume == false)
+        {
+            audioMixer.SetFloat("bgmVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(data.bgmVolume))) * 20);
+        }
+        else
+        {
+            audioMixer.SetFloat("bgmVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(0f))) * 20);
+        }
+
+        if (data.muteSfxVolume == false)
+        {
+            audioMixer.SetFloat("sfxVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(data.sfxVolume))) * 20);
+        }
+        else
+        {
+            audioMixer.SetFloat("sfxVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(0f))) * 20);
+
+        }
         // GameManager.Instance.settingsManager.
-        audioMixer.SetFloat("bgmVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(data.bgmVolume))) * 20);
+
         //   GameManager.Instance.settingsManager.
-        audioMixer.SetFloat("sfxVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(data.sfxVolume))) * 20);
 
 
 
         UpdateFullScreen(data.isFullScreenMode);
+
+
         //LocalizationManager.Instance.SetLocalizationLanguage(data.language);
         //LocalizationManager.Instance.UpdateLocalization();
         currentSettingsData = new Data_Settings(data);

@@ -12,7 +12,6 @@ public class ButtonSelector : MonoBehaviour
     [Tooltip("처음에 선택될 버튼 오브젝트입니다.")]
     public Button activeButton;
 
-
     private ActiveSelectImage_Sprout activer;
 
     [HideInInspector]
@@ -25,7 +24,7 @@ public class ButtonSelector : MonoBehaviour
         {
             activer = activeButton.GetComponent<ActiveSelectImage_Sprout>();
         }
-      
+
     }
     void Start()
     {
@@ -44,5 +43,17 @@ public class ButtonSelector : MonoBehaviour
             activer.goFillAmount = 1f;
         }
 
+    }
+
+    public void ForceDeSelect()
+    {
+        if (eventSystem == null)
+        {
+            eventSystem = EventSystem.current;
+        }
+        if (eventSystem.currentSelectedGameObject == activeButton.gameObject)
+        {
+            eventSystem.SetSelectedGameObject(null);
+        }
     }
 }

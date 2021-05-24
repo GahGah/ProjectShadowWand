@@ -14,6 +14,11 @@ public class Data_Settings : InGameData
     public string masterVolume;
     public string sfxVolume; //
     public string bgmVolume;
+
+    public bool muteMasterVolume;
+    public bool muteBgmVolume;
+    public bool muteSfxVolume;
+
     public string brightness;
     public eResolutionData resolution;
 
@@ -23,6 +28,11 @@ public class Data_Settings : InGameData
     public Data_Settings() //생성자?
     {
         isFullScreenMode = true;
+
+        muteMasterVolume = false;
+        muteBgmVolume = false;
+        muteSfxVolume = false;
+
         masterVolume = "1.0";
         sfxVolume = "0.5";
         bgmVolume = "0.5";
@@ -49,6 +59,11 @@ public class Data_Settings : InGameData
         this.masterVolume = data.masterVolume;
         this.bgmVolume = data.bgmVolume;
         this.sfxVolume = data.sfxVolume;
+        this.muteMasterVolume = data.muteMasterVolume;
+        this.muteBgmVolume = data.muteBgmVolume;
+        this.muteSfxVolume = data.muteSfxVolume;
+
+
         this.brightness = data.brightness;
         this.resolution = data.resolution;
     }
@@ -83,7 +98,7 @@ public class Data_Player : InGameData
 {
     public int currentStage;
     public Vector3 currentPosition;
-   // public float currentHP;
+    // public float currentHP;
 
 }
 
