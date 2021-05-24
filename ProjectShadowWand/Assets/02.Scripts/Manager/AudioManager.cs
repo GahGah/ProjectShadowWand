@@ -46,6 +46,8 @@ public class AudioManager : Manager<AudioManager>
     [Header("버튼 효과음 클립")]
     public AudioClip ui_button_select;
 
+    private AudioClip currentSfxClip;
+
     protected override void Awake()
     {
         base.Awake();
@@ -66,6 +68,48 @@ public class AudioManager : Manager<AudioManager>
     public void Play_Button()
     {
         audioSource_sfx.PlayOneShot(ui_button_select);
+    }
+
+    public void Play_Skill_Wind()
+    {
+        audioSource_sfx.volume = 1f;
+        currentSfxClip = skill_wind;
+        audioSource_sfx.PlayOneShot(skill_wind);
+    }
+
+    public void Stop_Skill_Wind()
+    {
+        currentSfxClip = skill_wind;
+        CloseVolumeLerp(audioSource_sfx);
+    }
+
+    public void Play_Skill_Water_Set()
+    {
+        audioSource_sfx.volume = 1f;
+        currentSfxClip = skill_water_set;
+        audioSource_sfx.PlayOneShot(skill_water_set);
+    }
+
+    public void Stop_Skill_Water_Set()
+    {
+        audioSource_sfx.volume = 1f;
+        currentSfxClip = skill_water_set;
+        audioSource_sfx.Stop();
+    }
+
+    public void Play_Skill_Water_Splash()
+    {
+        audioSource_sfx.volume = 1f;
+        currentSfxClip = skill_water_splash;
+        audioSource_sfx.PlayOneShot(skill_water_splash);
+    }
+
+
+    public void Play_Skill_Lightning()
+    {
+        audioSource_sfx.volume = 1f;
+        currentSfxClip = skill_lightning;
+        audioSource_sfx.PlayOneShot(skill_lightning);
     }
 
     public void StartVolumeLerp(AudioSource _source)
@@ -89,6 +133,8 @@ public class AudioManager : Manager<AudioManager>
         _as.clip = _ac;
         yield return StartCoroutine(ProcressVolumeLerp(_as, true));
     }
+
+
     /// <summary>
     /// 
     /// </summary>
@@ -100,6 +146,8 @@ public class AudioManager : Manager<AudioManager>
         float timer = 0f;
         float progress = 0f;
         float sec = 1f;
+        if (_source == audioSource_sfx)
+            sec = 0.5f;
 
 
 
@@ -112,9 +160,18 @@ public class AudioManager : Manager<AudioManager>
         {
             if (_source.isPlaying == false)
             {
-                Debug.Log("소리가 플레이되고 있는 상태가 아닙니다. 그냥 시작할게요.");
+                //Debug.Log("소리가 플레이되고 있는 상태가 아닙니다. 그냥 시작할게요.");
                 _isStart = true;
-                _source.Play();
+                _source.Stop();
+                if (_source == audioSource_sfx)
+                {
+                    //_source.PlayOneShot(currentSfxClip);
+                }
+                else
+                {
+                    _source.Play();
+                }
+
             }
             else
             {
@@ -128,6 +185,10 @@ public class AudioManager : Manager<AudioManager>
             timer += Time.unscaledDeltaTime;
             progress = timer / sec;
 
+            if (_source.isPlaying == false)
+            {
+                yield break;
+            }
             if (_isStart)
             {
                 _source.volume = progress;
@@ -148,8 +209,9 @@ public class AudioManager : Manager<AudioManager>
         {
             _source.volume = 0f;
             _source.Stop();
+            _source.volume = 1f;
         }
-
+        currentSfxClip = null;
 
         yield break;
     }

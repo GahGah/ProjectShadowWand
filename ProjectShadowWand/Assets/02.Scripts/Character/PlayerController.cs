@@ -982,6 +982,7 @@ public class PlayerController : Character
         if (GlideCoroutine != null)
         {
             StopCoroutine(GlideCoroutine);
+            AudioManager.Instance.Stop_Skill_Wind();
             GlideCoroutine = null;
         }
     }

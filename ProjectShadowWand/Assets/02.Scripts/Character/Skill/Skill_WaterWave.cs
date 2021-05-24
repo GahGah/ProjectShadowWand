@@ -115,11 +115,14 @@ public class Skill_WaterWave : Skill
 
         yield return new WaitForSeconds(0.7f);
 
+        AudioManager.Instance.Play_Skill_Water_Set();
         waterEffect_Set.SetActive(true);
         SetRayPosition();
         //yield return new WaitUntil(() => waterEffect_Set.activeSelf == false);
 
         yield return new WaitForSeconds(1f);
+        AudioManager.Instance.Stop_Skill_Water_Set();
+
         //WaterSet가 사라진 이후
         if (splashOn == false)
         {
@@ -141,7 +144,10 @@ public class Skill_WaterWave : Skill
         yield return YieldInstructionCache.WaitForFixedUpdate;
 
         waterEffect_Splash.SetActive(true);
+
+        AudioManager.Instance.Play_Skill_Water_Splash();
         yield return new WaitForSeconds(0.3f);
+
         //WaterSplash가 적당한 모습일때
         Vector2 pos = startPos.transform.position;
         hits = Physics2D.BoxCastAll(pos, player.waterSize, 0f, player.waterDirection, player.waterDistance, plantLayerMask);
@@ -165,6 +171,8 @@ public class Skill_WaterWave : Skill
 
         }
         yield return YieldInstructionCache.WaitForEndOfFrame;
+
+
 
         yield return new WaitForSeconds(0.3f);
         //WaterSplash가 끝나고

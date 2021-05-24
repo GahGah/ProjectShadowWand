@@ -52,8 +52,10 @@ public class Skill_WindGlide : Skill
                 //    player.glideGauge.fillAmount = 0f;
 
                 //}
+
                 if (player.GlideCoroutine != null)
                 {
+                    AudioManager.Instance.Stop_Skill_Wind();
                     player.StopCoroutine(player.GlideCoroutine);
                     windAnimator.SetFloat(windAnimatorTornadoBlend, 3f);
                     player.GlideCoroutine = null;
@@ -65,6 +67,8 @@ public class Skill_WindGlide : Skill
             if (InputManager.Instance.buttonMoveJump.isPressed == false)
             {
                 player.isGliding = false;
+
+
                 //if (player.glideGauge != null)
                 //{
                 //    player.glideGauge.fillAmount = 0f;
@@ -72,9 +76,11 @@ public class Skill_WindGlide : Skill
                 //}
                 if (player.GlideCoroutine != null)
                 {
+                    AudioManager.Instance.Stop_Skill_Wind();
                     player.StopCoroutine(player.GlideCoroutine);
                     windAnimator.SetFloat(windAnimatorTornadoBlend, 3f);
                     player.GlideCoroutine = null;
+
                 }
 
             }
@@ -102,7 +108,7 @@ public class Skill_WindGlide : Skill
 
         windEffect.SetActive(true);
         windAnimator.SetFloat(windAnimatorTornadoBlend, 1.5f);
-
+        AudioManager.Instance.Play_Skill_Wind();
 
         while (timer < player.glideTime)
         {
@@ -121,6 +127,7 @@ public class Skill_WindGlide : Skill
         //}
         windAnimator.SetFloat(windAnimatorTornadoBlend, 3f);
         player.isGliding = false;
+        AudioManager.Instance.Stop_Skill_Wind();
     }
     #endregion
 }
