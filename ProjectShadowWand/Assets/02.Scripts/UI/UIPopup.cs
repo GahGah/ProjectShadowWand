@@ -21,8 +21,8 @@ public class UIPopup : UIBase
 
         canvasObject.SetActive(true);
 
-        buttonSelector.StaySelect();
         buttonSelector.ForceSelect();
+        buttonSelector.StaySelect();
         return true;
     }
 

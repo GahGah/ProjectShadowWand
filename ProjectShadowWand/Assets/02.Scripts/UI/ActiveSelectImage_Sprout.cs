@@ -60,7 +60,10 @@ public class ActiveSelectImage_Sprout : MonoBehaviour, IPointerEnterHandler, IPo
     {
         Init();
     }
-
+    private void OnDisable()
+    {
+        goFillAmount = 0f;
+    }
     public void Init()
     {
 

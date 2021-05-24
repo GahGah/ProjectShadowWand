@@ -65,7 +65,7 @@ public class ButtonSelector : MonoBehaviour
         {
             //if (eventSystem.currentSelectedGameObject == activeButton.gameObject)
             //{
-                eventSystem.SetSelectedGameObject(null);
+            eventSystem.SetSelectedGameObject(null);
             activer.goFillAmount = 0f;
             //}
         }
