@@ -195,7 +195,7 @@ public class UISettings : UIBase
             audioMixer.SetFloat("masterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(0f))) * 20);
         }
 
-      
+
 
     }
     public void ButtonOnToggleMute_Bgm()
@@ -212,7 +212,7 @@ public class UISettings : UIBase
             audioMixer.SetFloat("bgmVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(0f))) * 20);
         }
 
-     
+
     }
     public void ButtonOnToggleMute_Sfx()
     {
@@ -237,24 +237,31 @@ public class UISettings : UIBase
     /// </summary>
     public void UpdateMuteButtonImage(Button _button, Slider _slider)
     {
+        var fillImage =_slider.fillRect.gameObject.GetComponent<Image>();
         if (_slider.interactable)
         {
             _button.image.sprite = soundOnImage;
+            fillImage.color = Color.white;
         }
         else
         {
             _button.image.sprite = soundMuteImage;
+            fillImage.color = Color.gray;
         }
     }
-    public void UpdateMuteButtonImage(Button _button, bool _isMute)
+    public void UpdateMuteButtonImage(Button _button, Slider _slider, bool _isMute)
     {
+        var fillImage = _slider.fillRect.gameObject.GetComponent<Image>();
+
         if (_isMute == false)
         {
             _button.image.sprite = soundOnImage;
+            fillImage.color = Color.white;
         }
         else
         {
             _button.image.sprite = soundMuteImage;
+            fillImage.color = Color.gray;
         }
     }
 
@@ -271,12 +278,12 @@ public class UISettings : UIBase
     private void UpdateValue(Data_Settings _data)
     {
         masterSlider.value = GetFloat(_data.masterVolume);
-        sfxSlider.value = GetFloat(_data.sfxVolume);
         bgmSlider.value = GetFloat(_data.bgmVolume);
+        sfxSlider.value = GetFloat(_data.sfxVolume);
 
-        UpdateMuteButtonImage(masterMute, _data.muteMasterVolume);
-        UpdateMuteButtonImage(bgmMute, _data.muteBgmVolume);
-        UpdateMuteButtonImage(sfxMute, _data.muteSfxVolume);
+        UpdateMuteButtonImage(masterMute, masterSlider, _data.muteMasterVolume);
+        UpdateMuteButtonImage(bgmMute, bgmSlider, _data.muteBgmVolume);
+        UpdateMuteButtonImage(sfxMute, sfxSlider, _data.muteSfxVolume);
 
         masterPer.text = ChangePerText(masterSlider.value);
         bgmPer.text = ChangePerText(bgmSlider.value);
@@ -304,7 +311,7 @@ public class UISettings : UIBase
         data.masterVolume = GetString(masterSlider.value);
         data.sfxVolume = GetString(sfxSlider.value);
         data.bgmVolume = GetString(bgmSlider.value);
-       // data.brightness = GetString(brightnessSlider.value);
+        // data.brightness = GetString(brightnessSlider.value);
 
         data.muteMasterVolume = !masterSlider.interactable;
         data.muteBgmVolume = !bgmSlider.interactable;
