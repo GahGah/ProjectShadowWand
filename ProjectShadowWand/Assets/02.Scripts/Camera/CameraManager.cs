@@ -13,7 +13,9 @@ public class CameraManager : Manager<CameraManager>
 {
     [Tooltip("사용할 카메라. 넣지 않을 경우 자동으로 메인 카메라를 넣습니다. ")]
     public Camera currentCamera;
-    private Transform currentTransform;
+
+    [HideInInspector]
+    public Transform currentTransform;
     [Tooltip("팔로우, 줌인, 줌아웃 대상")]
     public Transform target;
 
@@ -164,10 +166,14 @@ public class CameraManager : Manager<CameraManager>
     [Tooltip("단순히 타겟을 팔로우 하는 상태가 아닐 때 사용합니다.")]
     private bool isExtraMove;
     private Vector2 prevPosition;
+
+    private float distance;
     public void FollowTarget() // 타겟 팔로잉
     {
+
+        distance = Vector2.Distance(currentTransform.position, target.position);
         //currentTransform.position = Vector3.Lerp(currentTransform.position, target.position, Time.deltaTime * followSpeed);
-        if (Vector2.Distance(currentTransform.position, target.position) > 0.01f)
+        if ( distance > 0.01f)
         {
             currentTransform.position = Vector3.Lerp(currentTransform.position, target.position, Time.deltaTime * followSpeed);
 
@@ -182,7 +188,8 @@ public class CameraManager : Manager<CameraManager>
         {
             currentTransform.position = new Vector3(currentTransform.position.x, currentTransform.position.y, cameraDefaultPositionZ);
         }
-        if (prevPosition.x == currentTransform.position.x)
+
+        if (Mathf.Abs(prevPosition.x - currentTransform.position.x) < 0.01f)
         {
             isStop = true;
         }
@@ -190,7 +197,7 @@ public class CameraManager : Manager<CameraManager>
         {
             isStop = false;
         }
-        prevPosition = currentTransform.position;
+       prevPosition = currentTransform.position;
     }
     private IEnumerator CameraZoom()
     {

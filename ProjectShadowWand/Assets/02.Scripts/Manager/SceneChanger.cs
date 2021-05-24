@@ -18,6 +18,16 @@ public class SceneChanger : MonoBehaviour
 
     public string nowSceneName;
 
+    [Header("툴팁 텍스트")]
+    public TMP_Text tooltipText;
+
+    [Header("회전하는 로딩 이미지")]
+    public RotateThis rotateImage;
+
+    //[Tooltip("프로그레스 이미지를 넣어라!! ")]
+    //public Image[] progressImages;
+
+
     private static SceneChanger instance;
     public static SceneChanger Instance
     {
@@ -33,6 +43,10 @@ public class SceneChanger : MonoBehaviour
 
     public float waitTime;
     public float fadeTime;
+    private void Awake()
+    {
+        nowSceneName = UpdateStageName();
+    }
     private void OnEnable()
     {
         if (Instance == this)
@@ -79,6 +93,7 @@ public class SceneChanger : MonoBehaviour
         Screen.fullScreen = false;
     }
 
+
     public void LoadThisScene_Start()
     {
         StartCoroutine(LoadThisScene("Stage_00", true));
@@ -95,7 +110,19 @@ public class SceneChanger : MonoBehaviour
         {
             return;
         }
+        tooltipText.text = RandomTooltipText();
         StartCoroutine(LoadThisScene(_sceneName, _doSave));
+    }
+
+
+    private string _TOOLTIP_CODE = "TOOLTIP_CODE";
+    private string _TOOLTIP_NAEYONG = "TOOLTIP_NAEYONG";
+    private string RandomTooltipText()
+    {
+        int count = SaveLoadManager.Instance.tooltipData.Count;
+        int randomCode = Random.Range(0, count);
+
+        return SaveLoadManager.Instance.tooltipData[randomCode][_TOOLTIP_NAEYONG] as string;
     }
 
     /// <summary>
@@ -136,11 +163,9 @@ public class SceneChanger : MonoBehaviour
             Time.timeScale = 1f;
 
             isLoading = false;
-
         }
+
     }
-
-
 
     public void LoadScene_Die()
     {
@@ -156,11 +181,17 @@ public class SceneChanger : MonoBehaviour
         moveSceneName = _sceneName;
 
         Time.timeScale = 0f;
+
         progressBar.fillAmount = 0f;
         waitTime = 0.5f;
         fadeTime = 1.5f;
+        AudioManager.Instance.Stop_Bgm();
+        rotateImage.gameObject.SetActive(false);
         yield return StartCoroutine(GoColorScreen(waitTime, fadeTime, true));
 
+        rotateImage.gameObject.SetActive(true);
+        rotateImage.Init();
+        StartCoroutine(rotateImage.ProcessRotate());
 
         if (_doSave == true)
         {
@@ -174,7 +205,6 @@ public class SceneChanger : MonoBehaviour
             }
 
         }
-
         //비동기로 로드 씬
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(_sceneName);
         asyncOperation.allowSceneActivation = false;  //씬 활성화를 false로. 이제 로딩이 끝나도 씬이 활성화되지 않음.
@@ -197,6 +227,7 @@ public class SceneChanger : MonoBehaviour
             }
             else
             {
+
                 progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1f, timer);
 
                 if (progressBar.fillAmount >= 1f)
@@ -209,6 +240,10 @@ public class SceneChanger : MonoBehaviour
         }
 
         Debug.Log("SceneLoad");
+
+        rotateImage.isStop = true;
+        rotateImage.gameObject.SetActive(false);
+
         yield break;
         //yield return StartCoroutine(GoColorScreen(0.5f, 1f, false));
         //Debug.Log("됨?");
@@ -219,6 +254,8 @@ public class SceneChanger : MonoBehaviour
     }
 
 
+    //private void SetFillAmount(float _ )
+
     /// <summary>
     /// 플레이어가 죽을 때 
     /// </summary>
@@ -226,6 +263,7 @@ public class SceneChanger : MonoBehaviour
     private IEnumerator LoadScene_ProcessDie()
     {
         isLoading = true;
+        rotateImage.gameObject.SetActive(false);
 
         // SceneManager.sceneLoaded += LoadSceneEnd;
 
@@ -234,8 +272,10 @@ public class SceneChanger : MonoBehaviour
         progressBar.fillAmount = 0f;
         waitTime = 2f;
         fadeTime = 2f;
-        yield return StartCoroutine(GoColorScreen(waitTime, fadeTime, true));
 
+        AudioManager.Instance.Stop_Bgm();
+
+        yield return StartCoroutine(GoColorScreen(waitTime, fadeTime, true));
         Time.timeScale = 0f;
 
         //비동기로 로드 씬

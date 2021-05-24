@@ -26,8 +26,6 @@ public class UICutScene : UIBase
     [Tooltip("마지막 씬의 isOn까지 true가 되었다면, true가 됩니다.")]
     public bool isEnd;
 
-
-
     [Header("씬의 종료를 검은색 페이드로")]
     [Tooltip("씬의 맨 마지막에서 검은색으로 Fade가 됩니다.")]
     public bool isLastFade;
@@ -58,7 +56,7 @@ public class UICutScene : UIBase
             cutList[i].SetActive(false);
         }
 
-    //    canvasObject = gameObject;
+        //    canvasObject = gameObject;
         canvasObject.SetActive(false);
     }
 
@@ -170,22 +168,25 @@ public class UICutScene : UIBase
             }
 
             float nextTimer = 0f;
-
-            if (isNext == false)
+            if (currentCutNumber != cutCount - 1)
             {
-                while (nextTimer < currentCut.waitTime)
+                if (isNext == false)
                 {
-                    if (isNext)
+                    while (nextTimer < currentCut.waitTime)
                     {
-                        isNext = false;
-                        break;
+                        if (isNext)
+                        {
+                            isNext = false;
+                            break;
+                        }
+                        nextTimer += Time.unscaledDeltaTime;
+
+                        yield return YieldInstructionCache.WaitForEndOfFrame;
                     }
-                    nextTimer += Time.unscaledDeltaTime;
 
-                    yield return YieldInstructionCache.WaitForEndOfFrame;
                 }
-
             }
+            
             if (currentCut.useAnimation == true)
             {
                 currentCut.anim.enabled = false;

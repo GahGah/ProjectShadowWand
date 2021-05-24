@@ -85,7 +85,7 @@ public class UIManager : MonoBehaviour
     {
         if (_uiBase.Open() == true) //정상적으로 열렸을 때만
         {
-
+            Debug.Log("Push : " + _uiBase.name);
             uiStack.Push(_uiBase);
             if (SetAsLastSiblingToOpen)
             {
@@ -105,6 +105,7 @@ public class UIManager : MonoBehaviour
         if (uiStack.Count != 0)
         {
             nowUI = uiStack.Pop();
+            Debug.Log("Pop : " + nowUI.name);
             if (nowUI.Close() == true) // 정상적으로 닫혔을 때만
             {
 

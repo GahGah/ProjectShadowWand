@@ -36,11 +36,21 @@ public class ButtonSelector : MonoBehaviour
         {
             eventSystem = EventSystem.current;
         }
+
         if (activer != null)
         {
             eventSystem.SetSelectedGameObject(null);
             eventSystem.SetSelectedGameObject(activeButton.gameObject);
             activer.goFillAmount = 1f;
+        }
+
+    }
+
+    public void StaySelect()
+    {
+        if (eventSystem.currentSelectedGameObject != activeButton.gameObject)
+        {
+            ForceDeSelect();
         }
 
     }
@@ -51,9 +61,13 @@ public class ButtonSelector : MonoBehaviour
         {
             eventSystem = EventSystem.current;
         }
-        if (eventSystem.currentSelectedGameObject == activeButton.gameObject)
+        if (activer != null)
         {
-            eventSystem.SetSelectedGameObject(null);
+            //if (eventSystem.currentSelectedGameObject == activeButton.gameObject)
+            //{
+                eventSystem.SetSelectedGameObject(null);
+            activer.goFillAmount = 0f;
+            //}
         }
     }
 }

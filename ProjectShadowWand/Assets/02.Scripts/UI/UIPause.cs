@@ -21,7 +21,7 @@ public class UIPause : UIBase
     public override void Init()
     {
 
-        pauseGroup.SetActive(false);
+        canvasObject.SetActive(false);
     }
 
     public override void OnActive()
@@ -31,14 +31,14 @@ public class UIPause : UIBase
 
     public override bool Open()
     {
-        pauseGroup.SetActive(true);
+        canvasObject.SetActive(true);
         Time.timeScale = 0f;
         return true;
     }
     public override bool Close()
     {
         Time.timeScale = 1f;
-        pauseGroup.SetActive(false);
+        canvasObject.SetActive(false);
         return true;
     }
     public void ButtonRestart()

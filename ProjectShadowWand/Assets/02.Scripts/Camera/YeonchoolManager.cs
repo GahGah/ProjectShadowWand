@@ -57,7 +57,7 @@ public class YeonchoolManager : Manager<YeonchoolManager>
         {
             goSpeed = 0.6f;
             waitTime_go = 2f;
-            comebackSpeed = 0.6f;
+            comebackSpeed = 7f;
             waitTime_comeback = 1f;
         }
     }
@@ -135,6 +135,8 @@ public class YeonchoolManager : Manager<YeonchoolManager>
     {
         PlayerController.Instance.canMove = false;
 
+        UIBlackScreen blackScreen = UIManager.Instance.uiDicitonary[eUItype.BLACKSCREEN] as UIBlackScreen;
+
         yield return new WaitForSeconds(1.5f);
 
         cameraManager.followSpeed = goSpeed;
@@ -149,21 +151,31 @@ public class YeonchoolManager : Manager<YeonchoolManager>
 
         yield return new WaitForSeconds(waitTime_go);
 
-        //다 멈췄으면 플레이어에게 이동
+        //다 멈췄으면 까만색으로...
+        blackScreen.SetFadeValue(0f, 1f, true);
+        yield return StartCoroutine(blackScreen.GoFadeScreen());
+
         cameraManager.SetTarget(PlayerController.Instance.transform);
-        cameraManager.FollowTarget(); //혹시 모르니까 불러주기
+
+        var currentTransform = cameraManager.currentTransform;
+        var target = cameraManager.target;
 
         cameraManager.followSpeed = comebackSpeed;
 
-        while (cameraManager.isStop == false) //멈추기 전까지 기다림
-        {
-            yield return YieldInstructionCache.WaitForFixedUpdate;
-        }
+        currentTransform.position = target.position;
+        cameraManager.FollowTarget(); //혹시 모르니까 불러주기
+
+
 
 
         cameraManager.followSpeed = 5f;
 
         yield return new WaitForSeconds(waitTime_comeback);
+
+        //다 멈췄으면 까만거 치우기
+        blackScreen.SetFadeValue(0f, 1f, false);
+
+        yield return StartCoroutine(blackScreen.GoFadeScreen());
 
         PlayerController.Instance.canMove = true;
         //다 멈췄으면 끝...

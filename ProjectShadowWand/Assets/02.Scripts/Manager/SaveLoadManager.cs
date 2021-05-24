@@ -58,13 +58,18 @@ public class SaveLoadManager : Manager<SaveLoadManager>
 
     private List<Dictionary<string, object>> soulMemoryData;
 
-    private List<Dictionary<string, object>> tooltipData;
+    public List<Dictionary<string, object>> tooltipData;
     #endregion
 
     private string filePath;
     protected override void Awake()
     {
         base.Awake();
+
+        if (instance != null)
+        {
+            DontDestroyOnLoad(instance.gameObject);
+        }
         DirectoryInfo di = new DirectoryInfo((Application.dataPath + "/ScreenShots/"));
 
         if (di.Exists == false)
@@ -81,8 +86,6 @@ public class SaveLoadManager : Manager<SaveLoadManager>
         //string[] splitPath = path.Split(new string[] { "Assets" }, System.StringSplitOptions.RemoveEmptyEntries);
         //path = splitPath[0];
         //Debug.Log("Assets를 없앤 데이터 패스 : " + path);
-
-
 
         yield return StartCoroutine(LoadData_Stage());
 
@@ -372,7 +375,9 @@ public class SaveLoadManager : Manager<SaveLoadManager>
 
         if (!string.IsNullOrEmpty(fileManager.readText_Result))
         {
+            Debug.Log("스테이지 데이터를 성공적으로 불러왔습니다.");
             var loadedData = JsonUtility.FromJson<Data_Stage>(fileManager.readText_Result);
+
             currentData_Stage = loadedData;
         }
         else // 없을 경우

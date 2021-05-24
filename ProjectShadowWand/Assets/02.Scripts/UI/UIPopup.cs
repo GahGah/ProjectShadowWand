@@ -21,15 +21,17 @@ public class UIPopup : UIBase
 
         canvasObject.SetActive(true);
 
+        buttonSelector.StaySelect();
         buttonSelector.ForceSelect();
         return true;
     }
 
     public override bool Close()
     {
+
+        buttonSelector.StaySelect();
         canvasObject.SetActive(false);
 
-        buttonSelector.ForceDeSelect();
         return true;
     }
 

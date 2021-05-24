@@ -18,7 +18,15 @@ public class UIMainMenu : UIBase
     }
     public void Button_GoNewGame(UIBase _ui)
     {
-        _ui.Open();
+        if (SaveLoadManager.Instance.currentData_Stage.stageName == "Stage_00") //00스테이지라면
+        {
+            Button_StartNewGame();
+        }
+        else
+        {
+            _ui.Open();
+        }
+
     }
 
     public void Button_StartNewGame()
@@ -43,20 +51,26 @@ public class UIMainMenu : UIBase
         }
 
         SceneChanger.Instance.LoadThisSceneName("Stage_00", true);
+       // AudioManager.Instance.Stop_Bgm();
     }
-    public void Button_GoContinue(UIBase _ui)
+
+
+    //게임을 이어서 플레이합니다.
+    public void Button_GoContinue()
     {
         //_ui.Open();
         if (SaveLoadManager.Instance.currentData_Stage.stageName == "Stage_00")
         {
             canvasGroup.interactable = false;
             SceneChanger.Instance.LoadThisSceneName(SaveLoadManager.Instance.currentData_Stage.stageName, false);
+           // AudioManager.Instance.Stop_Bgm();
         }
         else
         {
             canvasGroup.interactable = false;
-            SceneChanger.Instance.LoadThisSceneName(SaveLoadManager.Instance.currentData_Stage.stageName, false);
+        //    SceneChanger.Instance.LoadThisSceneName(SaveLoadManager.Instance.currentData_Stage.stageName, false);
         }
+
     }
 
     public void Button_OpenSetting(UIBase _ui)

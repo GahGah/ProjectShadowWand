@@ -96,7 +96,29 @@ public class StageManager : Manager<StageManager>
     }
     private void Start()
     {
-        YeonchoolManager.Instance.StartStageInYeonchool();
+        switch (nowStageName)
+        {
+            case "Stage_00":
+
+                AudioManager.Instance.Play_Bgm_Stage00();
+                break;
+
+            case "Stage_01":
+
+                AudioManager.Instance.Play_Bgm_Stage01();
+                break;
+
+            case "Stage_02":
+
+                AudioManager.Instance.Play_Bgm_Stage02();
+                break;
+            default:
+                break;
+        }
+
+    
+
+    YeonchoolManager.Instance.StartStageInYeonchool();
     }
     public void InitSoulMemoryList()
     {
@@ -191,16 +213,22 @@ public class StageManager : Manager<StageManager>
         yield return null;
 
 
-
-        while (YeonchoolManager.Instance.isCutscenePlaying == true) //컷씬 플레이가 끝날때까지 기다리기
+        if (YeonchoolManager.Instance != null)
         {
-            yield return YieldInstructionCache.WaitForEndOfFrame;
+            while (YeonchoolManager.Instance.isCutscenePlaying == true) //컷씬 플레이가 끝날때까지 기다리기
+            {
+                yield return YieldInstructionCache.WaitForEndOfFrame;
+            }
+
         }
 
         if (isStageClear)
         {
+            if (stageDoor != null)
+            {
+                yield return StartCoroutine(stageDoor.ChangeOpenDoor());
 
-            yield return StartCoroutine(stageDoor.ChangeOpenDoor());
+            }
         }
     }
 

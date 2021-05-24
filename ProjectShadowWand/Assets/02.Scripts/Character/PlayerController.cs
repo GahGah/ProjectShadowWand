@@ -710,6 +710,34 @@ public class PlayerController : Character
 
     #endregion
 
+    private int walkLayer;
+    /// <summary>
+    /// 걷는 효과음을 출력합니다.
+    /// </summary>
+    public void PlayWalkAudio()
+    {
+        //walkLayer = groundHit.collider.gameObject.layer;
+
+        //if (walkLayer == groundSoftMask)
+        //{
+        //    Debug.Log("Soft");
+        //    AudioManager.Instance.Play_WalkSoft();
+        //}
+        //else if (walkLayer == groundHardMask)
+        //{
+        //    Debug.Log("Hard");
+        //    AudioManager.Instance.Play_WalkHard();
+
+        //}
+        //else if(walkLayer==LayerMask.NameToLayer("Plant"))
+        //{
+        //    Debug.Log(LayerMask.LayerToName(walkLayer));
+        //    AudioManager.Instance.Play_WalkHard();
+
+        //}
+
+        AudioManager.Instance.Play_WalkHard();
+    }
 
 
     /// <summary>

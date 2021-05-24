@@ -58,11 +58,17 @@ public class UISettings : UIBase
         yield return StartCoroutine(SaveLoadManager.Instance.LoadData_Settings());
 
         SetData(SaveLoadManager.Instance.currentData_Settings);
+        //AudioManager.Instance.audioSource_bgm.volume = GetFloat(currentSettingsData.bgmVolume);
+        //AudioManager.Instance.audioSource_sfx.volume = GetFloat(currentSettingsData.bgmVolume);
 
         masterSlider.onValueChanged.AddListener(delegate { SliderOnChangeMasterSlider(); });
         bgmSlider.onValueChanged.AddListener(delegate { SliderOnChangeBGMSlider(); });
         sfxSlider.onValueChanged.AddListener(delegate { SliderOnChangeSfxSlider(); });
 
+        if (SceneChanger.Instance.UpdateStageName() == "Stage_Main")
+        {
+            AudioManager.Instance.Play_Bgm_StageMain();
+        }
 
         Init();
         yield break;
@@ -81,7 +87,7 @@ public class UISettings : UIBase
         canvasObject.SetActive(true);
 
         buttonSelector.ForceSelect();
-        return gameObject.activeSelf;
+        return true;
     }
 
     public override bool Close()
@@ -89,7 +95,7 @@ public class UISettings : UIBase
         canvasObject.SetActive(false);
 
         buttonSelector.ForceSelect();
-        return !gameObject.activeSelf;
+        return true;
     }
     private void SetData(Data_Settings data)
     {
@@ -144,6 +150,10 @@ public class UISettings : UIBase
     //    currentSettingsData.isFullScreenMode = true;
     //}
 
+    public void ButtonOnClose()
+    {
+        UIManager.Instance.CloseTop();
+    }
     public void ButtonOnApply()
     {
         canvasGroup.interactable = false;
@@ -237,7 +247,7 @@ public class UISettings : UIBase
     /// </summary>
     public void UpdateMuteButtonImage(Button _button, Slider _slider)
     {
-        var fillImage =_slider.fillRect.gameObject.GetComponent<Image>();
+        var fillImage = _slider.fillRect.gameObject.GetComponent<Image>();
         if (_slider.interactable)
         {
             _button.image.sprite = soundOnImage;
@@ -262,9 +272,9 @@ public class UISettings : UIBase
         {
             _button.image.sprite = soundMuteImage;
             fillImage.color = Color.gray;
+
         }
     }
-
 
 
     private string ChangePerText(float _slideValue)

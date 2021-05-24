@@ -37,6 +37,7 @@ public class Manager<T> : MonoBehaviour where T : MonoBehaviour
         if (Instance == null)
         {
             instance = gameObject.GetComponent<T>();
+
         }
     }
 

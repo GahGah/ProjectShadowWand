@@ -77,6 +77,7 @@ public class ActiveSelectImage_Sprout : MonoBehaviour, IPointerEnterHandler, IPo
         {
             eventSystem.SetSelectedGameObject(gameObject);
         }
+        AudioManager.Instance.Play_Button();
         goFillAmount = 1f;
         //UIManager.Instance.isCanChangeCursor = false;
     }
