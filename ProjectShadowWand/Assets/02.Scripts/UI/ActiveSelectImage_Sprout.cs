@@ -59,11 +59,15 @@ public class ActiveSelectImage_Sprout : MonoBehaviour, IPointerEnterHandler, IPo
     private void OnEnable()
     {
         Init();
-        if (eventSystem.currentSelectedGameObject != gameObject)
+        if (eventSystem != null)
         {
-            goFillAmount = 0f;
+            if (eventSystem.currentSelectedGameObject != gameObject)
+            {
+                goFillAmount = 0f;
+            }
         }
-   
+
+
     }
     //private void OnDisable()
     //{

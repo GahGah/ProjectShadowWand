@@ -20,7 +20,6 @@ public class RotateThis : MonoBehaviour
     {
         while (!isStop)
         {
-            Debug.Log("돌아간다~");
             trans.Rotate(rotateZ, -100f * Time.unscaledDeltaTime);
             yield return null;
         }

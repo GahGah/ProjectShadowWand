@@ -166,8 +166,8 @@ public class SoulMemory : MonoBehaviour
     /// <returns></returns>
     private IEnumerator MoveUpSoulMemory()
     {
-        //  float upPos = originalYpos + upLength;
-        float upPos = (CameraManager.Instance.currentCamera.transform.position.y + 2.5f);
+          float upPos = originalYpos + upLength;
+      //  float upPos = (CameraManager.Instance.currentCamera.transform.position.y + 2.5f);
         float timer = 0f;
         float progress = 0f;
 

@@ -34,12 +34,12 @@ public class YeonchoolManager : Manager<YeonchoolManager>
     public float waitTime_comeback;
     // Start is called before the first frame update
 
+    public UIBlackScreen blackScreen;
 
     public bool isCutscenePlaying;
     protected override void Awake()
     {
         base.Awake();
-        Init();
     }
     private void Start()
     {
@@ -135,7 +135,11 @@ public class YeonchoolManager : Manager<YeonchoolManager>
     {
         PlayerController.Instance.canMove = false;
 
-        UIBlackScreen blackScreen = UIManager.Instance.uiDicitonary[eUItype.BLACKSCREEN] as UIBlackScreen;
+        if (blackScreen == null)
+        {
+            blackScreen = UIManager.Instance.uiDicitonary[eUItype.BLACKSCREEN] as UIBlackScreen;
+
+        }
 
         yield return new WaitForSeconds(1.5f);
 

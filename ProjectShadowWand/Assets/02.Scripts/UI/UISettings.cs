@@ -114,7 +114,6 @@ public class UISettings : UIBase
     }
     public void SliderOnChangeMasterSlider()
     {
-        Debug.Log("Change!!");
         audioMixer.SetFloat("masterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, masterSlider.value)) * 20);
         masterPer.text = ChangePerText(masterSlider.value);
     }

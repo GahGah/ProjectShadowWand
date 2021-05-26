@@ -3038,6 +3038,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2382eb94bdf921d47baa884194caecba, type: 3}
+--- !u!114 &617867531 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4968746289602114034, guid: 2382eb94bdf921d47baa884194caecba, type: 3}
+  m_PrefabInstance: {fileID: 617867530}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48a2e08b7b36116448d68f4863fd720b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &618220929
 GameObject:
   m_ObjectHideFlags: 0
@@ -4689,6 +4700,7 @@ MonoBehaviour:
   waitTime_go: 0
   comebackSpeed: 0
   waitTime_comeback: 0
+  blackScreen: {fileID: 617867531}
   isCutscenePlaying: 0
 --- !u!4 &1060424460
 Transform:

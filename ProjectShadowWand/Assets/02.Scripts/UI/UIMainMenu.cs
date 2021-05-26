@@ -68,7 +68,7 @@ public class UIMainMenu : UIBase
         else
         {
             canvasGroup.interactable = false;
-        //    SceneChanger.Instance.LoadThisSceneName(SaveLoadManager.Instance.currentData_Stage.stageName, false);
+            SceneChanger.Instance.LoadThisSceneName(SaveLoadManager.Instance.currentData_Stage.stageName, false);
         }
 
     }
