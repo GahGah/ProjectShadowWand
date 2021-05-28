@@ -84,10 +84,23 @@ public class BirdBaby : NPC
 
     private Rigidbody2D rb;
 
-    private void Start()
+
+    private Animator animator;
+    private bool animtorOn;
+
+    private int animatorIdleBool;
+    private int animatorFallingBool;
+    private int animatorCatchingBool;
+    private void Awake()
     {
         Init();
+
     }
+    private void Start()
+    {
+        Debug.Log("버드 베이비 스타트");
+    }
+
     public void Init()
     {
         currentTalkCode = 5;
@@ -98,10 +111,68 @@ public class BirdBaby : NPC
             birdCollider = GetComponent<Collider2D>();
 
         }
+        animator = GetComponentInChildren<Animator>();
+        if (animator != null)
+        {
+            animtorOn = true;
+        }
+        rb = GetComponent<Rigidbody2D>();
 
         quest_01 = new Quest_MomAndBaby_01(this, birdMom);
         quest_02 = new Quest_MomAndBaby_02(this, birdMom);
+        Init_AnimatorParameter();
     }
+
+    private void Update()
+    {
+        UpdateAnimation();
+    }
+    private void Init_AnimatorParameter()
+    {
+        animatorCatchingBool = Animator.StringToHash("Catching");
+        animatorFallingBool = Animator.StringToHash("Falling");
+        animatorIdleBool = Animator.StringToHash("Idle");
+    }
+
+
+    private void SetAnimatorBool(int _bool , bool _b)
+    {
+        animator.SetBool(_bool, _b);
+    }
+    private float fallingVelocity = -1f;
+    public override void UpdateAnimation()
+    {
+        if (catchableObject.isCatched)
+        {
+            SetAnimatorBool(animatorIdleBool,false);
+            SetAnimatorBool(animatorCatchingBool, true);
+
+            return;
+        }
+        else
+        {
+            SetAnimatorBool(animatorCatchingBool, false);
+            SetAnimatorBool(animatorIdleBool, true);
+
+        }
+
+        if (rb.velocity.y >= 0f)
+        {
+            SetAnimatorBool(animatorFallingBool, false);
+            SetAnimatorBool(animatorIdleBool, true);
+            return;
+        }
+        else if (rb.velocity.y < fallingVelocity)
+        {
+
+            SetAnimatorBool(animatorFallingBool, true);
+            SetAnimatorBool(animatorIdleBool, false);
+            return;
+        }
+
+    }
+
+
 
     private IEnumerator ProcessCatchBirdBabyQuest()
     {

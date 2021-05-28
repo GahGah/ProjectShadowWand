@@ -111,6 +111,8 @@ public class PlayerController : Character
 
     [HideInInspector] public bool jumpInput;
 
+    #region 애니메이터 파라미터
+
     [HideInInspector] public int animatorDieBool;
     [HideInInspector] public int animatorGroundedBool;
     [HideInInspector] public int animatorWalkingBool;
@@ -125,6 +127,8 @@ public class PlayerController : Character
     [HideInInspector] public int animatorWaterBool;
     [HideInInspector] public int animatorJumpingBool;
 
+    [HideInInspector] public int animatorRestoreBool;
+    #endregion
     // [HideInInspector] public int animatorPushingBool;
     //public int animatorFallingBool;
 
@@ -305,35 +309,10 @@ public class PlayerController : Character
         animator = GetComponent<Animator>();
         puppet = gameObject.transform;
 
-        groundCheckMask = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Ground_Soft")) | (1 << LayerMask.NameToLayer("Plant")) | (1 << LayerMask.NameToLayer("Ground_Hard"));
-        //| (1 << LayerMask.NameToLayer("Default"));
-        //  noPlayerMask = ~noPlayerMask;
 
-        playerMask = LayerMask.NameToLayer("Player");
-        groundMask = LayerMask.NameToLayer("Ground");// LayerMask.NameToLayer("Ground_Soft") LayerMask.NameToLayer("Ground_Hard");
+        Init_LayerMask();
 
-        groundSoftMask = LayerMask.NameToLayer("Ground_Soft");
-        groundHardMask = LayerMask.NameToLayer("Ground_Hard");
-        rainMask = LayerMask.NameToLayer("WeatherFx_withOpaqueTex");
-
-        animatorWalkingBool = Animator.StringToHash("Walking");
-        animatorGroundedBool = Animator.StringToHash("Grounded");
-        animatorJumpTrigger = Animator.StringToHash("Jump");
-        animatorClimbingBool = Animator.StringToHash("Climbing");
-        animatorCatchingBool = Animator.StringToHash("Catching");
-
-        animatorFallingBool = Animator.StringToHash("Falling");
-
-        animatorGlidingBool = Animator.StringToHash("Gliding");
-        animatorWaterBool = Animator.StringToHash("Water");
-        animatorLightningBool = Animator.StringToHash("Lightning");
-
-        animatorCatchBlend = Animator.StringToHash("CatchBlend");
-        animatorIdleBlend = Animator.StringToHash("IdleBlend");
-        //animatorWindBlend = Animator.StringToHash("WindBlend");
-        //animatorPushingBool = Animator.StringToHash("Pushing");
-        animatorDieBool = Animator.StringToHash("Die");
-        animatorJumpingBool = Animator.StringToHash("Jumping");
+        Init_AnimatorParameter();
 
         isRight = true;
         isWater = false;
@@ -356,6 +335,45 @@ public class PlayerController : Character
         footPosition = lightningPosition;
         Init_ContactFilter();
     }
+    private void Init_AnimatorParameter()
+    {
+
+        animatorWalkingBool = Animator.StringToHash("Walking");
+        animatorGroundedBool = Animator.StringToHash("Grounded");
+        animatorJumpTrigger = Animator.StringToHash("Jump");
+        animatorClimbingBool = Animator.StringToHash("Climbing");
+        animatorCatchingBool = Animator.StringToHash("Catching");
+
+        animatorFallingBool = Animator.StringToHash("Falling");
+
+        animatorGlidingBool = Animator.StringToHash("Gliding");
+        animatorWaterBool = Animator.StringToHash("Water");
+        animatorLightningBool = Animator.StringToHash("Lightning");
+
+        animatorCatchBlend = Animator.StringToHash("CatchBlend");
+        animatorIdleBlend = Animator.StringToHash("IdleBlend");
+        //animatorWindBlend = Animator.StringToHash("WindBlend");
+        //animatorPushingBool = Animator.StringToHash("Pushing");
+        animatorDieBool = Animator.StringToHash("Die");
+        animatorJumpingBool = Animator.StringToHash("Jumping");
+
+        //animatorRestoreBool = Animator.StringToHash("Restore");
+    }
+
+    public void Init_LayerMask()
+    {
+        groundCheckMask = (1 << LayerMask.NameToLayer("Ground")) | (1 << LayerMask.NameToLayer("Ground_Soft")) | (1 << LayerMask.NameToLayer("Plant")) | (1 << LayerMask.NameToLayer("Ground_Hard"));
+        //| (1 << LayerMask.NameToLayer("Default"));
+        //  noPlayerMask = ~noPlayerMask;
+
+        playerMask = LayerMask.NameToLayer("Player");
+        groundMask = LayerMask.NameToLayer("Ground");// LayerMask.NameToLayer("Ground_Soft") LayerMask.NameToLayer("Ground_Hard");
+
+        groundSoftMask = LayerMask.NameToLayer("Ground_Soft");
+        groundHardMask = LayerMask.NameToLayer("Ground_Hard");
+        rainMask = LayerMask.NameToLayer("WeatherFx_withOpaqueTex");
+    }
+
 
     private void Init_ContactFilter()
     {
@@ -546,9 +564,24 @@ public class PlayerController : Character
         }
 
     }
+    private bool CanLadderInput()
+    {
+        if (isCatching)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 
     private void CheckLadderInput()
     {
+        if (CanLadderInput() == false)
+        {
+            return;
+        }
 
         //사다리에 닿은!!! 상태일때
         if (onLadder)
@@ -558,8 +591,6 @@ public class PlayerController : Character
             {
                 if (CanMove())
                 {
-
-
                     inLadder = true;
                     isClimbLadder = true;
                     isJumping = false;

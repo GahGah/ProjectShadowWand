@@ -40,4 +40,12 @@ public class NPC : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// 애니메이션을 바꾸기 위한 업데이트를 합니다.
+    /// </summary>
+    public virtual void UpdateAnimation()
+    {
+
+    }
 }

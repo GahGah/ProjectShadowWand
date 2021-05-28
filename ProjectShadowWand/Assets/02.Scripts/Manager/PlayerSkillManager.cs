@@ -8,6 +8,11 @@ public class PlayerSkillManager : MonoBehaviour
     public Skill_WindGlide skillWindGilde;
     public Skill_LightningShock skillLightningShock;
     public Skill_WaterWave skillWaterWave;
+    public Skill_Restore skillRestore;
+
+
+    [Header("복원")]
+    public bool TESTBOOL;
 
     [Header("바람")]
     public GameObject windEffect;
@@ -36,6 +41,8 @@ public class PlayerSkillManager : MonoBehaviour
     public bool unlockWind;
     public bool unlockLightning;
     public bool unlockWater;
+    public bool unlockRestore;
+
     public void Init()
     {
         CheckSkills();
@@ -50,6 +57,10 @@ public class PlayerSkillManager : MonoBehaviour
     }
 
 
+    public void RestoreInit()
+    {
+
+    }
     public void WindInit()
     {
         skillWindGilde.windEffect = windEffect;
@@ -108,13 +119,18 @@ public class PlayerSkillManager : MonoBehaviour
             LightningInit();
             skillList.Add(skillLightningShock);
         }
-
+        if (unlockRestore == true)
+        {
+            skillRestore = new Skill_Restore(PlayerController.Instance);
+            RestoreInit();
+            skillList.Add(skillRestore);
+        }
     }
 
 
     public void Execute()
     {
-        if (skillList != null)
+        if (skillList.Count != 0)
         {
             for (int i = 0; i < skillList.Count; i++)
             {
@@ -126,7 +142,7 @@ public class PlayerSkillManager : MonoBehaviour
 
     public void PhysicsExcute()
     {
-        if (skillList != null)
+        if (skillList.Count != 0)
         {
             for (int i = 0; i < skillList.Count; i++)
             {
@@ -153,6 +169,11 @@ public class PlayerSkillManager : MonoBehaviour
         YeonchoolManager.Instance.isCutscenePlaying = true;
         StartCoroutine(YeonchoolManager.Instance.StartCutscene(eCutsceneType.UNLOCK_WATER));
     }
+
+    public void UnlockRestore()
+    {
+        UnlockSkill(eSkill.RESTORE);
+    }
     /// <summary>
     /// 스킬을 해금하고 획득합니다.이미 있으면 아무것도 안하지롱
     /// </summary>
@@ -160,6 +181,19 @@ public class PlayerSkillManager : MonoBehaviour
     {
         switch (_skill)
         {
+            case eSkill.RESTORE:
+                if (unlockWind == false) //해금하지 않은 상태라면
+                {
+                    unlockRestore = true;
+                    skillRestore = new Skill_Restore(PlayerController.Instance);
+
+                    RestoreInit();
+                    skillList.Add(skillRestore);
+                }
+
+
+                break;
+
             case eSkill.WINDGILDE:
                 if (unlockWind == false) //해금하지 않은 상태라면
                 {
@@ -190,6 +224,8 @@ public class PlayerSkillManager : MonoBehaviour
                     skillList.Add(skillWaterWave);
                 }
                 break;
+
+
             default:
                 break;
         }
