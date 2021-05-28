@@ -226,6 +226,11 @@ public class PlayerController : Character
     [HideInInspector]
     public CatchableObject touchedObject = null;
 
+    [HideInInspector]
+    public InteractableObject interactedObject = null;
+    [HideInInspector]
+    public InteractableObject touchedInteractObject = null;
+
     [HideInInspector] public Rigidbody2D catchBody;
 
 
