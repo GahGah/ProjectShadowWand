@@ -23,6 +23,14 @@ public enum eLiftState
     SECOND,
 }
 
+public enum eDirection
+{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+}
+
 public enum eState // 상태를 정의해놓습니다.
 {
     PLAYER_DEFAULT,

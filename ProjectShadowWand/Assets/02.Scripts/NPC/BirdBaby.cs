@@ -101,8 +101,9 @@ public class BirdBaby : NPC
         Debug.Log("버드 베이비 스타트");
     }
 
-    public void Init()
+    public override void Init()
     {
+        base.Init();
         currentTalkCode = 5;
         catchableObject.canCatched = false;
         canInteract = true;
@@ -117,6 +118,7 @@ public class BirdBaby : NPC
             animtorOn = true;
         }
         rb = GetComponent<Rigidbody2D>();
+        myTransform = gameObject.transform;
 
         quest_01 = new Quest_MomAndBaby_01(this, birdMom);
         quest_02 = new Quest_MomAndBaby_02(this, birdMom);

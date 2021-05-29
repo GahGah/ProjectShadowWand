@@ -331,9 +331,11 @@ public class TalkSystemManager : Manager<TalkSystemManager>
         if (currentTalkNPC != null)
         {
             QuestManager.Instance.QuestSystem_TalkEnd(currentTalkNPC);
+            currentTalkNPC.isTalking = true;
         }
 
         PlayerController.Instance.isTalking = false;
+
         currentTalkNPC = null;
     }
 
@@ -384,6 +386,7 @@ public class TalkSystemManager : Manager<TalkSystemManager>
         currentTalkNPC = _npc;
 
 
+        currentTalkNPC.isTalking = true;
         PlayerController.Instance.isTalking = true;
         isNextPressed = false;
 
