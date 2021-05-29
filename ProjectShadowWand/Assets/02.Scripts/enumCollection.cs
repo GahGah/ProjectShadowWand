@@ -15,11 +15,13 @@ public enum eBlockType
     WALL,
     LADDER,
 }
-public enum eMonsterType
-{
-    A, B, C
-}
 
+public enum eLiftState
+{
+    STOP,
+    FIRST,
+    SECOND,
+}
 
 public enum eState // 상태를 정의해놓습니다.
 {
@@ -44,6 +46,7 @@ public enum eSkill
     WATERWAVE,
     LIGHTNINGSHOCK,
 }
+
 public enum eFireDirection
 {
     twoDirection, fourDirection, oneDirection,
@@ -83,7 +86,7 @@ public enum eCutsceneType
 public enum eUItype
 {
     NONE, DIARY, SAVE, LOAD, PAUSE,
-    SETTINGS,BLACKSCREEN,
+    SETTINGS, BLACKSCREEN,
     CUTSCENE,
     SOULMEMORY_01, SOULMEMORY_02, SOULMEMORY_03,
 }
@@ -169,8 +172,8 @@ public enum eSortingLayer
 {
     Default,
     Far,
-    Middle, 
-    Near_Back, 
+    Middle,
+    Near_Back,
     VFX_Back,
     Player,
     VFX_Front,

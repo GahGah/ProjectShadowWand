@@ -158,6 +158,10 @@ public class CatchableObject : MonoBehaviour, ICatchable
     {
         transform.localPosition = new Vector2(_pos.x * positionFix, _pos.y);
     }
+
+    /// <summary>
+    /// 물건을 놓습니다. 하지만 플레이어의 catchedObject를 null로 해주진 않습니다.
+    /// </summary>
     public void GoPutThis()
     {
         rigidBody.bodyType = RigidbodyType2D.Dynamic;

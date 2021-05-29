@@ -4,8 +4,19 @@ using UnityEngine;
 
 public class Lever : InteractableObject
 {
+    [Header("¿¬°áµÈ ÇÃ·§Æû")]
+    public MovePlatform[] movePlatforms;
 
+
+    public LeverGroup leverGroup;
+    public int leverIndex;
     public bool isOn;
+
+    public void SetLeverGroupAndIndex(LeverGroup _g, int _i)
+    {
+        leverGroup = _g;
+        leverIndex = _i;
+    }
     private void Start()
     {
         Init();
@@ -17,9 +28,18 @@ public class Lever : InteractableObject
     }
 
 
+    public void SetIsOn(bool _b)
+    {
+        isOn = _b;
+    }
     public override void DoInteract()
     {
-        isOn = !isOn;
+        SetIsOn(!isOn);
+
+        if (isOn)
+        {
+            leverGroup.UpdateLeverToggle(leverIndex);
+        }
     }
 
     public override void SetTouchedObject(bool _b)

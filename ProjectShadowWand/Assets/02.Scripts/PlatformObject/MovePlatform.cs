@@ -4,115 +4,141 @@ using UnityEngine;
 
 public class MovePlatform : MonoBehaviour
 {
+    [Header("트랜스폼")]
 
-    public bool canMoving = false;
-    public bool isLoop;
-    public bool moveSelf;
+    [Tooltip("움직일 플랫폼")]
+    public Transform moveTransform;
 
-    public float moveSpeed;
-
+    [Tooltip("도착 위치")]
     public Transform endPoint;
     private Vector3 startPosition;
     private Vector3 endPosition = Vector3.zero;
 
-    private Vector3 currentDestination;
 
-    private Transform myTransform;
+    [Header("이동 속도")]
+    public float moveSpeed;
 
-    public bool isGoal;
-    void Start()
+
+    public bool canMoving = false;
+
+
+    [Header("작동 시 반복 이동 여부")]
+    public bool isLoop = false;
+
+
+    [Header("현재 목적지")]
+    [SerializeField]
+    private eLiftState currentDestination;
+
+
+    public bool isGoal = false;
+
+
+    private Vector3 currentDestinationPosition;
+
+
+    /// <summary>
+    /// currentDes와 curentDesPos를 변경합니다.
+    /// </summary>
+    /// <param name="_ld">변경할 Destination</param>
+    private void UpdateDestination(eLiftState _ld)
     {
-        if (moveSelf)
-        {
-            Init();
-        }
-
-    }
-
-    public void Init()
-    {
-        myTransform = gameObject.transform;
-        startPosition = transform.position;
-        endPosition = endPoint.position;
-        isGoal = false;
-        //if (moveSelf)
-        //{
-        currentDestination = endPosition;
-        //}
-    }
-    void FixedUpdate()
-    {
-        if (canMoving == false)
+        if (_ld == currentDestination)
         {
             return;
         }
-
-        if (isLoop == false)
+        currentDestination = _ld;
+        switch (currentDestination)
         {
-            if (!isGoal)
-            {
-                ProcessMove();
-            }
+            case eLiftState.FIRST:
+                currentDestinationPosition = startPosition;
+                break;
+            case eLiftState.SECOND:
+                currentDestinationPosition = endPosition;
+                break;
+            case eLiftState.STOP:
+                currentDestinationPosition = moveTransform.position;
+                break;
 
+            default:
+                break;
         }
-        else
-        {
-            ProcessMove();
-        }
-
     }
 
-
-
-
-    public void SetDestination(Vector3 _pos)
+    private void Init_Pos()
     {
-        currentDestination = _pos;
+        if (endPoint == null)
+        {
+            LogError("해당 플랫폼은 목적지가 없습니다. 넣어주세요!!");
+        }
+        if (moveTransform == null)
+        {
+            LogError("움직일 오브젝트가 없습니다. 넣어줘!!!");
+        }
+        startPosition = moveTransform.position;
+        endPosition = endPoint.position;
     }
 
-    /// <summary>
-    /// 목적지가 스타트포지션일경우 엔드 포지션으로, 엔드 포지션일 경우 스타트 포지션으로 변경시킵니다.
-    /// </summary>
-    public void ToggleDestination()
+    private void Init()
     {
-        if (currentDestination == startPosition)
-        {
-            currentDestination = endPosition;
-        }
-        else
-        {
-            currentDestination = startPosition;
-        }
-        isGoal = false;
+        Init_Pos();
+
+        UpdateDestination(eLiftState.FIRST);
     }
+
+    private void Awake()
+    {
+        Init();
+    }
+    void FixedUpdate()
+    {
+        ProcessMove();
+
+    }
+
+    private float distanceVal = 0.01f;
     /// <summary>
     /// endPositiion으로 향합니다. 되도록이면 FixedUpdate가 좋을 겁니다.
     /// </summary>
     public void ProcessMove()
     {
-        if (canMoving)
-        {
-            myTransform.position = Vector2.MoveTowards(myTransform.position, currentDestination, Time.deltaTime * moveSpeed);
-        }
 
-        if (Vector2.Distance(myTransform.position, currentDestination) <= 0.01f) //거리가 0.01라면
+        if (!canMoving)
+        {
+            return;
+        }
+        if (Vector2.Distance(moveTransform.position, currentDestinationPosition) <= distanceVal)
         {
             if (isLoop)
             {
-                if (currentDestination == endPosition) //만약 목적지가 엔드 포지션이었다면
+                if (currentDestination == eLiftState.SECOND) //만약 목적지가 엔드 포지션이었다면
                 {
-                    currentDestination = startPosition;
+                    UpdateDestination(eLiftState.FIRST);
                 }
                 else
                 {
-                    currentDestination = endPosition;
+                    UpdateDestination(eLiftState.SECOND);
                 }
             }
             else
             {
                 isGoal = true;
+                UpdateDestination(eLiftState.STOP);
             }
         }
+        else
+        {
+            isGoal = false;
+        }
+
+        if (currentDestination == eLiftState.STOP)
+        {
+            moveTransform.position = Vector2.MoveTowards(moveTransform.position, currentDestinationPosition, Time.deltaTime * moveSpeed);
+        }
+
+
+
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -163,6 +189,10 @@ public class MovePlatform : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawLine(transform.position, endPoint.position);
         //}
+    }
+    private void LogError(string _string)
+    {
+        Debug.LogError(gameObject.name + " : " + _string);
     }
 
 }

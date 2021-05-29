@@ -46,6 +46,9 @@ public class AudioManager : Manager<AudioManager>
     [Header("버튼 효과음 클립")]
     public AudioClip ui_button_select;
 
+    [Header("대화 텍스트 출력 클립")]
+    public AudioClip talk_textOut;
+
     private AudioClip currentSfxClip;
 
     protected override void Awake()
@@ -110,6 +113,13 @@ public class AudioManager : Manager<AudioManager>
         audioSource_sfx.volume = 1f;
         currentSfxClip = skill_lightning;
         audioSource_sfx.PlayOneShot(skill_lightning);
+    }
+
+    public void Play_Talk_TextOut()
+    {
+        audioSource_sfx.volume = 0.5f;
+        currentSfxClip = talk_textOut;
+        audioSource_sfx.PlayOneShot(talk_textOut);
     }
 
     public void StartVolumeLerp(AudioSource _source)
