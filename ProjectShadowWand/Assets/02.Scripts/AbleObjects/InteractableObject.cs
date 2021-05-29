@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,16 +6,16 @@ public class InteractableObject : MonoBehaviour
 {
     protected PlayerController player;
 
+    [Tooltip("ìƒí˜¸ì‘ìš© ê°€ëŠ¥í•œ ìƒíƒœ")]
+    public bool canInteract;
     protected string tagPlayer;
     public virtual void Init()
     {
         tagPlayer = "Player";
     }
 
-
-
     /// <summary>
-    /// ÇÃ·¹ÀÌ¾îÀÇ ÀÎÅÍ·¢Æ®¿ÀºêÁ§Æ®¸¦ _b¿¡ µû¶ó º¯°æÇÕ´Ï´Ù. ±×¸®°í canInterct _b = falseÀÏ ¶§ ÇÃ·¹ÀÌ¾îÀÇ tio¿¡ ÀÚ±â ÀÚ½ÅÀÌ µé¾î°¡ÀÖÁö ¾Ê´Ù¸é, ¾Æ¹«°Íµµ ÇÏÁö ¾Ê½À´Ï´Ù.
+    /// í”Œë ˆì´ì–´ì˜ ì¸í„°ë™íŠ¸ì˜¤ë¸Œì íŠ¸ë¥¼ _bì— ë”°ë¼ ë³€ê²½í•©ë‹ˆë‹¤. ê·¸ë¦¬ê³  canInterct _b = falseì¼ ë•Œ í”Œë ˆì´ì–´ì˜ tioì— ìê¸° ìì‹ ì´ ë“¤ì–´ê°€ìˆì§€ ì•Šë‹¤ë©´, ì•„ë¬´ê²ƒë„ í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
     /// </summary>
     /// <param name="_b">true : this, false : null;  </param>
     public virtual void SetTouchedObject(bool _b)
@@ -37,7 +37,7 @@ public class InteractableObject : MonoBehaviour
     }
 
     /// <summary>
-    /// »óÈ£ÀÛ¿ëÀ» ÇÕ´Ï´Ù.
+    /// ìƒí˜¸ì‘ìš©ì„ í•©ë‹ˆë‹¤.
     /// </summary>
     public virtual void DoInteract() { }
 

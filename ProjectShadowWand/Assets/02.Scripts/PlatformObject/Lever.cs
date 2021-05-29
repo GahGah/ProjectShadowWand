@@ -7,15 +7,22 @@ public class Lever : InteractableObject
     [Header("¿¬°áµÈ ÇÃ·§Æû")]
     public MovePlatform[] movePlatforms;
 
+    public eLiftState destination;
 
     public LeverGroup leverGroup;
     public int leverIndex;
     public bool isOn;
 
+    public int count;
+
     public void SetLeverGroupAndIndex(LeverGroup _g, int _i)
     {
         leverGroup = _g;
         leverIndex = _i;
+    }
+    private void Awake()
+    {
+        count = movePlatforms.Length;
     }
     private void Start()
     {
@@ -32,6 +39,26 @@ public class Lever : InteractableObject
     {
         isOn = _b;
     }
+
+    private void SetPlatformsMoving(bool _b)
+    {
+        if (_b)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                movePlatforms[i].canMoving = _b;
+                movePlatforms[i].currentDestination = destination;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < count; i++)
+            {
+                movePlatforms[i].canMoving = _b;
+            }
+        }
+
+    }
     public override void DoInteract()
     {
         SetIsOn(!isOn);
@@ -39,6 +66,12 @@ public class Lever : InteractableObject
         if (isOn)
         {
             leverGroup.UpdateLeverToggle(leverIndex);
+            SetPlatformsMoving(true);
+        }
+        else
+        {
+
+            SetPlatformsMoving(false);
         }
     }
 

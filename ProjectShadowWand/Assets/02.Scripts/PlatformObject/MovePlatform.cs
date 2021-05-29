@@ -27,8 +27,7 @@ public class MovePlatform : MonoBehaviour
 
 
     [Header("현재 목적지")]
-    [SerializeField]
-    private eLiftState currentDestination;
+    public eLiftState currentDestination;
 
 
     public bool isGoal = false;

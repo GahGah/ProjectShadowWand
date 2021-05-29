@@ -563,7 +563,7 @@ public class PlayerController : Character
 
             #region Interact
 
-            if (existInteractObject)
+            if (existInteractObject && touchedInteractObject.canInteract)
             {
                 touchedInteractObject.DoInteract();
             }
