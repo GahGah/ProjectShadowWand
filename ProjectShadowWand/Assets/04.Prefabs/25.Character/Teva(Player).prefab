@@ -297,7 +297,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8403324798954577328}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.601, z: 0}
+  m_LocalPosition: {x: 0, y: -0.633, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8403324799475236884}
@@ -469,6 +469,7 @@ MonoBehaviour:
   animatorLightningBool: 0
   animatorWaterBool: 0
   animatorJumpingBool: 0
+  animatorRestoreBool: 0
   inputManager: {fileID: 0}
   saveMoveInputX: 0
   canMove: 1
@@ -486,6 +487,7 @@ MonoBehaviour:
   isClimbLadder: 0
   isCatching: 0
   isGliding: 0
+  existInteractObject: 0
   isTalking: 0
   ladderPosition: {x: 0, y: 0}
   prevPosition: {x: 0, y: 0}
@@ -493,6 +495,7 @@ MonoBehaviour:
   testIdleMotions: []
   isInputCatchKey: 0
   touchedObject: {fileID: 0}
+  touchedInteractObject: {fileID: 0}
   catchBody: {fileID: 0}
   windDirection: 0
   sceneChanger: {fileID: 0}
@@ -532,6 +535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isDrawGizmo: 0
+  TESTBOOL: 0
   windEffect: {fileID: 9133116460333454853}
   waterEffect_Set: {fileID: 5047972218522152986}
   waterEffect_Splash: {fileID: 7780770169846347000}
@@ -541,6 +545,7 @@ MonoBehaviour:
   unlockWind: 1
   unlockLightning: 1
   unlockWater: 1
+  unlockRestore: 0
 --- !u!95 &8403324799475236888
 Animator:
   serializedVersion: 3
@@ -594,7 +599,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.032015562}
+  m_Offset: {x: 0, y: -0.04755354}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -605,7 +610,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.6244824, y: 1.1540313}
+  m_Size: {x: 0.6244824, y: 1.1851072}
   m_EdgeRadius: 0
 --- !u!114 &8403324799733906937
 MonoBehaviour:
@@ -990,7 +995,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4537502086320914239, guid: 02e9a2db9d2520848a994b6c058b8370, type: 3}
       propertyPath: m_SortingLayer
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4537502086320914239, guid: 02e9a2db9d2520848a994b6c058b8370, type: 3}
       propertyPath: m_SortingLayerID

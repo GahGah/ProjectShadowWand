@@ -84,7 +84,7 @@ public class StageManager : Manager<StageManager>
         // UpdateStageName();
 
         trashList = new List<InteractMoveObject>();
-        UpdateStageName();
+        UpdateStageName_TEST();
     }
 
     private void UpdateStageNameList()
