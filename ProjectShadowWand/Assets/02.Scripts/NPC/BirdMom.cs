@@ -31,6 +31,11 @@ public class BirdMom : NPC
     public override void Init()
     {
         base.Init();
+
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
         animatorDirectionBlend = Animator.StringToHash("DirectionBlend");
         animatorMeetingBool = Animator.StringToHash("Meeting");
         animatorTalkingBool = Animator.StringToHash("Talking");
@@ -41,6 +46,8 @@ public class BirdMom : NPC
         canInteract = true;
     }
 
+
+    private bool nowTalking;
     public override void StartTalk()
     {
         if (baby.catchableObject.isCatched == true)
@@ -75,9 +82,33 @@ public class BirdMom : NPC
         }
     }
 
+    private IEnumerator UpdateTalkAnimation()
+    {
+        while (true)
+        {
+
+            if (isTalking )
+            {
+                animator.SetBool(animatorTalkingBool, true);
+            }
+            else
+            {
+                animator.SetBool(animatorTalkingBool, false);
+            }
+            yield return null;
+        }
+    }
     private IEnumerator ProcessPlayHugAnimation()
     {
         PlayerController.Instance.canMove = false;
+
+        baby.catchableObject.GoPutThis();
+        PlayerController.Instance.SetCatchedObject(null); //나리를 내려놓고
+
+
+        baby.catchableObject.enabled = false; //잡지 못하게 한다.
+        baby.gameObject.SetActive(false);
+
 
         animator.SetBool(animatorMeetingBool, true);
         animator.SetFloat(animatorMeetBlend, 1f);
@@ -94,26 +125,39 @@ public class BirdMom : NPC
             animator.SetFloat(animatorDirectionBlend, -1f);
         }
         float timer = 0f;
-        while (timer < 3f) //초동안 대기
+        while (timer < 0.5f) //초동안 대기
         {
             timer += Time.deltaTime;
             yield return null;
         }
 
         PlayerController.Instance.canMove = true;
+
         UpdateDirection();
 
+        isTalking = true;
+
+        UpdateAnimation();
+
+
         TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
+
+        animator.SetBool(animatorMeetingBool, false);
+
+        yield return new WaitWhile(() => isTalking);//isTalking이 false가 될 때 까지 기다리기
+        StartCoroutine(UpdateTalkAnimation());
     }
 
     public override void UpdateAnimation()
     {
         if (isTalking)
         {
+            Debug.Log("Talking");
             animator.SetBool(animatorTalkingBool, true);
         }
         else
         {
+            Debug.Log("Not Talking");
             animator.SetBool(animatorTalkingBool, false);
         }
 
