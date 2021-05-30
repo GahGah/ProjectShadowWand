@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mat_Leaf01
-  m_Shader: {fileID: -6465566751694194690, guid: ad3d699cc3c66174cbd3904a1862c7d7, type: 3}
+  m_Name: Mat_Butterfly
+  m_Shader: {fileID: -6465566751694194690, guid: f097de49f48f0b94e86a975c4d4806ec, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -24,7 +24,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseTex:
-        m_Texture: {fileID: 2800000, guid: 073e843133ed9d44dad21d78f82336eb, type: 3}
+        m_Texture: {fileID: 2800000, guid: ff32776ab6dcce447af49ac42c7bd691, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
@@ -52,12 +52,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - BOOLEAN_F4A241E0F5444999919CFE8950C68A25: 0
-    - Vector1_9a9f0afaa72a420ab791aa73fa968a59: 1
-    - _ColorStep: 5
+    - VertexSpeed: 23.22
+    - _BaseColorIntensity: 4.78
     - _EnableExternalAlpha: 0
+    - _VertexPosMul: 0.89
+    - _VertexYposFrequency: 36
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 0.28773582, g: 1, b: 0.9317006, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
