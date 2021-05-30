@@ -248,8 +248,9 @@ public class PlayerController : Character
 
     public Vector2 currentHandPosition;
 
+    [HideInInspector]
     [Tooltip("땅 체크에 쓰일 hit")]
-    private RaycastHit2D groundHit;
+    public RaycastHit2D groundHit;
 
     [HideInInspector]
     [Tooltip("일단 밟을 수 있으면 다 해볼 생각")]
@@ -620,14 +621,15 @@ public class PlayerController : Character
     }
     private bool CanLadderInput()
     {
-        if (isCatching)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        //if (isCatching)
+        //{
+        //    return false;
+        //}
+        //else
+        //{
+        //    return true;
+        //}
+        return true;
     }
 
     private void CheckLadderInput()

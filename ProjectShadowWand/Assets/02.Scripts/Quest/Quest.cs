@@ -113,11 +113,12 @@ public class Quest_MomAndBaby_02 : Quest
         base.StartTalk(_npc);
         if (_npc == mom && baby.catchableObject.isCatched == true) //맘...이라면
         {
-            baby.catchableObject.GoPutThis();
-            PlayerController.Instance.SetCatchedObject(null); //나리를 내려놓고
+            //baby.catchableObject.GoPutThis();
+            //PlayerController.Instance.SetCatchedObject(null); //나리를 내려놓고
 
 
-            baby.catchableObject.enabled = false; //잡지 못하게 한다.
+            //baby.catchableObject.enabled = false; //잡지 못하게 한다.
+            //baby.gameObject.SetActive(false);
 
             baby.gameObject.transform.position = baby.momTogetherPos.position;
             isClear = true;
@@ -137,7 +138,7 @@ public class Quest_MomAndBaby_02 : Quest
     {
         base.EndQuest();
         //마지막 퀘스트 완료
-        PlayerController.Instance.playerSkillManager.UnlockWind();
+    //    PlayerController.Instance.playerSkillManager.UnlockWind();
         StageManager.Instance.SetLastQuestClear(true);
     }
     public override void EndTalk(NPC _npc)

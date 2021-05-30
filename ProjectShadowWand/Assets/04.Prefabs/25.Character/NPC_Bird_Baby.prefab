@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3550241836437575478}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.156, y: 0.503, z: 0}
+  m_LocalPosition: {x: 0.144, y: 0.148, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3550241836819845788}
@@ -70,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -741118393
-  m_SortingLayer: 7
+  m_SortingLayer: 6
   m_SortingOrder: -1
   m_Sprite: {fileID: 7392572811880665106, guid: 3836fdd971e2e6c4ebd413859d7d954f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -151,7 +151,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canInteract: 0
+  isTalking: 0
   currentTalkCode: 5
+  direction: 0
   momTogetherPos: {fileID: 0}
   birdCollider: {fileID: 3550241836819845763}
   birdMom: {fileID: 0}
@@ -190,7 +192,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.036546707, y: 0.45204422}
+  m_Offset: {x: 0.06421089, y: 0.15951085}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -201,7 +203,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.0966759, y: 0.90165466}
+  m_Size: {x: 1.6356163, y: 0.96183586}
   m_EdgeRadius: 0
 --- !u!50 &3550241836819845760
 Rigidbody2D:
@@ -237,7 +239,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.12203407, y: 0.3711207}
+  m_Offset: {x: 0.12203407, y: 0.080562115}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -248,5 +250,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7304878, y: 0.7533822}
+  m_Size: {x: 0.7304878, y: 0.43469715}
   m_EdgeRadius: 0

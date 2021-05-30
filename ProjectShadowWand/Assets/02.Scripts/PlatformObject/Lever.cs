@@ -37,6 +37,7 @@ public class Lever : InteractableObject
 
     public void SetIsOn(bool _b)
     {
+        Debug.Log(gameObject.name + " : SetIsOn -" + _b);
         isOn = _b;
     }
 
@@ -47,7 +48,7 @@ public class Lever : InteractableObject
             for (int i = 0; i < count; i++)
             {
                 movePlatforms[i].canMoving = _b;
-                movePlatforms[i].currentDestination = destination;
+                movePlatforms[i].UpdateDestination(destination);
             }
         }
         else
@@ -70,6 +71,10 @@ public class Lever : InteractableObject
         }
         else
         {
+            if (leverGroup.currentActiveLever==this)
+            {
+                leverGroup.currentActiveLever = null;
+            }
 
             SetPlatformsMoving(false);
         }
