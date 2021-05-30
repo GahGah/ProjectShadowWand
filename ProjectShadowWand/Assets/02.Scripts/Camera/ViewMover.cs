@@ -20,6 +20,7 @@ public class ViewMover : MonoBehaviour
     [Range(0f, 5f)]
     public float moveValue_Transform;
 
+    [Space(20)]
     [Tooltip("false일 때 카메라를 쫒아가고, true일 때 플레이어를 쫒아갑니다.")]
     public bool followPlayer;
     public Transform target;
