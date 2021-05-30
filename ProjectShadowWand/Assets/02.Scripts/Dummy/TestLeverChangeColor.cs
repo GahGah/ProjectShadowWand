@@ -19,7 +19,7 @@ public class TestLeverChangeColor : MonoBehaviour
 
         if (lever.isOn)
         {
-            sr.color = Color.green;
+            sr.color = Color.cyan;
         }
         else
         {
