@@ -32,12 +32,12 @@ MonoBehaviour:
     customBlendFactors:
       multiplicative: 2.5
       additive: 1
-  - name: for Shadow (Multiply)
+  - name: for Shadow (SubTractive)
     maskTextureChannel: 0
     renderTextureScale: 1
-    blendMode: 1
+    blendMode: 2
     customBlendFactors:
-      multiplicative: 0
+      multiplicative: -1
       additive: 0
   - name: Blend Style 3
     maskTextureChannel: 0
