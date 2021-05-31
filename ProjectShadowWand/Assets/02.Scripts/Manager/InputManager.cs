@@ -36,6 +36,7 @@ public class InputManager : Manager<InputManager>
     public Keyboard keyboard;
     public bool isDebugMode;
 
+    public ButtonControl buttonAnyKey;
     protected override void Awake()
     {
         base.Awake();
@@ -116,6 +117,8 @@ public class InputManager : Manager<InputManager>
         buttonInteract = Keyboard.current.fKey;
 
         buttonCapture = Keyboard.current.pKey;
+
+        buttonAnyKey = Keyboard.current.anyKey;
 
         //이 밑 키들은 아마도 안씀
         buttonPush = Keyboard.current.cKey;

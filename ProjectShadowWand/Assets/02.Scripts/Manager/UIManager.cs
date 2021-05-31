@@ -12,7 +12,9 @@ public class UIManager : MonoBehaviour
 
     public Stack<UIBase> uiStack;
 
-
+    private UIBase uiPause = null;
+    [Tooltip("일시정지 기능을 사용할 수 있는가")]
+    public bool canPause;
     private static UIManager instance;
     public static UIManager Instance
     {
@@ -67,14 +69,24 @@ public class UIManager : MonoBehaviour
             {
                 if (SceneChanger.Instance.isLoading == false)
                 {
-                    UIBase tempUI;
-                    uiDicitonary.TryGetValue(eUItype.PAUSE, out tempUI);
-
-                    if (!ReferenceEquals(tempUI, null))
+                    if (canPause == true)
                     {
-                        OpenThis(tempUI);
+                        if (ReferenceEquals(uiPause, null)) // null이라면
+                        {
+                            uiDicitonary.TryGetValue(eUItype.PAUSE, out uiPause);
 
+                            OpenThis(uiPause);
+
+                        }
+                        else
+                        {
+                            OpenThis(uiPause);
+                        }
                     }
+
+
+
+
                 }
             }
 
