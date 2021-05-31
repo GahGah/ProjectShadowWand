@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 public class StageDoor : MonoBehaviour
 {
-
     private Light2D[] lights;
     public bool isOpen;
     public bool isLoop;

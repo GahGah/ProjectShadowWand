@@ -28,6 +28,13 @@ public class SceneChanger : MonoBehaviour
     //public Image[] progressImages;
 
 
+
+    [Space(20)]
+    [Header("[TBC]")]
+    public CanvasGroup tbc_canvasGroup;
+    public RotateThis tbc_rotateImage;
+    public Image tbc_blackImage;
+
     private static SceneChanger instance;
     public static SceneChanger Instance
     {
@@ -312,6 +319,62 @@ public class SceneChanger : MonoBehaviour
         }
 
         Debug.Log("SceneLoad");
+        yield break;
+
+    }
+
+
+    private IEnumerator LoadScene_ToBeContinue()
+    {
+        isLoading = true;
+
+        // SceneManager.sceneLoaded += LoadSceneEnd;
+
+        moveSceneName = "Scene_Credit";
+
+        Time.timeScale = 0f;
+
+        progressBar.fillAmount = 0f;
+        waitTime = 0.5f;
+        fadeTime = 1.5f;
+        AudioManager.Instance.Stop_Bgm();
+        rotateImage.gameObject.SetActive(false);
+        yield return StartCoroutine(GoColorScreen(waitTime, fadeTime, true));
+
+        rotateImage.gameObject.SetActive(true);
+        rotateImage.Init();
+        StartCoroutine(rotateImage.ProcessRotate());
+
+
+        //비동기로 로드 씬
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(moveSceneName);
+        asyncOperation.allowSceneActivation = false;  //씬 활성화를 false로. 이제 로딩이 끝나도 씬이 활성화되지 않음.
+
+        SceneManager.sceneLoaded += LoadSceneEnd;
+
+        float timer = 0f;
+        while (!asyncOperation.isDone) // 로딩이 완료되기 전 까지만
+        {
+            timer += Time.unscaledDeltaTime;
+
+            if (asyncOperation.progress < 0.9f)
+            {
+
+            }
+            else
+            {
+                asyncOperation.allowSceneActivation = true;
+                break;
+            }
+        }
+        yield return YieldInstructionCache.WaitForEndOfFrame;
+
+
+        Debug.Log("SceneLoad");
+
+        rotateImage.isStop = true;
+        rotateImage.gameObject.SetActive(false);
+
         yield break;
 
     }
