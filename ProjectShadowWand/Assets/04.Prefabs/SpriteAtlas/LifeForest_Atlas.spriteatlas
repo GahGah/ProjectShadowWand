@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: LifeForest_Atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 4096
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 4
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: c109614f1ce8cd14c9795a968bf76ab5, type: 3}
+    - {fileID: 2800000, guid: 05efdc4a130d7dd479f7e716d8de924b, type: 3}
+    - {fileID: 2800000, guid: ce21b9ba08df11143936128fcbb3875d, type: 3}
+    - {fileID: 2800000, guid: 0c91de24c140f024c89e8d2a874d19fa, type: 3}
+    - {fileID: 2800000, guid: fddd7e36bcaf85b48ab063dc9a86b440, type: 3}
+    - {fileID: 2800000, guid: cfc69894eae2d4646a1ef93d995ae122, type: 3}
+    - {fileID: 2800000, guid: c2075693bfac26e428eb320172a6489e, type: 3}
+    - {fileID: 2800000, guid: eda99c5e188f75d428e3363059d4300c, type: 3}
+    - {fileID: 2800000, guid: 34e3d6ee49f3f65429d69f3e4a5c0221, type: 3}
+    - {fileID: 2800000, guid: e45c7d65c11006049bbb6627591b0a0b, type: 3}
+    - {fileID: 2800000, guid: df7137636b7ad664f9375c437f52d5d9, type: 3}
+    totalSpriteSurfaceArea: 2711936
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: df7137636b7ad664f9375c437f52d5d9, type: 3}
+  - {fileID: 21300000, guid: c2075693bfac26e428eb320172a6489e, type: 3}
+  - {fileID: 21300000, guid: 0c91de24c140f024c89e8d2a874d19fa, type: 3}
+  - {fileID: 21300000, guid: cfc69894eae2d4646a1ef93d995ae122, type: 3}
+  - {fileID: 21300000, guid: e45c7d65c11006049bbb6627591b0a0b, type: 3}
+  - {fileID: 21300000, guid: fddd7e36bcaf85b48ab063dc9a86b440, type: 3}
+  - {fileID: 21300000, guid: 05efdc4a130d7dd479f7e716d8de924b, type: 3}
+  - {fileID: 21300000, guid: ce21b9ba08df11143936128fcbb3875d, type: 3}
+  - {fileID: 21300000, guid: eda99c5e188f75d428e3363059d4300c, type: 3}
+  - {fileID: 21300000, guid: 34e3d6ee49f3f65429d69f3e4a5c0221, type: 3}
+  - {fileID: 21300000, guid: c109614f1ce8cd14c9795a968bf76ab5, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - LifeForest_Stump_04
+  - LifeForest_Tree_03
+  - LifeForest_Rock_04
+  - LifeForest_Tree_02
+  - LifeForest_Stump_03
+  - LifeForest_Tree_01
+  - LifeForest_Rock_02
+  - LifeForest_Rock_03
+  - LifeForest_Stump_01
+  - LifeForest_Stump_02
+  - LifeForest_Rock_01
+  m_RenderDataMap: {}
+  m_Tag: LifeForest_Atlas
+  m_IsVariant: 0

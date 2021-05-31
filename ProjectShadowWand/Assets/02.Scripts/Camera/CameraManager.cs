@@ -67,8 +67,10 @@ public class CameraManager : Manager<CameraManager>
     [Tooltip("제한 영역 설정을 할 것인가?")]
     public bool isConfine;
 
-    public Vector2 confinePos;
-    public Vector2 confineSize;
+    [Tooltip("박스 콜라이더의 크기 만큼 제한 영역 설정을 합니다.")]
+    public BoxCollider2D confineCollider;
+
+    [Space(20)]
 
     private Vector3 currentConfinePos;
     private Vector3 currentChangeSize;
@@ -83,7 +85,8 @@ public class CameraManager : Manager<CameraManager>
 
 
     public GameObject whiteScreen;
-
+    private Vector2 offset;
+    private Vector2 size;
     protected override void Awake()
     {
         base.Awake();
@@ -96,6 +99,9 @@ public class CameraManager : Manager<CameraManager>
     }
     public void Init()
     {
+
+        offset = confineCollider.offset;
+        size = confineCollider.size;
         height = currentCamera.orthographicSize;
         width = height * Screen.width / Screen.height;
 
@@ -173,7 +179,7 @@ public class CameraManager : Manager<CameraManager>
 
         distance = Vector2.Distance(currentTransform.position, target.position);
         //currentTransform.position = Vector3.Lerp(currentTransform.position, target.position, Time.deltaTime * followSpeed);
-        if ( distance > 0.01f)
+        if (distance > 0.01f)
         {
             currentTransform.position = Vector3.Lerp(currentTransform.position, target.position, Time.deltaTime * followSpeed);
 
@@ -197,7 +203,7 @@ public class CameraManager : Manager<CameraManager>
         {
             isStop = false;
         }
-       prevPosition = currentTransform.position;
+        prevPosition = currentTransform.position;
     }
     private IEnumerator CameraZoom()
     {
@@ -359,17 +365,27 @@ public class CameraManager : Manager<CameraManager>
 
 
     private Vector3 limitTest;
+
     private Vector3 GetConfinePosition()
     {
         height = currentCamera.orthographicSize;
         width = height * Screen.width / Screen.height;
-        //애들 관련 그거를 하기 위해서는 이 부분에 아이들의 위치가 들어가야함.
-        float localX = confineSize.x * 0.5f - width;
 
-        float localY = confineSize.y * 0.5f - height;
+        float localX = size.x * 0.5f - width;
+        float localY = size.y * 0.5f - height;
 
-        float clampX = Mathf.Clamp(currentTransform.position.x, -localX + confinePos.x, localX + confinePos.x);
-        float clampY = Mathf.Clamp(currentTransform.position.y, -localY + confinePos.y, localY + confinePos.y);
+        float posX = offset.x;
+        float posY = offset.y;
+
+        //float posX = confinePos.x;
+        //float posY = confinePos.y;
+
+        //float localX = confineSize.x * 0.5f - width;
+
+        //float localY = confineSize.y * 0.5f - height;
+
+        float clampX = Mathf.Clamp(currentTransform.position.x, -localX + posX, localX + posX);
+        float clampY = Mathf.Clamp(currentTransform.position.y, -localY + posY, localY + posY);
 
         Vector3 centerBottom = currentCamera.ViewportToWorldPoint(new Vector2(0.5f, 0f));
         //가운데 아래의 좌표를 얻어야함....
@@ -417,9 +433,15 @@ public class CameraManager : Manager<CameraManager>
     {
         //if (isConfine)
         //{
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(confinePos, confineSize);
 
+        if (confineCollider != null)
+        {
+            
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(confineCollider.offset, 0.5f);
+            Gizmos.DrawWireCube(confineCollider.offset, confineCollider.size);
+        }
         //}
 
     }

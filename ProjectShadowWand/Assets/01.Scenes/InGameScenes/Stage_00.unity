@@ -56425,8 +56425,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1602945358}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.66, y: 5.71, z: 0}
-  m_LocalScale: {x: 39.473534, y: 20.56556, z: 1.9274187}
+  m_LocalPosition: {x: 2.08, y: 3.94, z: 0}
+  m_LocalScale: {x: 20.48, y: 10.67, z: 1.9274187}
   m_Children:
   - {fileID: 562730641}
   - {fileID: 2086456958}
@@ -75390,6 +75390,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6909751709992402692, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: m_Size.x
+      value: 130.70033
+      objectReference: {fileID: 0}
+    - target: {fileID: 6909751709992402692, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: m_Size.y
+      value: 10.38668
+      objectReference: {fileID: 0}
+    - target: {fileID: 6909751709992402692, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: m_Offset.x
+      value: 57.177284
+      objectReference: {fileID: 0}
+    - target: {fileID: 6909751709992402692, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
+      propertyPath: m_Offset.y
+      value: 4.066322
+      objectReference: {fileID: 0}
     - target: {fileID: 8731688404087715376, guid: 7a7b9fca950e7df4db109d21a8d32914, type: 3}
       propertyPath: m_Name
       value: CameraManager
