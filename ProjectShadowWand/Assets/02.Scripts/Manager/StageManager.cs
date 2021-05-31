@@ -117,11 +117,11 @@ public class StageManager : Manager<StageManager>
         }
 
 
-        if (YeonchoolManager.Instance != null)
-        {
-            YeonchoolManager.Instance.StartStageInYeonchool();
+        //if (YeonchoolManager.Instance != null)
+        //{
+        //    YeonchoolManager.Instance.StartStageInYeonchool();
 
-        }
+        //}
     }
     public void InitSoulMemoryList()
     {

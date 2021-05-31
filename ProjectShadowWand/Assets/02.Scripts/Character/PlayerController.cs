@@ -298,7 +298,7 @@ public class PlayerController : Character
     }
     private void Start()
     {
-        ChangeState(eState.PLAYER_DEFAULT);
+        ChangeState(eState.PLAYER_FALL);
 
         playerSkillManager.Init();
         playerStateMachine.Start();
