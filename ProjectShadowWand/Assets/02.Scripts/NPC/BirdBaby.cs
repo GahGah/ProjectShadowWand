@@ -104,7 +104,7 @@ public class BirdBaby : NPC
     public override void Init()
     {
         base.Init();
-        currentTalkCode = 5;
+        currentTalkCode = 0;
         catchableObject.canCatched = false;
         canInteract = true;
         if (birdCollider == null)
@@ -148,6 +148,7 @@ public class BirdBaby : NPC
         {
             SetAnimatorBool(animatorIdleBool,false);
             SetAnimatorBool(animatorCatchingBool, true);
+            SetAnimatorBool(animatorFallingBool, false);
 
             return;
         }
@@ -173,9 +174,6 @@ public class BirdBaby : NPC
         }
 
     }
-
-
-
     private IEnumerator ProcessCatchBirdBabyQuest()
     {
 
@@ -198,7 +196,7 @@ public class BirdBaby : NPC
     {
         switch (currentTalkCode)
         {
-            case 5:
+            case 0:
                 QuestManager.Instance.QuestSystem_AddQuest(quest_01);
                 TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
                 canInteract = false;

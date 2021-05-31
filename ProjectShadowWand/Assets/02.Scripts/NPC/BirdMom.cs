@@ -42,7 +42,7 @@ public class BirdMom : NPC
         animatorIdleBool = Animator.StringToHash("Idle");
 
         animatorMeetBlend = Animator.StringToHash("MeetBlend");
-        currentTalkCode = 0;
+        currentTalkCode = 4; // 퀘스트 미수락 대화
         canInteract = true;
     }
 
@@ -52,7 +52,7 @@ public class BirdMom : NPC
     {
         if (baby.catchableObject.isCatched == true)
         {
-            currentTalkCode = 8;
+            currentTalkCode = 5; // 퀘스트 완료 대화
             StartCoroutine(ProcessPlayHugAnimation());
             return;
         }
@@ -62,12 +62,16 @@ public class BirdMom : NPC
 
         switch (currentTalkCode)
         {
-            case 0:
+            //case 0:
+            //    TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
+            //    currentTalkCode = 4;
+            //    break;
+
+            case 4:
                 TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
-                currentTalkCode = 4;
                 break;
 
-            case 8:
+            case 5:
                 TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
                 break;
 
