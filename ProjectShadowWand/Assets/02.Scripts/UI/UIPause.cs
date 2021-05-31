@@ -8,9 +8,11 @@ using UnityEngine;
 public class UIPause : UIBase
 {
     public GameObject pauseGroup;
+    private ButtonSelector buttonSelector;
     private void Awake()
     {
         uiType = eUItype.PAUSE;
+        buttonSelector = GetComponent<ButtonSelector>();
     }
     private void Start()
     {
@@ -32,6 +34,7 @@ public class UIPause : UIBase
     public override bool Open()
     {
         canvasObject.SetActive(true);
+        buttonSelector.ForceSelect();
         Time.timeScale = 0f;
         return true;
     }
@@ -39,6 +42,7 @@ public class UIPause : UIBase
     {
         Time.timeScale = 1f;
         canvasObject.SetActive(false);
+        buttonSelector.ForceSelect();
         return true;
     }
     public void ButtonRestart()

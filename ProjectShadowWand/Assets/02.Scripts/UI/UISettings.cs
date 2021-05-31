@@ -85,7 +85,6 @@ public class UISettings : UIBase
     public override bool Open()
     {
         canvasObject.SetActive(true);
-
         buttonSelector.ForceSelect();
         return true;
     }
@@ -97,6 +96,10 @@ public class UISettings : UIBase
         buttonSelector.ForceSelect();
         return true;
     }
+    /// <summary>
+    /// 데이터를 설정하고, 반영도 합니다.
+    /// </summary>
+    /// <param name="data"></param>
     private void SetData(Data_Settings data)
     {
         currentSettingsData = new Data_Settings(data);
@@ -137,17 +140,13 @@ public class UISettings : UIBase
     {
 
 
+
     }
 
-    //public void ToggleScreen_WindowMode()
-    //{
-    //    currentSettingsData.isFullScreenMode = false;
-    //}
-    //public void ToggleScreen_FullScreenMode()
-    //{
-
-    //    currentSettingsData.isFullScreenMode = true;
-    //}
+    public void ToggleOnScreen()
+    {
+        UpdateFullScreen(fullScreenToggle.isOn);
+    }
 
     public void ButtonOnClose()
     {
@@ -427,16 +426,20 @@ public class UISettings : UIBase
 
     public void UpdateFullScreen(bool _b)
     {
-        Screen.fullScreen = _b;
-
+        Debug.Log("UFS");
         if (_b == true)
         {
             fullScreenToggle.isOn = true;
+            Screen.SetResolution(1920, 1080, true);
+            Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
         }
         else
         {
+            Screen.SetResolution(1920,1080,false);
             windowScreenToggle.isOn = true;
         }
+
+
     }
 
     //public IEnumerator SaveSettingsData()
