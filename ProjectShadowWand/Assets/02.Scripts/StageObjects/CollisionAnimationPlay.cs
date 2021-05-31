@@ -35,6 +35,10 @@ public class CollisionAnimationPlay : MonoBehaviour
         animator.SetTrigger(animatorCollisionEnterTrigger);
     }
 
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        animator.SetTrigger(animatorCollisionEnterTrigger);
+    }
 
 
 }
