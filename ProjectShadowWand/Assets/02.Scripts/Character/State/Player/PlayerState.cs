@@ -325,9 +325,38 @@ public class PlayerState_Interact : PlayerState
         player = _p;
     }
 
+    public IEnumerator ProcessInteractAnimation()
+    {
+        float timer = 0f;
+
+
+        while (!player.animator.GetCurrentAnimatorStateInfo(0)
+.IsName("interact"))
+        {
+            //전환 중일 때 실행되는 부분
+            yield return null;
+        }
+
+        while (player.animator.GetCurrentAnimatorStateInfo(0)
+        .normalizedTime < 1f)
+        {
+            //애니메이션 재생 중 실행되는 부분
+            yield return null;
+        }
+
+
+        //while (timer < 0.8f)
+        //{
+        //    timer += Time.deltaTime;
+        //    yield return null;
+        //}
+        player.isInteracting = false;
+    }
     public override void Enter()
     {
+        Debug.Log("SetBool");
         player.animator.SetBool(player.animatorInteractingBool, true);
+        player.StartCoroutine(ProcessInteractAnimation());
     }
 
     public override void Execute()

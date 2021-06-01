@@ -167,9 +167,6 @@ public class Lever : InteractableObject
         }
 
         canInteract = true;
-        player.isInteracting = false;
-
-
 
 
         if (directionTimerCoroutine == null)// null¿Ã∂Û∏È 
