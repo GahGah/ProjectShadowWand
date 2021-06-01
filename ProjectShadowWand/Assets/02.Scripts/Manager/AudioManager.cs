@@ -267,6 +267,7 @@ public class AudioManager : Manager<AudioManager>
     }
     public void Play_WalkHard()
     {
+        audioSource_sfx.volume = 1f;
         audioSource_sfx.PlayOneShot(walk_groundHard);
 
     }

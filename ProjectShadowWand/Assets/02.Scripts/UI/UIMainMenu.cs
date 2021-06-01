@@ -12,8 +12,14 @@ public class UIMainMenu : UIBase
 
     public UICutScene cutscene;
 
-    private void Start()
+    private bool isExistSaveData;
+    private IEnumerator Start()
+
     {
+        canvasGroup.interactable = false;
+
+        yield return StartCoroutine(SaveLoadManager.Instance.LoadData_Stage());
+
         canvasGroup.interactable = true;
     }
     public void Button_GoNewGame(UIBase _ui)
@@ -24,12 +30,12 @@ public class UIMainMenu : UIBase
         }
         else
         {
-            _ui.Open();
+            UIManager.Instance.OpenThis(_ui);
         }
 
     }
 
-    public void Button_StartNewGame()
+    private void Button_StartNewGame()
     {
         canvasGroup.interactable = false;
         StartCoroutine(NewGameIntro());
@@ -56,18 +62,20 @@ public class UIMainMenu : UIBase
 
 
     //게임을 이어서 플레이합니다.
-    public void Button_GoContinue()
+    public void Button_GoContinue(UIBase _ui)
     {
-        //_ui.Open();
         if (SaveLoadManager.Instance.currentData_Stage.stageName == "Stage_00")
         {
             canvasGroup.interactable = false;
-            SceneChanger.Instance.LoadThisSceneName(SaveLoadManager.Instance.currentData_Stage.stageName, false);
-           // AudioManager.Instance.Stop_Bgm();
+
+            StartCoroutine(NewGameIntro());
+            // SceneChanger.Instance.LoadThisSceneName(SaveLoadManager.Instance.currentData_Stage.stageName, false);
+            // AudioManager.Instance.Stop_Bgm();
         }
         else
         {
             canvasGroup.interactable = false;
+            UIManager.Instance.OpenThis(_ui);
             SceneChanger.Instance.LoadThisSceneName(SaveLoadManager.Instance.currentData_Stage.stageName, false);
         }
 

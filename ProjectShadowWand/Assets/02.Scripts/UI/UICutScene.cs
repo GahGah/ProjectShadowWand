@@ -89,7 +89,7 @@ public class UICutScene : UIBase
 
     private void Update()
     {
-        if (InputManager.Instance.buttonTalkNext.wasPressedThisFrame)
+        if (InputManager.Instance.buttonTalkNext.wasPressedThisFrame || InputManager.Instance.buttonMouseLeft.wasPressedThisFrame)
         {
             isNext = true;
         }

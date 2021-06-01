@@ -87,8 +87,6 @@ public class SaveLoadManager : Manager<SaveLoadManager>
         //path = splitPath[0];
         //Debug.Log("Assets를 없앤 데이터 패스 : " + path);
 
-        yield return StartCoroutine(LoadData_Stage());
-
         yield return StartCoroutine(LoadData_TooltipData());
 
 
@@ -98,11 +96,11 @@ public class SaveLoadManager : Manager<SaveLoadManager>
             {
                 yield return StartCoroutine(LoadData_CharData("CharData"));
                 yield return StartCoroutine(LoadData_TalkData("TalkData_" + StageManager.Instance.nowStageName));
-                yield return StartCoroutine(LoadData_SoulMemoryData("SoulMemoryData_" + StageManager.Instance.nowStageName));
+               // yield return StartCoroutine(LoadData_SoulMemoryData("SoulMemoryData_" + StageManager.Instance.nowStageName));
 
                 TalkSystemManager.Instance.talkData = GetTalkData();
                 TalkSystemManager.Instance.charData = GetCharData();
-                TalkSystemManager.Instance.soulMemoryData = GetSoulMemoryData();
+                //TalkSystemManager.Instance.soulMemoryData = GetSoulMemoryData();
 
                 TalkSystemManager.Instance.charDict = CreateCharDict();
             }

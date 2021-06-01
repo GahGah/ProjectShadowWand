@@ -29,6 +29,9 @@ public class BirdMom : NPC
 
     private int animatorIdleBool;
 
+    [HideInInspector]
+    public bool isMeetNari = false;
+
     private void Start()
     {
         Init();
@@ -60,6 +63,7 @@ public class BirdMom : NPC
         if (baby.catchableObject.isCatched == true)
         {
             currentTalkCode = 5; // 퀘스트 완료 대화
+            isMeetNari = true;
             StartCoroutine(ProcessPlayHugAnimation());
             return;
         }
@@ -98,7 +102,7 @@ public class BirdMom : NPC
         while (true)
         {
 
-            if (isTalking )
+            if (isTalking)
             {
                 animator.SetBool(animatorTalkingBool, true);
             }
@@ -156,6 +160,7 @@ public class BirdMom : NPC
         animator.SetBool(animatorMeetingBool, false);
 
         yield return new WaitWhile(() => isTalking);//isTalking이 false가 될 때 까지 기다리기
+        yield return new WaitUntil(() => TalkSystemManager.Instance.GetCurrentTalkCode() == 7); //7번 될때까지 기다리기
         StartCoroutine(UpdateTalkAnimation());
     }
 

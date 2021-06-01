@@ -61,7 +61,13 @@ public class UISettings : UIBase
         yield return StartCoroutine(SaveLoadManager.Instance.LoadData_Settings());
 
         SetData(SaveLoadManager.Instance.currentData_Settings);
+        UpdateFullScreenToggle(SaveLoadManager.Instance.currentData_Settings.isFullScreenMode);
 
+        UpdateFullScreen(SaveLoadManager.Instance.currentData_Settings.isFullScreenMode);
+        //if (useSetResolutionData)
+        //{
+        //    UpdateFullScreen(SaveLoadManager.Instance.currentData_Settings.isFullScreenMode);
+        //}
 
         //AudioManager.Instance.audioSource_bgm.volume = GetFloat(currentSettingsData.bgmVolume);
         //AudioManager.Instance.audioSource_sfx.volume = GetFloat(currentSettingsData.bgmVolume);
@@ -116,9 +122,6 @@ public class UISettings : UIBase
 
         ApplySettings(data);
 
-        //TODO :
-        //isFullScreen,  resolution...
-        //languageSelector.SetIndex((int)this.settingsData.language);
     }
     public void SliderOnChangeMasterSlider()
     {
@@ -150,7 +153,7 @@ public class UISettings : UIBase
 
     public void ToggleOnScreen()
     {
-        UpdateFullScreen(fullScreenToggle.isOn);
+        UpdateFullScreenToggle(fullScreenToggle.isOn);
     }
 
     public void ButtonOnClose()
@@ -163,23 +166,25 @@ public class UISettings : UIBase
 
         ApplySetting(currentSettingsData);
 
-        UpdateFullScreen(currentSettingsData.isFullScreenMode);
 
         // GameManager.Instance.settingsManager.
         OnApply(currentSettingsData);
+
+        UpdateFullScreen(currentSettingsData.isFullScreenMode);
         canvasGroup.interactable = true;
         //Toggle(false);
     }
 
     public void ButtonOnCancel()
     {
+        canvasGroup.interactable = false;
         // GameManager.Instance.settingsManager.
         //OnApply(originalSettingsData);
 
         UpdateValue(originalSettingsData);
         ApplySettings(originalSettingsData);
         //Toggle(false);
-
+        canvasGroup.interactable = true;
     }
 
     /// <summary>
@@ -190,7 +195,8 @@ public class UISettings : UIBase
         canvasGroup.interactable = false;
 
         // GameManager.Instance.settingsManager.
-        OnApply(GetDefaultSettingsData());
+        UpdateValue(GetDefaultSettingsData());
+        ApplySettings(GetDefaultSettingsData());
         canvasGroup.interactable = true;
     }
 
@@ -209,8 +215,6 @@ public class UISettings : UIBase
 
             audioMixer.SetFloat("masterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, (float)System.Convert.ToDouble(0f))) * 20);
         }
-
-
 
     }
     public void ButtonOnToggleMute_Bgm()
@@ -363,21 +367,25 @@ public class UISettings : UIBase
 
     //여기서부터 세팅 매니저에서 가져옴
     /// <summary>
-    /// 세팅데이터를 정말로, SaveLoadManager를 통해 저장합니다. 
+    /// 세팅 데이터를 실제 반영시키고, 세팅데이터를 정말로, SaveLoadManager를 통해 저장합니다. 
     /// </summary>
     /// <param name="data"></param>
     public void OnApply(Data_Settings data)
     {
         //세팅을 확정하고...
+
         ApplySettings(data);
+
         if (data != originalSettingsData) // 오리지널 데이터와 가져온 데이터가 다를 경우에만 저장
         {//오리지널 데이터와 가져온 데이터가 같다는 것은, 그냥 변경점이 없다는 것이기 때문에...
             originalSettingsData = new Data_Settings(data);
             SaveLoadManager.Instance.SetCurrentData_Settings(data);
             StartCoroutine(SaveLoadManager.Instance.SaveData_Settings());
+
+            UpdateValue(data);
         }
 
-        UpdateValue(data);
+
 
         //StartCoroutine(SaveSettingsData());
         //ㄹㅇ 저장시킨다
@@ -428,29 +436,45 @@ public class UISettings : UIBase
         currentSettingsData = new Data_Settings(data);
     }
 
-    public void UpdateFullScreen(bool _b)
+    public void UpdateFullScreenToggle(bool _b)
     {
-        Debug.Log("UFS");
 
-        if (useSetResolutionData == false)
-        {
-            useSetResolutionData = true;
-            return;
-        }
         if (_b == true)
         {
 
             fullScreenToggle.isOn = true;
-            Screen.SetResolution(1920, 1080, true);
-            Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+
         }
         else
         {
-            Screen.SetResolution(1920, 1080, false);
+
             windowScreenToggle.isOn = true;
         }
 
 
+    }
+    public void UpdateFullScreen(bool _fb)
+    {
+
+        if (_fb == true)
+        {
+            if (Screen.fullScreen == false)
+            {
+                Debug.Log("UpdateFullScreen");
+                Screen.SetResolution(1920, 1080, true);
+                Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+            }
+
+        }
+        else
+        {
+            if (Screen.fullScreen == true)
+            {
+                Debug.Log("UpdateFullScreen");
+                Screen.SetResolution(1920, 1080, false);
+            }
+
+        }
     }
 
     //public IEnumerator SaveSettingsData()

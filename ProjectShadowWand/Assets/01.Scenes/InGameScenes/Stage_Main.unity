@@ -281,9 +281,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 597000245}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OpenThis
+      - m_Target: {fileID: 549595831}
+        m_TargetAssemblyTypeName: UIMainMenu, Assembly-CSharp
+        m_MethodName: Button_GoContinue
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 2140622302}
@@ -2405,6 +2405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SetAsLastSiblingToOpen: 0
+  canPause: 0
 --- !u!4 &597000246
 Transform:
   m_ObjectHideFlags: 0
@@ -2989,9 +2990,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 597000245}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: OpenThis
+      - m_Target: {fileID: 549595831}
+        m_TargetAssemblyTypeName: UIMainMenu, Assembly-CSharp
+        m_MethodName: Button_GoNewGame
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 475444599}

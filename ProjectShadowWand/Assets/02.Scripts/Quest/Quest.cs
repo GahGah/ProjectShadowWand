@@ -114,16 +114,8 @@ public class Quest_MomAndBaby_02 : Quest
     public override void StartTalk(NPC _npc)
     {
         base.StartTalk(_npc);
-        if (_npc == mom && baby.catchableObject.isCatched == true) //맘...이라면
+        if (_npc == mom && mom.isMeetNari == true) //맘...이라면
         {
-            //baby.catchableObject.GoPutThis();
-            //PlayerController.Instance.SetCatchedObject(null); //나리를 내려놓고
-
-
-            //baby.catchableObject.enabled = false; //잡지 못하게 한다.
-            //baby.gameObject.SetActive(false);
-
-            baby.gameObject.transform.position = baby.momTogetherPos.position;
             isClear = true;
         }
     }

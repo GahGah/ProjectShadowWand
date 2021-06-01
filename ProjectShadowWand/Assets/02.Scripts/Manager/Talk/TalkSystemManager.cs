@@ -497,5 +497,14 @@ public class TalkSystemManager : Manager<TalkSystemManager>
         }
 
     }
+
+    /// <summary>
+    ///currentTalkCode를 반환합니다.
+    /// </summary>
+    /// <returns></returns>
+    public int GetCurrentTalkCode()
+    {
+        return currentTalkCode;
+    }
 }
 
