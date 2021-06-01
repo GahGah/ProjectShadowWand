@@ -177,7 +177,7 @@ public class BirdBaby : NPC
     private IEnumerator ProcessCatchBirdBabyQuest()
     {
 
-        while (catchableObject.isCatched == true)
+        while (catchableObject.isCatched == false)
         {
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }

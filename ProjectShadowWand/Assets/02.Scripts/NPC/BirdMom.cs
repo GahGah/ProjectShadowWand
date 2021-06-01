@@ -139,6 +139,7 @@ public class BirdMom : NPC
         {
             animator.SetFloat(animatorDirectionBlend, -1f);
         }
+
         float timer = 0f;
         while (timer < 0.5f) //초동안 대기
         {
@@ -152,15 +153,17 @@ public class BirdMom : NPC
 
         isTalking = true;
 
-        UpdateAnimation();
-
-
         TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
-
+        animator.SetBool(animatorTalkingBool, false);
         animator.SetBool(animatorMeetingBool, false);
 
-        yield return new WaitWhile(() => isTalking);//isTalking이 false가 될 때 까지 기다리기
         yield return new WaitUntil(() => TalkSystemManager.Instance.GetCurrentTalkCode() == 7); //7번 될때까지 기다리기
+
+        Debug.Log("::");
+        animator.SetBool(animatorTalkingBool, true);
+        isTalking = true;
+        UpdateAnimation();
+
         StartCoroutine(UpdateTalkAnimation());
     }
 
@@ -168,12 +171,10 @@ public class BirdMom : NPC
     {
         if (isTalking)
         {
-            Debug.Log("Talking");
             animator.SetBool(animatorTalkingBool, true);
         }
         else
         {
-            Debug.Log("Not Talking");
             animator.SetBool(animatorTalkingBool, false);
         }
 

@@ -368,7 +368,7 @@ public class TalkSystemManager : Manager<TalkSystemManager>
         isNextPressed = true;
 
     }
-
+    private int tempCurrentTalkCode = 0;
     //미리 해놓기
     private string _TALK_CODE = "TALK_CODE";
     private string _TALK_CHAR_NAME = "TALK_CHAR_NAME";
@@ -384,7 +384,7 @@ public class TalkSystemManager : Manager<TalkSystemManager>
         talkUI.SetActive(true);
 
         currentTalkNPC = _npc;
-
+        tempCurrentTalkCode = TALK_CODE;
 
         currentTalkNPC.isTalking = true;
         PlayerController.Instance.isTalking = true;
@@ -446,7 +446,6 @@ public class TalkSystemManager : Manager<TalkSystemManager>
         //isTalkStart = true;
         //isTalkEnd = false;
 
-
         currentSoulMemory = _soulMemory;
 
 
@@ -499,12 +498,13 @@ public class TalkSystemManager : Manager<TalkSystemManager>
     }
 
     /// <summary>
-    ///currentTalkCode를 반환합니다.
+    ///tempCurrentTalkCode를 반환합니다.
     /// </summary>
     /// <returns></returns>
     public int GetCurrentTalkCode()
     {
-        return currentTalkCode;
+        Debug.Log(tempCurrentTalkCode);
+        return tempCurrentTalkCode;
     }
 }
 
