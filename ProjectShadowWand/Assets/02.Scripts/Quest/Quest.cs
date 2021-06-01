@@ -100,12 +100,15 @@ public class Quest_MomAndBaby_02 : Quest
 {
     BirdBaby baby;
     BirdMom mom;
+    Lever lever;
 
     bool isClear;
     public Quest_MomAndBaby_02(BirdBaby _baby, BirdMom _mom)
     {
         mom = _mom;
         baby = _baby;
+        lever = mom.lever;
+        
         isClear = false;
     }
     public override void StartTalk(NPC _npc)
@@ -138,7 +141,8 @@ public class Quest_MomAndBaby_02 : Quest
     {
         base.EndQuest();
         //마지막 퀘스트 완료
-    //    PlayerController.Instance.playerSkillManager.UnlockWind();
+        //    PlayerController.Instance.playerSkillManager.UnlockWind();
+        lever.canInteract = true;
         StageManager.Instance.SetLastQuestClear(true);
     }
     public override void EndTalk(NPC _npc)

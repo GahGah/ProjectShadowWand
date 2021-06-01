@@ -6,6 +6,9 @@ using UnityEngine.Audio;
 using TMPro;
 public class UISettings : UIBase
 {
+
+    [Tooltip("초기화 시에 설정을 반영합니다.")]
+    public bool useSetResolutionData;
     [Header("오디오 믹서")]
     public AudioMixer audioMixer;
 
@@ -58,6 +61,8 @@ public class UISettings : UIBase
         yield return StartCoroutine(SaveLoadManager.Instance.LoadData_Settings());
 
         SetData(SaveLoadManager.Instance.currentData_Settings);
+
+
         //AudioManager.Instance.audioSource_bgm.volume = GetFloat(currentSettingsData.bgmVolume);
         //AudioManager.Instance.audioSource_sfx.volume = GetFloat(currentSettingsData.bgmVolume);
 
@@ -157,6 +162,8 @@ public class UISettings : UIBase
         canvasGroup.interactable = false;
 
         ApplySetting(currentSettingsData);
+
+        UpdateFullScreen(currentSettingsData.isFullScreenMode);
 
         // GameManager.Instance.settingsManager.
         OnApply(currentSettingsData);
@@ -416,9 +423,6 @@ public class UISettings : UIBase
 
 
 
-        UpdateFullScreen(data.isFullScreenMode);
-
-
         //LocalizationManager.Instance.SetLocalizationLanguage(data.language);
         //LocalizationManager.Instance.UpdateLocalization();
         currentSettingsData = new Data_Settings(data);
@@ -427,15 +431,22 @@ public class UISettings : UIBase
     public void UpdateFullScreen(bool _b)
     {
         Debug.Log("UFS");
+
+        if (useSetResolutionData == false)
+        {
+            useSetResolutionData = true;
+            return;
+        }
         if (_b == true)
         {
+
             fullScreenToggle.isOn = true;
             Screen.SetResolution(1920, 1080, true);
             Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
         }
         else
         {
-            Screen.SetResolution(1920,1080,false);
+            Screen.SetResolution(1920, 1080, false);
             windowScreenToggle.isOn = true;
         }
 

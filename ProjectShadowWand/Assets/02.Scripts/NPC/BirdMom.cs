@@ -13,9 +13,14 @@ public class BirdMom : NPC
     [Header("애니메이터")]
     public Animator animator;
 
+    [Header("상호작용할 레버")]
+    public Lever lever;
+
     [Tooltip("애니메이터에 direction 파라미터(방향에 따라 애니메이션이 다르기 때문에 사용합니다).")]
     private int animatorDirectionBlend;
     private int animatorMeetBlend;
+
+
 
     [Tooltip("나리와 만나면 변경됩니다.")]
     private int animatorMeetingBool;
@@ -36,6 +41,8 @@ public class BirdMom : NPC
         {
             animator = GetComponent<Animator>();
         }
+
+        lever.canInteract = false;
         animatorDirectionBlend = Animator.StringToHash("DirectionBlend");
         animatorMeetingBool = Animator.StringToHash("Meeting");
         animatorTalkingBool = Animator.StringToHash("Talking");

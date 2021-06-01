@@ -316,6 +316,33 @@ public class PlayerState_Skill_Water : PlayerState
     {
     }
 }
+
+public class PlayerState_Interact : PlayerState
+{
+
+    public PlayerState_Interact(PlayerController _p)
+    {
+        player = _p;
+    }
+
+    public override void Enter()
+    {
+        player.animator.SetBool(player.animatorInteractingBool, true);
+    }
+
+    public override void Execute()
+    {
+    }
+
+    public override void Exit()
+    {
+        player.animator.SetBool(player.animatorInteractingBool, false);
+    }
+
+    public override void PhysicsExecute()
+    {
+    }
+}
 //public class PlayerState_Skill_Wind : PlayerState
 //{
 

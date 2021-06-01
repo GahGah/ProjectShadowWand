@@ -24,8 +24,6 @@ public class GameManager : MonoBehaviour
     public bool isAllEnemyDestroyed;
     public bool isStageClear;
 
-    public List<Child> childList;
-
 
     private int stageTotalCount;
     private int stageClearCount;

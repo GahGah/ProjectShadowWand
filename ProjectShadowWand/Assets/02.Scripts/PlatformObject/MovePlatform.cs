@@ -12,6 +12,9 @@ public class MovePlatform : MonoBehaviour
     [Header("이동 속도")]
     public float moveSpeed;
 
+    [Header("리프트의 종류")]
+    [Tooltip("LEFTNRIGHT : 좌/우 이동을 하는 리프트. \b UPNDOWN  : 상/하 이동을 하는 리프트.")]
+    public eLiftMoveType liftMoveType;
 
 
     [Header("첫번째 도착지")]
@@ -25,9 +28,6 @@ public class MovePlatform : MonoBehaviour
 
     [Header("박스 콜라이더")]
     public BoxCollider2D boxCollider;
-
-
-
 
     public bool canMoving = false;
 
@@ -44,16 +44,55 @@ public class MovePlatform : MonoBehaviour
 
 
     private Vector3 currentDestinationPosition;
+    [Tooltip("커맨드스톤(레버)가 주는 이동 명령입니다.")]
+    private eDirection commandDirection;
+
+
+    private void Awake()
+    {
+        Init();
+    }
 
     private void Start()
     {
         player = PlayerController.Instance;
     }
+
+
+    private void Init()
+    {
+        Init_Pos();
+
+
+        UpdateDestination(eLiftState.FIRST);
+    }
+    private void Init_Pos()
+    {
+
+        if (firstPoint == null)
+        {
+            LogError("해당 플랫폼의 퍼스트 포인트가 없습니다. 넣어주세요!!");
+        }
+        if (secondPoint == null)
+        {
+            LogError("해당 플랫폼의 세컨드 포인트가 없습니다. 넣어주세요!!");
+        }
+        if (moveTransform == null)
+        {
+            LogError("움직일 오브젝트가 없습니다. 넣어줘!!!");
+        }
+
+        firstPosition = firstPoint.position;
+        secondPosition = secondPoint.position;
+
+    }
+
+
     /// <summary>
     /// currentDes와 curentDesPos를 변경합니다.
     /// </summary>
     /// <param name="_ld">변경할 Destination</param>
-    public void UpdateDestination(eLiftState _ld)
+    private void UpdateDestination(eLiftState _ld)
     {
         if (_ld == currentDestination)
         {
@@ -77,39 +116,8 @@ public class MovePlatform : MonoBehaviour
         }
     }
 
-    private void Init_Pos()
-    {
-
-        if (firstPoint == null)
-        {
-            LogError("해당 플랫폼의 퍼스트 포인트가 없습니다. 넣어주세요!!");
-        }
-        if (secondPoint == null)
-        {
-            LogError("해당 플랫폼의 세컨드 포인트가 없습니다. 넣어주세요!!");
-        }
-        if (moveTransform == null)
-        {
-            LogError("움직일 오브젝트가 없습니다. 넣어줘!!!");
-        }
-
-        firstPosition = firstPoint.position;
-        secondPosition = secondPoint.position;
-
-    }
-
-    private void Init()
-    {
-        Init_Pos();
 
 
-        UpdateDestination(eLiftState.FIRST);
-    }
-
-    private void Awake()
-    {
-        Init();
-    }
     private bool havePlayer = false;
     void FixedUpdate()
     {
@@ -144,6 +152,7 @@ public class MovePlatform : MonoBehaviour
         if (!canMoving)
         {
             return;
+
         }
 
         if (Vector2.Distance(moveTransform.position, currentDestinationPosition) <= distanceVal)
@@ -175,6 +184,82 @@ public class MovePlatform : MonoBehaviour
             moveTransform.position = Vector2.MoveTowards(moveTransform.position, currentDestinationPosition, Time.deltaTime * moveSpeed);
         }
 
+    }
+
+    /// <summary>
+    /// 레버가 이동명령을할 때, 이동 가능한지를 먼저 체크해줍니다.
+    /// </summary>
+    /// <returns></returns>
+    public bool TryCanMove(eDirection direction)
+    {
+        if (liftMoveType == eLiftMoveType.UPNDOWN)
+        {
+            if (direction == eDirection.UP || direction == eDirection.DOWN)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            if (direction == eDirection.LEFT || direction == eDirection.RIGHT)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+    }
+    /// <summary>
+    /// 레버가 이동 명령을 실행할 때 쓰입니다.
+    /// </summary>
+    /// <param name="direction">이동하라고 명령하는 방향.</param>
+    /// <returns></returns>
+    public bool SetDirection(eDirection direction)
+    {
+
+        if (liftMoveType == eLiftMoveType.UPNDOWN) //상하일 경우
+        {
+            switch (direction)
+            {
+                case eDirection.UP:
+                    UpdateDestination(eLiftState.FIRST);
+                    return true;
+
+                case eDirection.DOWN:
+                    UpdateDestination(eLiftState.SECOND);
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+        else if (liftMoveType == eLiftMoveType.LEFTNRIGHT) // 좌우일 경우
+        {
+            switch (direction)
+            {
+                case eDirection.LEFT:
+                    UpdateDestination(eLiftState.FIRST);
+                    return true;
+
+                case eDirection.RIGHT:
+                    UpdateDestination(eLiftState.SECOND);
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 
     //private void OnCollisionEnter2D(Collision2D collision)

@@ -86,6 +86,8 @@ public class PlayerController : Character
 
     [HideInInspector] public Rigidbody2D playerRigidbody;
 
+    [Tooltip("물체와 상호작용하고 있는가?")]
+    public bool isInteracting;
     public bool isSkillUse_Water;
     public bool isSkillUse_Lightning;
 
@@ -116,18 +118,27 @@ public class PlayerController : Character
     [HideInInspector] public int animatorDieBool;
     [HideInInspector] public int animatorGroundedBool;
     [HideInInspector] public int animatorWalkingBool;
+
+    [HideInInspector] public int animatorJumpingBool;
     [HideInInspector] public int animatorJumpTrigger;
+
     [HideInInspector] public int animatorClimbingBool;
     [HideInInspector] public int animatorCatchingBool;
+
     [HideInInspector] public int animatorIdleBlend;
     [HideInInspector] public int animatorCatchBlend;
+
     [HideInInspector] public int animatorFallingBool;
     [HideInInspector] public int animatorGlidingBool;
+
     [HideInInspector] public int animatorLightningBool;
     [HideInInspector] public int animatorWaterBool;
-    [HideInInspector] public int animatorJumpingBool;
+
 
     [HideInInspector] public int animatorRestoreBool;
+
+    [HideInInspector] public int animatorInteractingBool;
+    [HideInInspector] public int animatorInteractingBlend;
     #endregion
     // [HideInInspector] public int animatorPushingBool;
     //public int animatorFallingBool;
@@ -236,8 +247,6 @@ public class PlayerController : Character
 
     [HideInInspector] public Rigidbody2D catchBody;
 
-
-    public eWindDirection windDirection;
 
     public SceneChanger sceneChanger;
     [Header("잡기 손 위치")]
@@ -368,6 +377,7 @@ public class PlayerController : Character
         //animatorPushingBool = Animator.StringToHash("Pushing");
         animatorDieBool = Animator.StringToHash("Die");
         animatorJumpingBool = Animator.StringToHash("Jumping");
+        animatorInteractingBool = Animator.StringToHash("Interacting");
 
         //animatorRestoreBool = Animator.StringToHash("Restore");
     }
@@ -564,7 +574,7 @@ public class PlayerController : Character
 
             #region Interact
 
-            if (existInteractObject && touchedInteractObject.canInteract)
+            if (existInteractObject && touchedInteractObject.canInteract == true && playerStateMachine.GetCurrentStateE() == eState.PLAYER_DEFAULT)
             {
                 touchedInteractObject.DoInteract();
             }
@@ -772,8 +782,6 @@ public class PlayerController : Character
         {
             isCatching = false;
         }
-
-
     }
 
     public void SetCatchedObject(CatchableObject _co)
@@ -941,7 +949,6 @@ public class PlayerController : Character
     /// </summary>
     private void UpdateGroundCheck_Cast()
     {
-
         castStartPos = new Vector2(playerCollider.bounds.center.x, playerCollider.bounds.min.y);
         groundHit = Physics2D.BoxCast(castStartPos, hitSize, 0f, Vector2.down, groundCheckDistance, groundCheckMask);
         //groundHit = Physics2D.Raycast(castStartPos, Vector2.down, groundCheckDistance, groundCheckMask);
@@ -1097,7 +1104,6 @@ public class PlayerController : Character
             return;
         }
 
-
         if (isCatching)
         {
             animator.SetFloat(animatorIdleBlend, 7f);
@@ -1110,10 +1116,7 @@ public class PlayerController : Character
 
         }
 
-        //if (isDie)
-        //{//죽음
-        //    ChangeState(eState.PLAYER_DIE);
-        //}
+
         if (inLadder && prevPosition.y != playerRigidbody.position.y) //사다리 안쪽에 있고, 위로 올라갔다면
         {//사다리
 
@@ -1121,17 +1124,21 @@ public class PlayerController : Character
 
             ChangeState(eState.PLAYER_CLIMB_LADDER); // 사다리상태로 변경
         }
-        else if (isSkillUse_Water)
-        {//물능력
-            PutCatchedObject(); //물체 들고있다면 내리고
-            ChangeState(eState.PLAYER_SKILL_WATER);
+        else if (isInteracting) //상호작용 하고 있다면
+        {
+            ChangeState(eState.PLAYER_INTERACT);
         }
-        else if (isSkillUse_Lightning)
-        {//번개능력
+        //else if (isSkillUse_Water)
+        //{//물능력
+        //    PutCatchedObject(); //물체 들고있다면 내리고
+        //    ChangeState(eState.PLAYER_SKILL_WATER);
+        //}
+        //else if (isSkillUse_Lightning)
+        //{//번개능력
 
-            PutCatchedObject();
-            ChangeState(eState.PLAYER_SKILL_LIGHTNING);
-        }
+        //    PutCatchedObject();
+        //    ChangeState(eState.PLAYER_SKILL_LIGHTNING);
+        //}
         else if (isGrounded && !isJumping && !isGliding)
         {
             ChangeState(eState.PLAYER_DEFAULT);
@@ -1177,8 +1184,6 @@ public class PlayerController : Character
     {
         if (playerStateMachine.GetCurrentStateE() != _state)
         {
-
-
             playerStateMachine.ChangeState(_state);
         }
     }
@@ -1384,8 +1389,11 @@ public class PlayerController : Character
         {
             return false;
         }
-
         if (isDie)
+        {
+            return false;
+        }
+        else if (isInteracting)
         {
             return false;
         }

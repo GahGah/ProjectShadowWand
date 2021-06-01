@@ -23,12 +23,18 @@ public enum eLiftState
     SECOND,
 }
 
+public enum eLiftMoveType
+{
+    LEFTNRIGHT,
+    UPNDOWN
+}
+
 public enum eDirection
 {
     UP,
+    RIGHT,
     DOWN,
     LEFT,
-    RIGHT,
 }
 
 public enum eState // 상태를 정의해놓습니다.
@@ -41,6 +47,7 @@ public enum eState // 상태를 정의해놓습니다.
     PLAYER_SKILL_WATER,
     PLAYER_SKILL_LIGHTNING,
     PLAYER_DIE,
+    PLAYER_INTERACT,
     // PLAYER_PUSH,
     //PLAYER_CATCH,
     NONE,
@@ -60,29 +67,6 @@ public enum eFireDirection
     twoDirection, fourDirection, oneDirection,
 }
 
-public enum eWindDirection
-{
-    /// <summary>
-    /// 방향은 왼쪽에서 오른쪽
-    /// </summary>
-    RIGHT,
-
-
-    /// <summary>
-    /// 방향은 오른쪽에서 왼쪽
-    /// </summary>
-    LEFT,
-
-    /// <summary>
-    /// 방향이 없습니다.
-    /// </summary>
-    NONE
-}
-public enum eChildOption
-{
-    TAIN,
-    FRIEND
-}
 
 public enum eCutsceneType
 {
