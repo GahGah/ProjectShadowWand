@@ -68,6 +68,9 @@ public class BirdBaby : NPC
     //}
     #endregion
 
+    [Header("Äù½ºÆ® ¸¶Å©")]
+    public GameObject questMark_Start;
+
     [HideInInspector]
     public Quest_MomAndBaby_01 quest_01;
 
@@ -83,6 +86,7 @@ public class BirdBaby : NPC
     public CatchableObject catchableObject;
 
     private Rigidbody2D rb;
+
 
 
     private Animator animator;
@@ -182,6 +186,7 @@ public class BirdBaby : NPC
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
+        questMark_Start.SetActive(false);
         PlayerController.Instance.currentNPC = null;
         TalkSystemManager.Instance.currentTalkNPC = null;
         QuestManager.Instance.QuestSystem_RemoveQuest(quest_01, true);

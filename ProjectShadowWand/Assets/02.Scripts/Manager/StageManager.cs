@@ -248,7 +248,11 @@ public class StageManager : Manager<StageManager>
 
         if (isStageClear)
         {
-            StartCoroutine(stageDoor.ChangeOpenDoor());
+            if (stageDoor != null)
+            {
+
+                StartCoroutine(stageDoor.ChangeOpenDoor());
+            }
         }
     }
 

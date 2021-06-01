@@ -21,6 +21,10 @@ public class BirdMom : NPC
     private int animatorMeetBlend;
 
 
+    [Header("퀘스트 마크")]
+    public GameObject questMask_End;
+
+
 
     [Tooltip("나리와 만나면 변경됩니다.")]
     private int animatorMeetingBool;
@@ -45,6 +49,7 @@ public class BirdMom : NPC
             animator = GetComponent<Animator>();
         }
 
+        questMask_End.SetActive(false);
         lever.canInteract = false;
         animatorDirectionBlend = Animator.StringToHash("DirectionBlend");
         animatorMeetingBool = Animator.StringToHash("Meeting");
@@ -116,7 +121,7 @@ public class BirdMom : NPC
     private IEnumerator ProcessPlayHugAnimation()
     {
         PlayerController.Instance.canMove = false;
-
+        questMask_End.SetActive(false);
         baby.catchableObject.GoPutThis();
         PlayerController.Instance.SetCatchedObject(null); //나리를 내려놓고
 

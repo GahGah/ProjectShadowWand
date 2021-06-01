@@ -239,7 +239,6 @@ public class SceneChanger : MonoBehaviour
 
                 if (progressBar.fillAmount >= 1f)
                 {
-                    asyncOperation.allowSceneActivation = true;
                     break;
                 }
             }
@@ -248,8 +247,16 @@ public class SceneChanger : MonoBehaviour
 
         Debug.Log("SceneLoad");
 
+        float tempTimer = 0f;
+        while (tempTimer < 2f)
+        {
+            tempTimer += Time.unscaledDeltaTime;
+            yield return null;
+        }
         rotateImage.isStop = true;
         rotateImage.gameObject.SetActive(false);
+
+        asyncOperation.allowSceneActivation = true;
 
         yield break;
         //yield return StartCoroutine(GoColorScreen(0.5f, 1f, false));

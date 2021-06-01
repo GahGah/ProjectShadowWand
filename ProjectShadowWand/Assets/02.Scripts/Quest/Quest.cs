@@ -77,6 +77,7 @@ public class Quest_MomAndBaby_01 : Quest //나리를 들어올려라!
     {
         base.EndQuest();
         //퀘스트가 끝나면 바로 아카에게 가야하는 퀘스트 추가
+        baby.questMark_Start.SetActive(false);
         QuestManager.Instance.QuestSystem_AddQuest(baby.quest_02);
     }
 
@@ -117,11 +118,12 @@ public class Quest_MomAndBaby_02 : Quest
         if (_npc == mom && mom.isMeetNari == true) //맘...이라면
         {
             isClear = true;
+
         }
     }
     public override void StartQuest()
     {
-
+        mom.questMask_End.SetActive(true);
     }
 
     public override void ExecuteQuest()

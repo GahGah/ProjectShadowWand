@@ -42,35 +42,39 @@ public class OnTriggerToBeContinue : MonoBehaviour
     {
         ActiveToBeContinueCoroutine = null;
 
-        float timer = 0f;
-        float time = 1.5f;
+        //float timer = 0f;
+        //float time = 1.5f;
 
-        PlayerController.Instance.canMove = false; //이동 불가능
+        //PlayerController.Instance.canMove = false; //이동 불가능
 
-        while (timer < time)
-        {
-            timer += Time.unscaledDeltaTime;
+        //while (timer < time)
+        //{
+        //    timer += Time.unscaledDeltaTime;
 
-            if (isPlayerIn == false)
-            {
-                break;
-            }
-        }
+        //    if (isPlayerIn == false)
+        //    {
+        //        break;
+        //    }
+        //}
 
-        if (isPlayerIn == false)
-        {
-            PlayerController.Instance.isDie = true;
-            yield break;
-        }
+        //if (isPlayerIn == false)
+        //{
+        //    PlayerController.Instance.isDie = true;
+        //    yield break;
+        //}
 
         Time.timeScale = 0f;
 
+
+        PlayerController.Instance.canMove = false;
         UIManager.Instance.canPause = false; //일시정지 불가능
 
         canvasGroup.alpha = 0f;
         blackPanel.SetActive(true); //검은 판넬 띄우기
 
+        AudioManager.Instance.Play_Bgm_Stage01();
         yield return StartCoroutine(OnBlackScreen());
+
 
         yield return new WaitForSecondsRealtime(1f);
         tbcText.SetActive(true); //투 비 컨티뉴 텍스트 띄우기
