@@ -43,7 +43,6 @@ public class UIMainMenu : UIBase
 
     private IEnumerator NewGameIntro()
     {
-        cutscene = UIManager.Instance.uiDicitonary[eUItype.CUTSCENE] as UICutScene;
 
         cutscene.StartPlayCutScene();
 
