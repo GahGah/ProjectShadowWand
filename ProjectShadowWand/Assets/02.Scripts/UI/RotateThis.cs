@@ -20,12 +20,12 @@ public class RotateThis : MonoBehaviour
     {
         while (!isStop)
         {
-            trans.Rotate(rotateZ, -100f * Time.unscaledDeltaTime);
+            trans.Rotate(rotateZ, 280f * Time.unscaledDeltaTime);
             yield return null;
         }
     }
     void FixedUpdate()
     {
 
-    }
+    } 
 }
