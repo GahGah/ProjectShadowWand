@@ -1171,6 +1171,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e980904f245b704faa94657707cb27d, type: 3}
+--- !u!114 &1372967465 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8008962342239691820, guid: 3e9993b201923ce4fbe24c84f31a0613, type: 3}
+  m_PrefabInstance: {fileID: 8008962342257066279}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9761024b994f0d4459a29cad6be6c7a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1649268110
 GameObject:
   m_ObjectHideFlags: 0
@@ -1513,7 +1524,15 @@ PrefabInstance:
     - target: {fileID: 2696057658237227622, guid: 9754f3ae4f97ffc4697b907f375967cb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 597000245}
+      objectReference: {fileID: 549595831}
+    - target: {fileID: 2696057658237227622, guid: 9754f3ae4f97ffc4697b907f375967cb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Button_OpenExit
+      objectReference: {fileID: 0}
+    - target: {fileID: 2696057658237227622, guid: 9754f3ae4f97ffc4697b907f375967cb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIMainMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 2696057658237227622, guid: 9754f3ae4f97ffc4697b907f375967cb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
@@ -1527,9 +1546,21 @@ PrefabInstance:
       value: UI_MainMenu
       objectReference: {fileID: 0}
     - target: {fileID: 3708773467978125854, guid: 9754f3ae4f97ffc4697b907f375967cb, type: 3}
+      propertyPath: cutscene
+      value: 
+      objectReference: {fileID: 1372967465}
+    - target: {fileID: 3708773467978125854, guid: 9754f3ae4f97ffc4697b907f375967cb, type: 3}
+      propertyPath: uiSetting
+      value: 
+      objectReference: {fileID: 959581214}
+    - target: {fileID: 3708773467978125854, guid: 9754f3ae4f97ffc4697b907f375967cb, type: 3}
       propertyPath: uiPopup_NewGame
       value: 
       objectReference: {fileID: 475444599}
+    - target: {fileID: 3708773467978125854, guid: 9754f3ae4f97ffc4697b907f375967cb, type: 3}
+      propertyPath: uiPopup_ExitGame
+      value: 
+      objectReference: {fileID: 769905092}
     - target: {fileID: 3708773467978125855, guid: 9754f3ae4f97ffc4697b907f375967cb, type: 3}
       propertyPath: m_RootOrder
       value: 9
@@ -1581,15 +1612,19 @@ PrefabInstance:
     - target: {fileID: 3708773468756748738, guid: 9754f3ae4f97ffc4697b907f375967cb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 597000245}
+      objectReference: {fileID: 549595831}
+    - target: {fileID: 3708773468756748738, guid: 9754f3ae4f97ffc4697b907f375967cb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Button_OpenSetting
+      objectReference: {fileID: 0}
+    - target: {fileID: 3708773468756748738, guid: 9754f3ae4f97ffc4697b907f375967cb, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIMainMenu, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 3708773468756748738, guid: 9754f3ae4f97ffc4697b907f375967cb, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 959581214}
-    - target: {fileID: 3708773468892572554, guid: 9754f3ae4f97ffc4697b907f375967cb, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 32.53784
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9754f3ae4f97ffc4697b907f375967cb, type: 3}
 --- !u!1001 &8008962342257066279
