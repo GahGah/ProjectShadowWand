@@ -13,6 +13,7 @@ public class ButtonSelector : MonoBehaviour
     public Button activeButton;
 
     private ActiveSelectImage_Sprout activer;
+    //private CustomButtonAnimation cbActiver;
 
     [HideInInspector]
     public EventSystem eventSystem;
@@ -25,11 +26,60 @@ public class ButtonSelector : MonoBehaviour
             activer = activeButton.GetComponent<ActiveSelectImage_Sprout>();
         }
 
+        //if (ReferenceEquals(cbActiver, null))
+        //{
+        //    cbActiver = activeButton.GetComponent<CustomButtonAnimation>();
+        //}
+
     }
     void Start()
     {
         eventSystem = EventSystem.current;
     }
+
+
+    //public void ForceSelect_BasicButton()
+    //{
+    //    if (eventSystem == null)
+    //    {
+    //        eventSystem = EventSystem.current;
+    //    }
+
+    //    if (activer != null)
+    //    {
+    //        eventSystem.SetSelectedGameObject(null);
+    //        eventSystem.SetSelectedGameObject(activeButton.gameObject);
+    //        cbActiver.isBigScale = true;
+    //    }
+    //}
+    //public void StaySelect_BasicButton()
+    //{
+    //    if (eventSystem.currentSelectedGameObject != activeButton.gameObject)
+    //    {
+    //        ForceDeSelect_BasicButton();
+    //    }
+
+    //}
+
+    //public void ForceDeSelect_BasicButton()
+    //{
+    //    if (eventSystem == null)
+    //    {
+    //        eventSystem = EventSystem.current;
+    //    }
+    //    if (activer != null)
+    //    {
+    //        //if (eventSystem.currentSelectedGameObject == activeButton.gameObject)
+    //        //{
+    //        eventSystem.SetSelectedGameObject(null);
+    //         =
+    //        //}
+    //    }
+    //}
+
+
+
+
     public void ForceSelect()
     {
         if (eventSystem == null)

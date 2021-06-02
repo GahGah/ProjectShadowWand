@@ -27,58 +27,6 @@ public class ActiveSelectImage_Sprout : MonoBehaviour, IPointerEnterHandler, IPo
 
     private Button testButton;
 
-
-    void Awake()
-    {
-        if (selectImage_Stem == null)
-        {
-
-
-        }
-
-        if (filledSpeed == 0)
-        {
-            filledSpeed = 3f;
-        }
-
-        currentFilledSpeed = 1f / filledSpeed;
-
-        selectImage_Stem.fillAmount = 0f;
-
-        for (int i = 0; i < selectImage_Leaf.Length; i++)
-        {
-            selectImage_Leaf[i].fillAmount = 0f;
-        }
-        goFillAmount = 0f;
-    }
-
-    private void Start()
-    {
-        eventSystem = EventSystem.current;
-    }
-    private void OnEnable()
-    {
-        Init();
-        if (eventSystem != null)
-        {
-            if (eventSystem.currentSelectedGameObject != gameObject)
-            {
-                goFillAmount = 0f;
-            }
-        }
-
-
-    }
-    //private void OnDisable()
-    //{
-    //    eventSystem.SetSelectedGameObject(null);
-    //}
-    public void Init()
-    {
-
-        StartCoroutine(UpdataSprout());
-    }
-
     public void OnSelect(BaseEventData eventData)
     {
         if (eventSystem == null)
@@ -116,6 +64,59 @@ public class ActiveSelectImage_Sprout : MonoBehaviour, IPointerEnterHandler, IPo
         //{
         //    eventSystem.SetSelectedGameObject(null);
         //}
+    }
+
+
+    void Awake()
+    {
+        if (selectImage_Stem == null)
+        {
+
+
+        }
+
+        if (filledSpeed == 0)
+        {
+            filledSpeed = 3f;
+        }
+
+        currentFilledSpeed = 1f / filledSpeed;
+
+        selectImage_Stem.fillAmount = 0f;
+
+        for (int i = 0; i < selectImage_Leaf.Length; i++)
+        {
+            selectImage_Leaf[i].fillAmount = 0f;
+        }
+        goFillAmount = 0f;
+    }
+
+    private void Start()
+    {
+        eventSystem = EventSystem.current;
+    }
+
+    private void OnEnable()
+    {
+        Init();
+        if (eventSystem != null)
+        {
+            if (eventSystem.currentSelectedGameObject != gameObject)
+            {
+                goFillAmount = 0f;
+            }
+        }
+
+
+    }
+    //private void OnDisable()
+    //{
+    //    eventSystem.SetSelectedGameObject(null);
+    //}
+    public void Init()
+    {
+
+        StartCoroutine(UpdataSprout());
     }
 
 
