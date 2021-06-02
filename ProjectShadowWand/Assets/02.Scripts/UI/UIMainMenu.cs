@@ -26,7 +26,7 @@ public class UIMainMenu : UIBase
     {
         if (SaveLoadManager.Instance.currentData_Stage.stageName == "Stage_00") //00스테이지라면
         {
-            Button_StartNewGame();
+            NotButton_StartNewGame();
         }
         else
         {
@@ -35,7 +35,7 @@ public class UIMainMenu : UIBase
 
     }
 
-    private void Button_StartNewGame()
+    public void NotButton_StartNewGame()
     {
         canvasGroup.interactable = false;
         StartCoroutine(NewGameIntro());
@@ -64,30 +64,33 @@ public class UIMainMenu : UIBase
     //게임을 이어서 플레이합니다.
     public void Button_GoContinue(UIBase _ui)
     {
-        if (SaveLoadManager.Instance.currentData_Stage.stageName == "Stage_00")
-        {
-            canvasGroup.interactable = false;
 
-            StartCoroutine(NewGameIntro());
-            // SceneChanger.Instance.LoadThisSceneName(SaveLoadManager.Instance.currentData_Stage.stageName, false);
-            // AudioManager.Instance.Stop_Bgm();
-        }
-        else
-        {
-            canvasGroup.interactable = false;
-            UIManager.Instance.OpenThis(_ui);
-            SceneChanger.Instance.LoadThisSceneName(SaveLoadManager.Instance.currentData_Stage.stageName, false);
-        }
+        UIManager.Instance.OpenThis(_ui);
+
+        //if (SaveLoadManager.Instance.currentData_Stage.stageName == "Stage_00")
+        //{
+        //    canvasGroup.interactable = false;
+
+        //    StartCoroutine(NewGameIntro());
+        //    // SceneChanger.Instance.LoadThisSceneName(SaveLoadManager.Instance.currentData_Stage.stageName, false);
+        //    // AudioManager.Instance.Stop_Bgm();
+        //}
+        //else
+        //{
+        //    canvasGroup.interactable = false;
+        //    UIManager.Instance.OpenThis(_ui);
+        //    SceneChanger.Instance.LoadThisSceneName(SaveLoadManager.Instance.currentData_Stage.stageName, false);
+        //}
 
     }
 
     public void Button_OpenSetting(UIBase _ui)
     {
-        _ui.Open();
+        UIManager.Instance.OpenThis(_ui);
     }
     public void Button_OpenExit(UIBase _ui)
     {
-        _ui.Open();
+        UIManager.Instance.OpenThis(_ui);
     }
 
     public void Button_Quit()

@@ -137,7 +137,10 @@ public class UIManager : MonoBehaviour
     {
         if (_uiBase.Close() == true)
         {
-
+            if (uiStack.Count != 0)
+            {
+                _uiBase = uiStack.Pop();
+            }
         }
     }
     private void OnDestroy()

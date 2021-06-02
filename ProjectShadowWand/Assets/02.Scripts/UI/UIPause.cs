@@ -45,20 +45,25 @@ public class UIPause : UIBase
         buttonSelector.ForceSelect();
         return true;
     }
+
+    public void ButtonSetting(UIBase _ui)
+    {
+        UIManager.Instance.OpenThis(_ui);
+    }
+    public void ButtonContinue()
+    {
+        UIManager.Instance.CloseThis(this);
+    }
     public void ButtonRestart()
     {
-        Debug.Log("SceneChange");
         SceneChanger.Instance.LoadThisSceneName(StageManager.Instance.nowStageName, false);
-        Close();
+        UIManager.Instance.CloseThis(this);
         // StageManager.Instance.UpdateStageName();
-
     }
-
     public void ButtonReturnMain()
     {
-
         SceneChanger.Instance.LoadThisSceneName("Stage_Main", false);
-        Close();
+        UIManager.Instance.CloseThis(this);
     }
 
 
