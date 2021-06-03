@@ -5,7 +5,8 @@ using UnityEngine;
 public class Lever : InteractableObject
 {
 
-    private Transform myTransform;
+    [Header("트랜스폼")]
+    public Transform myTransform;
 
     [Header("명령 대기 시간")]
     [Tooltip("회전한 후, 해당 시간만큼 대기했다가 명령을 합니다.(움직일 수 있는 플랫폼이 있을 경우)")]
@@ -18,7 +19,6 @@ public class Lever : InteractableObject
     [Header("연결된 플랫폼")]
     [Space(20)]
     public MovePlatform[] movePlatforms;
-
 
 
     [Header("현재 명령하고 있는 방향")]
@@ -57,7 +57,12 @@ public class Lever : InteractableObject
     {
         waitCommandTimer = 0f;
         waitCommandTime = waitCommandTime_On;
-        myTransform = gameObject.transform;
+
+        if (ReferenceEquals(myTransform, null))
+        {
+            myTransform = gameObject.transform;
+        }
+
         //   count = movePlatforms.Length;
         currentDirection = eDirection.UP;
         directionValue = (int)currentDirection;

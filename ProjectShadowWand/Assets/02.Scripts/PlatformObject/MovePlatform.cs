@@ -314,7 +314,8 @@ public class MovePlatform : MonoBehaviour
         // var vec = new Vector3(trn.localScale.x, trn.localScale.y, trn.localScale.z);
 
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(firstPoint.position, boxCollider.size);
+
+        Gizmos.DrawWireCube(firstPoint.position, TestVectorPlus(boxCollider.size, boxCollider.offset));
         Gizmos.DrawSphere(firstPoint.position, 0.15f);
 
         Gizmos.color = Color.green;
@@ -324,11 +325,12 @@ public class MovePlatform : MonoBehaviour
         var dis = Vector2.Distance(firstPoint.position, secondPoint.position);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(firstPoint.position + dir.normalized * dis, boxCollider.size);
-        Gizmos.DrawSphere(secondPoint.position, 0.15f);
-
-
         //}
+    }
+
+    private Vector3 TestVectorPlus(Vector3 _v1, Vector3 _v2)
+    {
+        return new Vector3(_v1.x + _v2.x, _v1.y + _v2.y, _v1.z + _v2.z);
     }
     private void LogError(string _string)
     {

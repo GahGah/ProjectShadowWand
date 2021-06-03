@@ -3558,6 +3558,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2d571b92f4d8744b8d75c5b141dde92, type: 3}
+--- !u!114 &254943779 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7581885925696169513, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+  m_PrefabInstance: {fileID: 881538116}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e74d6c339a15454e9553dbb280d7dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &262332099 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5273162893940140680, guid: a6f9453015fa15344a9f23016873f793, type: 3}
@@ -24644,7 +24655,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015663880624840153, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
       propertyPath: moveSpeed
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3015663880624840154, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
       propertyPath: m_LocalPosition.y
@@ -28175,17 +28186,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5ad9e0301bd48142bb7095df6f7cc46, type: 3}
---- !u!114 &855972932 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2670810051617461593, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
-  m_PrefabInstance: {fileID: 881538116}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e74d6c339a15454e9553dbb280d7dca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &857744388 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8860777565570038925, guid: a5ad9e0301bd48142bb7095df6f7cc46, type: 3}
@@ -28557,9 +28557,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 147058190136812050, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 312477689910649204, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2670810051617461592, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
       propertyPath: m_Name
-      value: CommandStone
+      value: LifeForest_CommandStone
       objectReference: {fileID: 0}
     - target: {fileID: 2670810051617461593, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
       propertyPath: movePlatforms.Array.size
@@ -28575,11 +28583,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2670810051617461594, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 108.42
+      value: 108.44
       objectReference: {fileID: 0}
     - target: {fileID: 2670810051617461594, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.22
+      value: 7.73
       objectReference: {fileID: 0}
     - target: {fileID: 2670810051617461594, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -28617,6 +28625,22 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+    - target: {fileID: 2683585038460700773, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7581885925696169513, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+      propertyPath: movePlatforms.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7581885925696169513, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+      propertyPath: movePlatforms.Array.data[0]
+      value: 
+      objectReference: {fileID: 1687418773}
+    - target: {fileID: 9061364933611378475, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
 --- !u!1 &892146116
@@ -58696,7 +58720,7 @@ PrefabInstance:
     - target: {fileID: 804840024309921366, guid: 23eaf7c4cb8ca9041809636731bbc76c, type: 3}
       propertyPath: lever
       value: 
-      objectReference: {fileID: 855972932}
+      objectReference: {fileID: 254943779}
     - target: {fileID: 804840024309921366, guid: 23eaf7c4cb8ca9041809636731bbc76c, type: 3}
       propertyPath: animator
       value: 

@@ -1403,17 +1403,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 905981457}
   m_CullTransparentMesh: 1
---- !u!114 &949227301 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3015663880624840153, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
-  m_PrefabInstance: {fileID: 623982994}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ebfdb5ac92d00a48b48bec127a1e918, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &976959284
 GameObject:
   m_ObjectHideFlags: 0
@@ -4075,30 +4064,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2307937449043263979, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+      propertyPath: m_Mass
+      value: 3.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 2406503851316688532, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+      propertyPath: m_Mass
+      value: 3.96
+      objectReference: {fileID: 0}
     - target: {fileID: 2670810051617461592, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
       propertyPath: m_Name
       value: CommandStone
       objectReference: {fileID: 0}
-    - target: {fileID: 2670810051617461593, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
-      propertyPath: canInteract
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2670810051617461593, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
-      propertyPath: waitCommandTime
-      value: 0.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 2670810051617461593, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
-      propertyPath: movePlatforms.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2670810051617461593, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
-      propertyPath: movePlatforms.Array.data[0]
-      value: 
-      objectReference: {fileID: 1148231605}
-    - target: {fileID: 2670810051617461593, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
-      propertyPath: movePlatforms.Array.data[1]
-      value: 
-      objectReference: {fileID: 949227301}
     - target: {fileID: 2670810051617461594, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
       propertyPath: m_RootOrder
       value: 17
@@ -4109,7 +4086,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2670810051617461594, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.256
+      value: 3.135
       objectReference: {fileID: 0}
     - target: {fileID: 2670810051617461594, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4143,6 +4120,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7581885925696169513, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+      propertyPath: movePlatforms.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7581885925696169513, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+      propertyPath: movePlatforms.Array.data[0]
+      value: 
+      objectReference: {fileID: 1148231605}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
 --- !u!1001 &3015663879489192556
