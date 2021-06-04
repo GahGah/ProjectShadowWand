@@ -63,6 +63,15 @@ public class TriggerEnterMover : MonoBehaviour
         }
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+
+        Gizmos.DrawLine(spawnPoint.position, endPoint.position);
+        Gizmos.DrawSphere(spawnPoint.position, 0.2f);
+        Gizmos.DrawSphere(endPoint.position, 0.2f);
+    }
+
 }
 
 
