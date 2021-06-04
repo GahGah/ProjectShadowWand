@@ -52,6 +52,9 @@ public class SceneChanger : MonoBehaviour
     public float fadeTime;
     private void Awake()
     {
+        //Screen.SetResolution(1920, 1080, true);
+        //Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
+
         nowSceneName = UpdateStageName();
     }
     private void OnEnable()

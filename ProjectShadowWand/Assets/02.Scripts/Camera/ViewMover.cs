@@ -13,7 +13,7 @@ public class ViewMover : MonoBehaviour
     public bool moveTex;
 
     [Header("moveTex 체크"), Tooltip("카메라가 움직일 때, 해당 값 만큼 추가로 더 움직입니다. ")]
-    [Range(0f, 0.05f)]
+    [Range(0f, 0.1f)]
     public float moveValue_Tex;
 
     [Header("moveTex 체크 X"), Tooltip("카메라가 움직일 때, 해당 값 만큼 추가로 더 움직입니다. ")]

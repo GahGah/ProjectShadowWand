@@ -458,19 +458,20 @@ public class UISettings : UIBase
 
         if (_fb == true)
         {
-            if (Screen.fullScreen == false)
+            if (Screen.fullScreenMode != FullScreenMode.MaximizedWindow)
             {
                 Debug.Log("UpdateFullScreen");
+                Screen.fullScreenMode = FullScreenMode.MaximizedWindow;
                 Screen.SetResolution(1920, 1080, true);
-                Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
             }
 
         }
         else
         {
-            if (Screen.fullScreen == true)
+            if (Screen.fullScreenMode != FullScreenMode.Windowed)
             {
                 Debug.Log("UpdateFullScreen");
+                Screen.fullScreenMode = FullScreenMode.Windowed;
                 Screen.SetResolution(1920, 1080, false);
             }
 
