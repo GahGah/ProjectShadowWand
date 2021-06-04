@@ -7,13 +7,19 @@ using UnityEngine;
 /// </summary>
 public class ParallaxMoveObject : MonoBehaviour
 {
-    public Vector3 movementScale = Vector3.one;
+
+   [Header("x축만 움직임")]
+    public bool onlyMoveXpos;
+    public Vector2 movementScale = Vector2.one;
     private Transform mainCameraTransform;
 
     private float originalZ;
 
+    private Transform myTransform;
+
     void Awake()
     {
+        myTransform = GetComponent<Transform>();
         mainCameraTransform = Camera.main.transform;
         originalZ = transform.position.z;
         //Init();  
@@ -23,10 +29,22 @@ public class ParallaxMoveObject : MonoBehaviour
     //{
 
     //}
+
+    private Vector2 tempVector2;
     void LateUpdate()
     {
-        var tempVector3 = Vector2.Scale(mainCameraTransform.position, movementScale);
-        transform.position = new Vector3(tempVector3.x, tempVector3.y, originalZ);
+        if (onlyMoveXpos)
+        {
+            tempVector2 = Vector2.Scale(mainCameraTransform.position, movementScale);
+            myTransform.position = new Vector3(tempVector2.x, myTransform.position.y, originalZ);
+        }
+        else
+        {
+            tempVector2 = Vector2.Scale(mainCameraTransform.position, movementScale);
+            myTransform.position = new Vector3(tempVector2.x, tempVector2.y, originalZ);
+
+        }
+
     }
 
 }
