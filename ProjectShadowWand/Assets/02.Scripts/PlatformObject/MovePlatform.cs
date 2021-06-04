@@ -325,8 +325,6 @@ public class MovePlatform : MonoBehaviour
         var dis = Vector2.Distance(firstPoint.position, secondPoint.position);
 
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(firstPoint.position + dir.normalized * dis, boxCollider.size);
-        Gizmos.DrawSphere(secondPoint.position, 0.15f);
         //}
     }
 
