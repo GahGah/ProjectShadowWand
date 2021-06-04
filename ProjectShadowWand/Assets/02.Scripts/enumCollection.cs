@@ -135,7 +135,7 @@ public enum eLayer
     Default = 0,
     TransparentFX = 1,
     IgnoreRaycast = 2,
-    _LAYER3 = 3,
+    OnlyPlayerContact = 3,
     Water = 4,
     UI = 5,
     _LAYER6 = 6,
