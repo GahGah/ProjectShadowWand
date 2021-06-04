@@ -8,43 +8,75 @@ using UnityEngine;
 public class ParallaxMoveObject : MonoBehaviour
 {
 
-   [Header("x축만 움직임")]
+    [Header("추가 움직임값")]
+    public Vector2 movementScale = Vector2.zero;
+
+    [Header("x축만 움직임")]
     public bool onlyMoveXpos;
-    public Vector2 movementScale = Vector2.one;
-    private Transform mainCameraTransform;
+
+    [Header("플레이어를 따라가는가")]
+    public bool isFollowPlayer;
 
     private float originalZ;
 
     private Transform myTransform;
+    private Vector2 originalPos;
 
+
+    private Transform cameraTransform;
     void Awake()
     {
-        myTransform = GetComponent<Transform>();
-        mainCameraTransform = Camera.main.transform;
-        originalZ = transform.position.z;
-        //Init();  
+
+        Init();
     }
 
-    //private void Init()
-    //{
 
-    //}
+
+    private Transform targetTransform;
+    private Vector2 startTargetPos;
+    private Vector2 startPos;
+    public void Init()
+    {
+        cameraTransform = Camera.main.transform;
+
+        myTransform = GetComponent<Transform>();
+
+        startPos = gameObject.transform.position;
+
+        originalZ = transform.position.z;
+    }
+    private void Start()
+    {
+        if (isFollowPlayer)
+            targetTransform = PlayerController.Instance.transform;
+        else
+            targetTransform = cameraTransform;
+
+
+        startTargetPos = targetTransform.position;
+    }
 
     private Vector2 tempVector2;
-    void LateUpdate()
+    void FixedUpdate()
     {
-        if (onlyMoveXpos)
-        {
-            tempVector2 = Vector2.Scale(mainCameraTransform.position, movementScale);
-            myTransform.position = new Vector3(tempVector2.x, myTransform.position.y, originalZ);
-        }
-        else
-        {
-            tempVector2 = Vector2.Scale(mainCameraTransform.position, movementScale);
-            myTransform.position = new Vector3(tempVector2.x, tempVector2.y, originalZ);
+        tempVector2 = startPos;
+        tempVector2 += Vector2.Scale(targetTransform.position - (Vector3)startTargetPos, movementScale);
 
-        }
 
+        //if (onlyMoveXpos)
+        //{
+        //    tempVector2.x += movementScale.x * (targetTransform.position.x - startTargetPos.x);
+        //}
+        //else
+        //{
+        //    tempVector2 += movementScale * (targetTransform.position - (Vector3)startTargetPos);
+        //}
+
+        //if ((Vector3)tempVector2 == myTransform.position)
+        //{
+        //    return;
+        //}
+        myTransform.position = tempVector2;
     }
 
 }
