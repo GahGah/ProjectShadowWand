@@ -23,12 +23,12 @@ public class MonsterManager : MonoBehaviour
     }
 
 
-    private void Start()
-    {
-        //monsterList.AddRange(FindObjectsOfType<Monster>());
-        //Debug.Log("몬스터를 찾았어! : " + monsterList.Count);
+    //private void Start()
+    //{
+    //    //monsterList.AddRange(FindObjectsOfType<Monster>());
+    //    //Debug.Log("몬스터를 찾았어! : " + monsterList.Count);
 
-    }
+    //}
 
     /// <summary>
     /// 몬스터 리스트에 몬스터를 추가~

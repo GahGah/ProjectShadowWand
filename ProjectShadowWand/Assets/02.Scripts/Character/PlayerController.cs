@@ -1528,26 +1528,26 @@ public class PlayerController : Character
             catchedObject = null;
         }
     }
-    private void OnParticleCollision(GameObject other)
-    {
-        //if (other.layer == (int)eLayer.WeatherFx_withOpaqueTex && canMove == true)
-        //{
-        //    ProcessDie();
-        //}
-        //else
-        //{
+    //private void OnParticleCollision(GameObject other)
+    //{
+    //    //if (other.layer == (int)eLayer.WeatherFx_withOpaqueTex && canMove == true)
+    //    //{
+    //    //    ProcessDie();
+    //    //}
+    //    //else
+    //    //{
 
-        //}
-    }
+    //    //}
+    //}
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        //WeatherInteractionObject tempObject = collision.gameObject.GetComponent<WeatherInteractionObject>();
-        //if (collision is ICatchable)
-        //{
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    //WeatherInteractionObject tempObject = collision.gameObject.GetComponent<WeatherInteractionObject>();
+    //    //if (collision is ICatchable)
+    //    //{
 
-        //}
-    }
+    //    //}
+    //}
     private Plant currentPlant;
 
     public Plant GetCurrentPlant()

@@ -11,20 +11,28 @@ public class UIBase : MonoBehaviour
     public eUItype uiType;
 
     public GameObject canvasObject;
-    private void Start()
-    {
-        Debug.Log("Start!");
-    }
+    public CanvasGroup canvasGroup = null;
+
+    // protected Canvas canvas;
+    //private void Start()
+    //{
+    //    // canvas = canvasObject.GetComponent<Canvas>();
+    //}
 
     public void SetActive(bool _isActive)
     {
         gameObject.SetActive(_isActive);
     }
-
-
     public virtual void Init()
     {
+        if (canvasGroup == null)
+        {
+            if ((canvasGroup = canvasObject.GetComponent<CanvasGroup>()) == false)
+            {
+                Debug.Log(gameObject.name + " : CanvasGroup을 가지고 있지 않습니다.");
+            }
 
+        }
     }
     /// <summary>
     /// UI가 켜졌을 때를 말합니다. 근데 이게 쓰이려나
@@ -44,7 +52,15 @@ public class UIBase : MonoBehaviour
     /// </summary>
     public virtual bool Open()
     {
-        return false;
+        if (isFading)
+        {
+            return false;
+        }
+        else
+        {
+            StartCoroutine(ProcessFadeAlpha_Open());
+            return true;
+        }
     }
 
     /// <summary>
@@ -52,7 +68,15 @@ public class UIBase : MonoBehaviour
     /// </summary>
     public virtual bool Close()
     {
-        return false;
+        if (isFading)
+        {
+            return false;
+        }
+        else
+        {
+            StartCoroutine(ProcessFadeAlpha_Close());
+            return true;
+        }
     }
 
     /// <summary>
@@ -69,5 +93,58 @@ public class UIBase : MonoBehaviour
         {
             Debug.Log(gameObject.name + "는 이미 추가되어있습니다.");
         }
+    }
+
+
+    [Tooltip("페이드 중인지를 뜻합니다.")]
+    protected bool isFading = false;
+    protected virtual IEnumerator ProcessFadeAlpha_Open()
+    {
+
+        canvasGroup.interactable = false;
+        yield return StartCoroutine(FadeAlphaCanvasGroup(0f, 1f, 0.1f));
+        canvasGroup.interactable = true;
+    }
+
+
+    protected virtual IEnumerator ProcessFadeAlpha_Close()
+    {
+
+        canvasGroup.interactable = false;
+        yield return StartCoroutine(FadeAlphaCanvasGroup(1f, 0f, 0.1f));
+        canvasGroup.interactable = true;
+        canvasObject.SetActive(false);
+
+
+    }
+    /// <summary>
+    /// 캔버스 그룹의 알파값을 _time 동안 조절시켜줍니다.
+    /// </summary>
+    /// <param name="_start">시작하는 프로그레스. 0~1</param>
+    /// <param name="_end">끝나는 프로그레스. 0~1</param>
+    /// <param name="_time">해당 시간동안 알파값을 조절합니다.</param>
+    /// <returns></returns>
+    protected IEnumerator FadeAlphaCanvasGroup(float _start, float _end, float _time)
+    {
+        isFading = true;
+
+        float timer = 0f;
+
+        float progress = 0f;
+
+        canvasGroup.alpha = _start;
+
+        while (progress < 1f)
+        {
+            timer += Time.unscaledDeltaTime;
+
+            progress = timer / _time;
+
+            canvasGroup.alpha = Mathf.Lerp(_start, _end, progress);
+
+            yield return YieldInstructionCache.WaitForEndOfFrame;
+        }
+        canvasGroup.alpha = _end;
+        isFading = false;
     }
 }

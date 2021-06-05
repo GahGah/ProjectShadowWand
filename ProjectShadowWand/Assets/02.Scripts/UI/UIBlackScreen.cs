@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class UIBlackScreen : UIBase
 {
-    public CanvasGroup canvasGroup;
 
     private float waitTime;
     private float fadeTime;
@@ -34,6 +33,7 @@ public class UIBlackScreen : UIBase
     }
     public override void Init()
     {
+        base.Init();
         canvasGroup.gameObject.SetActive(false);
     }
     public override bool Open()

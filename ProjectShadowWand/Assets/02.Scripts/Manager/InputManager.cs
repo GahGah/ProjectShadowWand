@@ -66,10 +66,10 @@ public class InputManager : Manager<InputManager>
     }
 
 
-    private void Start()
-    {
+    //private void Start()
+    //{
 
-    }
+    //}
 
 
     public void OnEnable()

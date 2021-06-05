@@ -24,8 +24,8 @@ public class RotateThis : MonoBehaviour
             yield return null;
         }
     }
-    void FixedUpdate()
-    {
+    //void FixedUpdate()
+    //{
 
-    } 
+    //} 
 }

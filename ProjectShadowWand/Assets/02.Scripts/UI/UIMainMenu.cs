@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class UIMainMenu : UIBase
 {
-    public CanvasGroup canvasGroup;
 
     public UIPopup uiPopup_NewGame;
     public UISettings uiSetting;
@@ -13,6 +12,11 @@ public class UIMainMenu : UIBase
     public UICutScene cutscene;
 
     private bool isExistSaveData;
+
+    public override void Init()
+    {
+        base.Init();
+    }
     private IEnumerator Start()
 
     {

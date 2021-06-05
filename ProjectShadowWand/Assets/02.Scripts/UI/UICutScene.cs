@@ -9,8 +9,6 @@ using UnityEngine.UI;
 public class UICutScene : UIBase
 {
 
-    public CanvasGroup canvasGroup;
-
     [Tooltip("컷 목록")]
     public List<UICut> cutList;
 
@@ -62,6 +60,7 @@ public class UICutScene : UIBase
 
     public override void Init()
     {
+        base.Init();
         cutCount = cutList.Count;
         isEnd = false;
         currentCut = null;

@@ -44,7 +44,7 @@ public class UISettings : UIBase
 
 
 
-    public CanvasGroup canvasGroup;
+   // public CanvasGroup canvasGroup;
     //public UISelecter languageSelector;
 
     //  public ToggleGroup screenModeGroup;
@@ -89,23 +89,40 @@ public class UISettings : UIBase
 
     public override void Init()
     {
+        base.Init();
         canvasObject.SetActive(false);
         buttonSelector = GetComponent<ButtonSelector>();
     }
 
     public override bool Open()
     {
-        canvasObject.SetActive(true);
-        buttonSelector.ForceSelect();
-        return true;
+
+        if (isFading)
+        {
+            return false;
+        }
+        else
+        {
+            canvasObject.SetActive(true);
+            buttonSelector.ForceSelect();
+            StartCoroutine(ProcessFadeAlpha_Open());
+            return true;
+        }
     }
 
     public override bool Close()
     {
-        canvasObject.SetActive(false);
+        if (isFading)
+        {
+            return false;
+        }
+        else
+        {
+            buttonSelector.ForceDeSelect(); //원래 포스 셀렉트였는ㄴ데 일단 바꿔봤음...왜 셀렉트였던거지?
+            StartCoroutine(ProcessFadeAlpha_Close());
+            return true;
+        }
 
-        buttonSelector.ForceSelect();
-        return true;
     }
     /// <summary>
     /// 데이터를 설정하고, 반영도 합니다.

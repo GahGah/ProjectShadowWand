@@ -86,11 +86,11 @@ public class ButtonSelector : MonoBehaviour
         {
             eventSystem = EventSystem.current;
         }
+        eventSystem.SetSelectedGameObject(null);
+        eventSystem.SetSelectedGameObject(activeButton.gameObject);
 
         if (activer != null)
         {
-            eventSystem.SetSelectedGameObject(null);
-            eventSystem.SetSelectedGameObject(activeButton.gameObject);
             activer.goFillAmount = 1f;
         }
 
@@ -111,11 +111,13 @@ public class ButtonSelector : MonoBehaviour
         {
             eventSystem = EventSystem.current;
         }
+
+        eventSystem.SetSelectedGameObject(null);
         if (activer != null)
         {
             //if (eventSystem.currentSelectedGameObject == activeButton.gameObject)
             //{
-            eventSystem.SetSelectedGameObject(null);
+
             activer.goFillAmount = 0f;
             //}
         }

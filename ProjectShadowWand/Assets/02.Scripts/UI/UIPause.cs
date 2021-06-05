@@ -33,17 +33,36 @@ public class UIPause : UIBase
 
     public override bool Open()
     {
-        canvasObject.SetActive(true);
-        buttonSelector.ForceSelect();
-        Time.timeScale = 0f;
-        return true;
+
+        if (isFading)
+        {
+            return false;
+        }
+        else
+        {
+            Time.timeScale = 0f;
+            canvasObject.SetActive(true);
+            buttonSelector.ForceSelect();
+            StartCoroutine(ProcessFadeAlpha_Open());
+            return true;
+        }
+
     }
     public override bool Close()
     {
-        Time.timeScale = 1f;
-        canvasObject.SetActive(false);
-        buttonSelector.ForceSelect();
-        return true;
+
+
+        if (isFading)
+        {
+            return false;
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            buttonSelector.ForceDeSelect(); //원래 포스 셀렉트였는ㄴ데 일단 바꿔봤음...왜 셀렉트였던거지?
+            StartCoroutine(ProcessFadeAlpha_Close());
+            return true;
+        }
     }
 
     public void ButtonSetting(UIBase _ui)

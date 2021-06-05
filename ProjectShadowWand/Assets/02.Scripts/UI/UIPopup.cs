@@ -13,26 +13,40 @@ public class UIPopup : UIBase
 
     public override void Init()
     {
+        base.Init();
         canvasObject.SetActive(false);
     }
 
     public override bool Open()
     {
 
-        canvasObject.SetActive(true);
-
-        buttonSelector.ForceSelect();
-        buttonSelector.StaySelect();
-        return true;
+        if (isFading)
+        {
+            return false;
+        }
+        else
+        {
+            canvasObject.SetActive(true);
+            buttonSelector.ForceSelect();
+            buttonSelector.StaySelect();
+            StartCoroutine(ProcessFadeAlpha_Open());
+            return true;
+        }
     }
 
     public override bool Close()
     {
+        if (isFading)
+        {
+            return false;
+        }
+        else
+        {
+            buttonSelector.StaySelect();
+            StartCoroutine(ProcessFadeAlpha_Close());
+            return true;
+        }
 
-        buttonSelector.StaySelect();
-        canvasObject.SetActive(false);
-
-        return true;
     }
 
 

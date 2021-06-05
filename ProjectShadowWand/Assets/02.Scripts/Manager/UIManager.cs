@@ -107,6 +107,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
+
     /// <summary>
     /// 스택의 맨 위에 있는 UI를 닫습니다.
     /// </summary>
