@@ -43,11 +43,17 @@ public class AudioManager : Manager<AudioManager>
 
     public AudioClip skill_lightning;
 
-    [Header("버튼 효과음 클립")]
+    [Header("UI 효과음 클립")]
     public AudioClip ui_button_select;
+    public AudioClip ui_selector_move;
+    public AudioClip ui_pause_on;
 
     [Header("대화 텍스트 출력 클립")]
     public AudioClip talk_textOut;
+
+
+
+
 
     private AudioClip currentSfxClip;
 
@@ -276,6 +282,18 @@ public class AudioManager : Manager<AudioManager>
         // audioSource_sfx.clip = walk_groundSoft;
         audioSource_sfx.PlayOneShot(walk_groundSoft);
 
+    }
+
+    public void Play_UI_Selector_Move()
+    {
+        audioSource_sfx.volume = 1f;
+        audioSource_sfx.PlayOneShot(ui_selector_move);
+    }
+
+    public void Play_UI_Pause_On()
+    {
+        audioSource_sfx.volume = 1f;
+        audioSource_sfx.PlayOneShot(ui_pause_on);
     }
 
 }

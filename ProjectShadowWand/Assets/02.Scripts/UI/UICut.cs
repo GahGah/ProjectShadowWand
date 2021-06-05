@@ -43,10 +43,8 @@ public class UICut : UIBase
     public Animator anim;
     public override void Init()
     {
-        base.Init();
+        //base.Init();
         isOn = false;
-
-
     }
 
 

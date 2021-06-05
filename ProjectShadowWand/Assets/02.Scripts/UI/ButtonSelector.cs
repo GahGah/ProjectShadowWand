@@ -21,9 +21,17 @@ public class ButtonSelector : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        if (ReferenceEquals(activer, null))
+        if (activer == null)
         {
-            activer = activeButton.GetComponent<ActiveSelectImage_Sprout>();
+            if (activeButton != null)
+            {
+                activer = activeButton.GetComponent<ActiveSelectImage_Sprout>();
+            }
+            else
+            {
+                Debug.Log("ButtonSelector : 액티브할 버튼이 없습니다.");
+            }
+
         }
 
         //if (ReferenceEquals(cbActiver, null))

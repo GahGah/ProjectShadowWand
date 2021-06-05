@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class UIMainMenu : UIBase
 {
 
+    [Header("게임 시작 텍스트")]
+    public TMP_Text gameStartText;
     public UIPopup uiPopup_NewGame;
     public UISettings uiSetting;
     public UIPopup uiPopup_ExitGame;
@@ -17,12 +20,26 @@ public class UIMainMenu : UIBase
     {
         base.Init();
     }
+    private void Awake()
+    {
+        uiSetting.onMainMenu = true;
+        uiSetting.uiMainMenu = this;
+    }
     private IEnumerator Start()
 
     {
         canvasGroup.interactable = false;
 
         yield return StartCoroutine(SaveLoadManager.Instance.LoadData_Stage());
+
+        if (SaveLoadManager.Instance.currentData_Stage.stageName == "Stage_00")
+        {
+            gameStartText.text = "시작하기";
+        }
+        else
+        {
+            gameStartText.text = "새로하기";
+        }
 
         canvasGroup.interactable = true;
     }
@@ -87,18 +104,29 @@ public class UIMainMenu : UIBase
 
     }
 
-    public void Button_OpenSetting(UIBase _ui)
-    {
-        UIManager.Instance.OpenThis(_ui);
-    }
-    public void Button_OpenExit(UIBase _ui)
-    {
-        UIManager.Instance.OpenThis(_ui);
-    }
+    //public void Button_OpenSetting(UIBase _ui)
+    //{
+    //    UIManager.Instance.OpenThis(_ui);
+    //    base.Close();
+    //}
+
+    //public void Button_CloseSetting(UIBase _ui)
+    //{
+    //    UIManager.Instance.OpenThis(_ui);
+    //}
+    //public void Button_OpenExit(UIBase _ui)
+    //{
+    //    UIManager.Instance.OpenThis(_ui);
+    //}
 
     public void Button_Quit()
     {
         Application.Quit();
     }
 
+    public override bool Open()
+    {
+        canvasObject.SetActive(true);
+        return base.Open();
+    }
 }

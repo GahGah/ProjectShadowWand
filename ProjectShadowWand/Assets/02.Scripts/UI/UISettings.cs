@@ -41,16 +41,24 @@ public class UISettings : UIBase
 
     public Slider brightnessSlider;
 
-
-
-
-   // public CanvasGroup canvasGroup;
+    // public CanvasGroup canvasGroup;
     //public UISelecter languageSelector;
 
     //  public ToggleGroup screenModeGroup;
+    [HideInInspector]
+    public bool onMainMenu;
+    [HideInInspector]
+    public bool onPause;
+    [HideInInspector]
+    public UIMainMenu uiMainMenu = null;
+    [HideInInspector]
+    public UIPause uiPause= null;
 
+    [HideInInspector]
+    public bool isOtherUIClose;
 
     private Data_Settings currentSettingsData;
+
     // private Data_Settings settingsData;
     private Data_Settings originalSettingsData;
 
@@ -92,6 +100,7 @@ public class UISettings : UIBase
         base.Init();
         canvasObject.SetActive(false);
         buttonSelector = GetComponent<ButtonSelector>();
+
     }
 
     public override bool Open()
@@ -105,6 +114,14 @@ public class UISettings : UIBase
         {
             canvasObject.SetActive(true);
             buttonSelector.ForceSelect();
+            if (onMainMenu)
+            {
+                uiMainMenu.Close();
+            }
+            else if (onPause)
+            {
+                uiPause.CloseMenu();
+            }
             StartCoroutine(ProcessFadeAlpha_Open());
             return true;
         }
@@ -119,6 +136,14 @@ public class UISettings : UIBase
         else
         {
             buttonSelector.ForceDeSelect(); //원래 포스 셀렉트였는ㄴ데 일단 바꿔봤음...왜 셀렉트였던거지?
+            if (onMainMenu)
+            {
+                uiMainMenu.Open();
+            }
+            else if (onPause)
+            {
+                uiPause.OpenMenu();
+            }
             StartCoroutine(ProcessFadeAlpha_Close());
             return true;
         }
@@ -488,7 +513,7 @@ public class UISettings : UIBase
             if (Screen.fullScreen == true)
             {
                 Debug.Log("UpdateFullScreen");
-              //  Screen.fullScreenMode = FullScreenMode.Windowed;
+                //  Screen.fullScreenMode = FullScreenMode.Windowed;
                 Screen.SetResolution(1920, 1080, false);
             }
 

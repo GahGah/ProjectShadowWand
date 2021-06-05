@@ -98,11 +98,13 @@ public class UIBase : MonoBehaviour
 
     [Tooltip("페이드 중인지를 뜻합니다.")]
     protected bool isFading = false;
+
+    protected float alphaFadeTime = 0.2f;
     protected virtual IEnumerator ProcessFadeAlpha_Open()
     {
 
         canvasGroup.interactable = false;
-        yield return StartCoroutine(FadeAlphaCanvasGroup(0f, 1f, 0.1f));
+        yield return StartCoroutine(FadeAlphaCanvasGroup(0f, 1f, alphaFadeTime));
         canvasGroup.interactable = true;
     }
 
@@ -111,7 +113,7 @@ public class UIBase : MonoBehaviour
     {
 
         canvasGroup.interactable = false;
-        yield return StartCoroutine(FadeAlphaCanvasGroup(1f, 0f, 0.1f));
+        yield return StartCoroutine(FadeAlphaCanvasGroup(1f, 0f, alphaFadeTime));
         canvasGroup.interactable = true;
         canvasObject.SetActive(false);
 
