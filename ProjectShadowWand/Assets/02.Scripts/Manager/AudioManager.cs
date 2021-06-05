@@ -173,16 +173,17 @@ public class AudioManager : Manager<AudioManager>
             if (_source.isPlaying == false)
             {
                 //Debug.Log("소리가 플레이되고 있는 상태가 아닙니다. 그냥 시작할게요.");
-                _isStart = true;
-                _source.Stop();
-                if (_source == audioSource_sfx)
-                {
-                    //_source.PlayOneShot(currentSfxClip);
-                }
-                else
-                {
-                    _source.Play();
-                }
+                //_isStart = true;
+                //_source.Stop();
+                //if (_source == audioSource_sfx)
+                //{
+                //    //_source.PlayOneShot(currentSfxClip);
+                //}
+                //else
+                //{
+                //    _source.volume = 1f;
+                //    _source.Play();
+                //}
 
             }
             else
@@ -239,7 +240,9 @@ public class AudioManager : Manager<AudioManager>
 
     public void Stop_Bgm()
     {
+        Debug.Log("CloseVL");
         CloseVolumeLerp(audioSource_bgm);
+        CloseVolumeLerp(audioSource_evm);
     }
 
     public void Play_Bgm_Stage00()
