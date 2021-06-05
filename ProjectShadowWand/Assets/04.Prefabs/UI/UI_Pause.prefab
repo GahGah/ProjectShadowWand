@@ -280,6 +280,7 @@ GameObject:
   - component: {fileID: 6320961612528797377}
   - component: {fileID: 4474837258320768735}
   - component: {fileID: 740574588233993709}
+  - component: {fileID: 5480927666700562887}
   m_Layer: 0
   m_Name: UI_Button_ReturnMain
   m_TagString: Untagged
@@ -401,6 +402,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5480927666700562887}
+        m_TargetAssemblyTypeName: ButtonAudio, Assembly-CSharp
+        m_MethodName: PlayPush
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &5480927666700562887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3046961998775022581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77cf3bfc751a4ce4ba9c9f472977cf48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3208328653711743209
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,6 +438,7 @@ GameObject:
   - component: {fileID: 7936229327492452091}
   - component: {fileID: 3689745552487473565}
   - component: {fileID: 1222723999725057612}
+  - component: {fileID: 6193079087181694877}
   m_Layer: 0
   m_Name: UI_Button_Setting
   m_TagString: Untagged
@@ -534,6 +560,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5480927666700562887}
+        m_TargetAssemblyTypeName: ButtonAudio, Assembly-CSharp
+        m_MethodName: PlayPush
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &6193079087181694877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3208328653711743209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77cf3bfc751a4ce4ba9c9f472977cf48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3838608485860636724
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,6 +596,7 @@ GameObject:
   - component: {fileID: 5862909488986139481}
   - component: {fileID: 1493879428622087674}
   - component: {fileID: 5784047026456947346}
+  - component: {fileID: 8951896043180286695}
   m_Layer: 0
   m_Name: UI_Button_Continue
   m_TagString: Untagged
@@ -667,6 +718,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5480927666700562887}
+        m_TargetAssemblyTypeName: ButtonAudio, Assembly-CSharp
+        m_MethodName: PlayPush
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &8951896043180286695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3838608485860636724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77cf3bfc751a4ce4ba9c9f472977cf48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4072344038095780694
 GameObject:
   m_ObjectHideFlags: 0
@@ -813,6 +888,7 @@ GameObject:
   - component: {fileID: 8418895582386390723}
   - component: {fileID: 6430937243508413967}
   - component: {fileID: 8020689809334021334}
+  - component: {fileID: 3579684017871095710}
   m_Layer: 0
   m_Name: UI_Button_Restart
   m_TagString: Untagged
@@ -934,6 +1010,30 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5480927666700562887}
+        m_TargetAssemblyTypeName: ButtonAudio, Assembly-CSharp
+        m_MethodName: PlayPush
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &3579684017871095710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4589873164811448195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77cf3bfc751a4ce4ba9c9f472977cf48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4981116228945429733
 GameObject:
   m_ObjectHideFlags: 0

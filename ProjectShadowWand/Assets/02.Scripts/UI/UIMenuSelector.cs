@@ -106,9 +106,21 @@ public class UIMenuSelector : MonoBehaviour
             return;
         }
 
+        if (SceneChanger.Instance.isLoading)
+        {
+            return;
+        }
+
         if (InputManager.Instance.buttonScroll.ReadValue().y > 0)
         {
 
+            if (UIManager.Instance.uiStack.Count != 0)
+            {
+                if (UIManager.Instance.uiStack.Peek().GetType() == typeof(UIPopup))
+                {
+                    return;
+                }
+            }
 
             if (currentMenuCount == 0)
             {
@@ -125,12 +137,21 @@ public class UIMenuSelector : MonoBehaviour
         }
         else if (InputManager.Instance.buttonScroll.ReadValue().y < 0)
         {
+            if (UIManager.Instance.uiStack.Count != 0)
+            {
+                if (UIManager.Instance.uiStack.Peek().GetType() == typeof(UIPopup))
+                {
+                    return;
+                }
+            }
 
             currentMenuCount = Mathf.Abs((currentMenuCount + 1) % menuCount);
             SetFalseSoundChecker();
             UpdateMovePosition();
             StartCoroutine(UpdateMenuPosition());
         }
+
+
 
         onTimer += Time.unscaledDeltaTime;
         tempSpacing = Mathf.Sin(onTimer * 4f) * 30f;
@@ -248,7 +269,7 @@ public class UIMenuSelector : MonoBehaviour
 
             selectorTransform.position = currentPos;
 
-          //  CheckSound();
+            //  CheckSound();
 
 
             if (Vector2.Distance(selectorTransform.position, currentMovePos) < 0.1f)

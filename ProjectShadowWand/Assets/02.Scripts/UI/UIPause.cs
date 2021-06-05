@@ -15,6 +15,7 @@ public class UIPause : UIBase
     private void Awake()
     {
         uiType = eUItype.PAUSE;
+        UIManager.Instance.AddToDictionary(this);
         buttonSelector = GetComponent<ButtonSelector>();
 
         uiSetting.onPause = true;
@@ -51,7 +52,7 @@ public class UIPause : UIBase
             Time.timeScale = 0f;
 
             canvasObject.SetActive(true);
-
+            menuGroup.interactable = true;
             audioTime = AudioManager.Instance.audioSource_bgm.time;
             AudioManager.Instance.audioSource_bgm.Stop();
 
@@ -95,6 +96,7 @@ public class UIPause : UIBase
     public void CloseMenu()
     {
         //  StartCoroutine(FadeAlphaMenuGroup(1f, 0f, fadeTime));
+        menuGroup.interactable = true;
         menuGroup.gameObject.SetActive(false);
 
     }
@@ -128,22 +130,30 @@ public class UIPause : UIBase
 
     public void ButtonSetting()
     {
+        menuGroup.interactable = false;
         UIManager.Instance.OpenThis(uiSetting);
     }
     public void ButtonContinue()
     {
+        menuGroup.interactable = false;
         UIManager.Instance.CloseThis(this);
     }
-    public void ButtonRestart()
+    public void ButtonRestart(UIBase _ui)
     {
-        SceneChanger.Instance.LoadThisSceneName(StageManager.Instance.nowStageName, false);
+        menuGroup.interactable = false;
+        UIManager.Instance.CloseThis(_ui);
         UIManager.Instance.CloseThis(this);
+        SceneChanger.Instance.LoadThisSceneName(StageManager.Instance.nowStageName, false);
+
         // StageManager.Instance.UpdateStageName();
     }
-    public void ButtonReturnMain()
+    public void ButtonReturnMain(UIBase _ui)
     {
-        SceneChanger.Instance.LoadThisSceneName("Stage_Main", false);
+        menuGroup.interactable = false;
+        UIManager.Instance.CloseThis(_ui);
         UIManager.Instance.CloseThis(this);
+        SceneChanger.Instance.LoadThisSceneName("Stage_Main", false);
+
     }
 
     public void ButtonClose()

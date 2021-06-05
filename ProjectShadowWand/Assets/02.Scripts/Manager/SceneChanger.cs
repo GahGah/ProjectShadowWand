@@ -166,12 +166,11 @@ public class SceneChanger : MonoBehaviour
             }
 
             yield return new WaitUntil(() => Instance != null);
-            StartCoroutine(SceneChanger.Instance.GoColorScreen(waitTime, fadeTime, false));
+
 
             SceneManager.sceneLoaded -= LoadSceneEnd_StartCoroutine;
-
             Time.timeScale = 1f;
-
+            StartCoroutine(SceneChanger.Instance.GoColorScreen(waitTime, fadeTime, false));
             isLoading = false;
         }
 
@@ -485,7 +484,7 @@ public class SceneChanger : MonoBehaviour
         if (_goBlack == false)
         {
             canvasGroup.gameObject.SetActive(false);
-            isLoading = false;
+            //isLoading = false;
 
         }
     }

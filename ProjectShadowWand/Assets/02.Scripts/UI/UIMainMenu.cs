@@ -24,12 +24,13 @@ public class UIMainMenu : UIBase
     {
         uiSetting.onMainMenu = true;
         uiSetting.uiMainMenu = this;
+        uiType = eUItype.MAIN;
     }
     private IEnumerator Start()
 
     {
         canvasGroup.interactable = false;
-
+        UIManager.Instance.AddToDictionary(this);
         yield return StartCoroutine(SaveLoadManager.Instance.LoadData_Stage());
 
         if (SaveLoadManager.Instance.currentData_Stage.stageName == "Stage_00")

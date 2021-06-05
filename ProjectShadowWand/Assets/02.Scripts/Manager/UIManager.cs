@@ -49,7 +49,11 @@ public class UIManager : MonoBehaviour
 
     public void AddToDictionary(UIBase _uiBase)
     {
-        uiDicitonary.Add(_uiBase.uiType, _uiBase);
+        if (uiDicitonary.ContainsKey(_uiBase.uiType) == false)
+        {
+            uiDicitonary.Add(_uiBase.uiType, _uiBase);
+        }
+
     }
 
     public void RemoveToDictionary(UIBase _uiBase)
@@ -61,36 +65,36 @@ public class UIManager : MonoBehaviour
     {
         if (InputManager.Instance.buttonEscape.wasPressedThisFrame)
         {
-            if (uiStack.Count != 0)
+            if (SceneChanger.Instance.isLoading == false)
             {
-                CloseTop();
-            }
-            else
-            {
-                if (SceneChanger.Instance.isLoading == false)
+                if (canPause == true)
                 {
-                    if (canPause == true)
+                    if (uiStack.Count != 0)
                     {
-                        if (ReferenceEquals(uiPause, null)) // null이라면
-                        {
-                            uiDicitonary.TryGetValue(eUItype.PAUSE, out uiPause);
-
-                            OpenThis(uiPause);
-
-                        }
-                        else
-                        {
-                            OpenThis(uiPause);
-                        }
+                        CloseTop();
+                        return;
                     }
 
+                    if (ReferenceEquals(uiPause, null)) // null이라면
+                    {
+                        uiDicitonary.TryGetValue(eUItype.PAUSE, out uiPause);
 
+                        OpenThis(uiPause);
 
-
+                    }
+                    else
+                    {
+                        OpenThis(uiPause);
+                    }
                 }
+
+
             }
 
+
         }
+
+
 
     }
     public void OpenThis(UIBase _uiBase)
@@ -140,7 +144,7 @@ public class UIManager : MonoBehaviour
         {
             if (uiStack.Count != 0)
             {
-                _uiBase = uiStack.Pop();
+                var tempUI = uiStack.Pop();
             }
         }
     }

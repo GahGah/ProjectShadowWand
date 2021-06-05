@@ -6,6 +6,15 @@ public class UIPopup : UIBase
 {
     public ButtonSelector buttonSelector;
 
+
+    public bool onMainMenu;
+    public bool onPause;
+
+    [HideInInspector]
+    public UIMainMenu uiMainMenu = null;
+    [HideInInspector]
+    public UIPause uiPause = null;
+
     private void Start()
     {
         Init();
@@ -29,6 +38,29 @@ public class UIPopup : UIBase
             canvasObject.SetActive(true);
             buttonSelector.ForceSelect();
             buttonSelector.StaySelect();
+
+            if (onMainMenu)
+            {
+                if (uiMainMenu == null)
+                {
+                    UIBase tempUI;
+                    UIManager.Instance.uiDicitonary.TryGetValue(eUItype.MAIN, out tempUI);
+                    uiMainMenu = tempUI as UIMainMenu;
+                }
+                uiMainMenu.Close();
+            }
+            else if (onPause)
+            {
+                if (uiPause == null)
+                {
+                    UIBase tempUI;
+                    UIManager.Instance.uiDicitonary.TryGetValue(eUItype.PAUSE, out tempUI);
+                    uiPause = tempUI as UIPause;
+                }
+                uiPause.CloseMenu();
+            }
+
+
             StartCoroutine(ProcessFadeAlpha_Open());
             return true;
         }
@@ -43,6 +75,29 @@ public class UIPopup : UIBase
         else
         {
             buttonSelector.StaySelect();
+
+            if (onMainMenu)
+            {
+                if (uiMainMenu == null)
+                {
+                    UIBase tempUI;
+                    UIManager.Instance.uiDicitonary.TryGetValue(eUItype.MAIN, out tempUI);
+                    uiMainMenu = tempUI as UIMainMenu;
+                }
+                uiMainMenu.Open();
+            }
+            else if (onPause)
+            {
+                if (uiPause == null)
+                {
+                    UIBase tempUI;
+                    UIManager.Instance.uiDicitonary.TryGetValue(eUItype.PAUSE, out tempUI);
+                    uiPause = tempUI as UIPause;
+                }
+                uiPause.OpenMenu();
+            }
+
+
             StartCoroutine(ProcessFadeAlpha_Close());
             return true;
         }

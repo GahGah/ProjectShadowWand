@@ -77,7 +77,7 @@ public enum eCutsceneType
 }
 public enum eUItype
 {
-    NONE, DIARY, SAVE, LOAD, PAUSE,
+    NONE, DIARY, SAVE, LOAD, PAUSE,MAIN,
     SETTINGS, BLACKSCREEN,
     CUTSCENE,
     SOULMEMORY_01, SOULMEMORY_02, SOULMEMORY_03,
