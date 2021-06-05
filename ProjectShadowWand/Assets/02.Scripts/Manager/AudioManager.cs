@@ -45,12 +45,13 @@ public class AudioManager : Manager<AudioManager>
 
     [Header("UI 효과음 클립")]
     public AudioClip ui_button_select;
+    public AudioClip ui_button_push;
+    public AudioClip ui_imageButton_push;
     public AudioClip ui_selector_move;
     public AudioClip ui_pause_on;
 
     [Header("대화 텍스트 출력 클립")]
     public AudioClip talk_textOut;
-
 
 
 
@@ -72,11 +73,6 @@ public class AudioManager : Manager<AudioManager>
         Debug.Log("resetBgm...");
         audioSource_bgm.Stop();
         audioSource_evm.Stop();
-    }
-
-    public void Play_Button()
-    {
-        audioSource_sfx.PlayOneShot(ui_button_select);
     }
 
     public void Play_Skill_Wind()
@@ -296,4 +292,20 @@ public class AudioManager : Manager<AudioManager>
         audioSource_sfx.PlayOneShot(ui_pause_on);
     }
 
+    public void Play_Button()
+    {
+        audioSource_sfx.PlayOneShot(ui_button_select);
+    }
+
+    public void Play_UI_Button_Push()
+    {
+        audioSource_sfx.volume = 1f;
+        audioSource_sfx.PlayOneShot(ui_button_push);
+    }
+
+    public void Play_UI_ImageButton_Push()
+    {
+        audioSource_sfx.volume = 1f;
+        audioSource_sfx.PlayOneShot(ui_imageButton_push);
+    }
 }

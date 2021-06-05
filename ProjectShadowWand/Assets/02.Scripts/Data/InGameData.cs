@@ -33,7 +33,7 @@ public class Data_Settings : InGameData
         muteBgmVolume = false;
         muteSfxVolume = false;
 
-        masterVolume = "1.0";
+        masterVolume = "0.7";
         sfxVolume = "0.5";
         bgmVolume = "0.5";
         brightness = "0.5";
@@ -66,6 +66,30 @@ public class Data_Settings : InGameData
 
         this.brightness = data.brightness;
         this.resolution = data.resolution;
+    }
+
+    /// <summary>
+    /// 데이터가 같으면 true를 리턴합니다.
+    /// </summary>
+    public bool Equal(Data_Settings data)
+    {
+
+        if (this.isFullScreenMode == data.isFullScreenMode&&
+        this.masterVolume == data.masterVolume &&
+        this.bgmVolume == data.bgmVolume &&
+        this.sfxVolume == data.sfxVolume &&
+        this.muteMasterVolume == data.muteMasterVolume &&
+        this.muteBgmVolume== data.muteBgmVolume &&
+        this.muteSfxVolume == data.muteSfxVolume &&
+        this.brightness == data.brightness &&
+        this.resolution == data.resolution)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 

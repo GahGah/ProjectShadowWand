@@ -37,7 +37,7 @@ public class ActiveSelectImage_Sprout : MonoBehaviour, IPointerEnterHandler, IPo
         {
             eventSystem.SetSelectedGameObject(gameObject);
         }
-        AudioManager.Instance.Play_Button();
+
         goFillAmount = 1f;
         //UIManager.Instance.isCanChangeCursor = false;
     }
@@ -55,6 +55,7 @@ public class ActiveSelectImage_Sprout : MonoBehaviour, IPointerEnterHandler, IPo
         }
         //UIManager.Instance.isCanChangeCursor = false;
         goFillAmount = 1f;
+        AudioManager.Instance.Play_Button();
     }
     public void OnPointerExit(PointerEventData eventData)
     {

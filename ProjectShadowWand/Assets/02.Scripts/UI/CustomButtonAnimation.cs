@@ -37,6 +37,8 @@ public class CustomButtonAnimation : MonoBehaviour, IPointerEnterHandler, IPoint
             eventSystem.SetSelectedGameObject(gameObject);
         }
         isBigScale = true;
+        AudioManager.Instance.Play_Button();
+
         //     isChangeColor = true;
 
     }
@@ -62,7 +64,7 @@ public class CustomButtonAnimation : MonoBehaviour, IPointerEnterHandler, IPoint
         {
             eventSystem.SetSelectedGameObject(gameObject);
         }
-        AudioManager.Instance.Play_Button();
+
 
         isBigScale = true;
         //isChangeColor = true;

@@ -278,4 +278,8 @@ public class UIMenuSelector : MonoBehaviour
         //selectorButton. = menuList[currentMenuCount];
     }
 
+    public void ButtonPushSound()
+    {
+        AudioManager.Instance.Play_UI_Button_Push();
+    }
 }

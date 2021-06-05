@@ -52,7 +52,7 @@ public class UISettings : UIBase
     [HideInInspector]
     public UIMainMenu uiMainMenu = null;
     [HideInInspector]
-    public UIPause uiPause= null;
+    public UIPause uiPause = null;
 
     [HideInInspector]
     public bool isOtherUIClose;
@@ -64,6 +64,11 @@ public class UISettings : UIBase
 
 
     private ButtonSelector buttonSelector;
+
+    private void Awake()
+    {
+        saveText.gameObject.SetActive(false);
+    }
     private IEnumerator Start()
     {
         yield return StartCoroutine(SaveLoadManager.Instance.LoadData_Settings());
@@ -200,7 +205,10 @@ public class UISettings : UIBase
 
     public void ButtonOnClose()
     {
+        ApplySettings(currentSettingsData);
+        UpdateValue(currentSettingsData);
         UIManager.Instance.CloseTop();
+
     }
     public void ButtonOnApply()
     {
@@ -213,7 +221,18 @@ public class UISettings : UIBase
         OnApply(currentSettingsData);
 
         UpdateFullScreen(currentSettingsData.isFullScreenMode);
+
+        if (isSaveTextOn)
+        {
+            stTimer = 0f;
+        }
+        else
+        {
+
+            StartCoroutine(ActiveSaveText());
+        }
         canvasGroup.interactable = true;
+
         //Toggle(false);
     }
 
@@ -520,6 +539,24 @@ public class UISettings : UIBase
         }
     }
 
+    [Header("저장완료 텍스트")]
+    public TMP_Text saveText;
+    float stTimer;
+    bool isSaveTextOn;
+    public IEnumerator ActiveSaveText()
+    {
+        isSaveTextOn = true;
+        stTimer = 0f;
+        saveText.gameObject.SetActive(true);
+        while (stTimer < 1f)
+        {
+            stTimer += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        saveText.gameObject.SetActive(false);
+        isSaveTextOn = false;
+
+    }
     //public IEnumerator SaveSettingsData()
     //{
     //    //string dataString = JsonUtility.ToJson(currentSettingsData, true); //true로 하면 제대로...그...띄어쓰기? 가 됨.
