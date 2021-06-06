@@ -88,6 +88,8 @@ public class Quest_MomAndBaby_01 : Quest //나리를 들어올려라!
         //?? : BirdBaby에서 리무브퀘스트를 호출하니 걱정 마세용.
         if (_npc == baby) //나리와 말을 끝냈을 때
         { //잡기 체크 시작
+            baby.isTalkedOnce = true;
+            baby.systemCatchKey.SetActive(true);
             baby.catchableObject.canCatched = true;
             PlayerController.Instance.SetTouchedObject(baby.catchableObject);
             baby.StartCatchBabyQuest();

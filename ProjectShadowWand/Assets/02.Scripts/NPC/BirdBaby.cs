@@ -87,11 +87,12 @@ public class BirdBaby : NPC
 
     private Rigidbody2D rb;
 
-
-
     private Animator animator;
     private bool animtorOn;
 
+    [Header("잡기 키")]
+    public GameObject catchKey;
+    public GameObject systemCatchKey;
     private int animatorIdleBool;
     private int animatorFallingBool;
     private int animatorCatchingBool;
@@ -108,8 +109,10 @@ public class BirdBaby : NPC
     public override void Init()
     {
         base.Init();
+        catchKey.SetActive(false);
         currentTalkCode = 0;
         catchableObject.canCatched = false;
+        
         canInteract = true;
         if (birdCollider == null)
         {
@@ -141,7 +144,7 @@ public class BirdBaby : NPC
     }
 
 
-    private void SetAnimatorBool(int _bool , bool _b)
+    private void SetAnimatorBool(int _bool, bool _b)
     {
         animator.SetBool(_bool, _b);
     }
@@ -150,16 +153,33 @@ public class BirdBaby : NPC
     {
         if (catchableObject.isCatched)
         {
-            SetAnimatorBool(animatorIdleBool,false);
+            SetAnimatorBool(animatorIdleBool, false);
             SetAnimatorBool(animatorCatchingBool, true);
             SetAnimatorBool(animatorFallingBool, false);
 
+            catchKey.SetActive(false);
             return;
         }
         else
         {
             SetAnimatorBool(animatorCatchingBool, false);
             SetAnimatorBool(animatorIdleBool, true);
+
+
+            if (canGuide)
+            {
+
+                if (catchableObject.isRight == true)
+                {
+                    catchKey.transform.localScale = Vector2.one;
+
+                }
+                else
+                {
+                    catchKey.transform.localScale = new Vector2(-1f, 1f);
+                }
+                catchKey.SetActive(true);
+            }
 
         }
 
@@ -178,14 +198,20 @@ public class BirdBaby : NPC
         }
 
     }
+    [HideInInspector]
+   public bool isTalkedOnce = false;
+
+    public bool canGuide = false;
     private IEnumerator ProcessCatchBirdBabyQuest()
     {
 
         while (catchableObject.isCatched == false)
         {
+
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
-
+        canGuide = true;
+        systemCatchKey.SetActive(false);
         questMark_Start.SetActive(false);
         PlayerController.Instance.currentNPC = null;
         TalkSystemManager.Instance.currentTalkNPC = null;
@@ -204,6 +230,7 @@ public class BirdBaby : NPC
             case 0:
                 QuestManager.Instance.QuestSystem_AddQuest(quest_01);
                 TalkSystemManager.Instance.StartGoTalk(currentTalkCode, this);
+
                 canInteract = false;
                 //if (PlayerController.Instance.currentNPC == this)//토크 스타터가 본인일때만
                 //{
