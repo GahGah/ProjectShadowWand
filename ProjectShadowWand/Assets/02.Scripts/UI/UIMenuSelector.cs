@@ -267,7 +267,7 @@ public class UIMenuSelector : MonoBehaviour
             currentPos = Vector2.Lerp(startPos, currentMovePos, progress);
             layoutGroup.spacing = scalingSpacing;//Mathf.Lerp(scalingSpacing, originalSpacing, progress);
 
-            selectorTransform.position = currentPos;
+            selectorTransform.position = new Vector3(selectorTransform.position.x, currentPos.y,0);
 
             //  CheckSound();
 

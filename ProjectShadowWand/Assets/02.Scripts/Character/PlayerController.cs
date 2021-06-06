@@ -495,82 +495,83 @@ public class PlayerController : Character
     eState testState;
     private void CheckInteractInput()
     {
-        if (InputManager.Instance.buttonInteract.wasPressedThisFrame)// 키 누르기
+        if (InputManager.Instance.buttonInteract.wasPressedThisFrame)// 인터렉트 키 입력
         {
             if (!CanMove())
             {
                 return;
             }
-                #region SoulMemory
-                //if (!ReferenceEquals(currentSoulMemory, null))
+
+            #region SoulMemory
+            //if (!ReferenceEquals(currentSoulMemory, null))
+            //{
+            //    if (currentSoulMemory.isTake == false) //상호작용한 적 없는 소울 메모리라면
+            //    {
+            //        currentSoulMemory.isTake = true;
+            //        currentSoulMemory.TakeSoulMemory();
+            //    }
+            //}
+            //else if (ReferenceEquals(catchedObject, null) && !ReferenceEquals(touchedObject, null))
+            #endregion 
+
+            #region Catch
+
+            if (ReferenceEquals(catchedObject, null) && !ReferenceEquals(touchedObject, null))
+            {
+                if (touchedObject.canCatched == true)
+                {
+                    SetCatchedObject(touchedObject);
+
+                    if (!ReferenceEquals(catchedObject, null))
+                    {
+                        catchedObject.GoCatchThis();
+                    }
+                }
+                else
+                {
+                    if (CheckCanTalk()) //대화를 할 수 있다면
+                    {
+
+                        TalkSystemManager.Instance.currentTalkNPC = currentNPC;
+                        currentNPC.StartTalk();
+
+                        // TalkSystemManager.Instance.StartGoTalk(currentNPC.currentTalkCode, currentNPC);
+                    }
+                }
+
+                return;
+            }
+            #endregion //잡기
+
+            #region Talk
+            if (CheckCanTalk())
+            {
+                TalkSystemManager.Instance.currentTalkNPC = currentNPC;
+                currentNPC.StartTalk();
+                //if () //대화를 해야한다면
                 //{
-                //    if (currentSoulMemory.isTake == false) //상호작용한 적 없는 소울 메모리라면
-                //    {
-                //        currentSoulMemory.isTake = true;
-                //        currentSoulMemory.TakeSoulMemory();
-                //    }
+
+
+                //    // TalkSystemManager.Instance.StartGoTalk(currentNPC.currentTalkCode, currentNPC);
                 //}
-                //else if (ReferenceEquals(catchedObject, null) && !ReferenceEquals(touchedObject, null))
-                #endregion
+                //else //아니라면
+                //{
 
-                #region Catch
+                //    PutCatchedObject();
 
-                if (ReferenceEquals(catchedObject, null) && !ReferenceEquals(touchedObject, null))
-                {
-                    if (touchedObject.canCatched == true)
-                    {
-                        SetCatchedObject(touchedObject);
+                //}
+                return;
+            }
+            #endregion //대화
 
-                        if (!ReferenceEquals(catchedObject, null))
-                        {
-                            catchedObject.GoCatchThis();
-                        }
-                    }
-                    else
-                    {
-                        if (CheckCanTalk()) //대화를 할 수 있다면
-                        {
-
-                            TalkSystemManager.Instance.currentTalkNPC = currentNPC;
-                            currentNPC.StartTalk();
-
-                            // TalkSystemManager.Instance.StartGoTalk(currentNPC.currentTalkCode, currentNPC);
-                        }
-                    }
-
-                    return;
-                }
-                #endregion
-
-                #region Talk
-                if (CheckCanTalk())
-                {
-                    TalkSystemManager.Instance.currentTalkNPC = currentNPC;
-                    currentNPC.StartTalk();
-                    //if () //대화를 해야한다면
-                    //{
-
-
-                    //    // TalkSystemManager.Instance.StartGoTalk(currentNPC.currentTalkCode, currentNPC);
-                    //}
-                    //else //아니라면
-                    //{
-
-                    //    PutCatchedObject();
-
-                    //}
-                    return;
-                }
-                #endregion
-
-                #region Put
-                if (ReferenceEquals(catchedObject, null) == false) // 잡고 있는 게 이미 있다면
-                {
-                    catchedObject.GoPutThis();
-                    SetCatchedObject(null);
-                    return;
-                }
-                #endregion
+            #region Put
+            if (ReferenceEquals(catchedObject, null) == false) // 잡고 있는 게 이미 있다면
+            {
+                catchedObject.GoPutThis();
+                SetCatchedObject(null);
+                return;
+            }
+            #endregion //놓기
 
             #region Interact
 
@@ -580,7 +581,7 @@ public class PlayerController : Character
                 touchedInteractObject.DoInteract();
             }
 
-            #endregion
+            #endregion //상호작용
         }
     }
     #region 이동, 점프, 사다리, 활강

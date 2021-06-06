@@ -48,7 +48,7 @@ public class SquirrelAnimate : MonoBehaviour
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         animator.SetBool(animatorLookBool,true);
     }
 }

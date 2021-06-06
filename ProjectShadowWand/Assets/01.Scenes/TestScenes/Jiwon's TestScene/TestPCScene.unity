@@ -429,7 +429,7 @@ SpriteRenderer:
   m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &393371981
@@ -658,7 +658,7 @@ SpriteRenderer:
   m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &547271593
@@ -2081,6 +2081,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1267515808 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3015663880624840153, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
+  m_PrefabInstance: {fileID: 623982994}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ebfdb5ac92d00a48b48bec127a1e918, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1270194930
 GameObject:
   m_ObjectHideFlags: 0
@@ -3136,7 +3147,7 @@ SpriteRenderer:
   m_Size: {x: 3, y: 1.95}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!251 &1691716165
@@ -3295,7 +3306,7 @@ SpriteRenderer:
   m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1708784774
@@ -4152,10 +4163,46 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7581885925696169513, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
       propertyPath: movePlatforms.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7581885925696169513, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
       propertyPath: movePlatforms.Array.data[0]
+      value: 
+      objectReference: {fileID: 1267515808}
+    - target: {fileID: 7581885925696169513, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+      propertyPath: movePlatforms.Array.data[1]
+      value: 
+      objectReference: {fileID: 1148231605}
+    - target: {fileID: 7581885925696169513, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+      propertyPath: movePlatforms.Array.data[2]
+      value: 
+      objectReference: {fileID: 1148231605}
+    - target: {fileID: 7581885925696169513, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+      propertyPath: movePlatforms.Array.data[3]
+      value: 
+      objectReference: {fileID: 1148231605}
+    - target: {fileID: 7581885925696169513, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+      propertyPath: movePlatforms.Array.data[4]
+      value: 
+      objectReference: {fileID: 1148231605}
+    - target: {fileID: 7581885925696169513, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+      propertyPath: movePlatforms.Array.data[5]
+      value: 
+      objectReference: {fileID: 1148231605}
+    - target: {fileID: 7581885925696169513, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+      propertyPath: movePlatforms.Array.data[6]
+      value: 
+      objectReference: {fileID: 1148231605}
+    - target: {fileID: 7581885925696169513, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+      propertyPath: movePlatforms.Array.data[7]
+      value: 
+      objectReference: {fileID: 1148231605}
+    - target: {fileID: 7581885925696169513, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+      propertyPath: movePlatforms.Array.data[8]
+      value: 
+      objectReference: {fileID: 1148231605}
+    - target: {fileID: 7581885925696169513, guid: 6c7cba8d39691db4a88ea6d4bb0fe7b5, type: 3}
+      propertyPath: movePlatforms.Array.data[9]
       value: 
       objectReference: {fileID: 1148231605}
     m_RemovedComponents: []

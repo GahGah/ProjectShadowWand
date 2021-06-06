@@ -54,8 +54,6 @@ public class AudioManager : Manager<AudioManager>
     public AudioClip talk_textOut;
 
 
-
-
     private AudioClip currentSfxClip;
 
     protected override void Awake()

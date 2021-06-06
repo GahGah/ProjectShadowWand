@@ -127,6 +127,8 @@ public class UISettings : UIBase
             {
                 uiPause.CloseMenu();
             }
+
+            UpdateValue(originalSettingsData);
             StartCoroutine(ProcessFadeAlpha_Open());
             return true;
         }
@@ -379,8 +381,8 @@ public class UISettings : UIBase
         }
 
         //  brightnessSlider.value = GetFloat(_data.brightness);
-
     }
+
 
     /// <summary>
     /// UI에 보여지고 있는 값들을 data로 옮깁니다.
@@ -437,14 +439,14 @@ public class UISettings : UIBase
 
         ApplySettings(data);
 
-        if (data != originalSettingsData) // 오리지널 데이터와 가져온 데이터가 다를 경우에만 저장
-        {//오리지널 데이터와 가져온 데이터가 같다는 것은, 그냥 변경점이 없다는 것이기 때문에...
+        //if (data != originalSettingsData) // 오리지널 데이터와 가져온 데이터가 다를 경우에만 저장
+        //{//오리지널 데이터와 가져온 데이터가 같다는 것은, 그냥 변경점이 없다는 것이기 때문에...
             originalSettingsData = new Data_Settings(data);
             SaveLoadManager.Instance.SetCurrentData_Settings(data);
             StartCoroutine(SaveLoadManager.Instance.SaveData_Settings());
 
             UpdateValue(data);
-        }
+        //}
 
 
 
@@ -522,7 +524,7 @@ public class UISettings : UIBase
             if (Screen.fullScreen == false)
             {
                 Debug.Log("UpdateFullScreen");
-                Screen.fullScreenMode = FullScreenMode.MaximizedWindow;
+                Screen.fullScreenMode = FullScreenMode.ExclusiveFullScreen;
                 Screen.SetResolution(1920, 1080, true);
             }
 
@@ -532,7 +534,7 @@ public class UISettings : UIBase
             if (Screen.fullScreen == true)
             {
                 Debug.Log("UpdateFullScreen");
-                //  Screen.fullScreenMode = FullScreenMode.Windowed;
+                Screen.fullScreenMode = FullScreenMode.Windowed;
                 Screen.SetResolution(1920, 1080, false);
             }
 
