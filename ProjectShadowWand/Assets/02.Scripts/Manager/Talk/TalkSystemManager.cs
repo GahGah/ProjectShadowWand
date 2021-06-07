@@ -406,7 +406,17 @@ public class TalkSystemManager : Manager<TalkSystemManager>
         {
             talkText.text = currentTalkText.Substring(0, s);
 
-            AudioManager.Instance.Play_Talk_TextOut();
+            if (talkText.text.Length != 0)
+            {
+                AudioManager.Instance.Play_TalkVoice(currentCharCode, currentTalkText[s-1]);
+            }
+            else
+            {
+                AudioManager.Instance.Play_TalkVoice(currentCharCode, currentTalkText[s]);
+            }
+
+
+
             if (isNextPressed) //아직 텍스트가 다 나오지도 않았는데 다음 버튼이 눌렸다면 
             {
                 isNextPressed = false; // 일단 펄스로 바고

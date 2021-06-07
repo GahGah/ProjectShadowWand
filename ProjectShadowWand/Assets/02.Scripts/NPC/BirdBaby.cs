@@ -243,4 +243,9 @@ public class BirdBaby : NPC
         }
 
     }
+
+    public void PlayFallVoice()
+    {
+        AudioManager.Instance.Play_TalkVoice_PitchUp(2);
+    }
 }

@@ -52,9 +52,18 @@ public class AudioManager : Manager<AudioManager>
 
     [Header("대화 텍스트 출력 클립")]
     public AudioClip talk_textOut;
-
+    public AudioClip talk_nari;
+    public AudioClip talk_aka;
 
     private AudioClip currentSfxClip;
+
+
+    public void ResetSFX()
+    {
+        audioSource_sfx.volume = 1f;
+
+        audioSource_sfx.pitch = 1f;
+    }
 
     protected override void Awake()
     {
@@ -270,16 +279,87 @@ public class AudioManager : Manager<AudioManager>
     }
     public void Play_WalkHard()
     {
-        audioSource_sfx.volume = 1f;
+        ResetSFX();
         audioSource_sfx.PlayOneShot(walk_groundHard);
 
     }
     public void Play_WalkSoft()
     {
-        // audioSource_sfx.clip = walk_groundSoft;
+        ResetSFX();
         audioSource_sfx.PlayOneShot(walk_groundSoft);
 
     }
+
+    public void Play_TalkVoice_PitchUp(int _npcCode)
+    {
+        switch (_npcCode)
+        {
+            case 1:
+                currentSfxClip = talk_aka;
+                break;
+            case 2:
+                currentSfxClip = talk_nari;
+                break;
+            case 3:
+                break;
+            default:
+                break;
+
+        }
+
+        audioSource_sfx.volume = 1f;
+        audioSource_sfx.pitch = 1.2f;
+        audioSource_sfx.PlayOneShot(currentSfxClip);
+
+    }
+    public void Play_TalkVoice(int _npcCode, char _char)
+    {
+
+        switch (_npcCode)
+        {
+            case 1:
+                currentSfxClip = talk_aka;
+                break;
+            case 2:
+                currentSfxClip = talk_nari;
+                break;
+            case 3:
+                break;
+            default:
+                break;
+        }
+
+
+        switch (_char)
+        {
+            case '!':
+            case '?':
+                audioSource_sfx.volume = 1f;
+                audioSource_sfx.pitch = 1.15f;
+                audioSource_sfx.PlayOneShot(currentSfxClip);
+                break;
+
+            case '.':
+            case ',':
+            case '-':
+            case '…':
+                audioSource_sfx.volume = 0.5f;
+                audioSource_sfx.pitch = 1f;
+                break;
+            
+            default:
+                audioSource_sfx.volume = 1f;
+                audioSource_sfx.pitch = Random.Range(0.9f, 1.05f);
+                audioSource_sfx.PlayOneShot(currentSfxClip);
+                break;
+        }
+
+
+
+    }
+
+
+
 
     public void Play_UI_Selector_Move()
     {

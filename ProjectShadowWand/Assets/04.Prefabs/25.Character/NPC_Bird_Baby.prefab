@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3550241836437575473}
   - component: {fileID: 3550241836437575475}
   - component: {fileID: 3550241836437575472}
+  - component: {fileID: 4691964119372587359}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -102,6 +103,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &4691964119372587359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3550241836437575478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 595da895753f29b469b1a79bde96e1d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3550241836819845766
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,10 +167,15 @@ MonoBehaviour:
   isTalking: 0
   currentTalkCode: 5
   direction: 0
+  questMark_Start: {fileID: 0}
   momTogetherPos: {fileID: 0}
   birdCollider: {fileID: 3550241836819845763}
   birdMom: {fileID: 0}
   catchableObject: {fileID: 3550241836819845790}
+  catchKey: {fileID: 0}
+  systemCatchKey: {fileID: 0}
+  isTalkedOnce: 0
+  canGuide: 0
 --- !u!114 &3550241836819845790
 MonoBehaviour:
   m_ObjectHideFlags: 0
