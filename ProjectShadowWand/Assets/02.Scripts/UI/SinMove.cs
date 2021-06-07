@@ -23,10 +23,10 @@ public class SinMove : MonoBehaviour
     void Update()
     {
 
-        onTimer += Time.unscaledDeltaTime;
-        tempVal = Mathf.Sin(onTimer * speed) * length;
+        onTimer += Time.unscaledDeltaTime * speed;
+        tempVal = Mathf.Sin(onTimer) * length;
         tempPos = new Vector2(0f, tempVal);
-        moveTransform.position = moveTransform.position + (Vector3)tempPos * 0.3f;
+        moveTransform.position = moveTransform.position + (Vector3)tempPos * 0.2f;
 
         if (Mathf.Abs(tempVal - 1f) < 0.001f)
         {
