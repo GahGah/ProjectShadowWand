@@ -3,6 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+/// <summary>
+/// Character의 이동에 사용합니다.
+/// </summary>
+public enum eMovementType
+{
+    SetVelocity,
+    AddVelocity,
+    MovePosition,
+    AddForce,
+
+
+}
 public enum eResolutionData
 {
     HD, FHD, QHD
