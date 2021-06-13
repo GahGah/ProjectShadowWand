@@ -1,73 +1,72 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ¿òÁ÷ÀÏ ¼ö ÀÖ´Â ¿ÀºêÁ§Æ®ÀÇ Å¬·¡½ºÀÔ´Ï´Ù. [¿ì¼± SetVelocity, AddForce¸¸ »ç¿ëÇÕ´Ï´Ù.]
+/// ì›€ì§ì¼ ìˆ˜ ìˆëŠ” ì˜¤ë¸Œì íŠ¸ì˜ í´ë˜ìŠ¤ì…ë‹ˆë‹¤. [ìš°ì„  SetVelocity, AddForceë§Œ ì‚¬ìš©í•©ë‹ˆë‹¤.]
 /// </summary>
 public class MovableObject : MonoBehaviour
 {
 
-    //[Header("ÀÌµ¿ °ü·Ã")]
+    //[Header("ì´ë™ ê´€ë ¨")]
 
-    //[Tooltip("¿òÁ÷ÀÌ´Â ¼Óµµ")]
+    //[Tooltip("ì›€ì§ì´ëŠ” ì†ë„")]
     //public float movementSpeed;
 
-    [Tooltip("¿òÁ÷ÀÌ´Â ¼Óµµ(º¤ÅÍ)")]
+    [Tooltip("ì›€ì§ì´ëŠ” ì†ë„(ë²¡í„°)")]
     public Vector2 movementSpeeds;
-    //[Tooltip("Á¡ÇÁ·Â")]
+    //[Tooltip("ì í”„ë ¥")]
     //public float jumpForce;
 
     [HideInInspector]
-    [Tooltip("¸®Áöµå ¹Ùµğ")]
+    [Tooltip("ë¦¬ì§€ë“œ ë°”ë””")]
     public Rigidbody2D myRigidbody;
 
     [HideInInspector]
-    [Tooltip("ºÎ¸ğ ¿ÀºêÁ§Æ®ÀÔ´Ï´Ù.")]
+    [Tooltip("ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ì…ë‹ˆë‹¤.")]
     public MovableObject parentsObject = null;
 
     [HideInInspector]
-    [Tooltip("ºÎ¸ğ¸¦ °¡Áö°í ÀÖ´Â »óÅÂÀÎ°¡?")]
+    [Tooltip("ë¶€ëª¨ë¥¼ ê°€ì§€ê³  ìˆëŠ” ìƒíƒœì¸ê°€?")]
     public bool haveParents = false;
 
 
-    [Tooltip("ÀÌÀü ÇÁ·¹ÀÓÀÇ À§Ä¡ÀÔ´Ï´Ù.")]
+    [Tooltip("ì´ì „ í”„ë ˆì„ì˜ ìœ„ì¹˜ì…ë‹ˆë‹¤.")]
     [HideInInspector]
     public Vector2 lastPosition = Vector2.zero;
 
     [HideInInspector]
-    [Tooltip("ÀÌÀü ÇÁ·¹ÀÓ¿¡ °è»êµÈ ¼Ó·Â°ª.")]
+    [Tooltip("ì´ì „ í”„ë ˆì„ì— ê³„ì‚°ëœ ì†ë ¥ê°’.")]
     public Vector2 lastVelocity = Vector2.zero;
 
 
     [HideInInspector]
     public eMovementType currentMovementType;
     /// <summary>
-    /// ºÎ¸ğ¸¦ ¼³Á¤ÇÕ´Ï´Ù.
+    /// ë¶€ëª¨ë¥¼ ì„¤ì •í•©ë‹ˆë‹¤.
     /// </summary>
     public void SetParents(MovableObject _parents)
     {
         parentsObject = _parents;
         haveParents = (_parents != null);
 
-        Log("ºÎ¸ğ¸¦ ¼³Á¤Çß½À´Ï´Ù - " + haveParents);
+        Log("ë¶€ëª¨ë¥¼ ì„¤ì •í–ˆìŠµë‹ˆë‹¤ - " + haveParents);
     }
 
 
 
     /// <summary>
-    /// _moveVector¸¸Å­ Rigidbody¸¦ ÀÌµ¿½ÃÅµ´Ï´Ù( FixedUpdate ±ÇÀå...).
+    /// _moveVectorë§Œí¼ Rigidbodyë¥¼ ì´ë™ì‹œí‚µë‹ˆë‹¤( FixedUpdate ê¶Œì¥...).
     /// </summary>
-    /// <param name="_moveType">ÀÌµ¿ Å¸ÀÔÀÔ´Ï´Ù.</param>
-    /// <param name="_moveVector">¹æÇâ * ¿øÇÏ´Â ¼ÓµµÀÇ °ªÀÔ´Ï´Ù. Å¸ÀÔ VDPÀÇ °æ¿ì, ¸ñÀûÁö À§Ä¡·Î »ç¿ëµË´Ï´Ù.</param>
+    /// <param name="_moveType">ì´ë™ íƒ€ì…ì…ë‹ˆë‹¤.</param>
+    /// <param name="_moveVector">ë°©í–¥ * ì›í•˜ëŠ” ì†ë„ì˜ ê°’ì…ë‹ˆë‹¤. íƒ€ì… VDPì˜ ê²½ìš°, ëª©ì ì§€ ìœ„ì¹˜ë¡œ ì‚¬ìš©ë©ë‹ˆë‹¤.</param>
     public void SetMovement(eMovementType _moveType, Vector2 _moveVector)
     {
         currentMovementType = _moveType;
 
-        if (haveParents) // ºÎ¸ğ°¡ ÀÖ´Ù¸é
+        if (haveParents) // ë¶€ëª¨ê°€ ìˆë‹¤ë©´
         {
-            // //¹«ºê º¤ÅÍ¸¦
-            _moveVector = parentsObject.myRigidbody.velocity + _moveVector;
+            _moveVector = parentsObject.myRigidbody.velocity + _moveVector; //ë¬´ë¸Œ ë²¡í„°ì— ë²¨ë¡œì‹œí‹° ë”í•˜ê¸°
         }
 
         switch (_moveType)
@@ -75,16 +74,6 @@ public class MovableObject : MonoBehaviour
             case eMovementType.SetVelocity:
                 myRigidbody.velocity = _moveVector;
                 break;
-
-            //case eMovementType.AddVelocity:
-
-            //    myRigidbody.velocity += _moveVector;
-            //    break;
-
-            //case eMovementType.MovePosition:
-
-            //    myRigidbody.MovePosition(_moveVector);
-            //    break;
 
             case eMovementType.AddForce:
                 myRigidbody.AddForce(_moveVector, ForceMode2D.Impulse);
@@ -94,6 +83,17 @@ public class MovableObject : MonoBehaviour
                 myRigidbody.velocity = CalcDesiredVelocity(_moveVector);
                 break;
 
+            #region ì‚¬ìš©í•˜ì§€ ì•ŠìŒ
+            //case eMovementType.AddVelocity:
+
+            //    myRigidbody.velocity += _moveVector;
+            //    break;
+
+            //case eMovementType.MovePosition:
+
+            //    myRigidbody.MovePosition(_moveVector);
+            //    break;
+            #endregion
             default:
                 break;
         }
@@ -103,32 +103,32 @@ public class MovableObject : MonoBehaviour
     }
 
     [HideInInspector]
-    [Tooltip("¿øÇÏ´Â À§Ä¡·Î ÀÌµ¿ÇÏ·Á´Â ¹æÇâÀ» °®°íÀÖ´Â velocity°ªÀÔ´Ï´Ù.")]
+    [Tooltip("ì›í•˜ëŠ” ìœ„ì¹˜ë¡œ ì´ë™í•˜ë ¤ëŠ” ë°©í–¥ì„ ê°–ê³ ìˆëŠ” velocityê°’ì…ë‹ˆë‹¤.")]
     public Vector2 desiredVelocity = Vector2.zero;
     private Vector2 directionalVector = Vector2.zero;
 
-    [Tooltip("ÀÌÀü ¸ñÀûÁöÀÔ´Ï´Ù.")]
+    [Tooltip("ì´ì „ ëª©ì ì§€ì…ë‹ˆë‹¤.")]
     private Vector2 prevDestination = Vector2.zero;
     private float sqrMag = 0f;
     private float lastSqrMag = 0f;
 
     /// <summary>
-    /// ÀÏÁ¤ ¼Óµµ·Î ¿øÇÏ´Â À§Ä¡¸¦ ÇâÇÏ´Â desiredVelocity°ªÀ» ¹İÈ¯ÇÕ´Ï´Ù.
+    /// ì¼ì • ì†ë„ë¡œ ì›í•˜ëŠ” ìœ„ì¹˜ë¥¼ í–¥í•˜ëŠ” desiredVelocityê°’ì„ ë°˜í™˜í•©ë‹ˆë‹¤.
     /// </summary>
-    /// <param name="_destination">¿øÇÏ´Â À§Ä¡ÀÔ´Ï´Ù. ¼Óµµ´Â movementSpeedsÀÇ x°ªÀ» »ç¿ëÇÕ´Ï´Ù.</param>
+    /// <param name="_destination">ì›í•˜ëŠ” ìœ„ì¹˜ì…ë‹ˆë‹¤. ì†ë„ëŠ” movementSpeedsì˜ xê°’ì„ ì‚¬ìš©í•©ë‹ˆë‹¤.</param>
     /// <returns></returns>
     public Vector2 CalcDesiredVelocity(Vector2 _destination)
     {
 
         sqrMag = (_destination - myRigidbody.position).sqrMagnitude;
 
-        if (sqrMag > lastSqrMag) //¾ÆÁ÷ ÀÌµ¿ ÁßÀÌ¶ó¸é
+        if (sqrMag > lastSqrMag) //ì•„ì§ ì´ë™ ì¤‘ì´ë¼ë©´
         {
-            if (prevDestination != _destination) //´Ù¸¦ ¶§¿¡¸¸ ½ÇÇà
+            if (prevDestination != _destination) //ë‹¤ë¥¼ ë•Œì—ë§Œ ì‹¤í–‰
             {
-                prevDestination = _destination; //ÀÌÀü ¸ñÀûÁö¸¦ _destinationÀ¸·Î ¼³Á¤
+                prevDestination = _destination; //ì´ì „ ëª©ì ì§€ë¥¼ _destinationìœ¼ë¡œ ì„¤ì •
 
-                directionalVector = (_destination - myRigidbody.position).normalized * movementSpeeds.x; // ¿ø·¡´Â ±×³É float speed¸¦ °öÇß¾úÀ½.
+                directionalVector = (_destination - myRigidbody.position).normalized * movementSpeeds.x; // ì›ë˜ëŠ” ê·¸ëƒ¥ float speedë¥¼ ê³±í–ˆì—ˆìŒ.
 
                 desiredVelocity = directionalVector;
             }
@@ -143,7 +143,7 @@ public class MovableObject : MonoBehaviour
         return desiredVelocity;
     }
     /// <summary>
-    ///  ¸¶Áö¸· Æ÷Áö¼ÇÀ» ¼³Á¤ÇÏ°í, ¸¶Áö¸· º§·Î½ÃÆ¼¸¦ °è»êÇÕ´Ï´Ù.
+    ///  ë§ˆì§€ë§‰ í¬ì§€ì…˜ì„ ì„¤ì •í•˜ê³ , ë§ˆì§€ë§‰ ë²¨ë¡œì‹œí‹°ë¥¼ ê³„ì‚°í•©ë‹ˆë‹¤.
     /// </summary>
     public void CalcLastVelocity()
     {
