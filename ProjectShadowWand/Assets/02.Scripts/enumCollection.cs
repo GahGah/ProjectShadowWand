@@ -9,8 +9,9 @@ using System;
 public enum eMovementType
 {
     SetVelocity,
-    AddVelocity,
-    MovePosition,
+    //AddVelocity,
+    //MovePosition,
+    SetVelocityDesiredPosition,
     AddForce,
 
 
