@@ -69,7 +69,12 @@ public class MovableObject : MonoBehaviour
     {
         if (haveParents) // 부모가 있다면
         {
-            SetMovement(eMovementType.AddVelocity, new Vector2(parentsObject.myRigidbody.velocity.x, 0f));
+            var veloX = parentsObject.myRigidbody.velocity.x + moveVector.x;
+
+            var veloY = myRigidbody.velocity.y;//parentsObject.desiredVelocity.y;
+
+            SetMovement(eMovementType.SetVelocity, new Vector2(veloX, veloY));
+
             //moveVector
             //_moveVector = parentsObject.myRigidbody.velocity + _moveVector; //무브 벡터에 벨로시티 더하기
         }

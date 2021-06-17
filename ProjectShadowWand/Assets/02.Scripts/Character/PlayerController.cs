@@ -427,7 +427,9 @@ public class PlayerController : Character
     }
     void FixedUpdate()
     {
-       // UpdateParentsFollowMovement();
+
+
+        // UpdateParentsFollowMovement();
         UpdateGroundCheck_Fixed();
         // GroundCheck();
         //UpdateGroundCheck_Cast();
@@ -443,7 +445,12 @@ public class PlayerController : Character
         UpdateGravityScale();
         UpdateDirection();
 
+        SetMoveVector(nowVelocity);
+        UpdateParentsFollowMovement();
+
         playerStateMachine.FixedUpdate();
+
+
 
     }
 
@@ -1011,6 +1018,7 @@ public class PlayerController : Character
     /// <summary>
     /// 터칭레이어가 false면, 박스캐스트로 땅 체크를 합니다.
     /// </summary>
+    /// </summary>
     private void UpdateGroundCheck_Touch_Cast()
     {
 
@@ -1194,6 +1202,7 @@ public class PlayerController : Character
         }
     }
 
+    private Vector2 nowVelocity = Vector2.zero;
     /// <summary>
     /// 이동 관련 벨로시티 업데이트.
     /// </summary>
@@ -1204,14 +1213,13 @@ public class PlayerController : Character
 
         if (isClimbLadder == false && isGliding == false)//사다리도 안타고, 글라이딩상태도 아닐때 ( 기본 상태)
         {
+            nowVelocity = new Vector2((movementInput.x * movementSpeed) + extraForce.x, playerRigidbody.velocity.y);//+ extraForce.y);
 
-            playerRigidbody.velocity =
-                new Vector2((movementInput.x * movementSpeed) + extraForce.x, playerRigidbody.velocity.y);//+ extraForce.y);
+
         }
         else if (isClimbLadder)
         {
-            playerRigidbody.velocity =
-                new Vector2((movementInput.x * movementSpeed) + extraForce.x, (movementInput.y * climbSpeed));// + extraForce.y);
+            nowVelocity = new Vector2((movementInput.x * movementSpeed) + extraForce.x, (movementInput.y * climbSpeed));// + extraForce.y);          
         }
         //else if (isGliding) //글라이딩 상태일때
         //{
@@ -1230,9 +1238,8 @@ public class PlayerController : Character
         //    //playerRigidbody.velocity =
         //    //    new Vector2()
         //}
+        playerRigidbody.velocity = nowVelocity;
 
-        SetMoveVector(playerRigidbody.velocity);
-        UpdateParentsFollowMovement();
 
     }
 

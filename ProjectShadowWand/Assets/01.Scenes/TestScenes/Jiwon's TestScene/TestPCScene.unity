@@ -764,8 +764,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015663880624840153, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
+      propertyPath: isLoop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015663880624840153, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
       propertyPath: moveSpeed
-      value: 0.6
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3015663880624840153, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
       propertyPath: liftMoveType
@@ -4288,11 +4292,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015663879996491493, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.15
+      value: -13.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015663880624840153, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
+      propertyPath: isLoop
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3015663880624840153, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
       propertyPath: moveSpeed
-      value: 0.6
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3015663880624840153, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
       propertyPath: liftMoveType

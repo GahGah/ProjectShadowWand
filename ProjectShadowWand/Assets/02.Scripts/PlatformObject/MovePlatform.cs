@@ -130,19 +130,23 @@ public class MovePlatform : MovableObject
     {
         ProcessMove();
 
-        if (player.groundHit && havePlayer == false)
+        if (player.groundHit)
         {
             if (player.groundHit.collider.gameObject == this.gameObject)
             {
-                havePlayer = true;
-                //player.gameObject.transform.SetParent(gameObject.transform);
-                SetParents(player, this);
+                if ( havePlayer == false)
+                {
+                    havePlayer = true;
+                    //player.gameObject.transform.SetParent(gameObject.transform);
+                    SetParents(player, this);
+                }
+
             }
             else
             {
-  
                 if (player.parentsObject == this)
                 {
+                    Log("!!!");
                     SetParents(player, null);
                     havePlayer = false;
                 }
@@ -152,10 +156,12 @@ public class MovePlatform : MovableObject
         }
         else if (player.groundHit == false && havePlayer == true)
         {
-            havePlayer = false;
-            //player.gameObject.transform.SetParent(null);
-            SetParents(player, null);
-
+            if (player.parentsObject == this)
+            {
+                Log("!!!");
+                havePlayer = false;
+                SetParents(player, null);
+            }
         }
 
     }
