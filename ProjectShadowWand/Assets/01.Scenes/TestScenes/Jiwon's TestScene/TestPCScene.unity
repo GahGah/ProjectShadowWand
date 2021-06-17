@@ -745,7 +745,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3015663879298938834, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015663879960913763, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
       propertyPath: m_LocalPosition.x
@@ -764,6 +764,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3015663880624840153, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
+      propertyPath: moveSpeed
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015663880624840153, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
       propertyPath: liftMoveType
       value: 0
       objectReference: {fileID: 0}
@@ -774,6 +778,10 @@ PrefabInstance:
     - target: {fileID: 3015663880624840154, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015663880624840158, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
+      propertyPath: m_Name
+      value: "Platform ( \uC88C\uC6B0)"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
@@ -2194,6 +2202,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8403324799475236884, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403324799475236889, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
+      propertyPath: unlockWind
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403324799475236889, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
+      propertyPath: unlockWater
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8403324799475236889, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
+      propertyPath: unlockLightning
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8403324799475236893, guid: 3d6f60c64492e8a46a590ab6fbaf2e61, type: 3}
@@ -4271,12 +4291,16 @@ PrefabInstance:
       value: -6.15
       objectReference: {fileID: 0}
     - target: {fileID: 3015663880624840153, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
+      propertyPath: moveSpeed
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3015663880624840153, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
       propertyPath: liftMoveType
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3015663880624840154, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.58
+      value: -6.15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36a0d8c51e8008d44a1efe0861256e04, type: 3}

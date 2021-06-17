@@ -151,8 +151,8 @@ public class MovePlatform : MovableObject
 
     }
 
-    private float distanceVal = 0.01f;
-    private float currentDistance = 0f;
+    private float distanceVal = 0.05f;
+    private float currentDistance = 1f;
     /// <summary>
     /// endPositiion으로 향합니다. 되도록이면 FixedUpdate가 좋을 겁니다.
     /// </summary>
@@ -164,7 +164,8 @@ public class MovePlatform : MovableObject
             return;
 
         }
-        currentDistance = Vector2.Distance(moveTransform.position, currentDestinationPosition);
+        currentDistance = Vector2.Distance(myRigidbody.position, currentDestinationPosition);
+
         if (currentDistance <= distanceVal)
         {
             if (isLoop)
@@ -191,25 +192,19 @@ public class MovePlatform : MovableObject
 
         if (currentDestination != eLiftState.STOP)
         {
-            veloZeroOnce = false;
+
             SetMovement(eMovementType.SetVelocityDesiredPosition, currentDestinationPosition);
             //  moveTransform.position = Vector2.MoveTowards(moveTransform.position, currentDestinationPosition, Time.deltaTime * moveSpeed);
         }
         else
         {
-            if (veloZeroOnce == false)
-            {
-                veloZeroOnce = true;
-                Log("VZO");
-                SetMovement(eMovementType.SetVelocity, Vector2.zero);
-            }
-
+            SetMovement(eMovementType.SetVelocity, Vector2.zero);
         }
 
 
 
     }
-    private bool veloZeroOnce = false;
+
 
     /// <summary>
     /// 레버가 이동명령을할 때, 이동 가능한지를 먼저 체크해줍니다.

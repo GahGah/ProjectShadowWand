@@ -103,14 +103,19 @@ public class MovableObject : MonoBehaviour
         switch (_moveType)
         {
             case eMovementType.SetVelocity:
-                myRigidbody.velocity = _moveVector;
+                if (myRigidbody.velocity != _moveVector)
+                {
+                    myRigidbody.velocity = _moveVector;
+                }
                 break;
 
             case eMovementType.AddForce:
+
                 myRigidbody.AddForce(_moveVector, ForceMode2D.Impulse);
                 break;
 
             case eMovementType.SetVelocityDesiredPosition:
+
                 myRigidbody.velocity = CalcDesiredVelocity(_moveVector);
                 break;
 
@@ -169,7 +174,6 @@ public class MovableObject : MonoBehaviour
         else
         {
             desiredVelocity = Vector2.zero;
-            Log("여기에 걸린다고?!");
             lastSqrMag = sqrMag;
         }
 
