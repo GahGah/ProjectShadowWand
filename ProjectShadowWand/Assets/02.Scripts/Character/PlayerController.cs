@@ -355,7 +355,7 @@ public class PlayerController : Character
         currentGlideAngle = glideAngle + 90f;
 
         footPosition = lightningPosition;
-      //  myRigidbody = playerRigidbody;
+        myRigidbody = playerRigidbody;
 
         Init_ContactFilter();
     }
@@ -1213,25 +1213,26 @@ public class PlayerController : Character
             playerRigidbody.velocity =
                 new Vector2((movementInput.x * movementSpeed) + extraForce.x, (movementInput.y * climbSpeed));// + extraForce.y);
         }
-        else if (isGliding) //글라이딩 상태일때
-        {
-            Vector2 dir = new Vector2(Mathf.Sin(Mathf.Deg2Rad * currentGlideAngle * movementInput.x), Mathf.Cos(Mathf.Deg2Rad * currentGlideAngle * movementInput.x));
+        //else if (isGliding) //글라이딩 상태일때
+        //{
+        //    Vector2 dir = new Vector2(Mathf.Sin(Mathf.Deg2Rad * currentGlideAngle * movementInput.x), Mathf.Cos(Mathf.Deg2Rad * currentGlideAngle * movementInput.x));
 
-            if (movementInput != Vector2.zero)
-            {
-                playerRigidbody.velocity = dir * glideSpeed;
-            }
-            else
-            {
-                playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, -glideSpeed * 0.3f);
-            }
-
-
-            //playerRigidbody.velocity =
-            //    new Vector2()
-        }
+        //    if (movementInput != Vector2.zero)
+        //    {
+        //        playerRigidbody.velocity = dir * glideSpeed;
+        //    }
+        //    else
+        //    {
+        //        playerRigidbody.velocity = new Vector2(playerRigidbody.velocity.x, -glideSpeed * 0.3f);
+        //    }
 
 
+        //    //playerRigidbody.velocity =
+        //    //    new Vector2()
+        //}
+
+        SetMoveVector(playerRigidbody.velocity);
+        UpdateParentsFollowMovement();
 
     }
 

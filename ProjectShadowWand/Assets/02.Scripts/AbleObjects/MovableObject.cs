@@ -69,7 +69,7 @@ public class MovableObject : MonoBehaviour
     {
         if (haveParents) // 부모가 있다면
         {
-            SetMovement(currentMovementType, moveVector + parentsObject.myRigidbody.velocity);
+            SetMovement(eMovementType.AddVelocity, new Vector2(parentsObject.myRigidbody.velocity.x, 0f));
             //moveVector
             //_moveVector = parentsObject.myRigidbody.velocity + _moveVector; //무브 벡터에 벨로시티 더하기
         }
@@ -84,7 +84,10 @@ public class MovableObject : MonoBehaviour
     //    }
     //}
 
-
+    public void SetMoveVector(Vector2 _mv)
+    {
+        moveVector = _mv;
+    }
     private Vector2 moveVector;
     /// <summary>
     /// _moveVector만큼 Rigidbody를 이동시킵니다( FixedUpdate 권장...).
@@ -109,15 +112,19 @@ public class MovableObject : MonoBehaviour
                 }
                 break;
 
-            case eMovementType.AddForce:
-
-                myRigidbody.AddForce(_moveVector, ForceMode2D.Impulse);
+            case eMovementType.AddVelocity:
+                myRigidbody.velocity += _moveVector;
                 break;
 
             case eMovementType.SetVelocityDesiredPosition:
 
                 myRigidbody.velocity = CalcDesiredVelocity(_moveVector);
                 break;
+            case eMovementType.AddForce:
+
+                myRigidbody.AddForce(_moveVector, ForceMode2D.Impulse);
+                break;
+
 
             #region 사용하지 않음
             //case eMovementType.AddVelocity:
@@ -134,7 +141,7 @@ public class MovableObject : MonoBehaviour
                 break;
         }
         moveVector = _moveVector;
-        UpdateParentsFollowMovement();
+        //  UpdateParentsFollowMovement();
         CalcLastVelocity();
     }
 

@@ -170,6 +170,10 @@ public class MovePlatform : MovableObject
 
         if (!canMoving)
         {
+            if (myRigidbody.velocity!=Vector2.zero)
+            {
+                SetMovement(eMovementType.SetVelocity,Vector2.zero);
+            }
             return;
 
         }
