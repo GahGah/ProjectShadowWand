@@ -319,28 +319,25 @@ public class PlayerState_Skill_Water : PlayerState
 
 public class PlayerState_Interact : PlayerState
 {
-
+    private string interactString;
     public PlayerState_Interact(PlayerController _p)
     {
+        interactString = "interact";
         player = _p;
     }
 
     public IEnumerator ProcessInteractAnimation()
     {
-        float timer = 0f;
 
 
-        while (!player.animator.GetCurrentAnimatorStateInfo(0)
-.IsName("interact"))
+        while (!player.animator.GetCurrentAnimatorStateInfo(0).IsName(interactString))
         {
-            //전환 중일 때 실행되는 부분
+            
             yield return null;
         }
 
-        while (player.animator.GetCurrentAnimatorStateInfo(0)
-        .normalizedTime < 1f)
+        while (player.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
         {
-            //애니메이션 재생 중 실행되는 부분
             yield return null;
         }
 

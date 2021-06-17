@@ -138,7 +138,16 @@ public class MovePlatform : MovableObject
                 //player.gameObject.transform.SetParent(gameObject.transform);
                 SetParents(player, this);
             }
+            else
+            {
+  
+                if (player.parentsObject == this)
+                {
+                    SetParents(player, null);
+                    havePlayer = false;
+                }
 
+            }
 
         }
         else if (player.groundHit == false && havePlayer == true)
