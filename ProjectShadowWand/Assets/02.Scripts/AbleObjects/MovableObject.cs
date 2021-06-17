@@ -52,9 +52,40 @@ public class MovableObject : MonoBehaviour
 
         Log("부모를 설정했습니다 - " + haveParents);
     }
+    /// <summary>
+    /// _child의 부모를 설정합니다.
+    /// </summary>
+    /// <param name="_child">설정될 child</param>
+    /// <param name="_parents">childe의 부모로 설정될 mo</param>
+    public void SetParents(MovableObject _child, MovableObject _parents)
+    {
+        _child.parentsObject = _parents;
+        _child.haveParents = (_parents != null);
+
+        Log("부모를 설정했습니다 - " + _child.haveParents);
+    }
+
+    public void UpdateParentsFollowMovement()
+    {
+        if (haveParents) // 부모가 있다면
+        {
+            SetMovement(currentMovementType, moveVector + parentsObject.myRigidbody.velocity);
+            //moveVector
+            //_moveVector = parentsObject.myRigidbody.velocity + _moveVector; //무브 벡터에 벨로시티 더하기
+        }
+
+    }
+
+    //public void UpdateMovement() 아직 사용하지 않음
+    //{
+    //    if (haveParents) // 부모가 있다면
+    //    {
+    //        _moveVector = parentsObject.myRigidbody.velocity + _moveVector; //무브 벡터에 벨로시티 더하기
+    //    }
+    //}
 
 
-
+    private Vector2 moveVector;
     /// <summary>
     /// _moveVector만큼 Rigidbody를 이동시킵니다( FixedUpdate 권장...).
     /// </summary>
@@ -64,10 +95,10 @@ public class MovableObject : MonoBehaviour
     {
         currentMovementType = _moveType;
 
-        if (haveParents) // 부모가 있다면
-        {
-            _moveVector = parentsObject.myRigidbody.velocity + _moveVector; //무브 벡터에 벨로시티 더하기
-        }
+        //if (haveParents) // 부모가 있다면
+        //{
+        //    _moveVector = parentsObject.myRigidbody.velocity + _moveVector; //무브 벡터에 벨로시티 더하기
+        //}
 
         switch (_moveType)
         {
@@ -97,8 +128,8 @@ public class MovableObject : MonoBehaviour
             default:
                 break;
         }
-
-
+        moveVector = _moveVector;
+        UpdateParentsFollowMovement();
         CalcLastVelocity();
     }
 
@@ -122,7 +153,7 @@ public class MovableObject : MonoBehaviour
 
         sqrMag = (_destination - myRigidbody.position).sqrMagnitude;
 
-        if (sqrMag > lastSqrMag) //아직 이동 중이라면
+        if (sqrMag != lastSqrMag) //아직 이동 중이라면
         {
             if (prevDestination != _destination) //다를 때에만 실행
             {
@@ -132,11 +163,13 @@ public class MovableObject : MonoBehaviour
 
                 desiredVelocity = directionalVector;
             }
+
             lastSqrMag = Mathf.Infinity;
         }
         else
         {
             desiredVelocity = Vector2.zero;
+            Log("여기에 걸린다고?!");
             lastSqrMag = sqrMag;
         }
 
@@ -149,11 +182,10 @@ public class MovableObject : MonoBehaviour
     {
         lastVelocity = (myRigidbody.position - lastPosition) * 1f / Time.deltaTime;
         lastPosition = myRigidbody.position;
-
     }
 
 
-    public void Log(string _string)
+    public void Log(object _string)
     {
         Debug.Log("[" + gameObject.name + "] : " + _string);
     }

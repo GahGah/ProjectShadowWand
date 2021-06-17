@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovePlatform : MonoBehaviour
+public class MovePlatform : MovableObject
 {
     private PlayerController player;
 
@@ -63,7 +63,13 @@ public class MovePlatform : MonoBehaviour
     {
         Init_Pos();
 
+        if (myRigidbody == null)
+        {
+            myRigidbody = GetComponent<Rigidbody2D>();
 
+        }
+
+        movementSpeeds.x = moveSpeed;
         UpdateDestination(eLiftState.FIRST);
     }
     private void Init_Pos()
@@ -98,6 +104,7 @@ public class MovePlatform : MonoBehaviour
         {
             return;
         }
+
         currentDestination = _ld;
         switch (currentDestination)
         {
@@ -128,7 +135,8 @@ public class MovePlatform : MonoBehaviour
             if (player.groundHit.collider.gameObject == this.gameObject)
             {
                 havePlayer = true;
-                player.gameObject.transform.SetParent(gameObject.transform);
+                //player.gameObject.transform.SetParent(gameObject.transform);
+                SetParents(player, this);
             }
 
 
@@ -136,13 +144,15 @@ public class MovePlatform : MonoBehaviour
         else if (player.groundHit == false && havePlayer == true)
         {
             havePlayer = false;
-            player.gameObject.transform.SetParent(null);
+            //player.gameObject.transform.SetParent(null);
+            SetParents(player, null);
 
         }
 
     }
 
     private float distanceVal = 0.01f;
+    private float currentDistance = 0f;
     /// <summary>
     /// endPositiion으로 향합니다. 되도록이면 FixedUpdate가 좋을 겁니다.
     /// </summary>
@@ -154,8 +164,8 @@ public class MovePlatform : MonoBehaviour
             return;
 
         }
-
-        if (Vector2.Distance(moveTransform.position, currentDestinationPosition) <= distanceVal)
+        currentDistance = Vector2.Distance(moveTransform.position, currentDestinationPosition);
+        if (currentDistance <= distanceVal)
         {
             if (isLoop)
             {
@@ -181,10 +191,25 @@ public class MovePlatform : MonoBehaviour
 
         if (currentDestination != eLiftState.STOP)
         {
-            moveTransform.position = Vector2.MoveTowards(moveTransform.position, currentDestinationPosition, Time.deltaTime * moveSpeed);
+            veloZeroOnce = false;
+            SetMovement(eMovementType.SetVelocityDesiredPosition, currentDestinationPosition);
+            //  moveTransform.position = Vector2.MoveTowards(moveTransform.position, currentDestinationPosition, Time.deltaTime * moveSpeed);
+        }
+        else
+        {
+            if (veloZeroOnce == false)
+            {
+                veloZeroOnce = true;
+                Log("VZO");
+                SetMovement(eMovementType.SetVelocity, Vector2.zero);
+            }
+
         }
 
+
+
     }
+    private bool veloZeroOnce = false;
 
     /// <summary>
     /// 레버가 이동명령을할 때, 이동 가능한지를 먼저 체크해줍니다.

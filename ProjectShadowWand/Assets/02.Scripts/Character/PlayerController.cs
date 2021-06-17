@@ -317,6 +317,7 @@ public class PlayerController : Character
     }
     public void Init()
     {
+
         playerStateMachine = new PlayerStateMachine(this);
         if (playerSkillManager == null)
         {
@@ -354,6 +355,8 @@ public class PlayerController : Character
         currentGlideAngle = glideAngle + 90f;
 
         footPosition = lightningPosition;
+      //  myRigidbody = playerRigidbody;
+
         Init_ContactFilter();
     }
     private void Init_AnimatorParameter()
@@ -424,6 +427,7 @@ public class PlayerController : Character
     }
     void FixedUpdate()
     {
+       // UpdateParentsFollowMovement();
         UpdateGroundCheck_Fixed();
         // GroundCheck();
         //UpdateGroundCheck_Cast();

@@ -410,6 +410,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 860e6941965eca24491342772d97633b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  movementSpeeds: {x: 0, y: 0}
+  myRigidbody: {fileID: 0}
+  parentsObject: {fileID: 0}
+  haveParents: 0
+  lastPosition: {x: 0, y: 0}
+  lastVelocity: {x: 0, y: 0}
+  currentMovementType: 0
+  desiredVelocity: {x: 0, y: 0}
   animator: {fileID: 0}
   puppet: {fileID: 0}
   spriteRenderer: {fileID: 0}
@@ -450,6 +458,7 @@ MonoBehaviour:
   groundedGravityScale: 2
   resetSpeedOnLand: 0
   playerRigidbody: {fileID: 0}
+  isInteracting: 0
   isSkillUse_Water: 0
   isSkillUse_Lightning: 0
   playerCollider: {fileID: 8403324799475236890}
@@ -459,6 +468,7 @@ MonoBehaviour:
   animatorDieBool: 0
   animatorGroundedBool: 0
   animatorWalkingBool: 0
+  animatorJumpingBool: 0
   animatorJumpTrigger: 0
   animatorClimbingBool: 0
   animatorCatchingBool: 0
@@ -468,8 +478,9 @@ MonoBehaviour:
   animatorGlidingBool: 0
   animatorLightningBool: 0
   animatorWaterBool: 0
-  animatorJumpingBool: 0
   animatorRestoreBool: 0
+  animatorInteractingBool: 0
+  animatorInteractingBlend: 0
   inputManager: {fileID: 0}
   saveMoveInputX: 0
   canMove: 1
@@ -497,7 +508,6 @@ MonoBehaviour:
   touchedObject: {fileID: 0}
   touchedInteractObject: {fileID: 0}
   catchBody: {fileID: 0}
-  windDirection: 0
   sceneChanger: {fileID: 0}
   handPosition_idle: {x: 0.16, y: -0.231}
   handPosition_walk: {x: 0.246, y: -0.202}
@@ -542,9 +552,9 @@ MonoBehaviour:
   lightningEffect_Shock: {fileID: 7834687745207235313}
   lightningEffect_Spark: {fileID: 1064998366772284366, guid: fc6860a935e8c954e8b52bfc69e0e8d9, type: 3}
   lightningPosition: {fileID: 8403324798954577329}
-  unlockWind: 1
-  unlockLightning: 1
-  unlockWater: 1
+  unlockWind: 0
+  unlockLightning: 0
+  unlockWater: 0
   unlockRestore: 0
 --- !u!95 &8403324799475236888
 Animator:
