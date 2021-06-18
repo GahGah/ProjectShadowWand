@@ -10,11 +10,7 @@ public enum eMovementType
 {
     SetVelocity,
     AddVelocity,
-    //MovePosition,
     SetVelocityDesiredPosition,
-    AddForce,
-
-
 }
 public enum eResolutionData
 {

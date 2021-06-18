@@ -2,6 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public struct MovementInput
+{
+    public eMovementType movementType;
+    public Vector2 movementVector;
+    public MovementInput(eMovementType _movementType, Vector2 _movementVector)
+    {
+        movementType = _movementType;
+        movementVector = _movementVector;
+    }
+
+}
 /// <summary>
 /// 움직일 수 있는 오브젝트의 클래스입니다. [우선 SetVelocity, AddForce만 사용합니다.]
 /// </summary>
@@ -18,6 +30,13 @@ public class MovableObject : MonoBehaviour
     //[Tooltip("점프력")]
     //public float jumpForce;
 
+
+    [HideInInspector]
+    public eMovementType currentMovementType;
+
+    protected List<MovementInput> movementList = new List<MovementInput>();
+
+
     [HideInInspector]
     [Tooltip("리지드 바디")]
     public Rigidbody2D myRigidbody;
@@ -31,6 +50,8 @@ public class MovableObject : MonoBehaviour
     public bool haveParents = false;
 
 
+
+
     [Tooltip("이전 프레임의 위치입니다.")]
     [HideInInspector]
     public Vector2 lastPosition = Vector2.zero;
@@ -40,8 +61,6 @@ public class MovableObject : MonoBehaviour
     public Vector2 lastVelocity = Vector2.zero;
 
 
-    [HideInInspector]
-    public eMovementType currentMovementType;
     /// <summary>
     /// 부모를 설정합니다.
     /// </summary>
@@ -103,10 +122,13 @@ public class MovableObject : MonoBehaviour
     {
         currentMovementType = _moveType;
 
+        MovementInput movementInput = new MovementInput(_moveType, _moveVector);
         //if (haveParents) // 부모가 있다면
         //{
         //    _moveVector = parentsObject.myRigidbody.velocity + _moveVector; //무브 벡터에 벨로시티 더하기
         //}
+
+
 
         switch (_moveType)
         {
@@ -125,10 +147,10 @@ public class MovableObject : MonoBehaviour
 
                 myRigidbody.velocity = CalcDesiredVelocity(_moveVector);
                 break;
-            case eMovementType.AddForce:
+            //case eMovementType.AddForce:
 
-                myRigidbody.AddForce(_moveVector, ForceMode2D.Impulse);
-                break;
+            //    myRigidbody.AddForce(_moveVector, ForceMode2D.Impulse);
+            //    break;
 
 
             #region 사용하지 않음

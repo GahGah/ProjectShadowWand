@@ -5,11 +5,6 @@ using UnityEngine;
 public class StateMachine
 {
 
-    //public T GetChildClass<T>() where T : StateMachine
-    //{
-    //	return (T)this;
-    //}
-
     //현재 스테이트
     protected State currentState;
 
@@ -136,12 +131,6 @@ public class StateMachine
         Debug.LogError("StateMachine GetState를 사용해버림");
         return returnState;
     }
-
-
-    //public virtual void HandleSelect()
-    //{
-    //	currentState.HandleInput(State.InputType.Select, false);
-    //}
 
 }
 
